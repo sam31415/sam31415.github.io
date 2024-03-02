@@ -36,6 +36,7 @@
         </ul>
         <p>You can interact with the automaton by moving the mouse over the canvas while holding the Shift key down. This will activate any cell you mouse over. 
             Try also clicking holding down various combinations of the Shift and Ctrl keys...</p>
+        <p>To just sit back and keep the action entertaining, enable random seeding: <input type="checkbox" id="randomnessCheckbox"></p>
     </div>
     <canvas id="gameCanvas" width="800" height="800"></canvas>
     <script>
@@ -44,6 +45,22 @@
 
         var gridSize = 100;
         var cellSize = canvas.width / gridSize;
+        var addRandomness = false;
+
+        // Random seeds
+        let pop1_mask = [[1, 1, 1], [1, 0, 1], [1, 1, 1]];
+        let pop2_mask = [[1, 0, 1], [0, 1, 0], [1, 0, 1]];
+        let pop3_mask = pop2_mask.map(row => row.map(val => 1 - val));
+        //let pop4_mask = [[1, 1, 0], [1, 1, 0], [0, 0, 0]];
+        let pop5_mask = [[0, 0, 0], [1, 1, 0], [0, 0, 0]];
+        let pop6_mask = [[0, 1, 0], [0, 1, 0], [0, 0, 0]];
+        let pop7_mask = [[1, 0, 1], [0, 0, 0], [1, 0, 1]];
+        let pop_masks = [pop1_mask, pop2_mask, pop3_mask, pop5_mask, pop6_mask, pop7_mask];
+        let prob = [0.3, 0.6, 0.9, 0.925, 0.95, 1.0];
+
+        document.getElementById('randomnessCheckbox').addEventListener('change', function() {
+            addRandomness = this.checked; // Set the variable to the checkbox's state
+        });
 
         // Initialize the grid randomly
         var grid = new Array(gridSize);
@@ -55,7 +72,6 @@
                 grid[i][j] = rnd < 0.75 ? 1 : grid[i][j];
                 grid[i][j] = rnd < 0.5 ? 2 : grid[i][j];
                 grid[i][j] = rnd < 0.25 ? 3 : grid[i][j];
-
             }
         }
 
@@ -96,6 +112,23 @@
                 grid[i][(j+1) % gridSize] = 1;
             }
         });
+
+        function applyMask(grid, mask, i, j) {
+            let gridHeight = grid.length;
+            let gridWidth = grid[0].length;
+            let maskHeight = mask.length;
+            let maskWidth = mask[0].length;
+
+            for (let y = 0; y < maskHeight; y++) {
+                for (let x = 0; x < maskWidth; x++) {
+                    // Calculate the grid coordinates with periodic boundary conditions
+                    let gridY = (i + y - Math.floor(maskHeight / 2) + gridHeight) % gridHeight;
+                    let gridX = (j + x - Math.floor(maskWidth / 2) + gridWidth) % gridWidth;
+                    // Apply the mask
+                    grid[gridY][gridX] = mask[y][x];
+                }
+            }
+        }
 
         function drawGrid() {
             for (var i = 0; i < gridSize; i++) {
@@ -145,7 +178,24 @@
                         newGrid[i][j] = 3;
                     } else {
                         newGrid[i][j] = 0;
-                    } 
+                    }
+                }
+            }
+            if (addRandomness) {
+                for (var i = 0; i < gridSize; i++) {
+                    for (var j = 0; j < gridSize; j++) {
+                        var rnd1 = Math.random();
+                        if (rnd1 < 0.00002) {
+                            var rnd2 = Math.random();
+                            for (let k = 0; k < pop_masks.length; k++) {
+                                if (rnd2 < prob[k]) {
+                                    console.log("Applying mask " + k);
+                                    applyMask(newGrid, pop_masks[k], i, j);
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             grid = newGrid;
@@ -162,5 +212,6 @@
 
         gameLoop();
     </script>
+    <br>
 </body>
 </html>
