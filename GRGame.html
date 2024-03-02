@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The unofficial G-Research game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #F0EFEF;
+        }
+        #content {
+            max-width: 800px;
+            margin: auto;
+        }
+        #gameCanvas {
+            border: 1px solid black;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <h1>The unofficial G-research game</h1>
+        <p>This applet displays a variation on <a href="https://en.wikipedia.org/wiki/Brian%27s_Brain", target="_blank">Brian's Brain cellular automaton</a>, 
+            which evolves according to the following rules:
+        <ul>
+            <li>Unactivated cells are blue.</li>
+            <li>If an unactivated cell has exactly two activated neighbours (light grey), it activates.</li>
+            <li>If an unactivated cell has more than two activated neighbours, it gets superactivated (yellow).</li>
+            <li>Activated and superactivated cells turns into dead cells (black), and dead cells turn into unactivated cells.</li>
+        </ul>
+        <p>You can interact with the automaton by moving the mouse over the canvas while holding the Shift key down. This will activate any cell you mouse over. 
+            Try also clicking holding down various combinations of the Shift and Ctrl keys...</p>
+    </div>
+    <canvas id="gameCanvas" width="800" height="800"></canvas>
+    <script>
+        var canvas = document.getElementById('gameCanvas');
+        var ctx = canvas.getContext('2d');
+
+        var gridSize = 100;
+        var cellSize = canvas.width / gridSize;
+
+        // Initialize the grid randomly
+        var grid = new Array(gridSize);
+        for (var i = 0; i < gridSize; i++) {
+            grid[i] = new Array(gridSize);
+            for (var j = 0; j < gridSize; j++) {
+                var rnd = Math.random();
+                grid[i][j] = 0
+                grid[i][j] = rnd < 0.75 ? 1 : grid[i][j];
+                grid[i][j] = rnd < 0.5 ? 2 : grid[i][j];
+                grid[i][j] = rnd < 0.25 ? 3 : grid[i][j];
+
+            }
+        }
+
+        canvas.addEventListener('mousemove', function(event) {
+            if (event.shiftKey){
+                var rect = canvas.getBoundingClientRect();
+                var x = event.clientX - rect.left;
+                var y = event.clientY - rect.top;
+
+                var i = Math.floor(x / cellSize);
+                var j = Math.floor(y / cellSize);
+
+                grid[i][j] = 1;
+            }
+        });
+
+        canvas.addEventListener('mousedown', function(event) {
+            var rect = canvas.getBoundingClientRect();
+            var x = event.clientX - rect.left;
+            var y = event.clientY - rect.top;
+
+            var i = Math.floor(x / cellSize);
+            var j = Math.floor(y / cellSize);
+            if (!event.shiftKey && !event.ctrlKey) {
+                grid[(i+1) % gridSize][(j+1) % gridSize] = 1
+                grid[(i-1+gridSize) % gridSize][(j+1) % gridSize] = 1;
+                grid[(i-1+gridSize) % gridSize][(j-1+gridSize) % gridSize] = 1
+                grid[(i+1) % gridSize][(j-1+gridSize) % gridSize] = 1;
+            } else if (event.shiftKey && !event.ctrlKey) {
+                grid[i][(j+1) % gridSize] = 1
+                grid[i][j] = 1;
+                grid[(i+1) % gridSize][j] = 1
+            } else if (!event.shiftKey && event.ctrlKey) {
+                grid[i][j] = 1;
+                grid[(i+1) % gridSize][j] = 1;
+            } else if (event.shiftKey && event.ctrlKey) {
+                grid[i][j] = 1;
+                grid[i][(j+1) % gridSize] = 1;
+            }
+        });
+
+        function drawGrid() {
+            for (var i = 0; i < gridSize; i++) {
+                for (var j = 0; j < gridSize; j++) {
+                    ctx.fillStyle = 'rgb(247, 255, 28)';
+                    if (grid[i][j] == 0) {
+                        ctx.fillStyle = 'rgb(13, 112, 255)';
+                    } else if (grid[i][j] == 1) {
+                        ctx.fillStyle = 'rgb(240, 239, 239)';
+                    } else if (grid[i][j] == 2) {
+                        ctx.fillStyle = 'rgb(0, 0, 0)';
+                    } else if (grid[i][j] > 3) {
+                        ctx.fillStyle = 'rgb(0, 0, 0)';
+                    }
+                    ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+                }
+            }
+        }
+
+        function updateGrid() {
+            var newGrid = new Array(gridSize);
+            for (var i = 0; i < gridSize; i++) {
+                newGrid[i] = new Array(gridSize);
+                for (var j = 0; j < gridSize; j++) {
+                    var neighbors = 0;
+                    var sneighbors = 0;  // not used
+                    for (var di = -1; di <= 1; di++) {
+                        for (var dj = -1; dj <= 1; dj++) {
+                            if (di == 0 && dj == 0) continue;
+                            var ni = (i + di + gridSize) % gridSize;
+                            var nj = (j + dj + gridSize) % gridSize;
+                            if (grid[ni][nj] == 1) {
+                                neighbors += 1;
+                                sneighbors += 1;
+                            } else if (grid[ni][nj] == 3) {
+                                sneighbors += 1;
+                            }
+                        }
+                    }
+                    if (grid[i][j] == 1 || grid[i][j] == 3) {
+                        newGrid[i][j] = 2;
+                    } else if (grid[i][j] == 2) {
+                        newGrid[i][j] = 0;
+                    } else if (grid[i][j] == 0 && neighbors == 2) {
+                        newGrid[i][j] = 1;
+                    } else if (grid[i][j] == 0 && neighbors > 2) {
+                        newGrid[i][j] = 3;
+                    } else {
+                        newGrid[i][j] = 0;
+                    } 
+                }
+            }
+            grid = newGrid;
+
+        }
+
+        function gameLoop() {
+            drawGrid();
+            updateGrid();
+            setTimeout(function() {
+                requestAnimationFrame(gameLoop);
+            }, 50);
+        }
+
+        gameLoop();
+    </script>
+</body>
+</html>
