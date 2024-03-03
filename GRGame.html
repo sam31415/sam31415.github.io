@@ -36,16 +36,21 @@
         </ul>
         <p>You can interact with the automaton by moving the mouse over the canvas while holding the Shift key down. This will activate any cell you mouse over. 
             Try also clicking holding down various combinations of the Shift and Ctrl keys...</p>
-        <p>To just sit back and keep the action entertaining, enable random seeding: <input type="checkbox" id="randomnessCheckbox"></p>
+        <p>To just sit back and keep the action entertaining, enable random seeding: <input type="checkbox" id="randomnessCheckbox"><br> 
+            Randomness amount (log10 of event probability):
+            <input type="range" id="randomnessAmount" min="-8.0" max="-2.0" value="-5.0" step="0.05" oninput="updateRandomnessValue(this.value)"> <span id="randomnessAmountValue"></span></p>
     </div>
     <canvas id="gameCanvas" width="800" height="800"></canvas>
     <script>
         var canvas = document.getElementById('gameCanvas');
         var ctx = canvas.getContext('2d');
 
-        var gridSize = 100;
-        var cellSize = canvas.width / gridSize;
-        var addRandomness = false;
+        let gridSize = 100;
+        let timeout = 50;
+        let grid = null;
+        let cellSize = canvas.width / gridSize;
+        let addRandomness = false;
+        let randomnessAmount = -4.7;
 
         // Random seeds
         let pop1_mask = [[1, 1, 1], [1, 0, 1], [1, 1, 1]];
@@ -61,18 +66,37 @@
         document.getElementById('randomnessCheckbox').addEventListener('change', function() {
             addRandomness = this.checked; // Set the variable to the checkbox's state
         });
+        function updateRandomnessValue(value) {
+            randomnessAmount = value;
+            document.getElementById('randomnessAmountValue').textContent = value;
+        }
 
-        // Initialize the grid randomly
-        var grid = new Array(gridSize);
-        for (var i = 0; i < gridSize; i++) {
-            grid[i] = new Array(gridSize);
-            for (var j = 0; j < gridSize; j++) {
-                var rnd = Math.random();
-                grid[i][j] = 0
-                grid[i][j] = rnd < 0.75 ? 1 : grid[i][j];
-                grid[i][j] = rnd < 0.5 ? 2 : grid[i][j];
-                grid[i][j] = rnd < 0.25 ? 3 : grid[i][j];
+
+        function submitValue() {
+            var userGridSize = document.getElementById('userGridSize').value;
+            var userTimeout = document.getElementById('userTimeout').value;
+
+
+            // Store the value in localStorage so it can be retrieved after the page reloads
+            localStorage.setItem('userGridSize', userGridSize);
+            localStorage.setItem('userTimeout', userTimeout);
+
+
+            // Reload the page
+            location.reload();
+        }
+
+        window.onload = function() {
+            if (localStorage.getItem('userGridSize') !== null) {
+                gridSize = parseInt(localStorage.getItem('userGridSize'));
+                cellSize = canvas.width / gridSize;
+                timeout = parseInt(localStorage.getItem('userTimeout'));
+                console.log('Retrieved value from previous session: ' + gridSize + ',' + timeout);
+            } else {
+                console.log('No value in localStorage');
             }
+            initializeGrid();
+            gameLoop();
         }
 
         canvas.addEventListener('mousemove', function(event) {
@@ -112,6 +136,21 @@
                 grid[i][(j+1) % gridSize] = 1;
             }
         });
+
+        // Initialize the grid randomly
+        function initializeGrid() {
+            grid = new Array(gridSize);
+            for (var i = 0; i < gridSize; i++) {
+                grid[i] = new Array(gridSize);
+                for (var j = 0; j < gridSize; j++) {
+                    var rnd = Math.random();
+                    grid[i][j] = 0
+                    grid[i][j] = rnd < 0.75 ? 1 : grid[i][j];
+                    grid[i][j] = rnd < 0.5 ? 2 : grid[i][j];
+                    grid[i][j] = rnd < 0.25 ? 3 : grid[i][j];
+                }
+            }
+        }
 
         function applyMask(grid, mask, i, j) {
             let gridHeight = grid.length;
@@ -185,7 +224,7 @@
                 for (var i = 0; i < gridSize; i++) {
                     for (var j = 0; j < gridSize; j++) {
                         var rnd1 = Math.random();
-                        if (rnd1 < 0.00002) {
+                        if (rnd1 < 10 ** randomnessAmount) {
                             var rnd2 = Math.random();
                             for (let k = 0; k < pop_masks.length; k++) {
                                 if (rnd2 < prob[k]) {
@@ -199,7 +238,6 @@
                 }
             }
             grid = newGrid;
-
         }
 
         function gameLoop() {
@@ -207,11 +245,16 @@
             updateGrid();
             setTimeout(function() {
                 requestAnimationFrame(gameLoop);
-            }, 50);
+            }, timeout);
         }
-
-        gameLoop();
     </script>
     <br>
+    <div id="content">
+        <label for="userGridSize">Grid size:</label>
+        <input type="int" id="userGridSize" value="100">
+        <label for="userTimeout">Timeout (smaller is faster):</label>
+        <input type="int" id="userTimeout" value="50">
+        <button onclick="submitValue()">Submit</button>
+    </div>
 </body>
 </html>
