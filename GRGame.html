@@ -39,7 +39,8 @@
         <p>To just sit back and keep the action entertaining, enable random seeding: <input type="checkbox" id="randomnessCheckbox"><br> 
             Randomness amount (log10 of event probability):
             <input type="range" id="randomnessAmount" min="-8.0" max="-2.0" value="-5.0" step="0.05" oninput="updateRandomnessValue(this.value)"> <span id="randomnessAmountValue"></span></p>
-    </div>
+            <button id="fullscreenButton">Go Fullscreen</button>
+    </div><br>
     <canvas id="gameCanvas" width="800" height="800"></canvas>
     <script>
         var canvas = document.getElementById('gameCanvas');
@@ -63,6 +64,17 @@
         let pop_masks = [pop1_mask, pop2_mask, pop3_mask, pop5_mask, pop6_mask, pop7_mask];
         let prob = [0.3, 0.6, 0.9, 0.925, 0.95, 1.0];
 
+        document.getElementById('fullscreenButton').addEventListener('click', function() {
+            if (canvas.requestFullscreen) {
+                canvas.requestFullscreen();
+            } else if (canvas.mozRequestFullScreen) { // Firefox
+                canvas.mozRequestFullScreen();
+            } else if (canvas.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                canvas.webkitRequestFullscreen();
+            } else if (canvas.msRequestFullscreen) { // IE/Edge
+                canvas.msRequestFullscreen();
+            }
+        });
         document.getElementById('randomnessCheckbox').addEventListener('change', function() {
             addRandomness = this.checked; // Set the variable to the checkbox's state
         });
@@ -70,8 +82,6 @@
             randomnessAmount = value;
             document.getElementById('randomnessAmountValue').textContent = value;
         }
-
-
         function submitValue() {
             var userGridSize = document.getElementById('userGridSize').value;
             var userTimeout = document.getElementById('userTimeout').value;
