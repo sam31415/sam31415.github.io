@@ -46,12 +46,17 @@
         var canvas = document.getElementById('gameCanvas');
         var ctx = canvas.getContext('2d');
 
-        let gridSize = 100;
+        let gridHeight = 100;
+        let gridWidth = 100;
         let timeout = 50;
         let grid = null;
-        let cellSize = canvas.width / gridSize;
+        let cellSize = canvas.width / gridWidth;
         let addRandomness = false;
         let randomnessAmount = -4.7;
+        let gridPeriodicityShiftX = 0;
+        let gridPeriodicityShiftY = 50;
+        let gridFlipX = false;
+        let gridFlipY = false;
 
         // Random seeds
         let pop1_mask = [[1, 1, 1], [1, 0, 1], [1, 1, 1]];
@@ -83,14 +88,23 @@
             document.getElementById('randomnessAmountValue').textContent = value;
         }
         function submitValue() {
-            var userGridSize = document.getElementById('userGridSize').value;
+            var userGridHeight = document.getElementById('userGridSize').value;
+            var userGridWidth = document.getElementById('userGridSize').value;
             var userTimeout = document.getElementById('userTimeout').value;
+            var userXShift = document.getElementById('userXShift').value;
+            var userYShift = document.getElementById('userYShift').value;
+            var userFlipX = document.getElementById('userFlipX').checked;
+            var userFlipY = document.getElementById('userFlipY').checked;
 
 
             // Store the value in localStorage so it can be retrieved after the page reloads
-            localStorage.setItem('userGridSize', userGridSize);
+            localStorage.setItem('userGridHeight', userGridHeight);
+            localStorage.setItem('userGridWidth', userGridWidth);
             localStorage.setItem('userTimeout', userTimeout);
-
+            localStorage.setItem('userXShift', userXShift);
+            localStorage.setItem('userYShift', userYShift);
+            localStorage.setItem('userFlipX', userFlipX);
+            localStorage.setItem('userFlipY', userFlipY);
 
             // Reload the page
             location.reload();
@@ -98,13 +112,34 @@
 
         window.onload = function() {
             if (localStorage.getItem('userGridSize') !== null) {
-                gridSize = parseInt(localStorage.getItem('userGridSize'));
-                cellSize = canvas.width / gridSize;
+                gridHeight = parseInt(localStorage.getItem('userGridSize'));
+                gridWidth = parseInt(localStorage.getItem('userGridSize'));
+                cellSize = canvas.width / gridWidth;
                 timeout = parseInt(localStorage.getItem('userTimeout'));
-                console.log('Retrieved value from previous session: ' + gridSize + ',' + timeout);
+                gridPeriodicityShiftX = parseInt(localStorage.getItem('userXShift'));
+                if (isNaN(gridPeriodicityShiftX))  gridPeriodicityShiftX = 0;
+                if (isNaN(gridPeriodicityShiftY))  gridPeriodicityShiftY = 0;
+                gridPeriodicityShiftY = parseInt(localStorage.getItem('userYShift'));
+                gridFlipX = localStorage.getItem('userFlipX') === 'true';
+                gridFlipY = localStorage.getItem('userFlipY') === 'true';
+                console.log('Retrieved value from previous session: ' + gridHeight + '...');
             } else {
                 console.log('No value in localStorage');
             }
+            // Set the default values of the form inputs
+            document.getElementById('userGridSize').value = gridHeight;
+            //document.getElementById('userGridHeight').value = gridHeight;
+            //document.getElementById('userGridWidth').value = gridWidth;
+            document.getElementById('userTimeout').value = timeout;
+            document.getElementById('userXShift').value = gridPeriodicityShiftX;
+            document.getElementById('userYShift').value = gridPeriodicityShiftY;
+            document.getElementById('userFlipX').checked = gridFlipX;
+            document.getElementById('userFlipY').checked = gridFlipY;
+
+            // Adjust the canvas size
+            canvas.width = gridWidth * cellSize;
+            canvas.height = gridHeight * cellSize;
+
             initializeGrid();
             gameLoop();
         }
@@ -130,29 +165,29 @@
             var i = Math.floor(x / cellSize);
             var j = Math.floor(y / cellSize);
             if (!event.shiftKey && !event.ctrlKey) {
-                grid[(i+1) % gridSize][(j+1) % gridSize] = 1
-                grid[(i-1+gridSize) % gridSize][(j+1) % gridSize] = 1;
-                grid[(i-1+gridSize) % gridSize][(j-1+gridSize) % gridSize] = 1
-                grid[(i+1) % gridSize][(j-1+gridSize) % gridSize] = 1;
+                grid[(i+1) % gridHeight][(j+1) % gridWidth] = 1
+                grid[(i-1+gridHeight) % gridHeight][(j+1) % gridWidth] = 1;
+                grid[(i-1+gridHeight) % gridHeight][(j-1+gridWidth) % gridWidth] = 1
+                grid[(i+1) % gridHeight][(j-1+gridWidth) % gridWidth] = 1;
             } else if (event.shiftKey && !event.ctrlKey) {
-                grid[i][(j+1) % gridSize] = 1
+                grid[i][(j+1) % gridWidth] = 1
                 grid[i][j] = 1;
-                grid[(i+1) % gridSize][j] = 1
+                grid[(i+1) % gridHeight][j] = 1
             } else if (!event.shiftKey && event.ctrlKey) {
                 grid[i][j] = 1;
-                grid[(i+1) % gridSize][j] = 1;
+                grid[(i+1) % gridHeight][j] = 1;
             } else if (event.shiftKey && event.ctrlKey) {
                 grid[i][j] = 1;
-                grid[i][(j+1) % gridSize] = 1;
+                grid[i][(j+1) % gridWidth] = 1;
             }
         });
 
         // Initialize the grid randomly
         function initializeGrid() {
-            grid = new Array(gridSize);
-            for (var i = 0; i < gridSize; i++) {
-                grid[i] = new Array(gridSize);
-                for (var j = 0; j < gridSize; j++) {
+            grid = new Array(gridHeight);
+            for (var i = 0; i < gridHeight; i++) {
+                grid[i] = new Array(gridWidth);
+                for (var j = 0; j < gridWidth; j++) {
                     var rnd = Math.random();
                     grid[i][j] = 0
                     grid[i][j] = rnd < 0.75 ? 1 : grid[i][j];
@@ -162,26 +197,60 @@
             }
         }
 
+        function findNeighbour(i, j, di, dj) {
+            let ni = (i + di + gridHeight) % gridHeight;
+            let nj = (j + dj + gridWidth) % gridWidth;
+            let nni = ni;
+            let nnj = nj;
+            if (ni - i - di > 0) {
+                if (gridFlipX) {
+                    nnj = (gridWidth-nj - gridPeriodicityShiftX + gridWidth) % gridWidth;
+                } else {
+                    nnj = (nj + gridPeriodicityShiftX + gridWidth) % gridWidth;
+                }
+            } else if (ni - i - di < 0) {
+                if (gridFlipX) {
+                    nnj = (gridWidth-nj - gridPeriodicityShiftX + gridWidth) % gridWidth;
+                } else {
+                    nnj = (nj - gridPeriodicityShiftX + gridWidth) % gridWidth;
+                }
+            } 
+            if (nj - j - dj > 0) {
+                if (gridFlipY) {
+                    nni = (gridHeight-ni - gridPeriodicityShiftY + gridHeight) % gridHeight;
+                } else {
+                    nni = (ni + gridPeriodicityShiftY + gridHeight) % gridHeight;
+                }
+            } else if (nj - j - dj < 0) {
+                if (gridFlipY) {
+                    nni = (gridHeight-ni - gridPeriodicityShiftY + gridHeight) % gridHeight;
+                } else {
+                    nni = (ni - gridPeriodicityShiftY + gridHeight) % gridHeight;
+                }
+            }
+
+            return [nni, nnj];
+        }
+
         function applyMask(grid, mask, i, j) {
-            let gridHeight = grid.length;
-            let gridWidth = grid[0].length;
             let maskHeight = mask.length;
             let maskWidth = mask[0].length;
 
-            for (let y = 0; y < maskHeight; y++) {
-                for (let x = 0; x < maskWidth; x++) {
+            for (let mi = 0; mi < maskHeight; mi++) {
+                for (let mj = 0; mj < maskWidth; mj++) {
                     // Calculate the grid coordinates with periodic boundary conditions
-                    let gridY = (i + y - Math.floor(maskHeight / 2) + gridHeight) % gridHeight;
-                    let gridX = (j + x - Math.floor(maskWidth / 2) + gridWidth) % gridWidth;
+                    let di = mi - Math.floor(maskHeight / 2)
+                    let dj = mj - Math.floor(maskWidth / 2)
+                    let neighbour = findNeighbour(i, j, di, dj);
                     // Apply the mask
-                    grid[gridY][gridX] = mask[y][x];
+                    grid[neighbour[0]][neighbour[1]] = mask[mi][mj];
                 }
             }
         }
 
         function drawGrid() {
-            for (var i = 0; i < gridSize; i++) {
-                for (var j = 0; j < gridSize; j++) {
+            for (var i = 0; i < gridHeight; i++) {
+                for (var j = 0; j < gridWidth; j++) {
                     ctx.fillStyle = 'rgb(247, 255, 28)';
                     if (grid[i][j] == 0) {
                         ctx.fillStyle = 'rgb(13, 112, 255)';
@@ -198,17 +267,18 @@
         }
 
         function updateGrid() {
-            var newGrid = new Array(gridSize);
-            for (var i = 0; i < gridSize; i++) {
-                newGrid[i] = new Array(gridSize);
-                for (var j = 0; j < gridSize; j++) {
+            var newGrid = new Array(gridHeight);
+            for (var i = 0; i < gridHeight; i++) {
+                newGrid[i] = new Array(gridWidth);
+                for (var j = 0; j < gridWidth; j++) {
                     var neighbors = 0;
                     var sneighbors = 0;  // not used
                     for (var di = -1; di <= 1; di++) {
                         for (var dj = -1; dj <= 1; dj++) {
                             if (di == 0 && dj == 0) continue;
-                            var ni = (i + di + gridSize) % gridSize;
-                            var nj = (j + dj + gridSize) % gridSize;
+                            let neighbourCoord = findNeighbour(i, j, di, dj);
+                            let ni = neighbourCoord[0];
+                            let nj = neighbourCoord[1];
                             if (grid[ni][nj] == 1) {
                                 neighbors += 1;
                                 sneighbors += 1;
@@ -231,8 +301,8 @@
                 }
             }
             if (addRandomness) {
-                for (var i = 0; i < gridSize; i++) {
-                    for (var j = 0; j < gridSize; j++) {
+                for (var i = 0; i < gridHeight; i++) {
+                    for (var j = 0; j < gridWidth; j++) {
                         var rnd1 = Math.random();
                         if (rnd1 < 10 ** randomnessAmount) {
                             var rnd2 = Math.random();
@@ -262,8 +332,20 @@
     <div id="content">
         <label for="userGridSize">Grid size:</label>
         <input type="int" id="userGridSize" value="100">
+        <!-- <label for="userGridHeight">Grid height:</label>
+        <input type="int" id="userGridHeight" value="100">
+        <label for="userGridWidth">Grid width:</label>
+        <input type="int" id="userGridWidth" value="100"><br> -->
         <label for="userTimeout">Timeout (smaller is faster):</label>
-        <input type="int" id="userTimeout" value="50">
+        <input type="int" id="userTimeout" value="50"><br>
+        <label for="userXShift">X periodicity shift:</label>
+        <input type="int" id="userXShift" value="0">
+        <label for="userYShift">Y periodicity shift:</label>
+        <input type="int" id="userYShift" value="0"><br>
+        <label for="userFlipX">Twisted boundary across X:</label>
+        <input type="checkbox" id="userFlipX">
+        <label for="userFlipY">Twisted boundary across Y:</label>
+        <input type="checkbox" id="userFlipY"><br>
         <button onclick="submitValue()">Submit</button>
     </div>
 </body>
