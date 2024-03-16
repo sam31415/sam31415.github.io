@@ -15,21 +15,44 @@ export function gameLoop(globalData) {
 }
 
 
-function drawGrid(globalData) {
+function drawGridOld(globalData) {
     let canvas = document.getElementById('gameCanvas');
     var ctx = canvas.getContext('2d');
-
     for (var i = 0; i < globalData.gridHeight; i++) {
         for (var j = 0; j < globalData.gridWidth; j++) {
-            ctx.fillStyle = globalData.superActivatedColor;
-            if (globalData.grid.get(i, j) == 0) {
-                ctx.fillStyle = globalData.backgroundColor;
-            } else if (globalData.grid.get(i, j) == 1) {
+            ctx.fillStyle = globalData.backgroundColor;
+            if (globalData.grid.get(i, j) == 1) {
                 ctx.fillStyle = globalData.activatedColor;
             } else if (globalData.grid.get(i, j) == 2) {
                 ctx.fillStyle = globalData.deadColor;
             } else if (globalData.grid.get(i, j) > 3) {
+                ctx.fillStyle = globalData.superActivatedColor;
+            }
+            ctx.fillRect(i * globalData.cellSize, j * globalData.cellSize, globalData.cellSize, globalData.cellSize);
+        }
+    }
+}
+
+
+function drawGrid(globalData) {
+    let canvas = document.getElementById('gameCanvas');
+    var ctx = canvas.getContext('2d');
+
+    // Draw a single large rectangle with the background color
+    ctx.fillStyle = globalData.backgroundColor;
+    ctx.fillRect(0, 0, globalData.gridWidth * globalData.cellSize, globalData.gridHeight * globalData.cellSize);
+
+    // Only draw rectangles for the cells that are not zero
+    for (var i = 0; i < globalData.gridHeight; i++) {
+        for (var j = 0; j < globalData.gridWidth; j++) {
+            if (globalData.grid.get(i, j) == 1) {
+                ctx.fillStyle = globalData.activatedColor;
+            } else if (globalData.grid.get(i, j) == 2) {
                 ctx.fillStyle = globalData.deadColor;
+            } else if (globalData.grid.get(i, j) > 3) {
+                ctx.fillStyle = globalData.superActivatedColor;
+            } else {
+                continue;  // Skip cells that are zero
             }
             ctx.fillRect(i * globalData.cellSize, j * globalData.cellSize, globalData.cellSize, globalData.cellSize);
         }
