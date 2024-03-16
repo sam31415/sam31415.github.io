@@ -139,6 +139,12 @@ export function determineColorPalette(globalData){
         globalData.deadColor = black;
         globalData.superActivatedColor = yellow;
     }
+    else if (globalData.colorPalette == 'blue2') {
+        globalData.backgroundColor = blue;
+        globalData.activatedColor = yellow;
+        globalData.deadColor = black;
+        globalData.superActivatedColor = grey;
+    }
     else if (globalData.colorPalette == 'grey') {
         globalData.backgroundColor = grey;
         globalData.activatedColor = black;
@@ -152,6 +158,12 @@ export function determineColorPalette(globalData){
         globalData.superActivatedColor = grey;
     }
     else if (globalData.colorPalette == 'blackTrace') {
+        globalData.backgroundColor = black;
+        globalData.activatedColor = grey;
+        globalData.deadColor = black;
+        globalData.superActivatedColor = grey;
+    }
+    else if (globalData.colorPalette == 'blackTrace2') {
         globalData.backgroundColor = black;
         globalData.activatedColor = black;
         globalData.deadColor = black;

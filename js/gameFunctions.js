@@ -5,7 +5,7 @@ import { findNeighbourNoFlip } from './neighbours.js';
 import { findNeighbourFlipX } from './neighbours.js';
 import { findNeighbourFlipXY } from './neighbours.js';
 import { addRandomEvents } from './randomness.js';
-import { updateCellValueConway, updateCellValueBB, updateCellValueBBMod, updateCellValueBBTrace } from './rules.js';
+import { updateCellValueTest, updateCellValueConway, updateCellValueBB, updateCellValueBBMod, updateCellValueBBTrace, updateCellValueBBTrace2, updateCellValueBBTrace3, updateCellValueBBTrace4, updateCellValueBBTrace5 } from './rules.js';
 
 export function gameLoop(globalData) {
     drawGrid(globalData);
@@ -62,6 +62,16 @@ function updateGrid(globalData) {
         updateCellValue = updateCellValueBBMod;
     } else if (globalData.rule == "BBTrace") {
         updateCellValue = updateCellValueBBTrace;
+    } else if (globalData.rule == "BBTrace2") {
+        updateCellValue = updateCellValueBBTrace2;
+    } else if (globalData.rule == "BBTrace3") {
+        updateCellValue = updateCellValueBBTrace3;
+    } else if (globalData.rule == "BBTrace4") {
+        updateCellValue = updateCellValueBBTrace4;
+    } else if (globalData.rule == "BBTrace5") {
+        updateCellValue = updateCellValueBBTrace5;
+    } else if (globalData.rule == "Test") {
+        updateCellValue = updateCellValueTest;
     }
     var newGrid = new Grid(globalData.gridWidth, globalData.gridHeight);
     for (var i = 0; i < globalData.gridHeight; i++) {
