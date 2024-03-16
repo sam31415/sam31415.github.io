@@ -36,6 +36,12 @@ export function retrieveGlobalData(globalData, canvas) {
     if (localStorage.getItem('userGridSize') !== null) {
         globalData.gridHeight = parseInt(localStorage.getItem('userGridSize'));
         globalData.gridWidth = parseInt(localStorage.getItem('userGridSize'));
+        if (globalData.gridHeight > 500) {
+            globalData.gridHeight = 500;
+        }
+        if (globalData.gridWidth > 500) {
+            globalData.gridWidth = 500;
+        }
         globalData.cellSize = canvas.width / globalData.gridWidth;
         globalData.timeout = parseInt(localStorage.getItem('userTimeout'));
         globalData.gridPeriodicityShiftX = parseInt(localStorage.getItem('userXShift'));
