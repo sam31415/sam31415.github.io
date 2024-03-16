@@ -1,6 +1,6 @@
 import { gameLoop } from './gameFunctions.js';
 import { initializeGrid } from "./initialisation.js";
-import { determineColorPalette, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener } from './eventHandlers.js';
+import { addRuleListener, determineColorPalette, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener } from './eventHandlers.js';
 import { retrieveGlobalData } from './formHandlers.js';
 
 export function onLoad(globalData, canvas) {
@@ -13,6 +13,7 @@ export function onLoad(globalData, canvas) {
     addPeriodicityListeners(globalData);
     addTimeoutListener(globalData);
     addColorPaletteListener(globalData);
+    addRuleListener(globalData);
 
     retrieveGlobalData(globalData, canvas);
     determineColorPalette(globalData);

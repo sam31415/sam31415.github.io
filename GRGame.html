@@ -51,6 +51,13 @@
     <script type="module" src="js/main.js"></script>
     <br>
     <div id="content">
+        <label for="userRule">Automaton rule:</label>
+        <select id="userRule">
+            <!-- <option value="Conway">Conway's game of life</option> -->
+            <option value="BB">Brian's brain</option>
+            <option value="BBMod">Modified Brian's brain</option>
+            <option value="BBTrace">Brian's brain trace</option>
+        </select><br>
         <label for="userGridSize">Grid size (max 1000):</label>
         <input type="int" id="userGridSize" value="100">
         <!-- <label for="userGridHeight">Grid height:</label>
@@ -73,6 +80,7 @@
             <option value="grey">Grey</option>
             <option value="yellow">Yellow</option>
             <option value="black">Black</option>
+            <option value="blackTrace">Black (trace)</option>
         </select><br>
         <button id="submitButton">Submit</button>
     </div>

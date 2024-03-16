@@ -31,7 +31,7 @@ export function addMouseMoveListener(globalData, canvas) {
             var i = Math.floor(x / globalData.cellSize);
             var j = Math.floor(y / globalData.cellSize);
 
-            globalData.grid[i][j] = 1;
+            globalData.grid.set(i, j, 1);
         }
     });
 }
@@ -45,20 +45,20 @@ export function addMouseDownListener(globalData, canvas) {
         var i = Math.floor(x / globalData.cellSize);
         var j = Math.floor(y / globalData.cellSize);
         if (!event.shiftKey && !event.ctrlKey) {
-            globalData.grid[(i+1) % globalData.gridHeight][(j+1) % globalData.gridWidth] = 1
-            globalData.grid[(i-1+globalData.gridHeight) % globalData.gridHeight][(j+1) % globalData.gridWidth] = 1;
-            globalData.grid[(i-1+globalData.gridHeight) % globalData.gridHeight][(j-1+globalData.gridWidth) % globalData.gridWidth] = 1
-            globalData.grid[(i+1) % globalData.gridHeight][(j-1+globalData.gridWidth) % globalData.gridWidth] = 1;
+            globalData.grid.set((i+1) % globalData.gridHeight, (j+1) % globalData.gridWidth, 1);
+            globalData.grid.set((i-1+globalData.gridHeight) % globalData.gridHeight, (j+1) % globalData.gridWidth, 1);
+            globalData.grid.set((i-1+globalData.gridHeight) % globalData.gridHeight, (j-1+globalData.gridWidth) % globalData.gridWidth, 1);
+            globalData.grid.set((i+1) % globalData.gridHeight, (j-1+globalData.gridWidth) % globalData.gridWidth, 1);
         } else if (event.shiftKey && !event.ctrlKey) {
-            globalData.grid[i][(j+1) % globalData.gridWidth] = 1
-            globalData.grid[i][j] = 1;
-            globalData.grid[(i+1) % globalData.gridHeight][j] = 1
+            globalData.grid.set(i, (j+1) % globalData.gridWidth, 1);
+            globalData.grid.set(i, j, 1);
+            globalData.grid.set((i+1) % globalData.gridHeight, j, 1);
         } else if (!event.shiftKey && event.ctrlKey) {
-            globalData.grid[i][j] = 1;
-            globalData.grid[(i+1) % globalData.gridHeight][j] = 1;
+            globalData.grid.set(i, j, 1);
+            globalData.grid.set((i+1) % globalData.gridHeight, j, 1);
         } else if (event.shiftKey && event.ctrlKey) {
-            globalData.grid[i][j] = 1;
-            globalData.grid[i][(j+1) % globalData.gridWidth] = 1;
+            globalData.grid.set(i, j, 1);
+            globalData.grid.set(i, (j+1) % globalData.gridWidth, 1);
         }
     });
 }
@@ -108,6 +108,12 @@ export function addTimeoutListener(globalData) {
     });
 }
 
+export function addRuleListener(globalData) {
+    document.getElementById('userRule').addEventListener('change', function() {
+        globalData.rule = this.value;
+    });
+}
+
 export function addColorPaletteListener(globalData) {
     document.getElementById('userColorPalette').addEventListener('change', function() {
         globalData.colorPalette = this.value;
@@ -143,6 +149,12 @@ export function determineColorPalette(globalData){
         globalData.backgroundColor = black;
         globalData.activatedColor = blue;
         globalData.deadColor = yellow;
+        globalData.superActivatedColor = grey;
+    }
+    else if (globalData.colorPalette == 'blackTrace') {
+        globalData.backgroundColor = black;
+        globalData.activatedColor = black;
+        globalData.deadColor = black;
         globalData.superActivatedColor = grey;
     }
 }
