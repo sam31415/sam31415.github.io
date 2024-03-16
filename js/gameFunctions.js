@@ -5,6 +5,7 @@ import { findNeighbourNoFlip } from './neighbours.js';
 import { findNeighbourFlipX } from './neighbours.js';
 import { findNeighbourFlipXY } from './neighbours.js';
 import { addRandomEvents } from './randomness.js';
+import { updateCellValueConway, updateCellValueBB, updateCellValueBBMod, updateCellValueBBTrace } from './rules.js';
 
 export function gameLoop(globalData) {
     drawGrid(globalData);
@@ -12,25 +13,6 @@ export function gameLoop(globalData) {
     setTimeout(function() {
         requestAnimationFrame(() => gameLoop(globalData));
     }, globalData.timeout);
-}
-
-
-function drawGridOld(globalData) {
-    let canvas = document.getElementById('gameCanvas');
-    var ctx = canvas.getContext('2d');
-    for (var i = 0; i < globalData.gridHeight; i++) {
-        for (var j = 0; j < globalData.gridWidth; j++) {
-            ctx.fillStyle = globalData.backgroundColor;
-            if (globalData.grid.get(i, j) == 1) {
-                ctx.fillStyle = globalData.activatedColor;
-            } else if (globalData.grid.get(i, j) == 2) {
-                ctx.fillStyle = globalData.deadColor;
-            } else if (globalData.grid.get(i, j) > 3) {
-                ctx.fillStyle = globalData.superActivatedColor;
-            }
-            ctx.fillRect(i * globalData.cellSize, j * globalData.cellSize, globalData.cellSize, globalData.cellSize);
-        }
-    }
 }
 
 
@@ -49,7 +31,7 @@ function drawGrid(globalData) {
                 ctx.fillStyle = globalData.activatedColor;
             } else if (globalData.grid.get(i, j) == 2) {
                 ctx.fillStyle = globalData.deadColor;
-            } else if (globalData.grid.get(i, j) > 3) {
+            } else if (globalData.grid.get(i, j) >= 3) {
                 ctx.fillStyle = globalData.superActivatedColor;
             } else {
                 continue;  // Skip cells that are zero
@@ -71,11 +53,22 @@ function updateGrid(globalData) {
     } else {
         findNeighbour = findNeighbourNoFlip;
     }
+    var updateCellValue;
+    if (globalData.rule == "Conway") {
+        updateCellValue = updateCellValueConway;
+    } else if (globalData.rule == "BB") {
+        updateCellValue = updateCellValueBB;
+    } else if (globalData.rule == "BBMod") {
+        updateCellValue = updateCellValueBBMod;
+    } else if (globalData.rule == "BBTrace") {
+        updateCellValue = updateCellValueBBTrace;
+    }
     var newGrid = new Grid(globalData.gridWidth, globalData.gridHeight);
     for (var i = 0; i < globalData.gridHeight; i++) {
         for (var j = 0; j < globalData.gridWidth; j++) {
             var neighbors = 0;
-            var sneighbors = 0;  // not used
+            var sneighbors = 0;
+            var dneighbors = 0;
             for (var di = -1; di <= 1; di++) {
                 for (var dj = -1; dj <= 1; dj++) {
                     if (di == 0 && dj == 0) continue;
@@ -85,21 +78,18 @@ function updateGrid(globalData) {
                     if (globalData.grid.get(ni, nj) == 1) {
                         neighbors += 1;
                         sneighbors += 1;
-                    } else if (globalData.grid.get(ni, nj) == 3) {
+                    } else if (globalData.grid.get(ni, nj) == 2) {
+                        dneighbors += 1;
+                    }
+                    else if (globalData.grid.get(ni, nj) == 3) {
                         sneighbors += 1;
                     }
                 }
             }
             let cellValue = globalData.grid.get(i, j);
-            if (cellValue == 1 || cellValue == 3) {
-                newGrid.set(i, j, 2);
-            } else if (cellValue == 2) {
-                newGrid.set(i, j, 0);
-            } else if (cellValue == 0 && neighbors == 2) {
-                newGrid.set(i, j, 1);
-            } else if (cellValue == 0 && neighbors > 2) {
-                newGrid.set(i, j, 3);
-            }
+            var newCellValue = cellValue;
+            newCellValue = updateCellValue(cellValue, newCellValue, neighbors, sneighbors, dneighbors);
+            newGrid.set(i, j, newCellValue);
         }
     }
     if (globalData.addRandomness) {
@@ -108,6 +98,4 @@ function updateGrid(globalData) {
     }
     globalData.grid = newGrid;
 }
-
-
 

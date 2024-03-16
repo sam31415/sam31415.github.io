@@ -14,6 +14,7 @@ export function submitValue() {
     var userColorPalette = document.getElementById('userColorPalette').value;
     var userRandomnessOn = document.getElementById('randomnessCheckbox').checked;
     var userRandomnessAmount = document.getElementById('randomnessSlider').value;
+    var userRule = document.getElementById('userRule').value;
 
     // Store the value in localStorage so it can be retrieved after the page reloads
     localStorage.setItem('userGridSize', userGridHeight);
@@ -27,6 +28,7 @@ export function submitValue() {
     localStorage.setItem('userColorPalette', userColorPalette);
     localStorage.setItem('userRandomnessOn', userRandomnessOn);
     localStorage.setItem('userRandomnessAmount', userRandomnessAmount);
+    localStorage.setItem('userRule', userRule);
 
     // Reload the page
     location.reload();
@@ -53,6 +55,7 @@ export function retrieveGlobalData(globalData, canvas) {
         globalData.colorPalette = localStorage.getItem('userColorPalette');
         globalData.addRandomness = localStorage.getItem('userRandomnessOn') === 'true';
         globalData.randomnessAmount = parseFloat(localStorage.getItem('userRandomnessAmount'));
+        globalData.rule = localStorage.getItem('userRule');
         console.log('Retrieved value from previous session: ' + globalData.gridHeight + '...');
     } else {
         console.log('No value in localStorage');
@@ -69,6 +72,7 @@ export function retrieveGlobalData(globalData, canvas) {
     document.getElementById('userColorPalette').value = globalData.colorPalette;
     document.getElementById('randomnessCheckbox').checked = globalData.addRandomness;
     document.getElementById('randomnessSlider').value = globalData.randomnessAmount;
+    document.getElementById('userRule').value = globalData.rule;
 
     // Adjust the canvas size
     canvas.width = globalData.gridWidth * globalData.cellSize;
