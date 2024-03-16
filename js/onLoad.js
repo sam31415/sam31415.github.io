@@ -1,8 +1,7 @@
-import { initializeGrid, gameLoop } from './gameFunctions.js';
+import { gameLoop } from './gameFunctions.js';
+import { initializeGrid } from "./initialisation.js";
 import { determineColorPalette, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener } from './eventHandlers.js';
 import { retrieveGlobalData } from './formHandlers.js';
-
-
 
 export function onLoad(globalData, canvas) {
     addRandomnessCheckboxListener(globalData);
@@ -18,8 +17,13 @@ export function onLoad(globalData, canvas) {
     retrieveGlobalData(globalData, canvas);
     determineColorPalette(globalData);
 
-    initializeGrid(globalData);
-    gameLoop(globalData);
+    initializeGrid(globalData).then(() =>{
+        gameLoop(globalData);
+    })
+    .catch((error) => {
+        console.error("Error initialising the grid: ", error)
+    });
+    
 }
 
 
