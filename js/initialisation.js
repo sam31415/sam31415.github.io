@@ -70,6 +70,7 @@ export function initializeGridRandom(globalData) {
 }
 
 export function initializeGrid(globalData, image) {
+    console.log('Attempting to load image'); 
     return loadImage('grLogoLarge.png').then(image => {
         const grid = new Grid(globalData.gridWidth, globalData.gridHeight);
         const scaleX = image[0].length / globalData.gridWidth;
@@ -93,7 +94,8 @@ export function initializeGrid(globalData, image) {
         }
         globalData.grid = grid;
     }).catch(error => {
-        console.error('Error loading image:', error);
+        console.log('Image loading failed, initializing grid randomly');
+        console.error('Error loading image:', error);        
         initializeGridRandom(globalData);
     });
 }
