@@ -1,4 +1,4 @@
-import { onLoad } from '../../js/cellular-automatons/onLoad.js';
+import { onLoad } from './onLoad.js';
 
 console.log("Loading main.js")
 
