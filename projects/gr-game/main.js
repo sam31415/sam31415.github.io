@@ -18,6 +18,7 @@ let globalData = {
     gridFlipY: false,
     colorPalette: 'blue',
     rule: "BBMod",
+    initialisation: "gr",
 };
 
 // Compute cellSize based on gridWidth

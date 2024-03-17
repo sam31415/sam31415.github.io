@@ -69,7 +69,7 @@ export function initializeGridRandom(globalData) {
     }
 }
 
-export function initializeGrid(globalData, image) {
+export function initializeGridGR(globalData, image) {
     console.log('Attempting to load image'); 
     return loadImage('grLogoLarge.png').then(image => {
         const grid = new Grid(globalData.gridWidth, globalData.gridHeight);
@@ -98,4 +98,12 @@ export function initializeGrid(globalData, image) {
         console.error('Error loading image:', error);        
         initializeGridRandom(globalData);
     });
+}
+
+export function initializeGrid(globalData, image) {
+    if (globalData.initialisation === 'gr') {
+        return initializeGridGR(globalData, image);
+    } else {
+        initializeGridRandom(globalData);
+    }
 }
