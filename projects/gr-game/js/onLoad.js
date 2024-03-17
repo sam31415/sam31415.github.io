@@ -1,5 +1,5 @@
-import { gameLoop } from './gameFunctions.js';
-import { initializeGrid } from "./initialisation.js";
+import { gameLoop } from '../../../js/cellular-automatons/gameFunctions.js';
+import { initializeGrid } from "../../../js/cellular-automatons/initialisation.js";
 import { addRuleListener, determineColorPalette, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener } from './eventHandlers.js';
 import { retrieveGlobalData } from './formHandlers.js';
 
