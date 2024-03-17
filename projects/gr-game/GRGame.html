@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The unofficial GR rebrand game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #F0EFEF;
+        }
+        #content {
+            max-width: 800px;
+            margin: auto;
+        }
+        #gameCanvas {
+            border: 1px solid black;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #randomnessSlider {
+            vertical-align: middle;
+            width: 150px;
+        }
+        #randomnessCheckbox {
+            margin-right: 0px;
+        }
+        label, input, select, button {
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+        input, select {
+            width: 10ch;  
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <h1>The unofficial GR rebrand game</h1>
+        <p>This applet displays a variation on <a href="https://en.wikipedia.org/wiki/Brian%27s_Brain", target="_blank">Brian's Brain cellular automaton</a>,
+            slightly modified to accomodate four colours. It evolves according to the following rules:
+        <ul>
+            <li>Unactivated cells are blue.</li>
+            <li>If an unactivated cell has exactly two activated neighbours (light grey), it activates.</li>
+            <li>If an unactivated cell has more than two activated neighbours, it gets superactivated (yellow).</li>
+            <li>Activated and superactivated cells turns into dead cells (black), and dead cells turn into unactivated cells.</li>
+        </ul>
+        <p>You can interact with the automaton by moving the mouse over the canvas while holding the Shift key down. This will activate any cell you mouse over. 
+            Try also clicking holding down various combinations of the Shift and Ctrl keys...</p>
+        <p>Random seeding: <input type="checkbox" id="randomnessCheckbox">   Randomness amount (log10 of event probability):
+            <input type="range" id="randomnessSlider" min="-8.0" max="-2.0" value="-5.0" step="0.05"> <span id="randomnessAmountValue"></span></p>
+            <button id="fullscreenButton">Go Fullscreen</button>
+    </div><br>
+    <canvas id="gameCanvas" width="800" height="800"></canvas>
+    <script type="module" src="main.js"></script>
+    <br>
+    <div id="content">
+        <label for="userRule">Automaton rule:</label>
+        <select id="userRule">
+            <!-- <option value="Conway">Conway's game of life</option> -->
+            <option value="BB">Brian's brain</option>
+            <option value="BBMod">Modified Brian's brain</option>
+            <option value="BBTrace">Brian's brain trace 1</option>
+            <option value="BBTrace2">Brian's brain trace 2</option>
+            <option value="BBTrace3">Brian's brain trace 3</option>
+            <option value="BBTrace4">Brian's brain trace 4</option>
+            <option value="BBTrace5">Brian's brain trace 5</option>
+            <option value="Test">Test</option>
+        </select><br>
+        <label for="userGridSize">Grid size (max 1000):</label>
+        <input type="int" id="userGridSize" value="100">
+        <!-- <label for="userGridHeight">Grid height:</label>
+        <input type="int" id="userGridHeight" value="100">
+        <label for="userGridWidth">Grid width:</label>
+        <input type="int" id="userGridWidth" value="100"><br> -->
+        <label for="userTimeout">Timeout (smaller is faster):</label>
+        <input type="int" id="userTimeout" value="50"><br>
+        <label for="userXShift">X periodicity shift:</label>
+        <input type="int" id="userXShift" value="0">
+        <label for="userYShift">Y periodicity shift:</label>
+        <input type="int" id="userYShift" value="0"><br>
+        <label for="userFlipX">Twisted boundary across X:</label>
+        <input type="checkbox" id="userFlipX">
+        <label for="userFlipY">Twisted boundary across Y:</label>
+        <input type="checkbox" id="userFlipY"><br>
+        <label for="category">Color scheme:</label>
+        <select id="userColorPalette">
+            <option value="blue">Blue</option>
+            <option value="blue2">Blue II</option>
+            <option value="grey">Grey</option>
+            <option value="yellow">Yellow</option>
+            <option value="black">Black</option>
+            <option value="blackTrace">Black (trace I)</option>
+            <option value="blackTrace2">Black (trace II)</option>
+        </select><br>
+        <button id="submitButton">Submit</button>
+    </div>
+</body>
+</html>
