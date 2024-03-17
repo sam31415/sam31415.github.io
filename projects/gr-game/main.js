@@ -1,5 +1,4 @@
-import { onLoad } from './onLoad.js';
-import { submitValue, updateRandomnessValue } from './formHandlers.js';
+import { onLoad } from '../../js/cellular-automatons/onLoad.js';
 
 console.log("Loading main.js")
 
