@@ -169,4 +169,10 @@ export function determineColorPalette(globalData){
         globalData.deadColor = black;
         globalData.superActivatedColor = grey;
     }
+    else if (globalData.colorPalette == 'blackTrace3') {
+        globalData.backgroundColor = black;
+        globalData.activatedColor = black;
+        globalData.deadColor = grey;
+        globalData.superActivatedColor = grey;
+    }
 }

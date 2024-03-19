@@ -5,7 +5,9 @@ import { findNeighbourNoFlip } from './neighbours.js';
 import { findNeighbourFlipX } from './neighbours.js';
 import { findNeighbourFlipXY } from './neighbours.js';
 import { addRandomEvents } from './randomness.js';
-import { updateCellValueTest, updateCellValueConway, updateCellValueBB, updateCellValueBBMod, updateCellValueBBTrace, updateCellValueBBTrace2, updateCellValueBBTrace3, updateCellValueBBTrace4, updateCellValueBBTrace5 } from './rules.js';
+import { updateCellValueTest, updateCellValueConway, updateCellValueBB, updateCellValueBBMod, updateCellValueBBTrace, updateCellValueBBTrace2, 
+         updateCellValueBBTrace3, updateCellValueBBTrace4, updateCellValueBBTrace5, updateCellValueBBTrace6, updateCellValueBBTrace7,
+         updateCellValueBBTrace8, updateCellValueBBTrace9, updateCellValueBBTrace10} from './rules.js';
 
 export function gameLoop(globalData) {
     drawGrid(globalData);
@@ -70,6 +72,16 @@ function updateGrid(globalData) {
         updateCellValue = updateCellValueBBTrace4;
     } else if (globalData.rule == "BBTrace5") {
         updateCellValue = updateCellValueBBTrace5;
+    } else if (globalData.rule == "BBTrace6") {
+        updateCellValue = updateCellValueBBTrace6;
+    } else if (globalData.rule == "BBTrace7") {
+        updateCellValue = updateCellValueBBTrace7;
+    } else if (globalData.rule == "BBTrace8") {
+        updateCellValue = updateCellValueBBTrace8;
+    } else if (globalData.rule == "BBTrace9") {
+        updateCellValue = updateCellValueBBTrace9;
+    } else if (globalData.rule == "BBTrace10") {
+        updateCellValue = updateCellValueBBTrace10;
     } else if (globalData.rule == "Test") {
         updateCellValue = updateCellValueTest;
     }
