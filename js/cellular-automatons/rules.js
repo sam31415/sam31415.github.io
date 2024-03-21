@@ -10,6 +10,21 @@ function BBRule(cellValue, newCellValue, neighbors) {
         newCellValue = 1;
     } else if (cellValue == 0 && neighbors > 2) {
         newCellValue = 3;
+    } else {
+        newCellValue = 0;
+    }
+    return newCellValue;
+}
+
+function BBRuleNoZero(cellValue, newCellValue, neighbors) {
+    if (cellValue == 1 || cellValue == 3) {
+        newCellValue = 2;
+    } else if (cellValue == 2) {
+        newCellValue = 0;
+    } else if (cellValue == 0 && neighbors == 2) {
+        newCellValue = 1;
+    } else if (cellValue == 0 && neighbors > 2) {
+        newCellValue = 3;
     }
     return newCellValue;
 }
@@ -19,13 +34,26 @@ export function updateCellValueTest(cellValue, newCellValue, neighbor_list) {
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    newCellValue = BBRule(cellValue % 10, newCellValue, neighbors);
+    newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbors);
     var secondaryCellValue = Math.floor(cellValue / 10);
-    if (secondaryCellValue == 0 && sneighbors < 1) {
+    if (neighbors > 1) {
+        newCellValue = (newCellValue + 10) % 20;
+    } 
+    return newCellValue;
+}
+
+// Secondary rules to color the grid
+export function updateCellValueSecondary3(cellValue, newCellValue, neighbor_list) {
+    var neighbors = neighbor_list[0];
+    var sneighbors = neighbor_list[1];
+    var dneighbors = neighbor_list[2];
+    newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbors);
+    var secondaryCellValue = Math.floor(cellValue / 10);
+    if (neighbors > 3) {
         newCellValue = (newCellValue + 10) % 40;
-    } else if (secondaryCellValue == 0 && dneighbors == 3) {
+    } else if (neighbors == 3) {
         newCellValue = (newCellValue + 30) % 40;
-    } else if (secondaryCellValue == 0 && dneighbors == 2) {
+    } else if (neighbors == 2) {
         newCellValue = (newCellValue + 20) % 40;
     }
     return newCellValue;
@@ -37,7 +65,7 @@ export function updateCellValueSecondary2(cellValue, newCellValue, neighbor_list
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    newCellValue = BBRule(cellValue % 10, newCellValue, neighbors);
+    newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbors);
     var secondaryCellValue = Math.floor(cellValue / 10);
     if (secondaryCellValue == 0 && sneighbors > 3) {
         newCellValue = (newCellValue + 10) % 40;
@@ -54,7 +82,7 @@ export function updateCellValueSecondary1(cellValue, newCellValue, neighbor_list
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    newCellValue = BBRule(cellValue % 10, newCellValue, neighbors);
+    newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbors);
     var secondaryCellValue = Math.floor(cellValue / 10);
     if (secondaryCellValue == 0 && sneighbors < 1) {
         newCellValue = (newCellValue + 10) % 40;

@@ -20,6 +20,8 @@ let globalData = {
     rule: "BBMod",
     initialisation: "gr",
     secondary: false,
+    updateCellValue: null,
+    findNeighbour: null,
 };
 
 // Compute cellSize based on gridWidth
@@ -28,6 +30,7 @@ globalData.cellSize = canvas.width / globalData.gridWidth;
 window.onload = function() {
     onLoad(globalData, canvas);
 }
+
 
 
 

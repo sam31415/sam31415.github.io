@@ -1,6 +1,6 @@
 import { submitValue, updateRandomnessValue } from './formHandlers.js';
 import { initializeGrid } from "../../../js/cellular-automatons/initialisation.js";
-
+import { determineColorPalette, setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/optionSetter.js';
 
 export function addRandomnessCheckboxListener(globalData) {
     document.getElementById('randomnessCheckbox').addEventListener('change', function() {
@@ -97,6 +97,8 @@ export function addPeriodicityListeners(globalData) {
     document.getElementById('userFlipY').addEventListener('change', function() {
         globalData.gridFlipY = this.checked;
     });
+    setFindNeighbour(globalData);
+
 }
 
 export function addTimeoutListener(globalData) {
@@ -112,11 +114,11 @@ export function addTimeoutListener(globalData) {
 export function addRuleListener(globalData) {
     document.getElementById('userRule').addEventListener('change', async function() {
         globalData.rule = this.value;
-        if (globalData.secondary != globalData.rule.includes("Secondary")){
+        if (globalData.secondary != (globalData.rule.includes("Secondary") || globalData.rule.includes("Variable"))){
             await initializeGrid(globalData)
         }
         globalData.secondary = globalData.rule.includes("Secondary")
-
+        setCellUpdateRule(globalData);
     });
 }
 
@@ -127,64 +129,3 @@ export function addColorPaletteListener(globalData) {
     });
 }
 
-export function determineColorPalette(globalData){
-    var yellow = 'rgb(247, 255, 28)'
-    var blue = 'rgb(13, 112, 255)'
-    var grey = 'rgb(240, 239, 239)'
-    var black = 'rgb(0, 0, 0)'
-
-    if (globalData.colorPalette == 'yellow') {
-        globalData.backgroundColor = yellow;
-        globalData.activatedColor = black;
-        globalData.deadColor = blue;
-        globalData.superActivatedColor = grey;
-    }
-    else if (globalData.colorPalette == 'blue') {
-        globalData.backgroundColor = blue;
-        globalData.activatedColor = grey;
-        globalData.deadColor = black;
-        globalData.superActivatedColor = yellow;
-    }
-    else if (globalData.colorPalette == 'blue2') {
-        globalData.backgroundColor = blue;
-        globalData.activatedColor = yellow;
-        globalData.deadColor = black;
-        globalData.superActivatedColor = grey;
-    }
-    else if (globalData.colorPalette == 'grey') {
-        globalData.backgroundColor = grey;
-        globalData.activatedColor = black;
-        globalData.deadColor = blue;
-        globalData.superActivatedColor = yellow;
-    }
-    else if (globalData.colorPalette == 'grey2') {
-        globalData.backgroundColor = grey;
-        globalData.activatedColor = yellow;
-        globalData.deadColor = black;
-        globalData.superActivatedColor = blue;
-    }
-    else if (globalData.colorPalette == 'black') {
-        globalData.backgroundColor = black;
-        globalData.activatedColor = blue;
-        globalData.deadColor = yellow;
-        globalData.superActivatedColor = grey;
-    }
-    else if (globalData.colorPalette == 'blackTrace') {
-        globalData.backgroundColor = black;
-        globalData.activatedColor = grey;
-        globalData.deadColor = black;
-        globalData.superActivatedColor = grey;
-    }
-    else if (globalData.colorPalette == 'blackTrace2') {
-        globalData.backgroundColor = black;
-        globalData.activatedColor = black;
-        globalData.deadColor = black;
-        globalData.superActivatedColor = grey;
-    }
-    else if (globalData.colorPalette == 'blackTrace3') {
-        globalData.backgroundColor = black;
-        globalData.activatedColor = black;
-        globalData.deadColor = grey;
-        globalData.superActivatedColor = grey;
-    }
-}
