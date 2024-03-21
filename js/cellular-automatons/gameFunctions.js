@@ -27,17 +27,18 @@ function conditionNeighborBigger(nvalue) {
     return conditionNeighborBiggerValue;
 }
 var values = [0, 1, 2, 3]
-var ruleConditionsEq = values.map(value => conditionNeighborEq(value))
-var ruleConditionsBigger = values.map(value => conditionNeighborBigger(value))
-var ruleConditions = ruleConditionsEq.concat(ruleConditionsBigger)
+var ruleConditionsEq = values.map(value => conditionNeighborEq(value));
+ruleConditionsEq.shift();
+var ruleConditionsBigger = values.map(value => conditionNeighborBigger(value));
+var ruleConditions = ruleConditionsEq.concat(ruleConditionsBigger);
 
 export function changeRule2Colors(globalData, forceChange = false) {
     if (Math.random() < 0.001 || forceChange) {
-        var randomIndex = Math.floor(Math.random() * ruleConditions.length)
+        var randomIndex = Math.floor(Math.random() * ruleConditions.length);
         var randomCondition = ruleConditions[randomIndex];
         var randomRule = updateCellValueSecondary2ValuesMeta(randomCondition);
         globalData.updateCellValue = randomRule;
-        console.log("Rule changed to rule " + randomIndex)
+        console.log("Rule changed to rule " + randomIndex);
     }
 }
 
