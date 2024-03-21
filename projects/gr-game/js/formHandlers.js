@@ -56,7 +56,9 @@ export function retrieveGlobalData(globalData, canvas) {
         globalData.addRandomness = localStorage.getItem('userRandomnessOn') === 'true';
         globalData.randomnessAmount = parseFloat(localStorage.getItem('userRandomnessAmount'));
         globalData.rule = localStorage.getItem('userRule');
-        console.log('Retrieved value from previous session: ' + globalData.gridHeight + '...');
+        globalData.secondary = globalData.rule.includes("Secondary");
+
+        console.log('Retrieved value from previous session: ' + globalData.secondary + '...');
     } else {
         console.log('No value in localStorage');
     }
