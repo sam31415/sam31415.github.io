@@ -1,6 +1,7 @@
 import { submitValue, updateRandomnessValue } from './formHandlers.js';
 import { initializeGrid } from "../../../js/cellular-automatons/initialisation.js";
 import { determineColorPalette, setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/optionSetter.js';
+import { changeRule2Colors } from '../../../js/cellular-automatons/gameFunctions.js';
 
 export function addRandomnessCheckboxListener(globalData) {
     document.getElementById('randomnessCheckbox').addEventListener('change', function() {
@@ -117,8 +118,11 @@ export function addRuleListener(globalData) {
         if (globalData.secondary != (globalData.rule.includes("Secondary") || globalData.rule.includes("Variable"))){
             await initializeGrid(globalData)
         }
-        globalData.secondary = globalData.rule.includes("Secondary")
+        globalData.secondary = globalData.rule.includes("Secondary") || globalData.rule.includes("Variable")
         setCellUpdateRule(globalData);
+        if (globalData.rule == "Variable2Colors"){
+            changeRule2Colors(globalData, true);
+        }
     });
 }
 
