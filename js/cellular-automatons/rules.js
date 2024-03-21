@@ -42,6 +42,23 @@ export function updateCellValueTest(cellValue, newCellValue, neighbor_list) {
     return newCellValue;
 }
 
+// Meta update rule depending on a condition, for 2 color rules.
+export function updateCellValueSecondary2ValuesMeta(conditionFunc) {
+    function updateRule(cellValue, newCellValue, neighbor_list) {
+        var neighbors = neighbor_list[0];
+        var sneighbors = neighbor_list[1];
+        var dneighbors = neighbor_list[2];
+        newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbors);
+        var secondaryCellValue = Math.floor(cellValue / 10);
+        if (conditionFunc(neighbors)) {
+            newCellValue = (newCellValue + 10) % 20;
+        } 
+        return newCellValue;
+    }
+
+    return updateRule
+}
+
 // Secondary rules to color the grid
 export function updateCellValueSecondary3(cellValue, newCellValue, neighbor_list) {
     var neighbors = neighbor_list[0];

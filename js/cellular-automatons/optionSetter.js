@@ -5,6 +5,7 @@ import { findNeighbourFlipY } from './neighbours.js';
 import { findNeighbourNoFlip } from './neighbours.js';
 import { findNeighbourFlipX } from './neighbours.js';
 import { findNeighbourFlipXY } from './neighbours.js';
+import { changeRule2Colors } from './gameFunctions.js';
 
 export function setFindNeighbour(globalData){
     if (globalData.gridFlipX && globalData.gridFlipY) {
@@ -49,6 +50,8 @@ export function setCellUpdateRule(globalData){
         globalData.updateCellValue = updateCellValueSecondary1;
     } else if (globalData.rule == "BBTraceSecondary2") {
         globalData.updateCellValue = updateCellValueSecondary2;
+    } else if (globalData.rule == "Variable2Colors") {
+        changeRule2Colors(globalData, true);
     } else if (globalData.rule == "TestSecondary") {
         globalData.updateCellValue = updateCellValueTest;
     }

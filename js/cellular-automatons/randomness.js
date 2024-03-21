@@ -22,7 +22,6 @@ export function addRandomEvents(globalData, i, j, newGrid, findNeighbour) {
         var rnd = Math.random();
         for (let k = 0; k < pop_masks.length; k++) {
             if (rnd < prob[k]) {
-                console.log("Applying mask " + k);
                 applyMask(newGrid, globalData, pop_masks[k], i, j, findNeighbour);
                 break;
             }
