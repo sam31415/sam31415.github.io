@@ -1,4 +1,5 @@
 import { submitValue, updateRandomnessValue } from './formHandlers.js';
+import { initializeGrid } from "../../../js/cellular-automatons/initialisation.js";
 
 
 export function addRandomnessCheckboxListener(globalData) {
@@ -109,8 +110,13 @@ export function addTimeoutListener(globalData) {
 }
 
 export function addRuleListener(globalData) {
-    document.getElementById('userRule').addEventListener('change', function() {
+    document.getElementById('userRule').addEventListener('change', async function() {
         globalData.rule = this.value;
+        if (globalData.secondary != globalData.rule.includes("Secondary")){
+            await initializeGrid(globalData)
+        }
+        globalData.secondary = globalData.rule.includes("Secondary")
+
     });
 }
 
@@ -150,6 +156,12 @@ export function determineColorPalette(globalData){
         globalData.activatedColor = black;
         globalData.deadColor = blue;
         globalData.superActivatedColor = yellow;
+    }
+    else if (globalData.colorPalette == 'grey2') {
+        globalData.backgroundColor = grey;
+        globalData.activatedColor = yellow;
+        globalData.deadColor = black;
+        globalData.superActivatedColor = blue;
     }
     else if (globalData.colorPalette == 'black') {
         globalData.backgroundColor = black;

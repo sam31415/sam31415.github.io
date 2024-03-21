@@ -7,7 +7,7 @@ import { findNeighbourFlipXY } from './neighbours.js';
 import { addRandomEvents } from './randomness.js';
 import { updateCellValueTest, updateCellValueConway, updateCellValueBB, updateCellValueBBMod, updateCellValueBBTrace, updateCellValueBBTrace2, 
          updateCellValueBBTrace3, updateCellValueBBTrace4, updateCellValueBBTrace5, updateCellValueBBTrace6, updateCellValueBBTrace7,
-         updateCellValueBBTrace8, updateCellValueBBTrace9, updateCellValueBBTrace10} from './rules.js';
+         updateCellValueBBTrace8, updateCellValueBBTrace9, updateCellValueBBTrace10, updateCellValueSecondary1, updateCellValueSecondary2} from './rules.js';
 
 export function gameLoop(globalData) {
     drawGrid(globalData);
@@ -29,11 +29,16 @@ function drawGrid(globalData) {
     // Only draw rectangles for the cells that are not zero
     for (var i = 0; i < globalData.gridHeight; i++) {
         for (var j = 0; j < globalData.gridWidth; j++) {
-            if (globalData.grid.get(i, j) == 1) {
+            if (globalData.secondary) {
+                var value = Math.floor(globalData.grid.get(i, j) / 10)
+            } else {
+                var value = globalData.grid.get(i, j) % 10;
+            }
+            if (value == 1) {
                 ctx.fillStyle = globalData.activatedColor;
-            } else if (globalData.grid.get(i, j) == 2) {
+            } else if (value == 2) {
                 ctx.fillStyle = globalData.deadColor;
-            } else if (globalData.grid.get(i, j) >= 3) {
+            } else if (value >= 3) {
                 ctx.fillStyle = globalData.superActivatedColor;
             } else {
                 continue;  // Skip cells that are zero
@@ -82,7 +87,11 @@ function updateGrid(globalData) {
         updateCellValue = updateCellValueBBTrace9;
     } else if (globalData.rule == "BBTrace10") {
         updateCellValue = updateCellValueBBTrace10;
-    } else if (globalData.rule == "Test") {
+    } else if (globalData.rule == "BBTraceSecondary1") {
+        updateCellValue = updateCellValueSecondary1;
+    } else if (globalData.rule == "BBTraceSecondary2") {
+        updateCellValue = updateCellValueSecondary2;
+    } else if (globalData.rule == "TestSecondary") {
         updateCellValue = updateCellValueTest;
     }
     var newGrid = new Grid(globalData.gridWidth, globalData.gridHeight);
@@ -97,20 +106,21 @@ function updateGrid(globalData) {
                     let neighbourCoord = findNeighbour(globalData, i, j, di, dj);
                     let ni = neighbourCoord[0];
                     let nj = neighbourCoord[1];
-                    if (globalData.grid.get(ni, nj) == 1) {
+                    if (globalData.grid.get(ni, nj) % 10 == 1) {
                         neighbors += 1;
                         sneighbors += 1;
-                    } else if (globalData.grid.get(ni, nj) == 2) {
+                    } else if (globalData.grid.get(ni, nj) % 10 == 2) {
                         dneighbors += 1;
                     }
-                    else if (globalData.grid.get(ni, nj) == 3) {
+                    else if (globalData.grid.get(ni, nj) % 10 == 3) {
                         sneighbors += 1;
                     }
                 }
             }
             let cellValue = globalData.grid.get(i, j);
             var newCellValue = cellValue;
-            newCellValue = updateCellValue(cellValue, newCellValue, neighbors, sneighbors, dneighbors);
+            var neighbor_list = [neighbors, sneighbors, dneighbors]
+            newCellValue = updateCellValue(cellValue, newCellValue, neighbor_list);
             newGrid.set(i, j, newCellValue);
         }
     }
