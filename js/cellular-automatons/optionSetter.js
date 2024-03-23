@@ -5,7 +5,7 @@ import { findNeighbourFlipY } from './neighbours.js';
 import { findNeighbourNoFlip } from './neighbours.js';
 import { findNeighbourFlipX } from './neighbours.js';
 import { findNeighbourFlipXY } from './neighbours.js';
-import { changeRule2Colors } from './gameFunctions.js';
+import { changeRule2Colors, changeRule3Colors, changeRule4Colors } from './gameFunctions.js';
 
 export function setFindNeighbour(globalData){
     if (globalData.gridFlipX && globalData.gridFlipY) {
@@ -52,13 +52,17 @@ export function setCellUpdateRule(globalData){
         globalData.updateCellValue = updateCellValueSecondary2;
     } else if (globalData.rule == "Variable2Colors") {
         changeRule2Colors(globalData, true);
+    } else if (globalData.rule == "Variable3Colors") {
+        changeRule3Colors(globalData, true);
+    } else if (globalData.rule == "Variable4Colors") {
+        changeRule4Colors(globalData, true);
     } else if (globalData.rule == "TestSecondary") {
         globalData.updateCellValue = updateCellValueTest;
     }
 }
 
 export function determineColorPalette(globalData){
-    var yellow = 'rgb(247, 255, 28)'
+    var yellow = 'rgb(247, 255, 28)' // 'rgb(128, 30, 10)' // 'rgb(7, 56, 128)' // 
     var blue = 'rgb(13, 112, 255)'
     var grey = 'rgb(240, 239, 239)'
     var black = 'rgb(0, 0, 0)'

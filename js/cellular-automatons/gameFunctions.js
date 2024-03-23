@@ -1,13 +1,17 @@
 
 import { Grid } from './initialisation.js';
 import { addRandomEvents } from './randomness.js';
-import { updateCellValueSecondary2ValuesMeta } from './rules.js';
+import { updateCellValueSecondary2ValuesMeta, updateCellValueSecondary3ValuesMeta, updateCellValueSecondary4ValuesMeta } from './rules.js';
 
 export function gameLoop(globalData) {
     drawGrid(globalData);
     updateGrid(globalData);
     if (globalData.rule == "Variable2Colors"){
         changeRule2Colors(globalData);
+    } else if (globalData.rule == "Variable3Colors"){
+        changeRule3Colors(globalData);
+    } else if (globalData.rule == "Variable4Colors"){
+        changeRule4Colors(globalData);
     }
     setTimeout(function() {
         requestAnimationFrame(() => gameLoop(globalData));
@@ -26,19 +30,70 @@ function conditionNeighborBigger(nvalue) {
     }
     return conditionNeighborBiggerValue;
 }
-var values = [0, 1, 2, 3]
-var ruleConditionsEq = values.map(value => conditionNeighborEq(value));
-ruleConditionsEq.shift();
-var ruleConditionsBigger = values.map(value => conditionNeighborBigger(value));
+var valuesEq = [1, 2, 3];
+var ruleConditionsEq = valuesEq.map(value => conditionNeighborEq(value));
+var valuesBigger = [0, 1, 2, 3];
+var ruleConditionsBigger = valuesBigger.map(value => conditionNeighborBigger(value));
 var ruleConditions = ruleConditionsEq.concat(ruleConditionsBigger);
 
+function testConditionCompatibility(conditionIndex1, conditionIndex2) {
+    if (conditionIndex1 == conditionIndex2){
+        return false;
+    }
+    if (conditionIndex1 < 3 && conditionIndex2 >= 3 && conditionIndex2 - 3 < conditionIndex1) {
+        return false;
+    }
+    if (conditionIndex1 >= 3 && conditionIndex2 >= 3 && conditionIndex1 < conditionIndex2) {
+        return false;
+    }
+    return true;
+}
+
+
 export function changeRule2Colors(globalData, forceChange = false) {
-    if (Math.random() < 0.001 || forceChange) {
+    if (Math.random() < 0.0002 || forceChange) {
         var randomIndex = Math.floor(Math.random() * ruleConditions.length);
         var randomCondition = ruleConditions[randomIndex];
         var randomRule = updateCellValueSecondary2ValuesMeta(randomCondition);
         globalData.updateCellValue = randomRule;
         console.log("Rule changed to rule " + randomIndex);
+    }
+}
+
+export function changeRule3Colors(globalData, forceChange = false) {
+    if (Math.random() < 0.0002 || forceChange) {
+        var randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
+        var randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
+        while (!testConditionCompatibility(randomIndex1, randomIndex2)){
+            randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
+            randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
+        }
+        var ruleCondition1 = ruleConditions[randomIndex1];
+        var ruleCondition2 = ruleConditions[randomIndex2];
+        var randomRule = updateCellValueSecondary3ValuesMeta(ruleCondition1, ruleCondition2);
+        globalData.updateCellValue = randomRule;
+        console.log("Rule changed to rule (" + randomIndex1 + ", " + randomIndex2 + ")");
+    }
+}
+
+export function changeRule4Colors(globalData, forceChange = false) {
+    if (Math.random() < 0.0002 || forceChange) {
+        var randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
+        var randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
+        var randomIndex3 = Math.floor(Math.random() * ruleConditions.length);
+        while (!testConditionCompatibility(randomIndex1, randomIndex2) || 
+               !testConditionCompatibility(randomIndex2, randomIndex3) ||
+               !testConditionCompatibility(randomIndex1, randomIndex3)) {
+            randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
+            randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
+            randomIndex3 = Math.floor(Math.random() * ruleConditions.length);
+       }
+        var ruleCondition1 = ruleConditions[randomIndex1];
+        var ruleCondition2 = ruleConditions[randomIndex2];
+        var ruleCondition3 = ruleConditions[randomIndex3];
+        var randomRule = updateCellValueSecondary4ValuesMeta(ruleCondition1, ruleCondition2, ruleCondition3);
+        globalData.updateCellValue = randomRule;
+        console.log("Rule changed to rule (" + randomIndex1 + ", " + randomIndex2 + ", " + randomIndex3 + ")");
     }
 }
 
