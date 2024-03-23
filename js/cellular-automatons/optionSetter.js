@@ -9,6 +9,27 @@ import { changeRule4Colors } from './rulesMeta.js';
 import { changeRule3Colors } from './rulesMeta.js';
 import { changeRule2Colors } from './rulesMeta.js';
 
+export function updatePeriodicityShiftAndTopology(globalData){
+    if (Math.random() < 0.0001) {
+        globalData.gridPeriodicityShiftX = Math.floor(Math.random() * globalData.gridWidth);
+        console.log("Periodicity shift X: " + globalData.gridPeriodicityShiftX);
+    }
+    if (Math.random() < 0.0001) {
+        globalData.gridPeriodicityShiftY = Math.floor(Math.random() * globalData.gridHeight);
+        console.log("Periodicity shift Y: " + globalData.gridPeriodicityShiftY);
+    }
+    if (Math.random() < 0.0001) {
+        globalData.gridFlipX = !globalData.gridFlipX;
+        setFindNeighbour(globalData)
+        console.log("Flip X: " + globalData.gridFlipX);
+    }
+    if (Math.random() < 0.0001) {
+        globalData.gridFlipY = !globalData.gridFlipY;
+        setFindNeighbour(globalData)
+        console.log("Flip Y: " + globalData.gridFlipY);
+    }
+}
+
 export function setFindNeighbour(globalData){
     if (globalData.gridFlipX && globalData.gridFlipY) {
         globalData.findNeighbour = findNeighbourFlipXY;
@@ -121,6 +142,11 @@ export function determineColorPalette(globalData){
         globalData.backgroundColor = black;
         globalData.activatedColor = black;
         globalData.deadColor = grey;
+        globalData.superActivatedColor = grey;
+    } else if (globalData.colorPalette == 'variable') {
+        globalData.backgroundColor = black;
+        globalData.activatedColor = blue;
+        globalData.deadColor = yellow;
         globalData.superActivatedColor = grey;
     }
 }

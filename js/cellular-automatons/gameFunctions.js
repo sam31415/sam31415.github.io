@@ -4,16 +4,24 @@ import { addRandomEvents } from './randomness.js';
 import { changeRule4Colors } from './rulesMeta.js';
 import { changeRule3Colors } from './rulesMeta.js';
 import { changeRule2Colors } from './rulesMeta.js';
+import { driftColorPalette } from './coloring.js';
+import { updatePeriodicityShiftAndTopology } from './optionSetter.js';
 
 export function gameLoop(globalData) {
     drawGrid(globalData);
     updateGrid(globalData);
-    if (globalData.rule == "Variable2Colors"){
+    if (globalData.rule == "Variable2Colors") {
         changeRule2Colors(globalData);
-    } else if (globalData.rule == "Variable3Colors"){
+    } else if (globalData.rule == "Variable3Colors") {
         changeRule3Colors(globalData);
-    } else if (globalData.rule == "Variable4Colors"){
+    } else if (globalData.rule == "Variable4Colors") {
         changeRule4Colors(globalData);
+    }
+    if (globalData.rule.includes("Variable")) {
+        updatePeriodicityShiftAndTopology(globalData);
+    }
+    if (globalData.colorPalette == "variable") {
+        driftColorPalette(globalData);
     }
     setTimeout(function() {
         requestAnimationFrame(() => gameLoop(globalData));
