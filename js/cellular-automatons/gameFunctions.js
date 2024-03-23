@@ -5,7 +5,6 @@ import { changeRule4Colors } from './rulesMeta.js';
 import { changeRule3Colors } from './rulesMeta.js';
 import { changeRule2Colors } from './rulesMeta.js';
 
-
 export function gameLoop(globalData) {
     drawGrid(globalData);
     updateGrid(globalData);
@@ -21,37 +20,48 @@ export function gameLoop(globalData) {
     }, globalData.timeout);
 }
 
-
-function drawGrid(globalData) {
+export function drawBackground(globalData) {
     let canvas = document.getElementById('gameCanvas');
     var ctx = canvas.getContext('2d');
 
     // Draw a single large rectangle with the background color
     ctx.fillStyle = globalData.backgroundColor;
     ctx.fillRect(0, 0, globalData.gridWidth * globalData.cellSize, globalData.gridHeight * globalData.cellSize);
+}
+
+function drawGrid(globalData) {
+    let canvas = document.getElementById('gameCanvas');
+    var ctx = canvas.getContext('2d');
 
     // Only draw rectangles for the cells that are not zero
     for (var i = 0; i < globalData.gridHeight; i++) {
         for (var j = 0; j < globalData.gridWidth; j++) {
             if (globalData.secondary) {
+                if (globalData.grid.get(i, j) < 100) {
+                    continue;
+                }
+                globalData.grid.set(i, j, globalData.grid.get(i, j) - 100);
+            }
+            if (globalData.secondary) {
                 var value = Math.floor(globalData.grid.get(i, j) / 10)
             } else {
                 var value = globalData.grid.get(i, j) % 10;
             }
-            if (value == 1) {
+            if (value == 0) {
+                ctx.fillStyle = globalData.backgroundColor;
+            } else if (value == 1) {
                 ctx.fillStyle = globalData.activatedColor;
             } else if (value == 2) {
                 ctx.fillStyle = globalData.deadColor;
             } else if (value >= 3) {
                 ctx.fillStyle = globalData.superActivatedColor;
             } else {
-                continue;  // Skip cells that are zero
+                continue;
             }
             ctx.fillRect(i * globalData.cellSize, j * globalData.cellSize, globalData.cellSize, globalData.cellSize);
         }
     }
 }
-
 
 function updateGrid(globalData) {  
     var newGrid = new Grid(globalData.gridWidth, globalData.gridHeight);
@@ -79,8 +89,15 @@ function updateGrid(globalData) {
             }
             let cellValue = globalData.grid.get(i, j);
             var newCellValue = cellValue;
-            var neighbor_list = [neighbors, sneighbors, dneighbors]
+            var neighbor_list = [neighbors, sneighbors, dneighbors];
             newCellValue = globalData.updateCellValue(cellValue, newCellValue, neighbor_list);
+            if (globalData.secondary) {
+  
+                if (Math.floor(newCellValue / 10)  != Math.floor(cellValue / 10)) {
+                    // Add 100 to flag that the cell that will have to be redrawn
+                    newCellValue += 100;
+                }
+            }
             newGrid.set(i, j, newCellValue);
         }
     }
