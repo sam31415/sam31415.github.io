@@ -62,6 +62,9 @@
             <!-- <option value="Conway">Conway's game of life</option> -->
             <option value="BB">Brian's brain</option>
             <option value="BBMod">Modified Brian's brain</option>
+            <option value="Variable2Colors">Variable (2 colors)</option>
+            <option value="Variable3Colors">Variable (3 colors)</option>
+            <option value="Variable4Colors">Variable (4 colors)</option>
             <option value="BBTrace">Brian's brain trace 1</option>
             <option value="BBTrace2">Brian's brain trace 2</option>
             <option value="BBTrace3">Brian's brain trace 3</option>
@@ -75,9 +78,8 @@
             <option value="BBTraceSecondary1">Brian's brain secondary trace 1</option>
             <option value="BBTraceSecondary2">Brian's brain secondary trace 2</option>
             <option value="BBTraceSecondary3">Brian's brain secondary trace 3</option>
-            <option value="Variable2Colors">Variable (2 colors)</option>
-            <option value="Variable3Colors">Variable (3 colors)</option>
-            <option value="Variable4Colors">Variable (4 colors)</option>
+            <option value="Stationary1">Stationary 1</option>
+            <option value="Stationary2">Stationary 2</option>
             <option value="TestSecondary">Test</option>
         </select><br>
         <label for="randomnessCheckbox">Add random seeding? </label> <input type="checkbox" id="randomnessCheckbox">   Randomness amount (log10 of event probability):
@@ -92,6 +94,7 @@
         <input type="checkbox" id="userFlipY"><br>
         <label for="category">Color scheme:</label>
         <select id="userColorPalette">
+            <option value="variable">Variable</option>
             <option value="blue">Blue</option>
             <option value="blue2">Blue II</option>
             <option value="grey">Grey</option>
@@ -101,7 +104,6 @@
             <option value="blackTrace">Black (trace I)</option>
             <option value="blackTrace2">Black (trace II)</option>
             <option value="blackTrace3">Black (trace III)</option>
-            <option value="variable">Variable</option>
         </select><br>
         <label for="userGridSize">Grid size (max 1000):</label>
         <input type="int" id="userGridSize" value="100">
