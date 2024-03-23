@@ -1,7 +1,9 @@
 import { submitValue, updateRandomnessValue } from './formHandlers.js';
 import { initializeGrid } from "../../../js/cellular-automatons/initialisation.js";
 import { determineColorPalette, setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/optionSetter.js';
-import { changeRule2Colors, changeRule3Colors, changeRule4Colors } from '../../../js/cellular-automatons/gameFunctions.js';
+import { changeRule4Colors } from '../../../js/cellular-automatons/rulesMeta.js';
+import { changeRule3Colors } from '../../../js/cellular-automatons/rulesMeta.js';
+import { changeRule2Colors } from '../../../js/cellular-automatons/rulesMeta.js';
 
 export function addRandomnessCheckboxListener(globalData) {
     document.getElementById('randomnessCheckbox').addEventListener('change', function() {

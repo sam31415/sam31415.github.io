@@ -5,7 +5,9 @@ import { findNeighbourFlipY } from './neighbours.js';
 import { findNeighbourNoFlip } from './neighbours.js';
 import { findNeighbourFlipX } from './neighbours.js';
 import { findNeighbourFlipXY } from './neighbours.js';
-import { changeRule2Colors, changeRule3Colors, changeRule4Colors } from './gameFunctions.js';
+import { changeRule4Colors } from './rulesMeta.js';
+import { changeRule3Colors } from './rulesMeta.js';
+import { changeRule2Colors } from './rulesMeta.js';
 
 export function setFindNeighbour(globalData){
     if (globalData.gridFlipX && globalData.gridFlipY) {

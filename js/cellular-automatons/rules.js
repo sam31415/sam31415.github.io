@@ -1,4 +1,3 @@
-
 // Primary rule creating the starships
 
 function BBRule(cellValue, newCellValue, neighbors) {
@@ -16,7 +15,7 @@ function BBRule(cellValue, newCellValue, neighbors) {
     return newCellValue;
 }
 
-function BBRuleNoZero(cellValue, newCellValue, neighbors) {
+export function BBRuleNoZero(cellValue, newCellValue, neighbors) {
     if (cellValue == 1 || cellValue == 3) {
         newCellValue = 2;
     } else if (cellValue == 2) {
@@ -40,63 +39,6 @@ export function updateCellValueTest(cellValue, newCellValue, neighbor_list) {
         newCellValue = (newCellValue + 10) % 20;
     } 
     return newCellValue;
-}
-
-// Meta update rule depending on a condition, for 2 color rules.
-export function updateCellValueSecondary2ValuesMeta(conditionFunc) {
-    function updateRule(cellValue, newCellValue, neighbor_list) {
-        var neighbors = neighbor_list[0];
-        //var sneighbors = neighbor_list[1];
-        //var dneighbors = neighbor_list[2];
-        newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbors);
-        //var secondaryCellValue = Math.floor(cellValue / 10);
-        if (conditionFunc(neighbors)) {
-            newCellValue = (newCellValue + 10) % 20;
-        } 
-        return newCellValue;
-    }
-
-    return updateRule
-}
-
-// Meta update rule depending on two conditions, for 3 color rules.
-export function updateCellValueSecondary3ValuesMeta(conditionFunc1, conditionFunc2) {
-    function updateRule(cellValue, newCellValue, neighbor_list) {
-        var neighbors = neighbor_list[0];
-        //var sneighbors = neighbor_list[1];
-        //var dneighbors = neighbor_list[2];
-        newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbors);
-        //var secondaryCellValue = Math.floor(cellValue / 10);
-        if (conditionFunc1(neighbors)) {
-            newCellValue = (newCellValue + 10) % 30;
-        } else if (conditionFunc2(neighbors)) {
-            newCellValue = (newCellValue + 20) % 30;
-        }
-        return newCellValue;
-    }
-
-    return updateRule
-}
-
-// Meta update rule depending on three conditions, for 4 color rules.
-export function updateCellValueSecondary4ValuesMeta(conditionFunc1, conditionFunc2, conditionFunc3) {
-    function updateRule(cellValue, newCellValue, neighbor_list) {
-        var neighbors = neighbor_list[0];
-        //var sneighbors = neighbor_list[1];
-        //var dneighbors = neighbor_list[2];
-        newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbors);
-        //var secondaryCellValue = Math.floor(cellValue / 10);
-        if (conditionFunc1(neighbors)) {
-            newCellValue = (newCellValue + 10) % 40;
-        } else if (conditionFunc2(neighbors)) {
-            newCellValue = (newCellValue + 20) % 40;
-        } else if (conditionFunc3(neighbors)) {
-            newCellValue = (newCellValue + 30) % 40;
-        }
-        return newCellValue;
-    }
-
-    return updateRule
 }
 
 // Secondary rules to color the grid
