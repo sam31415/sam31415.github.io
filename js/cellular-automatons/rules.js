@@ -317,3 +317,59 @@ export function updateCellValueConway(cellValue, newCellValue, neighbor_list) {
     } 
     return newCellValue;
 }
+
+export function updateCellValueStationary1(cellValue, newCellValue, neighbor_list) {
+    var neighbors = neighbor_list[0];
+    // if (cellValue == 3) {
+    //     newCellValue = 1;
+    // } else 
+    // Dead to inactive
+    if (cellValue == 2) {
+        newCellValue = 0;
+    } 
+    // Death by loneliness
+    //else if ((cellValue == 1 || cellValue == 3) && neighbors < 1) {
+    //    newCellValue = 2;
+    //} 
+    // Survival
+    else if ((cellValue == 1 || cellValue == 3) && (neighbors == 1)) {
+        newCellValue = 1;
+    }
+    // Death by overcrowdedness
+    else if ((cellValue == 1 || cellValue == 3) && neighbors > 3) {
+        newCellValue = 2;
+    } 
+    // Birth
+    else if ((cellValue == 0 || cellValue == 2) && neighbors == 4) {
+        newCellValue = 1;
+    }
+    return newCellValue;
+}
+
+export function updateCellValueStationary2(cellValue, newCellValue, neighbor_list) {
+    var neighbors = neighbor_list[0];
+    // if (cellValue == 3) {
+    //     newCellValue = 1;
+    // } else 
+    // Dead to inactive
+    if (cellValue == 2) {
+        newCellValue = 0;
+    } 
+    // Death by loneliness
+    //else if ((cellValue == 1 || cellValue == 3) && neighbors < 1) {
+    //    newCellValue = 2;
+    //} 
+    // Survival
+    else if ((cellValue == 1 || cellValue == 3) && (neighbors == 2)) {
+        newCellValue = 1;
+    }
+    // Death by overcrowdedness
+    else if ((cellValue == 1 || cellValue == 3) && neighbors > 4) {
+        newCellValue = 2;
+    } 
+    // Birth
+    else if ((cellValue == 0 || cellValue == 2) && neighbors == 4) {
+        newCellValue = 1;
+    }
+    return newCellValue;
+}

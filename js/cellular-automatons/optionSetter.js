@@ -1,6 +1,7 @@
 import { updateCellValueTest, updateCellValueConway, updateCellValueBB, updateCellValueBBMod, updateCellValueBBTrace, updateCellValueBBTrace2, 
     updateCellValueBBTrace3, updateCellValueBBTrace4, updateCellValueBBTrace5, updateCellValueBBTrace6, updateCellValueBBTrace7,
-    updateCellValueBBTrace8, updateCellValueBBTrace9, updateCellValueBBTrace10, updateCellValueSecondary1, updateCellValueSecondary2} from './rules.js';
+    updateCellValueBBTrace8, updateCellValueBBTrace9, updateCellValueBBTrace10, updateCellValueSecondary1, updateCellValueSecondary2,
+    updateCellValueStationary1, updateCellValueStationary2 } from './rules.js';
 import { findNeighbourFlipY } from './neighbours.js';
 import { findNeighbourNoFlip } from './neighbours.js';
 import { findNeighbourFlipX } from './neighbours.js';
@@ -79,6 +80,10 @@ export function setCellUpdateRule(globalData){
         changeRule3Colors(globalData, true);
     } else if (globalData.rule == "Variable4Colors") {
         changeRule4Colors(globalData, true);
+    } else if (globalData.rule == "Stationary1") {
+        globalData.updateCellValue = updateCellValueStationary1;
+    } else if (globalData.rule == "Stationary2") {
+        globalData.updateCellValue = updateCellValueStationary2;
     } else if (globalData.rule == "TestSecondary") {
         globalData.updateCellValue = updateCellValueTest;
     }
