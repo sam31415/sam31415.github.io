@@ -1,9 +1,8 @@
-import { gameLoop } from '../../../js/cellular-automatons/gameFunctions.js';
+import { gameLoop, drawBackground } from '../../../js/cellular-automatons/gameFunctions.js';
 import { initializeGrid } from "../../../js/cellular-automatons/initialisation.js";
 import { addRuleListener, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener } from './eventHandlers.js';
 import { retrieveGlobalData } from './formHandlers.js';
 import { determineColorPalette, setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/optionSetter.js';
-
 
 export function onLoad(globalData, canvas) {
     addRandomnessCheckboxListener(globalData);
@@ -21,6 +20,7 @@ export function onLoad(globalData, canvas) {
     determineColorPalette(globalData);
     setFindNeighbour(globalData);
     setCellUpdateRule(globalData);
+    drawBackground(globalData);
 
     initializeGrid(globalData).then(() =>{
         gameLoop(globalData);
