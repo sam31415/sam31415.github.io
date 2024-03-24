@@ -19,6 +19,7 @@ var valuesBigger = [0, 1, 2, 3];
 var ruleConditionsBigger = valuesBigger.map(value => conditionNeighborBigger(value));
 var ruleConditions = ruleConditionsEq.concat(ruleConditionsBigger);
 
+// To try to avoid rules with less colors, but in the end not used.
 function testConditionCompatibility(conditionIndex1, conditionIndex2) {
     if (conditionIndex1 == conditionIndex2){
         return false;
@@ -92,10 +93,8 @@ export function changeRule3Colors(globalData, forceChange = false) {
         var randomNeighborType1 = Math.floor(Math.random() * 3);
         var randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
         var randomNeighborType2 = Math.floor(Math.random() * 3);
-        while (!testConditionCompatibility(randomIndex1, randomNeighborType1, randomIndex2, randomNeighborType2)) {
-            randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
-            randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
-        }
+        randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
+        randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
         var ruleCondition1 = ruleConditions[randomIndex1];
         var ruleCondition2 = ruleConditions[randomIndex2];
         var randomRule = updateCellValueSecondary3ValuesMeta(ruleCondition1, randomNeighborType1, ruleCondition2, randomNeighborType2);
@@ -104,20 +103,16 @@ export function changeRule3Colors(globalData, forceChange = false) {
     }
 }
 export function changeRule4Colors(globalData, forceChange = false) {
-    if (Math.random() < 0.0002 || forceChange) {
+    if (Math.random() < 0.001 || forceChange) {
         var randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
         var randomNeighborType1 = Math.floor(Math.random() * 3);
         var randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
         var randomNeighborType2 = Math.floor(Math.random() * 3);
         var randomIndex3 = Math.floor(Math.random() * ruleConditions.length);
         var randomNeighborType3 = Math.floor(Math.random() * 3);
-        while (!testConditionCompatibility(randomIndex1, randomIndex2) ||
-            !testConditionCompatibility(randomIndex2, randomIndex3) ||
-            !testConditionCompatibility(randomIndex1, randomIndex3)) {
-            randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
-            randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
-            randomIndex3 = Math.floor(Math.random() * ruleConditions.length);
-        }
+        randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
+        randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
+        randomIndex3 = Math.floor(Math.random() * ruleConditions.length);
         var ruleCondition1 = ruleConditions[randomIndex1];
         var ruleCondition2 = ruleConditions[randomIndex2];
         var ruleCondition3 = ruleConditions[randomIndex3];
