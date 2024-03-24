@@ -103,7 +103,7 @@ export function changeRule3Colors(globalData, forceChange = false) {
     }
 }
 export function changeRule4Colors(globalData, forceChange = false) {
-    if (Math.random() < 0.001 || forceChange) {
+    if (Math.random() < 0.0002 || forceChange) {
         var randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
         var randomNeighborType1 = Math.floor(Math.random() * 3);
         var randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
