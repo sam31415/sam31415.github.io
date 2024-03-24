@@ -90,10 +90,13 @@ export function setCellUpdateRule(globalData){
 }
 
 export function determineColorPalette(globalData){
-    var yellow = 'rgb(247, 255, 28)' // 'rgb(128, 30, 10)' // 'rgb(7, 56, 128)' // 
-    var blue = 'rgb(13, 112, 255)'
-    var grey = 'rgb(240, 239, 239)'
-    var black = 'rgb(0, 0, 0)'
+    var yellow = 'rgb(247, 255, 28)'; // 'rgb(128, 30, 10)' // 'rgb(7, 56, 128)' // 
+    var blue = 'rgb(13, 112, 255)';
+    var grey = 'rgb(240, 239, 239)';
+    var black = 'rgb(0, 0, 0)';
+    var darkGrey = 'rgb(75, 75, 75)';
+    var mediumGrey = 'rgb(175, 175, 175)';
+    var whitish = 'rgb(240, 240, 240)';
 
     if (globalData.colorPalette == 'yellow') {
         globalData.backgroundColor = yellow;
@@ -150,8 +153,8 @@ export function determineColorPalette(globalData){
         globalData.superActivatedColor = grey;
     } else if (globalData.colorPalette == 'variable') {
         globalData.backgroundColor = black;
-        globalData.activatedColor = blue;
-        globalData.deadColor = yellow;
-        globalData.superActivatedColor = grey;
+        globalData.activatedColor = mediumGrey;
+        globalData.deadColor = darkGrey;
+        globalData.superActivatedColor = whitish;
     }
 }
