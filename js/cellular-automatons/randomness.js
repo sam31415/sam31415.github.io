@@ -1,3 +1,31 @@
+let unnormMaskProb = {
+    shortStar0: {prob: 4, mask: [[1, 0], [0, 1]]},
+    shortStar1: {prob: 4, mask: [[0, 1], [1, 0]]},
+    shortStar2: {prob: 4, mask: [[1, 0], [0, 1]]},
+    waveSquare: {prob: 0.5, mask: [[1, 1], [1, 1]]},
+    waveHorizontal: {prob: 0.25, mask: [[0, 0], [1, 1]]},
+    waveVertical: {prob: 0.25, mask: [[0, 1], [0, 1]]},
+    star: {prob: 4, mask: [[1, 0, 1], [0, 0, 0], [1, 0, 1]]},
+    spaceshipE: {prob: 2, mask: [[1, 1], [2, 2]]},
+    spaceshipN: {prob: 2, mask: [[1, 2], [1, 2]]},
+    spaceshipW: {prob: 2, mask: [[2, 2], [1, 1]]},
+    spaceshipS: {prob: 2, mask: [[2, 1], [2, 1]]},
+    oscillator: {prob: 4, mask: [[0, 0, 1, 0], [1, 2, 2, 0], [0, 2, 2, 1], [0, 1, 0, 0]]},
+    gliderSE: {prob: 2, mask: [[0, 0, 1, 2], [0, 2, 0, 0], [1, 2, 1, 0]]},
+    gliderNE: {prob: 2, mask: [[2, 1, 0, 0], [0, 0, 2, 0], [0, 1, 2, 1]]},
+    gliderSW: {prob: 2, mask: [[1, 2, 1, 0], [0, 2, 0, 0], [0, 0, 1, 2]]},
+    gliderNW: {prob: 2, mask: [[0, 1, 2, 1], [0, 0, 2, 0], [2, 1, 0, 0]]}
+};
+
+export let masks = Object.keys(unnormMaskProb).map(key => unnormMaskProb[key].mask);
+
+// Compute the sum of all unnormalized probabilities
+let totalUnnormProb = Object.values(unnormMaskProb).reduce((a, b) => a + b.prob, 0);
+
+// Compute the normalized probabilities
+export let maskProb = Object.keys(unnormMaskProb).map(key => unnormMaskProb[key].prob / totalUnnormProb);
+let cumulativeMaskProb = maskProb.reduce((a, v, i) => [...a, v + (a[i - 1] || 0)], []);
+
 // Function to sample from a Poisson distribution
 export function poissonSample(lambda) {
     var L = Math.exp(-lambda);
@@ -20,9 +48,9 @@ export function addRandomEvents(globalData, i, j, newGrid, findNeighbour) {
         var j = Math.floor(Math.random() * globalData.gridWidth);
         // Randomly select the type of event
         var rnd = Math.random();
-        for (let k = 0; k < pop_masks.length; k++) {
-            if (rnd < prob[k]) {
-                applyMask(newGrid, globalData, pop_masks[k], i, j, findNeighbour);
+        for (let k = 0; k < masks.length; k++) {
+            if (rnd < cumulativeMaskProb[k]) {
+                applyMask(newGrid, globalData, masks[k], i, j, findNeighbour);
                 break;
             }
         }
@@ -47,16 +75,5 @@ export function applyMask(grid, globalData, mask, i, j, findNeighbour) {
     }
 }
 
-// Random seeds
-let pop1_mask = [[1, 1, 1], [1, 0, 1], [1, 1, 1]];
-let pop2_mask = [[1, 0, 1], [0, 1, 0], [1, 0, 1]];
-let pop3_mask = pop2_mask.map(row => row.map(val => 1 - val));
-//let pop4_mask = [[1, 1, 0], [1, 1, 0], [0, 0, 0]];
-let pop5_mask = [[0, 0, 0], [1, 1, 0], [0, 0, 0]];
-let pop6_mask = [[0, 1, 0], [0, 1, 0], [0, 0, 0]];
-let pop7_mask = [[1, 0, 1], [0, 0, 0], [1, 0, 1]];
 
-export let pop_masks = [pop1_mask, pop2_mask, pop3_mask, pop5_mask, pop6_mask, pop7_mask];
-
-export let prob = [0.3, 0.6, 0.9, 0.925, 0.95, 1];
 
