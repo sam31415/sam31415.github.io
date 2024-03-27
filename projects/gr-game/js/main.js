@@ -22,6 +22,7 @@ let globalData = {
     secondary: false,
     updateCellValue: null,
     findNeighbour: null,
+    serverMode: true,
 };
 
 // Compute cellSize based on gridWidth
