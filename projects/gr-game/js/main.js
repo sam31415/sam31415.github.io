@@ -5,13 +5,13 @@ console.log("Loading main.js")
 var canvas = document.getElementById('gameCanvas');
 
 let globalData = {
-    gridHeight: 100,
-    gridWidth: 100,
-    timeout: 50,
+    gridHeight: 200,
+    gridWidth: 200,
+    timeout: 20,
     grid: null,
     cellSize: null,  // We'll compute this later
     addRandomness: true,
-    randomnessAmount: -5.0,
+    randomnessAmount: -6.5,
     gridPeriodicityShiftX: 0,
     gridPeriodicityShiftY: 0,
     gridFlipX: false,
