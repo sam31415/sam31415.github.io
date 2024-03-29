@@ -11,10 +11,10 @@ let unnormMaskProb = {
     spaceshipW: {prob: 2, mask: [[2, 2], [1, 1]]},
     spaceshipS: {prob: 2, mask: [[2, 1], [2, 1]]},
     oscillator: {prob: 4, mask: [[0, 0, 1, 0], [1, 2, 2, 0], [0, 2, 2, 1], [0, 1, 0, 0]]},
-    gliderSE: {prob: 2, mask: [[0, 0, 1, 2], [0, 2, 0, 0], [1, 2, 1, 0]]},
-    gliderNE: {prob: 2, mask: [[2, 1, 0, 0], [0, 0, 2, 0], [0, 1, 2, 1]]},
-    gliderSW: {prob: 2, mask: [[1, 2, 1, 0], [0, 2, 0, 0], [0, 0, 1, 2]]},
-    gliderNW: {prob: 2, mask: [[0, 1, 2, 1], [0, 0, 2, 0], [2, 1, 0, 0]]}
+    gliderSE: {prob: 1, mask: [[0, 0, 1, 2], [0, 2, 0, 0], [1, 2, 1, 0]]},
+    gliderNE: {prob: 1, mask: [[2, 1, 0, 0], [0, 0, 2, 0], [0, 1, 2, 1]]},
+    gliderSW: {prob: 1, mask: [[1, 2, 1, 0], [0, 2, 0, 0], [0, 0, 1, 2]]},
+    gliderNW: {prob: 1, mask: [[0, 1, 2, 1], [0, 0, 2, 0], [2, 1, 0, 0]]}
 };
 
 export let masks = Object.keys(unnormMaskProb).map(key => unnormMaskProb[key].mask);
