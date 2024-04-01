@@ -301,20 +301,18 @@ export function updateCellValueBBMod(cellValue, newCellValue, neighbor_list) {
 }
 
 export function updateCellValueConway(cellValue, newCellValue, neighbor_list) {
-    var neighbors = neighbor_list[0];
-    if (cellValue == 3) {
+    var sneighbors = neighbor_list[1];
+    if ((cellValue == 1 || cellValue == 3) && sneighbors < 2) {
+        newCellValue = 2;
+    } else if ((cellValue == 1 || cellValue == 3) && (sneighbors == 2 || sneighbors == 3)) {
         newCellValue = 1;
+    } else if ((cellValue == 1 || cellValue == 3) && sneighbors > 5) {
+        newCellValue = 2;
+    } else if ((cellValue == 0 || cellValue == 2) && sneighbors == 3) {
+        newCellValue = 3;
     } else if (cellValue == 2) {
         newCellValue = 0;
-    } else if ((cellValue == 1 || cellValue == 3) && neighbors < 2) {
-        newCellValue = 2;
-    } else if ((cellValue == 1 || cellValue == 3) && (neighbors == 2 || neighbors == 3)) {
-        newCellValue = 1;
-    } else if ((cellValue == 1 || cellValue == 3) && neighbors > 3) {
-        newCellValue = 2;
-    } else if ((cellValue == 0 || cellValue == 2) && neighbors == 3) {
-        newCellValue = 3;
-    } 
+    }
     return newCellValue;
 }
 
