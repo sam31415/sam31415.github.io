@@ -122,13 +122,17 @@ export function addRuleListener(globalData) {
         }
         globalData.secondary = globalData.rule.includes("Secondary") || globalData.rule.includes("Variable")
         setCellUpdateRule(globalData);
-        if (globalData.rule == "Variable2Colors"){
-            changeRule2Colors(globalData, true);
-        } else if (globalData.rule == "Variable3Colors"){
-            changeRule3Colors(globalData, true);
-        } else if (globalData.rule == "Variable4Colors"){
-            changeRule4Colors(globalData, true);
-        }
+        setCellUpdateRule(globalData, true);
+        // if (globalData.rule == "Variable2Colors"){
+        //     changeRule2Colors(globalData, true);
+        // } else if (globalData.rule == "Variable3Colors"){
+        //     changeRule3Colors(globalData, true);
+        // } else if (globalData.rule == "Variable4Colors"){
+        //     changeRule4Colors(globalData, false, true);
+        // } else if (globalData.rule == "VariableGR"){
+        //     changeRule4Colors(globalData, true, true);
+        //     changeRule4Colors(globalData, false, true);
+        // }
     });
 }
 

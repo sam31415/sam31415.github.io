@@ -19,7 +19,8 @@ export function onLoad(globalData, canvas) {
     retrieveGlobalData(globalData, canvas);
     determineColorPalette(globalData);
     setFindNeighbour(globalData);
-    setCellUpdateRule(globalData);
+    setCellUpdateRule(globalData, false, true);
+    setCellUpdateRule(globalData, true, true);
     drawBackground(globalData);
 
     initializeGrid(globalData).then(() =>{

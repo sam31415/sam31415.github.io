@@ -1,7 +1,7 @@
 import { updateCellValueTest, updateCellValueConway, updateCellValueBB, updateCellValueBBMod, updateCellValueBBTrace, updateCellValueBBTrace2, 
     updateCellValueBBTrace3, updateCellValueBBTrace4, updateCellValueBBTrace5, updateCellValueBBTrace6, updateCellValueBBTrace7,
     updateCellValueBBTrace8, updateCellValueBBTrace9, updateCellValueBBTrace10, updateCellValueSecondary1, updateCellValueSecondary2,
-    updateCellValueStationary1, updateCellValueStationary2 } from './rules.js';
+    updateCellValueStationary1, updateCellValueStationary2, updateCellValueSecondary3 } from './rules.js';
 import { findNeighbourFlipY } from './neighbours.js';
 import { findNeighbourNoFlip } from './neighbours.js';
 import { findNeighbourFlipX } from './neighbours.js';
@@ -43,7 +43,7 @@ export function setFindNeighbour(globalData){
     }
 }
 
-export function setCellUpdateRule(globalData){
+export function setCellUpdateRule(globalData, auxiliary){
     if (globalData.rule == "Conway") {
         globalData.updateCellValue = updateCellValueConway;
     } else if (globalData.rule == "BB") {
@@ -74,12 +74,16 @@ export function setCellUpdateRule(globalData){
         globalData.updateCellValue = updateCellValueSecondary1;
     } else if (globalData.rule == "BBTraceSecondary2") {
         globalData.updateCellValue = updateCellValueSecondary2;
+    } else if (globalData.rule == "BBTraceSecondary3") {
+        globalData.updateCellValue = updateCellValueSecondary3;
     } else if (globalData.rule == "Variable2Colors") {
         changeRule2Colors(globalData, true);
     } else if (globalData.rule == "Variable3Colors") {
         changeRule3Colors(globalData, true);
     } else if (globalData.rule == "Variable4Colors") {
-        changeRule4Colors(globalData, true);
+        changeRule4Colors(globalData, false, true);
+    } else if (globalData.rule == "VariableGR") {
+        changeRule4Colors(globalData, auxiliary, true);
     } else if (globalData.rule == "Stationary1") {
         globalData.updateCellValue = updateCellValueStationary1;
     } else if (globalData.rule == "Stationary2") {
@@ -133,6 +137,12 @@ export function determineColorPalette(globalData){
         globalData.activatedColor = blue;
         globalData.deadColor = yellow;
         globalData.superActivatedColor = grey;
+    }
+    else if (globalData.colorPalette == 'black2') {
+        globalData.backgroundColor = black;
+        globalData.activatedColor = blue;
+        globalData.deadColor = grey;
+        globalData.superActivatedColor = yellow;
     }
     else if (globalData.colorPalette == 'blackTrace') {
         globalData.backgroundColor = black;

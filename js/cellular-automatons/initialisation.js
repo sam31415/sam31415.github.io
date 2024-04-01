@@ -57,22 +57,29 @@ function loadImage(src) {
 
 
 export function initializeGridRandom(globalData) {
-    globalData.grid = new Grid(globalData.gridWidth, globalData.gridHeight);
-    for (var i = 0; i < globalData.gridHeight; i++) {
-        for (var j = 0; j < globalData.gridWidth; j++) {
-            var rnd = Math.random();
-            globalData.grid.set(i, j, 0);
-            globalData.grid.set(i, j, rnd < 0.75 ? 1 : globalData.grid.get(i, j));
-            globalData.grid.set(i, j, rnd < 0.5 ? 2 : globalData.grid.get(i, j));
-            globalData.grid.set(i, j, rnd < 0.25 ? 3 : globalData.grid.get(i, j));
+    return Promise.resolve().then(() => {
+        globalData.grid = new Grid(globalData.gridWidth, globalData.gridHeight);
+        for (var i = 0; i < globalData.gridHeight; i++) {
+            for (var j = 0; j < globalData.gridWidth; j++) {
+                if (globalData.initialisation == "gr" && globalData.mask.get(i, j) === 1) {
+                    globalData.grid.set(i, j, 0);
+                    continue;
+                }
+                var rnd = Math.random();
+                globalData.grid.set(i, j, 0);
+                globalData.grid.set(i, j, rnd < 0.75 ? 1 : globalData.grid.get(i, j));
+                globalData.grid.set(i, j, rnd < 0.5 ? 2 : globalData.grid.get(i, j));
+                globalData.grid.set(i, j, rnd < 0.25 ? 3 : globalData.grid.get(i, j));
+            }
         }
-    }
+    });
 }
 
-export function initializeGridGR(globalData, image) {
+export function initializeMask(globalData, image) {
     console.log('Attempting to load image'); 
     return loadImage('grLogoLarge.png').then(image => {
         const grid = new Grid(globalData.gridWidth, globalData.gridHeight);
+        const mask = new Grid(globalData.gridWidth, globalData.gridHeight);
         const scaleX = image[0].length / globalData.gridWidth;
         const scaleY = image.length / globalData.gridHeight;
 
@@ -83,27 +90,22 @@ export function initializeGridGR(globalData, image) {
                 let imageY = Math.floor(y * scaleY);
                 // Initialize the grid cell based on the color of the corresponding pixel in the image
                 if (image[imageX][imageY] === 0) {  // Assuming 0 is black
-                    grid.set(y, x, 0);
+                    mask.set(y, x, 0);
                 } else {  // Assuming any other value is white
-                    var rnd = Math.random();
-                    grid.set(y, x, rnd < 0.75 ? 1 : 0);
-                    grid.set(y, x, rnd < 0.5 ? 2 : grid.get(y, x));
-                    grid.set(y, x, rnd < 0.25 ? 3 : grid.get(y, x));
+                    mask.set(y, x, 1);
                 }
             }
         }
-        globalData.grid = grid;
+        globalData.mask = mask;
     }).catch(error => {
-        console.log('Image loading failed, initializing grid randomly');
+        console.log('Image loading failed, not using a mask.');
         console.error('Error loading image:', error);        
-        initializeGridRandom(globalData);
+        globalData.mask = new Grid(globalData.gridWidth, globalData.gridHeight);
     });
 }
 
-export function initializeGrid(globalData, image) {
-    if (globalData.initialisation === 'gr') {
-        return initializeGridGR(globalData, image);
-    } else {
-        initializeGridRandom(globalData);
-    }
+export async function initializeGrid(globalData, image) {
+    await initializeMask(globalData, image);
+    return initializeGridRandom(globalData);
+    
 }

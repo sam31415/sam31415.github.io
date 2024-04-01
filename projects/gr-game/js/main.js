@@ -11,17 +11,19 @@ let globalData = {
     grid: null,
     cellSize: null,  // We'll compute this later
     addRandomness: true,
-    randomnessAmount: -6.5,
+    randomnessAmount: -6.0,
     gridPeriodicityShiftX: 0,
     gridPeriodicityShiftY: 0,
     gridFlipX: false,
     gridFlipY: false,
-    colorPalette: 'blue',
-    rule: "BBMod",
-    initialisation: "gr",
-    secondary: false,
+    colorPalette: 'black2',
+    rule: "VariableGR",
+    initialisation: "random",
+    secondary: true,
     updateCellValue: null,
+    updateCellValueAuxiliary:null,
     findNeighbour: null,
+    mask: null,
 };
 
 // Compute cellSize based on gridWidth

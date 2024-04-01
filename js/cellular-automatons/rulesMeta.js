@@ -133,7 +133,7 @@ export function changeRule3Colors(globalData, forceChange = false) {
                     randomIndex2 + "-" + randomNeighborType2 + "-" + randomEnableInactiveOnly2 + ")");
     }
 }
-export function changeRule4Colors(globalData, forceChange = false) {
+export function changeRule4Colors(globalData, auxiliary = false, forceChange = false) {
     if (Math.random() < 0.0002 || forceChange) {
         var randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
         var randomNeighborType1 = Math.floor(Math.random() * 3);
@@ -154,8 +154,14 @@ export function changeRule4Colors(globalData, forceChange = false) {
             ruleCondition1, randomNeighborType1, randomEnableInactiveOnly1,
             ruleCondition2, randomNeighborType2, randomEnableInactiveOnly2,
             ruleCondition3, randomNeighborType3, randomEnableInactiveOnly3);
-        globalData.updateCellValue = randomRule;
-        console.log("Rule changed to rule (" + 
+        var ruleName = "Rule";
+        if (auxiliary) {
+            globalData.updateCellValueAuxiliary = randomRule;
+            ruleName = "Auxiliary rule";
+        } else{
+            globalData.updateCellValue = randomRule;
+        }
+        console.log(ruleName + "changed to rule (" + 
                     randomIndex1 + "-" + randomNeighborType1 + "-" + randomEnableInactiveOnly1 + ", " + 
                     randomIndex2 + "-" + randomNeighborType2 + "-" + randomEnableInactiveOnly2 + ", " + 
                     randomIndex3 + "-" + randomNeighborType3 + "-" + randomEnableInactiveOnly3 + ")");

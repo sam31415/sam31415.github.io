@@ -11,11 +11,14 @@ export function gameLoop(globalData) {
     drawGrid(globalData);
     updateGrid(globalData);
     if (globalData.rule == "Variable2Colors") {
-        changeRule2Colors(globalData);
+        changeRule2Colors(globalData, false);
     } else if (globalData.rule == "Variable3Colors") {
-        changeRule3Colors(globalData);
+        changeRule3Colors(globalData, false);
     } else if (globalData.rule == "Variable4Colors") {
-        changeRule4Colors(globalData);
+        changeRule4Colors(globalData, false);
+    } else if (globalData.rule == "VariableGR") {
+        changeRule4Colors(globalData, false);
+        changeRule4Colors(globalData, true);
     }
     if (globalData.rule.includes("Variable")) {
         updatePeriodicityShiftAndTopology(globalData);
@@ -98,7 +101,11 @@ function updateGrid(globalData) {
             let cellValue = globalData.grid.get(i, j);
             var newCellValue = cellValue;
             var neighbor_list = [neighbors, sneighbors, dneighbors];
-            newCellValue = globalData.updateCellValue(cellValue, newCellValue, neighbor_list);
+            if (globalData.rule != "VariableGR" || globalData.mask.get(i, j) == 0) {
+                newCellValue = globalData.updateCellValue(cellValue, newCellValue, neighbor_list);
+            } else {
+                newCellValue = globalData.updateCellValueAuxiliary(cellValue, newCellValue, neighbor_list);
+            }
             if (globalData.secondary) {
   
                 if (Math.floor(newCellValue / 10)  != Math.floor(cellValue / 10)) {
