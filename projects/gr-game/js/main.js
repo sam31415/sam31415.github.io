@@ -9,6 +9,7 @@ let globalData = {
     gridWidth: 200,
     timeout: 20,
     grid: null,
+    redraw: null,
     cellSize: null,  // We'll compute this later
     addRandomness: true,
     randomnessAmount: -6.0,
@@ -19,7 +20,7 @@ let globalData = {
     colorPalette: 'black2',
     rule: "VariableGR",
     initialisation: "random",
-    secondary: true,
+    ruleOrder: 2,
     updateCellValue: null,
     updateCellValueAuxiliary:null,
     findNeighbour: null,
