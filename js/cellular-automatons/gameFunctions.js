@@ -47,13 +47,10 @@ function drawGrid(globalData) {
     // Only draw rectangles for the cells that are not zero
     for (var i = 0; i < globalData.gridHeight; i++) {
         for (var j = 0; j < globalData.gridWidth; j++) {
-            if (globalData.secondary) {
-                if (globalData.grid.get(i, j) < 100) {
-                    continue;
-                }
-                globalData.grid.set(i, j, globalData.grid.get(i, j) - 100);
+            if (globalData.redraw.get(i, j) == 0) {
+                continue;
             }
-            if (globalData.secondary) {
+            if (globalData.ruleOrder == 2) {
                 var value = Math.floor(globalData.grid.get(i, j) / 10)
             } else {
                 var value = globalData.grid.get(i, j) % 10;
@@ -106,13 +103,20 @@ function updateGrid(globalData) {
             } else {
                 newCellValue = globalData.updateCellValueAuxiliary(cellValue, newCellValue, neighbor_list);
             }
-            if (globalData.secondary) {
-  
+            if (globalData.ruleOrder == 1) {
+                if (newCellValue != cellValue) {
+                    globalData.redraw.set(i, j, 1);
+                } else {
+                    globalData.redraw.set(i, j, 0);
+                }
+            } else if (globalData.ruleOrder == 2) {
                 if (Math.floor(newCellValue / 10)  != Math.floor(cellValue / 10)) {
-                    // Add 100 to flag that the cell that will have to be redrawn
-                    newCellValue += 100;
+                    globalData.redraw.set(i, j, 1);
+                } else {
+                    globalData.redraw.set(i, j, 0);
                 }
             }
+            
             newGrid.set(i, j, newCellValue);
         }
     }
