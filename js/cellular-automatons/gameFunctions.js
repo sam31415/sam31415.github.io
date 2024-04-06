@@ -51,11 +51,11 @@ function drawGrid(globalData) {
                 continue;
             }
             if (globalData.ruleOrder == 2) {
-                var value = Math.floor(globalData.grid.get(i, j) / 10);
+                var value = Math.floor(globalData.grid.get(i, j) / 4);
             } else if (globalData.ruleOrder == 3) {
                 var value = Math.floor((globalData.grid.get(i, j)) / 16);
             } else {
-                var value = globalData.grid.get(i, j) % 10;
+                var value = globalData.grid.get(i, j) % 4;
             }
             if (value == 0) {
                 ctx.fillStyle = globalData.backgroundColor;
@@ -98,13 +98,13 @@ function updateGrid(globalData) {
                     } else if (globalData.grid.get(ni, nj) % 4 == 3) {
                         sneighbors += 1;
                     }
-                    if (Math.floor(globalData.grid.get(ni, nj) / 4) == 0) {
+                    if (Math.floor((globalData.grid.get(ni, nj) % 16) / 4) == 0) {
                         neighborsAux0 += 1;
-                    } else if (Math.floor(globalData.grid.get(ni, nj) / 4) == 1) {
+                    } else if (Math.floor((globalData.grid.get(ni, nj) % 16) / 4) == 1) {
                         neighborsAux1 += 1;
-                    } else if (Math.floor(globalData.grid.get(ni, nj) / 4) == 2) {
+                    } else if (Math.floor((globalData.grid.get(ni, nj) % 16) / 4) == 2) {
                         neighborsAux2 += 1;
-                    } else if (Math.floor(globalData.grid.get(ni, nj) / 4) == 3) {
+                    } else if (Math.floor((globalData.grid.get(ni, nj) % 16) / 4) == 3) {
                         neighborsAux3 += 1;
                     }
                 }
@@ -124,7 +124,7 @@ function updateGrid(globalData) {
                     globalData.redraw.set(i, j, 0);
                 }
             } else if (globalData.ruleOrder == 2) {
-                if (Math.floor(newCellValue / 10)  != Math.floor(cellValue / 10)) {
+                if (Math.floor(newCellValue / 4)  != Math.floor(cellValue / 4)) {
                     globalData.redraw.set(i, j, 1);
                 } else {
                     globalData.redraw.set(i, j, 0);

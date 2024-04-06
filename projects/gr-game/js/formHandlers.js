@@ -59,6 +59,8 @@ export function retrieveGlobalData(globalData, canvas) {
         globalData.ruleOrder = 1;
         if (globalData.rule.includes("Secondary") || globalData.rule.includes("Variable")){
             globalData.ruleOrder = 2;
+        } else if (globalData.rule.includes("Tertiary")){
+            globalData.ruleOrder = 3;
         }
 
         console.log('Retrieved value from previous session: ...');
