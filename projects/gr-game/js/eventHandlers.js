@@ -114,10 +114,13 @@ export function addTimeoutListener(globalData) {
 export function addRuleListener(globalData) {
     document.getElementById('userRule').addEventListener('change', async function() {
         globalData.rule = this.value;
-        if (globalData.secondary != (globalData.rule.includes("Secondary") || globalData.rule.includes("Variable"))){
+        if ((globalData.ruleOrder == 2) ^ (globalData.rule.includes("Secondary") || globalData.rule.includes("Variable"))){
             await initializeGrid(globalData)
         }
-        globalData.secondary = globalData.rule.includes("Secondary") || globalData.rule.includes("Variable")
+        globalData.ruleOrder = 1;
+        if (globalData.rule.includes("Secondary") || globalData.rule.includes("Variable")){
+            globalData.ruleOrder = 2;
+        }
         setCellUpdateRule(globalData);
         setCellUpdateRule(globalData, true);
         // if (globalData.rule == "Variable2Colors"){
