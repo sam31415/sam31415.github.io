@@ -82,7 +82,7 @@ export function setCellUpdateRule(globalData, auxiliary){
         changeRule3Colors(globalData, true);
     } else if (globalData.rule == "Variable4Colors") {
         changeRule4Colors(globalData, false, true);
-    } else if (globalData.rule == "Tertiary4Colors") {
+    } else if (globalData.rule == "Tertiary4Colors" || globalData.rule == "TertiaryFancySpcshp") {
         changeTertiaryRule4Colors(globalData, false, true);
     } else if (globalData.rule == "VariableGR") {
         changeRule4Colors(globalData, auxiliary, true);

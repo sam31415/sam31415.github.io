@@ -14,7 +14,7 @@ export function gameLoop(globalData) {
         changeRule3Colors(globalData, false);
     } else if (globalData.rule == "Variable4Colors") {
         changeRule4Colors(globalData, false);
-    } else if (globalData.rule == "Tertiary4Colors") {
+    } else if (globalData.rule == "Tertiary4Colors" || globalData.rule == "TertiaryFancySpcshp") {
         changeTertiaryRule4Colors(globalData, false);
     } else if (globalData.rule == "VariableGR") {
         changeRule4Colors(globalData, false);

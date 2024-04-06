@@ -108,12 +108,16 @@ export function updateCellValueTertiary4ValuesMeta(
     conditionFunc3, neighbor_type3, enableInactiveOnly3,
     conditionFunc4, neighbor_type4, enableInactiveOnly4, 
     conditionFunc5, neighbor_type5, enableInactiveOnly5, 
-    conditionFunc6, neighbor_type6, enableInactiveOnly6) {
+    conditionFunc6, neighbor_type6, enableInactiveOnly6, flavour = 0) {
     function updateRule(cellValue, newCellValue, neighbor_list) {
         newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
-        //newCellValue += 4 * BBRuleNoZero(Math.floor(newCellValue / 4) % 4, newCellValue, neighbor_list[3]);
-        //newCellValue = newCellValue % 4 + 16 * Math.floor(newCellValue / 16)
-        newCellValue = newCellValue % 16
+        if (flavour == 0) {
+            newCellValue = newCellValue % 16
+        }
+        if (flavour == 1) {
+            newCellValue = newCellValue % 4 + 16 * Math.floor(newCellValue / 16)
+        }
+        // newCellValue += 4 * BBRuleNoZero(Math.floor(newCellValue / 4) % 4, newCellValue, neighbor_list[3]);
 
         if (conditionFunc1(neighbor_list[neighbor_type1]) && conditionInactive(enableInactiveOnly1)(cellValue)) {
             newCellValue = (newCellValue + 4) % 16;
@@ -245,13 +249,19 @@ export function changeTertiaryRule4Colors(globalData, auxiliary = false, forceCh
         var ruleCondition5 = ruleConditions[randomIndex5];
         var ruleCondition6 = ruleConditions[randomIndex6];
 
+        var flavour = 0;
+        if (globalData.rule == "TertiaryFancySpcshp") {
+            flavour = 1;
+        }
+
         var randomRule = updateCellValueTertiary4ValuesMeta(
             ruleCondition1, randomNeighborType1, randomEnableInactiveOnly1,
             ruleCondition2, randomNeighborType2, randomEnableInactiveOnly2,
             ruleCondition3, randomNeighborType3, randomEnableInactiveOnly3,
             ruleCondition4, randomNeighborType4, randomEnableInactiveOnly4,
             ruleCondition5, randomNeighborType5, randomEnableInactiveOnly5,
-            ruleCondition6, randomNeighborType6, randomEnableInactiveOnly6);
+            ruleCondition6, randomNeighborType6, randomEnableInactiveOnly6,
+            flavour=flavour);
 
         var ruleName = "Rule";
         if (auxiliary) {
