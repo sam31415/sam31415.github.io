@@ -120,6 +120,8 @@ export function addRuleListener(globalData) {
         globalData.ruleOrder = 1;
         if (globalData.rule.includes("Secondary") || globalData.rule.includes("Variable")){
             globalData.ruleOrder = 2;
+        } else if (globalData.rule.includes("Tertiary")){
+            globalData.ruleOrder = 3;
         }
         setCellUpdateRule(globalData);
         setCellUpdateRule(globalData, true);

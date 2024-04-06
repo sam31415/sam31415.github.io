@@ -33,10 +33,10 @@ export function updateCellValueTest(cellValue, newCellValue, neighbor_list) {
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbors);
-    var secondaryCellValue = Math.floor(cellValue / 10);
+    newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbors);
+    var secondaryCellValue = Math.floor(cellValue / 4);
     if (neighbors > 1) {
-        newCellValue = (newCellValue + 10) % 20;
+        newCellValue = (newCellValue + 4) % 8;
     } 
     return newCellValue;
 }
@@ -46,14 +46,14 @@ export function updateCellValueSecondary3(cellValue, newCellValue, neighbor_list
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbors);
-    var secondaryCellValue = Math.floor(cellValue / 10);
+    newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbors);
+    var secondaryCellValue = Math.floor(cellValue / 4);
     if (neighbors > 3) {
-        newCellValue = (newCellValue + 10) % 40;
+        newCellValue = (newCellValue + 4) % 16;
     } else if (neighbors == 3) {
-        newCellValue = (newCellValue + 30) % 40;
+        newCellValue = (newCellValue + 12) % 16;
     } else if (neighbors == 2) {
-        newCellValue = (newCellValue + 20) % 40;
+        newCellValue = (newCellValue + 8) % 16;
     }
     return newCellValue;
 }
@@ -64,14 +64,14 @@ export function updateCellValueSecondary2(cellValue, newCellValue, neighbor_list
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbors);
-    var secondaryCellValue = Math.floor(cellValue / 10);
+    newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbors);
+    var secondaryCellValue = Math.floor(cellValue / 4);
     if (secondaryCellValue == 0 && sneighbors > 3) {
-        newCellValue = (newCellValue + 10) % 40;
+        newCellValue = (newCellValue + 4) % 16;
     } else if (secondaryCellValue == 0 && neighbors == 3) {
-        newCellValue = (newCellValue + 30) % 40;
+        newCellValue = (newCellValue + 12) % 16;
     } else if (secondaryCellValue == 0 && neighbors == 2) {
-        newCellValue = (newCellValue + 20) % 40;
+        newCellValue = (newCellValue + 8) % 16;
     }
     return newCellValue;
 }
@@ -81,14 +81,14 @@ export function updateCellValueSecondary1(cellValue, newCellValue, neighbor_list
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbors);
-    var secondaryCellValue = Math.floor(cellValue / 10);
+    newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbors);
+    var secondaryCellValue = Math.floor(cellValue / 4);
     if (secondaryCellValue == 0 && sneighbors < 1) {
-        newCellValue = (newCellValue + 10) % 40;
+        newCellValue = (newCellValue + 4) % 16;
     } else if (secondaryCellValue == 0 && neighbors == 3) {
-        newCellValue = (newCellValue + 30) % 40;
+        newCellValue = (newCellValue + 12) % 16;
     } else if (secondaryCellValue == 0 && neighbors == 2) {
-        newCellValue = (newCellValue + 20) % 40;
+        newCellValue = (newCellValue + 8) % 16;
     }
     return newCellValue;
 }

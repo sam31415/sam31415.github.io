@@ -18,7 +18,7 @@ function conditionInactive(variation) {
         return cellValue == 0;
     }
     function conditionInactiveAbsFunction(cellValue) {
-        return cellValue % 10 == 0;
+        return cellValue % 4 == 0;
     }
     function noCondition(cellValue) {
         return true;
@@ -56,9 +56,9 @@ function testConditionCompatibility(conditionIndex1, conditionIndex2) {
 
 export function updateCellValueSecondary2ValuesMeta(conditionFunc, neighbor_type, enableInactiveOnly) {
     function updateRule(cellValue, newCellValue, neighbor_list) {
-        newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbor_list[0]);
+        newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
         if (conditionFunc(neighbor_list[neighbor_type]) && conditionInactive(enableInactiveOnly)(cellValue)) {
-            newCellValue = (newCellValue + 10) % 20;
+            newCellValue = (newCellValue + 4) % 8;
         }
         return newCellValue;
     }
@@ -70,11 +70,11 @@ export function updateCellValueSecondary3ValuesMeta(
     conditionFunc1, neighbor_type1, enableInactiveOnly1,
     conditionFunc2, neighbor_type2, enableInactiveOnly2) {
     function updateRule(cellValue, newCellValue, neighbor_list) {
-        newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbor_list[0]);
+        newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
         if (conditionFunc1(neighbor_list[neighbor_type1]) && conditionInactive(enableInactiveOnly1)(cellValue)) {
-            newCellValue = (newCellValue + 10) % 30;
+            newCellValue = (newCellValue + 4) % 12;
         } else if (conditionFunc2(neighbor_list[neighbor_type2]) && conditionInactive(enableInactiveOnly2)(cellValue)) {
-            newCellValue = (newCellValue + 20) % 30;
+            newCellValue = (newCellValue + 8) % 12;
         }
         return newCellValue;
     }
@@ -88,19 +88,60 @@ export function updateCellValueSecondary4ValuesMeta(
     conditionFunc2, neighbor_type2, enableInactiveOnly2, 
     conditionFunc3, neighbor_type3, enableInactiveOnly3) {
     function updateRule(cellValue, newCellValue, neighbor_list) {
-        newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbor_list[0]);
+        newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
         if (conditionFunc1(neighbor_list[neighbor_type1]) && conditionInactive(enableInactiveOnly1)(cellValue)) {
-            newCellValue = (newCellValue + 10) % 40;
+            newCellValue = (newCellValue + 4) % 16;
         } else if (conditionFunc2(neighbor_list[neighbor_type2]) && conditionInactive(enableInactiveOnly2)(cellValue)) {
-            newCellValue = (newCellValue + 20) % 40;
+            newCellValue = (newCellValue + 8) % 16;
         } else if (conditionFunc3(neighbor_list[neighbor_type3]) && conditionInactive(enableInactiveOnly3)(cellValue)) {
-            newCellValue = (newCellValue + 30) % 40;
+            newCellValue = (newCellValue + 12) % 16;
         }
         return newCellValue;
     }
 
     return updateRule;
 }
+
+export function updateCellValueTertiary4ValuesMeta(
+    conditionFunc1, neighbor_type1, enableInactiveOnly1, 
+    conditionFunc2, neighbor_type2, enableInactiveOnly2, 
+    conditionFunc3, neighbor_type3, enableInactiveOnly3,
+    conditionFunc4, neighbor_type4, enableInactiveOnly4, 
+    conditionFunc5, neighbor_type5, enableInactiveOnly5, 
+    conditionFunc6, neighbor_type6, enableInactiveOnly6) {
+    function updateRule(cellValue, newCellValue, neighbor_list) {
+        newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
+        //newCellValue += 4 * BBRuleNoZero(Math.floor(newCellValue / 4) % 4, newCellValue, neighbor_list[3]);
+        //newCellValue = newCellValue % 4 + 16 * Math.floor(newCellValue / 16)
+        newCellValue = newCellValue % 16
+
+        if (conditionFunc1(neighbor_list[neighbor_type1]) && conditionInactive(enableInactiveOnly1)(cellValue)) {
+            newCellValue = (newCellValue + 4) % 16;
+        } else if (conditionFunc2(neighbor_list[neighbor_type2]) && conditionInactive(enableInactiveOnly2)(cellValue)) {
+            newCellValue = (newCellValue + 8) % 16;
+        } else if (conditionFunc3(neighbor_list[neighbor_type3]) && conditionInactive(enableInactiveOnly3)(cellValue)) {
+            newCellValue = (newCellValue + 12) % 16;
+        } 
+        newCellValue = newCellValue % 16;
+        if (conditionFunc4(neighbor_list[neighbor_type4]) 
+            //&& conditionInactive(enableInactiveOnly4)(cellValue)
+            ) {
+            newCellValue = (newCellValue + 16) % 64;
+        } else if (conditionFunc5(neighbor_list[neighbor_type5]) 
+            //&& conditionInactive(enableInactiveOnly5)(cellValue)
+            ) {
+            newCellValue = (newCellValue + 32) % 64;
+        } else if (conditionFunc6(neighbor_list[neighbor_type6]) 
+            //&& conditionInactive(enableInactiveOnly6)(cellValue)
+            ) {
+            newCellValue = (newCellValue + 48) % 64;
+        }
+        return newCellValue;
+    }
+
+    return updateRule;
+}
+
 export function changeRule2Colors(globalData, forceChange = false) {
     if (Math.random() < 0.0002 || forceChange) {
         var randomIndex = Math.floor(Math.random() * ruleConditions.length);
@@ -154,6 +195,7 @@ export function changeRule4Colors(globalData, auxiliary = false, forceChange = f
             ruleCondition1, randomNeighborType1, randomEnableInactiveOnly1,
             ruleCondition2, randomNeighborType2, randomEnableInactiveOnly2,
             ruleCondition3, randomNeighborType3, randomEnableInactiveOnly3);
+
         var ruleName = "Rule";
         if (auxiliary) {
             globalData.updateCellValueAuxiliary = randomRule;
@@ -165,6 +207,66 @@ export function changeRule4Colors(globalData, auxiliary = false, forceChange = f
                     randomIndex1 + "-" + randomNeighborType1 + "-" + randomEnableInactiveOnly1 + ", " + 
                     randomIndex2 + "-" + randomNeighborType2 + "-" + randomEnableInactiveOnly2 + ", " + 
                     randomIndex3 + "-" + randomNeighborType3 + "-" + randomEnableInactiveOnly3 + ")");
+    }
+}
+
+
+export function changeTertiaryRule4Colors(globalData, auxiliary = false, forceChange = false) {
+    if (Math.random() < 0.0002 || forceChange) {
+        var randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
+        var randomNeighborType1 = Math.floor(Math.random() * 3);
+        var randomEnableInactiveOnly1 = Math.floor(Math.random() * 3);
+        var randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
+        var randomNeighborType2 = Math.floor(Math.random() * 3);
+        var randomEnableInactiveOnly2 = Math.floor(Math.random() * 3);
+        var randomIndex3 = Math.floor(Math.random() * ruleConditions.length);
+        var randomNeighborType3 = Math.floor(Math.random() * 3);
+        var randomEnableInactiveOnly3 = Math.floor(Math.random() * 3);
+        randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
+        randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
+        randomIndex3 = Math.floor(Math.random() * ruleConditions.length);
+        var ruleCondition1 = ruleConditions[randomIndex1];
+        var ruleCondition2 = ruleConditions[randomIndex2];
+        var ruleCondition3 = ruleConditions[randomIndex3];
+
+        var randomIndex4 = Math.floor(Math.random() * ruleConditions.length);
+        var randomNeighborType4 = Math.floor(Math.random() * 4) + 3;
+        var randomEnableInactiveOnly4 = Math.floor(Math.random() * 3);
+        var randomIndex5 = Math.floor(Math.random() * ruleConditions.length);
+        var randomNeighborType5 = Math.floor(Math.random() * 4) + 3;
+        var randomEnableInactiveOnly5 = Math.floor(Math.random() * 3);
+        var randomIndex6 = Math.floor(Math.random() * ruleConditions.length);
+        var randomNeighborType6 = Math.floor(Math.random() * 4) + 3;
+        var randomEnableInactiveOnly6 = Math.floor(Math.random() * 3);
+        randomIndex4 = Math.floor(Math.random() * ruleConditions.length);
+        randomIndex5 = Math.floor(Math.random() * ruleConditions.length);
+        randomIndex6 = Math.floor(Math.random() * ruleConditions.length);
+        var ruleCondition4 = ruleConditions[randomIndex4];
+        var ruleCondition5 = ruleConditions[randomIndex5];
+        var ruleCondition6 = ruleConditions[randomIndex6];
+
+        var randomRule = updateCellValueTertiary4ValuesMeta(
+            ruleCondition1, randomNeighborType1, randomEnableInactiveOnly1,
+            ruleCondition2, randomNeighborType2, randomEnableInactiveOnly2,
+            ruleCondition3, randomNeighborType3, randomEnableInactiveOnly3,
+            ruleCondition4, randomNeighborType4, randomEnableInactiveOnly4,
+            ruleCondition5, randomNeighborType5, randomEnableInactiveOnly5,
+            ruleCondition6, randomNeighborType6, randomEnableInactiveOnly6);
+
+        var ruleName = "Rule";
+        if (auxiliary) {
+            globalData.updateCellValueAuxiliary = randomRule;
+            ruleName = "Auxiliary rule";
+        } else{
+            globalData.updateCellValue = randomRule;
+        }
+        console.log(ruleName + "changed to rule (" + 
+                    randomIndex1 + "-" + randomNeighborType1 + "-" + randomEnableInactiveOnly1 + ", " + 
+                    randomIndex2 + "-" + randomNeighborType2 + "-" + randomEnableInactiveOnly2 + ", " + 
+                    randomIndex3 + "-" + randomNeighborType3 + "-" + randomEnableInactiveOnly3 + ", " +
+                    randomIndex4 + "-" + randomNeighborType4 + "-" + randomEnableInactiveOnly4 + ", " + 
+                    randomIndex5 + "-" + randomNeighborType5 + "-" + randomEnableInactiveOnly5 + ", " + 
+                    randomIndex6 + "-" + randomNeighborType6 + "-" + randomEnableInactiveOnly6 + ")" );
     }
 }
 
