@@ -18,7 +18,7 @@ function conditionInactive(variation) {
         return cellValue == 0;
     }
     function conditionInactiveAbsFunction(cellValue) {
-        return cellValue % 10 == 0;
+        return cellValue % 4 == 0;
     }
     function noCondition(cellValue) {
         return true;
@@ -110,21 +110,28 @@ export function updateCellValueTertiary4ValuesMeta(
     conditionFunc5, neighbor_type5, enableInactiveOnly5, 
     conditionFunc6, neighbor_type6, enableInactiveOnly6) {
     function updateRule(cellValue, newCellValue, neighbor_list) {
-        newCellValue = BBRuleNoZero(cellValue % 10, newCellValue, neighbor_list[0]);
-        // if (conditionFunc1(neighbor_list[neighbor_type1]) && conditionInactive(enableInactiveOnly1)(cellValue)) {
-        //     newCellValue = (newCellValue + 10) % 40;
-        // } else if (conditionFunc2(neighbor_list[neighbor_type2]) && conditionInactive(enableInactiveOnly2)(cellValue)) {
-        //     newCellValue = (newCellValue + 20) % 40;
-        // } else if (conditionFunc3(neighbor_list[neighbor_type3]) && conditionInactive(enableInactiveOnly3)(cellValue)) {
-        //     newCellValue = (newCellValue + 30) % 40;
-        // }
-        // if (conditionFunc4(neighbor_list[neighbor_type4]) && conditionInactive(enableInactiveOnly4)(cellValue)) {
-        //     newCellValue = (newCellValue + 100) % 400;
-        // } else if (conditionFunc5(neighbor_list[neighbor_type5]) && conditionInactive(enableInactiveOnly5)(cellValue)) {
-        //     newCellValue = (newCellValue + 200) % 400;
-        // } else if (conditionFunc6(neighbor_list[neighbor_type6]) && conditionInactive(enableInactiveOnly6)(cellValue)) {
-        //     newCellValue = (newCellValue + 300) % 400;
-        // }
+        newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
+        newCellValue += 4 * BBRuleNoZero(Math.floor(newCellValue / 4) % 4, newCellValue, neighbor_list[3]);
+        if (conditionFunc1(neighbor_list[neighbor_type1]) && conditionInactive(enableInactiveOnly1)(cellValue)) {
+            newCellValue = (newCellValue + 4) % 16;
+        } else if (conditionFunc2(neighbor_list[neighbor_type2]) && conditionInactive(enableInactiveOnly2)(cellValue)) {
+            newCellValue = (newCellValue + 8) % 16;
+        } else if (conditionFunc3(neighbor_list[neighbor_type3]) && conditionInactive(enableInactiveOnly3)(cellValue)) {
+            newCellValue = (newCellValue + 12) % 16;
+        }
+        if (conditionFunc4(neighbor_list[neighbor_type4]) 
+            //&& conditionInactive(enableInactiveOnly4)(cellValue)
+            ) {
+            newCellValue = (newCellValue + 16) % 64;
+        } else if (conditionFunc5(neighbor_list[neighbor_type5]) 
+            //&& conditionInactive(enableInactiveOnly5)(cellValue)
+            ) {
+            newCellValue = (newCellValue + 32) % 64;
+        } else if (conditionFunc6(neighbor_list[neighbor_type6]) 
+            //&& conditionInactive(enableInactiveOnly6)(cellValue)
+            ) {
+            newCellValue = (newCellValue + 48) % 64;
+        }
         return newCellValue;
     }
 

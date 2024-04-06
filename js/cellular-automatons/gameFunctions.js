@@ -14,7 +14,7 @@ export function gameLoop(globalData) {
         changeRule3Colors(globalData, false);
     } else if (globalData.rule == "Variable4Colors") {
         changeRule4Colors(globalData, false);
-    } else if (globalData.rule == "VariableTertiary4Colors") {
+    } else if (globalData.rule == "Tertiary4Colors") {
         changeTertiaryRule4Colors(globalData, false);
     } else if (globalData.rule == "VariableGR") {
         changeRule4Colors(globalData, false);
@@ -47,16 +47,13 @@ function drawGrid(globalData) {
     // Only draw rectangles for the cells that are not zero
     for (var i = 0; i < globalData.gridHeight; i++) {
         for (var j = 0; j < globalData.gridWidth; j++) {
-            if (globalData.secondary) {
-                if (globalData.grid.get(i, j) < 100) {
-                    continue;
-                }
-                globalData.grid.set(i, j, globalData.grid.get(i, j) - 100);
+            if (globalData.redraw.get(i, j) == 0) {
+                continue;
             }
-            if (globalData.secondary) {
+            if (globalData.ruleOrder == 2) {
                 var value = Math.floor(globalData.grid.get(i, j) / 10);
-            } else if (globalData.rule == "VariableTertiary4Colors"){
-                var value = globalData.grid.get(i, j) % 10; //Math.floor(globalData.grid.get(i, j) / 100);
+            } else if (globalData.ruleOrder == 3) {
+                var value = Math.floor((globalData.grid.get(i, j)) / 16);
             } else {
                 var value = globalData.grid.get(i, j) % 10;
             }
@@ -93,21 +90,21 @@ function updateGrid(globalData) {
                     let neighbourCoord = globalData.findNeighbour(globalData, i, j, di, dj);
                     let ni = neighbourCoord[0];
                     let nj = neighbourCoord[1];
-                    if (globalData.grid.get(ni, nj) % 10 == 1) {
+                    if (globalData.grid.get(ni, nj) % 4 == 1) {
                         neighbors += 1;
                         sneighbors += 1;
-                    } else if (globalData.grid.get(ni, nj) % 10 == 2) {
+                    } else if (globalData.grid.get(ni, nj) % 4 == 2) {
                         dneighbors += 1;
-                    } else if (globalData.grid.get(ni, nj) % 10 == 3) {
+                    } else if (globalData.grid.get(ni, nj) % 4 == 3) {
                         sneighbors += 1;
                     }
-                    if (Math.floor(globalData.grid.get(ni, nj) / 10) == 0) {
+                    if (Math.floor(globalData.grid.get(ni, nj) / 4) == 0) {
                         neighborsAux0 += 1;
-                    } else if (Math.floor(globalData.grid.get(ni, nj) / 10) == 1) {
+                    } else if (Math.floor(globalData.grid.get(ni, nj) / 4) == 1) {
                         neighborsAux1 += 1;
-                    } else if (Math.floor(globalData.grid.get(ni, nj) / 10) == 2) {
+                    } else if (Math.floor(globalData.grid.get(ni, nj) / 4) == 2) {
                         neighborsAux2 += 1;
-                    } else if (Math.floor(globalData.grid.get(ni, nj) / 10) == 3) {
+                    } else if (Math.floor(globalData.grid.get(ni, nj) / 4) == 3) {
                         neighborsAux3 += 1;
                     }
                 }
@@ -120,11 +117,23 @@ function updateGrid(globalData) {
             } else {
                 newCellValue = globalData.updateCellValueAuxiliary(cellValue, newCellValue, neighbor_list);
             }
-            if (globalData.secondary) {
-  
+            if (globalData.ruleOrder == 1) {
+                if (newCellValue != cellValue) {
+                    globalData.redraw.set(i, j, 1);
+                } else {
+                    globalData.redraw.set(i, j, 0);
+                }
+            } else if (globalData.ruleOrder == 2) {
                 if (Math.floor(newCellValue / 10)  != Math.floor(cellValue / 10)) {
-                    // Add 100 to flag that the cell that will have to be redrawn
-                    newCellValue += 100;
+                    globalData.redraw.set(i, j, 1);
+                } else {
+                    globalData.redraw.set(i, j, 0);
+                }
+            } else if (globalData.ruleOrder == 3) {
+                if (Math.floor(newCellValue / 16)  != Math.floor(cellValue / 16)) {
+                    globalData.redraw.set(i, j, 1);
+                } else {
+                    globalData.redraw.set(i, j, 0);
                 }
             }
             newGrid.set(i, j, newCellValue);
