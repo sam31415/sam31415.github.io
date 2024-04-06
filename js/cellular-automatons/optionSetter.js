@@ -8,7 +8,7 @@ import { findNeighbourFlipX } from './neighbours.js';
 import { findNeighbourFlipXY } from './neighbours.js';
 import { changeRule4Colors } from './rulesMeta.js';
 import { changeRule3Colors } from './rulesMeta.js';
-import { changeRule2Colors } from './rulesMeta.js';
+import { changeRule2Colors, changeTertiaryRule4Colors } from './rulesMeta.js';
 
 export function updatePeriodicityShiftAndTopology(globalData){
     if (Math.random() < 0.0001) {
@@ -82,6 +82,8 @@ export function setCellUpdateRule(globalData, auxiliary){
         changeRule3Colors(globalData, true);
     } else if (globalData.rule == "Variable4Colors") {
         changeRule4Colors(globalData, false, true);
+    } else if (globalData.rule == "VariableTertiary4Colors") {
+        changeTertiaryRule4Colors(globalData, false, true);
     } else if (globalData.rule == "VariableGR") {
         changeRule4Colors(globalData, auxiliary, true);
     } else if (globalData.rule == "Stationary1") {

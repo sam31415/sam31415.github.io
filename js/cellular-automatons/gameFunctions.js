@@ -1,9 +1,7 @@
 
 import { Grid } from './initialisation.js';
 import { addRandomEvents } from './randomness.js';
-import { changeRule4Colors } from './rulesMeta.js';
-import { changeRule3Colors } from './rulesMeta.js';
-import { changeRule2Colors } from './rulesMeta.js';
+import { changeRule4Colors, changeRule3Colors, changeRule2Colors, changeTertiaryRule4Colors } from './rulesMeta.js';
 import { driftColorPalette } from './coloring.js';
 import { updatePeriodicityShiftAndTopology } from './optionSetter.js';
 
@@ -16,6 +14,8 @@ export function gameLoop(globalData) {
         changeRule3Colors(globalData, false);
     } else if (globalData.rule == "Variable4Colors") {
         changeRule4Colors(globalData, false);
+    } else if (globalData.rule == "VariableTertiary4Colors") {
+        changeTertiaryRule4Colors(globalData, false);
     } else if (globalData.rule == "VariableGR") {
         changeRule4Colors(globalData, false);
         changeRule4Colors(globalData, true);
@@ -54,7 +54,9 @@ function drawGrid(globalData) {
                 globalData.grid.set(i, j, globalData.grid.get(i, j) - 100);
             }
             if (globalData.secondary) {
-                var value = Math.floor(globalData.grid.get(i, j) / 10)
+                var value = Math.floor(globalData.grid.get(i, j) / 10);
+            } else if (globalData.rule == "VariableTertiary4Colors"){
+                var value = globalData.grid.get(i, j) % 10; //Math.floor(globalData.grid.get(i, j) / 100);
             } else {
                 var value = globalData.grid.get(i, j) % 10;
             }
@@ -81,6 +83,10 @@ function updateGrid(globalData) {
             var neighbors = 0;
             var sneighbors = 0;
             var dneighbors = 0;
+            var neighborsAux0 = 0;
+            var neighborsAux1 = 0;
+            var neighborsAux2 = 0;
+            var neighborsAux3 = 0;
             for (var di = -1; di <= 1; di++) {
                 for (var dj = -1; dj <= 1; dj++) {
                     if (di == 0 && dj == 0) continue;
@@ -92,15 +98,23 @@ function updateGrid(globalData) {
                         sneighbors += 1;
                     } else if (globalData.grid.get(ni, nj) % 10 == 2) {
                         dneighbors += 1;
-                    }
-                    else if (globalData.grid.get(ni, nj) % 10 == 3) {
+                    } else if (globalData.grid.get(ni, nj) % 10 == 3) {
                         sneighbors += 1;
+                    }
+                    if (Math.floor(globalData.grid.get(ni, nj) / 10) == 0) {
+                        neighborsAux0 += 1;
+                    } else if (Math.floor(globalData.grid.get(ni, nj) / 10) == 1) {
+                        neighborsAux1 += 1;
+                    } else if (Math.floor(globalData.grid.get(ni, nj) / 10) == 2) {
+                        neighborsAux2 += 1;
+                    } else if (Math.floor(globalData.grid.get(ni, nj) / 10) == 3) {
+                        neighborsAux3 += 1;
                     }
                 }
             }
             let cellValue = globalData.grid.get(i, j);
             var newCellValue = cellValue;
-            var neighbor_list = [neighbors, sneighbors, dneighbors];
+            var neighbor_list = [neighbors, sneighbors, dneighbors, neighborsAux0, neighborsAux1, neighborsAux2, neighborsAux3];
             if (globalData.rule != "VariableGR" || globalData.mask.get(i, j) == 0) {
                 newCellValue = globalData.updateCellValue(cellValue, newCellValue, neighbor_list);
             } else {
