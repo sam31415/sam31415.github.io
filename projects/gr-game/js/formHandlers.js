@@ -38,6 +38,7 @@ export function retrieveGlobalData(globalData, canvas) {
     if (localStorage.getItem('userGridSize') !== null) {
         globalData.gridHeight = parseInt(localStorage.getItem('userGridSize'));
         globalData.gridWidth = parseInt(localStorage.getItem('userGridSize'));
+        globalData.imageData = globalData.ctx.createImageData(globalData.gridWidth, globalData.gridHeight);
         if (globalData.gridHeight > 1000) {
             globalData.gridHeight = 1000;
         }
@@ -82,8 +83,8 @@ export function retrieveGlobalData(globalData, canvas) {
     document.getElementById('userRule').value = globalData.rule;
 
     // Adjust the canvas size
-    canvas.width = globalData.gridWidth * globalData.cellSize;
-    canvas.height = globalData.gridHeight * globalData.cellSize;
+    canvas.width = globalData.gridWidth;
+    canvas.height = globalData.gridHeight;
 }
 
 

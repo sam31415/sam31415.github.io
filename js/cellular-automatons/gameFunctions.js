@@ -31,18 +31,11 @@ export function gameLoop(globalData) {
     }, globalData.timeout);
 }
 
-export function drawBackground(globalData) {
-    let canvas = document.getElementById('gameCanvas');
-    var ctx = canvas.getContext('2d');
-
-    // Draw a single large rectangle with the background color
-    ctx.fillStyle = globalData.backgroundColor;
-    ctx.fillRect(0, 0, globalData.gridWidth * globalData.cellSize, globalData.gridHeight * globalData.cellSize);
-}
 
 function drawGrid(globalData) {
-    let canvas = document.getElementById('gameCanvas');
-    var ctx = canvas.getContext('2d');
+    let canvas = globalData.canvas; //document.getElementById('gameCanvas');
+    let ctx = globalData.ctx; //canvas.getContext('2d');
+    let imageData = globalData.imageData;
 
     // Only draw rectangles for the cells that are not zero
     for (var i = 0; i < globalData.gridHeight; i++) {
@@ -57,20 +50,26 @@ function drawGrid(globalData) {
             } else {
                 var value = globalData.grid.get(i, j) % 4;
             }
+            let color;
             if (value == 0) {
-                ctx.fillStyle = globalData.backgroundColor;
+                color = globalData.backgroundColor;
             } else if (value == 1) {
-                ctx.fillStyle = globalData.activatedColor;
+                color = globalData.activatedColor;
             } else if (value == 2) {
-                ctx.fillStyle = globalData.deadColor;
+                color = globalData.deadColor;
             } else if (value >= 3) {
-                ctx.fillStyle = globalData.superActivatedColor;
+                color = globalData.superActivatedColor;
             } else {
                 continue;
             }
-            ctx.fillRect(i * globalData.cellSize, j * globalData.cellSize, globalData.cellSize, globalData.cellSize);
+            let index = (j * canvas.width + i) * 4;
+            imageData.data[index + 0] = color.r;  // Red
+            imageData.data[index + 1] = color.g;  // Green
+            imageData.data[index + 2] = color.b;  // Blue
+            imageData.data[index + 3] = 255;  // Alpha (255 = fully opaque)
         }
     }
+    ctx.putImageData(imageData, 0, 0);
 }
 
 function updateGrid(globalData) {  

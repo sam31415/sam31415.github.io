@@ -6,13 +6,12 @@ export function driftColorPalette(globalData) {
 }
 
 export function driftColor(color) {
-    const rgbValues = color.match(/\d+/g);
-    const driftedValues = rgbValues.map(value => {
+    let driftedColor = {};
+    for (let channel in color) {
         let driftAmount = Math.floor(Math.random() * 3) - 1;  // Generate a new drift amount for each channel
-        let driftedValue = parseInt(value) + driftAmount;
+        let driftedValue = color[channel] + driftAmount;
         driftedValue = Math.max(0, Math.min(255, driftedValue)); // Ensure value is within 0-255 range
-        return driftedValue;
-    });
-
-    return `rgb(${driftedValues.join(', ')})`;
+        driftedColor[channel] = driftedValue;
+    }
+    return driftedColor;
 }

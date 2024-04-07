@@ -96,13 +96,13 @@ export function setCellUpdateRule(globalData, auxiliary){
 }
 
 export function determineColorPalette(globalData){
-    var yellow = 'rgb(247, 255, 28)'; // 'rgb(128, 30, 10)' // 'rgb(7, 56, 128)' // 
-    var blue = 'rgb(13, 112, 255)';
-    var grey = 'rgb(240, 239, 239)';
-    var black = 'rgb(0, 0, 0)';
-    var darkGrey = 'rgb(75, 75, 75)';
-    var mediumGrey = 'rgb(175, 175, 175)';
-    var whitish = 'rgb(240, 240, 240)';
+    var yellow = {r: 247, g: 255, b: 28};
+    var blue = {r: 13, g: 112, b: 255};
+    var grey = {r: 240, g: 239, b: 239};
+    var black = {r: 0, g: 0, b: 0};
+    var darkGrey = {r: 75, g: 75, b: 75};
+    var mediumGrey = {r: 175, g: 175, b: 175};
+    var whitish = {r: 240, g: 240, b: 240};
 
     if (globalData.colorPalette == 'yellow') {
         globalData.backgroundColor = yellow;
