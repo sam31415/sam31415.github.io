@@ -28,9 +28,14 @@ export function addMouseMoveListener(globalData, canvas) {
             var rect = canvas.getBoundingClientRect();
             var x = event.clientX - rect.left;
             var y = event.clientY - rect.top;
-
-            var i = Math.floor(x / globalData.cellSize);
-            var j = Math.floor(y / globalData.cellSize);
+    
+            // Calculate the size of each cell on the screen
+            var cellScreenSizeX = rect.width / globalData.gridWidth;
+            var cellScreenSizeY = rect.height / globalData.gridHeight;
+    
+            // Calculate the clicked cell
+            var i = Math.floor(x / cellScreenSizeX);
+            var j = Math.floor(y / cellScreenSizeY);
 
             globalData.grid.set(i, j, 1);
         }
@@ -43,8 +48,14 @@ export function addMouseDownListener(globalData, canvas) {
         var x = event.clientX - rect.left;
         var y = event.clientY - rect.top;
 
-        var i = Math.floor(x / globalData.cellSize);
-        var j = Math.floor(y / globalData.cellSize);
+        // Calculate the size of each cell on the screen
+        var cellScreenSizeX = rect.width / globalData.gridWidth;
+        var cellScreenSizeY = rect.height / globalData.gridHeight;
+
+        // Calculate the clicked cell
+        var i = Math.floor(x / cellScreenSizeX);
+        var j = Math.floor(y / cellScreenSizeY);
+        
         if (!event.shiftKey && !event.ctrlKey) {
             globalData.grid.set((i+1) % globalData.gridHeight, (j+1) % globalData.gridWidth, 1);
             globalData.grid.set((i-1+globalData.gridHeight) % globalData.gridHeight, (j+1) % globalData.gridWidth, 1);
