@@ -94,6 +94,7 @@ export function addPeriodicityListeners(globalData) {
             value = 0;
         }
         globalData.gridPeriodicityShiftX = value;
+        setFindNeighbour(globalData);
     });
     document.getElementById('userYShift').addEventListener('input', function() {
         let value = parseInt(this.value);
@@ -101,14 +102,17 @@ export function addPeriodicityListeners(globalData) {
             value = 0;
         }
         globalData.gridPeriodicityShiftY = value;
+        setFindNeighbour(globalData);
     });
     document.getElementById('userFlipX').addEventListener('change', function() {
         globalData.gridFlipX = this.checked;
+        setFindNeighbour(globalData);
     });
     document.getElementById('userFlipY').addEventListener('change', function() {
         globalData.gridFlipY = this.checked;
+        setFindNeighbour(globalData);
     });
-    setFindNeighbour(globalData);
+    
 
 }
 
