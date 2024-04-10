@@ -62,14 +62,14 @@ function drawGrid(globalData) {
             } else {
                 continue;
             }
-            let index = (j * canvas.width + i) * 4;
+            let index = (i * globalData.gridWidth + j) * 4;
             imageData.data[index + 0] = color.r;  // Red
             imageData.data[index + 1] = color.g;  // Green
             imageData.data[index + 2] = color.b;  // Blue
             imageData.data[index + 3] = 255;  // Alpha (255 = fully opaque)
         }
     }
-    ctx.putImageData(imageData, 0, 0);
+    ctx.putImageData(imageData, globalData.canvasCornerX, globalData.canvasCornerY);
 }
 
 function updateGrid(globalData) {  

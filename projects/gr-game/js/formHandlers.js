@@ -4,8 +4,8 @@ export function updateRandomnessValue(globalData, value) {
 }
 
 export function submitValue() {
-    var userGridHeight = document.getElementById('userGridSize').value;
-    var userGridWidth = document.getElementById('userGridSize').value;
+    var userGridHeight = document.getElementById('userGridHeight').value;
+    var userGridWidth = document.getElementById('userGridWidth').value;
     var userTimeout = document.getElementById('userTimeout').value;
     var userXShift = document.getElementById('userXShift').value;
     var userYShift = document.getElementById('userYShift').value;
@@ -17,7 +17,7 @@ export function submitValue() {
     var userRule = document.getElementById('userRule').value;
 
     // Store the value in localStorage so it can be retrieved after the page reloads
-    localStorage.setItem('userGridSize', userGridHeight);
+    //localStorage.setItem('userGridSize', userGridHeight);
     localStorage.setItem('userGridHeight', userGridHeight);
     localStorage.setItem('userGridWidth', userGridWidth);
     localStorage.setItem('userTimeout', userTimeout);
@@ -35,9 +35,9 @@ export function submitValue() {
 }
 
 export function retrieveGlobalData(globalData, canvas) {
-    if (localStorage.getItem('userGridSize') !== null) {
-        globalData.gridHeight = parseInt(localStorage.getItem('userGridSize'));
-        globalData.gridWidth = parseInt(localStorage.getItem('userGridSize'));
+    if (localStorage.getItem('userGridHeight') !== null) {
+        globalData.gridHeight = parseInt(localStorage.getItem('userGridHeight'));
+        globalData.gridWidth = parseInt(localStorage.getItem('userGridWidth'));
         globalData.imageData = globalData.ctx.createImageData(globalData.gridWidth, globalData.gridHeight);
         if (globalData.gridHeight > 1000) {
             globalData.gridHeight = 1000;
@@ -45,7 +45,7 @@ export function retrieveGlobalData(globalData, canvas) {
         if (globalData.gridWidth > 1000) {
             globalData.gridWidth = 1000;
         }
-        globalData.cellSize = canvas.width / globalData.gridWidth;
+        //globalData.cellSize = canvas.width / globalData.gridWidth;
         globalData.timeout = parseInt(localStorage.getItem('userTimeout'));
         globalData.gridPeriodicityShiftX = parseInt(localStorage.getItem('userXShift'));
         if (isNaN(globalData.gridPeriodicityShiftX)) globalData.gridPeriodicityShiftX = 0;
@@ -69,9 +69,9 @@ export function retrieveGlobalData(globalData, canvas) {
         console.log('No value in localStorage');
     }
     // Set the default values of the form inputs
-    document.getElementById('userGridSize').value = globalData.gridHeight;
-    //document.getElementById('userGridHeight').value = globalData.gridHeight;
-    //document.getElementById('userGridWidth').value = globalData.gridWidth;
+    // document.getElementById('userGridSize').value = globalData.gridHeight;
+    document.getElementById('userGridHeight').value = globalData.gridHeight;
+    document.getElementById('userGridWidth').value = globalData.gridWidth;
     document.getElementById('userTimeout').value = globalData.timeout;
     document.getElementById('userXShift').value = globalData.gridPeriodicityShiftX;
     document.getElementById('userYShift').value = globalData.gridPeriodicityShiftY;
@@ -83,8 +83,13 @@ export function retrieveGlobalData(globalData, canvas) {
     document.getElementById('userRule').value = globalData.rule;
 
     // Adjust the canvas size
-    canvas.width = globalData.gridWidth;
-    canvas.height = globalData.gridHeight;
+    canvas.width = Math.max(globalData.gridHeight, globalData.gridWidth);
+    canvas.height =  Math.max(globalData.gridHeight, globalData.gridWidth);
+    globalData.canvasCornerX = Math.floor((canvas.width - globalData.gridWidth) / 2);
+    globalData.canvasCornerY = Math.floor((canvas.height - globalData.gridHeight) / 2);
+
+
+
 }
 
 
