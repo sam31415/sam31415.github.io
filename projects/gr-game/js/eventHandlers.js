@@ -8,24 +8,24 @@ export function addRandomnessCheckboxListener(globalData) {
     });
 }
 
-export function addFullscreenButtonListener(canvas) {
+export function addFullscreenButtonListener(globalData) {
     document.getElementById('fullscreenButton').addEventListener('click', function() {
-        if (canvas.requestFullscreen) {
-            canvas.requestFullscreen();
-        } else if (canvas.mozRequestFullScreen) { // Firefox
-            canvas.mozRequestFullScreen();
-        } else if (canvas.webkitRequestFullscreen) { // Chrome, Safari and Opera
-            canvas.webkitRequestFullscreen();
-        } else if (canvas.msRequestFullscreen) { // IE/Edge
-            canvas.msRequestFullscreen();
+        if (globalData.canvas.requestFullscreen) {
+            globalData.canvas.requestFullscreen();
+        } else if (globalData.canvas.mozRequestFullScreen) { // Firefox
+            globalData.canvas.mozRequestFullScreen();
+        } else if (globalData.canvas.webkitRequestFullscreen) { // Chrome, Safari and Opera
+            globalData.canvas.webkitRequestFullscreen();
+        } else if (globalData.canvas.msRequestFullscreen) { // IE/Edge
+            globalData.canvas.msRequestFullscreen();
         }
     });
 }
 
-export function addMouseMoveListener(globalData, canvas) {
-    canvas.addEventListener('mousemove', function(event) {
+export function addMouseMoveListener(globalData) {
+    globalData.canvas.addEventListener('mousemove', function(event) {
         if (event.shiftKey){
-            var rect = canvas.getBoundingClientRect();
+            var rect = globalData.canvas.getBoundingClientRect();
             var x = event.clientX - rect.left;
             var y = event.clientY - rect.top;
     
@@ -37,14 +37,14 @@ export function addMouseMoveListener(globalData, canvas) {
             var i = Math.floor(x / cellScreenSizeX);
             var j = Math.floor(y / cellScreenSizeY);
 
-            globalData.grid.set(i, j, 1);
+            globalData.grid.set(j, i, 1);
         }
     });
 }
 
-export function addMouseDownListener(globalData, canvas) {
-    canvas.addEventListener('mousedown', function(event) {
-        var rect = canvas.getBoundingClientRect();
+export function addMouseDownListener(globalData) {
+    globalData.canvas.addEventListener('mousedown', function(event) {
+        var rect = globalData.canvas.getBoundingClientRect();
         var x = event.clientX - rect.left;
         var y = event.clientY - rect.top;
 
