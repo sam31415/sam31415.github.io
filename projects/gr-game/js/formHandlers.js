@@ -34,17 +34,17 @@ export function submitValue() {
     location.reload();
 }
 
-export function retrieveGlobalData(globalData, canvas) {
+export function retrieveGlobalData(globalData) {
     if (localStorage.getItem('userGridHeight') !== null) {
         globalData.gridHeight = parseInt(localStorage.getItem('userGridHeight'));
         globalData.gridWidth = parseInt(localStorage.getItem('userGridWidth'));
-        globalData.imageData = globalData.ctx.createImageData(globalData.gridWidth, globalData.gridHeight);
         if (globalData.gridHeight > 1000) {
             globalData.gridHeight = 1000;
         }
         if (globalData.gridWidth > 1000) {
             globalData.gridWidth = 1000;
         }
+        globalData.imageData = globalData.ctx.createImageData(globalData.gridWidth, globalData.gridHeight);
         //globalData.cellSize = canvas.width / globalData.gridWidth;
         globalData.timeout = parseInt(localStorage.getItem('userTimeout'));
         globalData.gridPeriodicityShiftX = parseInt(localStorage.getItem('userXShift'));
@@ -83,12 +83,27 @@ export function retrieveGlobalData(globalData, canvas) {
     document.getElementById('userRule').value = globalData.rule;
 
     // Adjust the canvas size
-    canvas.width = Math.max(globalData.gridHeight, globalData.gridWidth);
-    canvas.height =  Math.max(globalData.gridHeight, globalData.gridWidth);
-    globalData.canvasCornerX = Math.floor((canvas.width - globalData.gridWidth) / 2);
-    globalData.canvasCornerY = Math.floor((canvas.height - globalData.gridHeight) / 2);
+    globalData.canvas.width = Math.max(globalData.gridHeight, globalData.gridWidth);
+    globalData.canvas.height =  Math.max(globalData.gridHeight, globalData.gridWidth);
+    globalData.canvasCornerX = 0 //Math.floor((globalData.canvas.width - globalData.gridWidth) / 2);
+    globalData.canvasCornerY = 0 //Math.floor((globalData.canvas.height - globalData.gridHeight) / 2);
 
-
+    // Adjusts the html canvas size so that no border remains in full screen mode
+    var htmlCanvas = document.getElementById('gameCanvas');
+    if (globalData.gridHeight > globalData.gridWidth) {
+        var newWidth = Math.floor(globalData.gridWidth / globalData.gridHeight * 800);
+        var newScale = 
+        htmlCanvas.style.width = newWidth + 'px';
+        htmlCanvas.style.height = 800 + 'px';
+        htmlCanvas.width = newWidth * globalData.gridHeight / 800;
+        htmlCanvas.height = globalData.gridHeight;
+    } else {
+        var newHeight = Math.floor(globalData.gridHeight / globalData.gridWidth * 800);
+        htmlCanvas.style.width = 800 + 'px';
+        htmlCanvas.style.height = newHeight + 'px';
+        htmlCanvas.width = globalData.gridWidth;
+        htmlCanvas.height = newHeight * globalData.gridWidth / 800;
+    }
 
 }
 

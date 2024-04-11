@@ -4,11 +4,11 @@ import { addRuleListener, addRandomnessCheckboxListener, addFullscreenButtonList
 import { retrieveGlobalData } from './formHandlers.js';
 import { determineColorPalette, setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/optionSetter.js';
 
-export function onLoad(globalData, canvas) {
+export function onLoad(globalData) {
     addRandomnessCheckboxListener(globalData);
-    addFullscreenButtonListener(canvas);
-    addMouseMoveListener(globalData, canvas);
-    addMouseDownListener(globalData, canvas);
+    addFullscreenButtonListener(globalData);
+    addMouseMoveListener(globalData);
+    addMouseDownListener(globalData);
     addSubmitListener(globalData);
     addRandomnessSliderListener(globalData);
     addPeriodicityListeners(globalData);
@@ -16,7 +16,7 @@ export function onLoad(globalData, canvas) {
     addColorPaletteListener(globalData);
     addRuleListener(globalData);
 
-    retrieveGlobalData(globalData, canvas);
+    retrieveGlobalData(globalData);
     determineColorPalette(globalData);
     setFindNeighbour(globalData);
     setCellUpdateRule(globalData, false, true);
