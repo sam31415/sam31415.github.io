@@ -3,8 +3,8 @@ let unnormMaskProb = {
     shortStar1: {prob: 4, mask: [[0, 1], [1, 0]]},
     shortStar2: {prob: 4, mask: [[1, 0], [0, 1]]},
     waveSquare: {prob: 0.5, mask: [[1, 1], [1, 1]]},
-    waveHorizontal: {prob: 0.25, mask: [[0, 0], [1, 1]]},
-    waveVertical: {prob: 0.25, mask: [[0, 1], [0, 1]]},
+    waveHorizontal: {prob: 0.5, mask: [[0, 0], [1, 1]]},
+    waveVertical: {prob: 0.5, mask: [[0, 1], [0, 1]]},
     star: {prob: 4, mask: [[1, 0, 1], [0, 0, 0], [1, 0, 1]]},
     spaceshipE: {prob: 2, mask: [[1, 1], [2, 2]]},
     spaceshipN: {prob: 2, mask: [[1, 2], [1, 2]]},
@@ -39,7 +39,8 @@ export function poissonSample(lambda) {
 }
 
 export function addRandomEvents(globalData, i, j, newGrid, findNeighbour) {
-    var lambda = globalData.gridHeight * globalData.gridWidth * (10 ** globalData.randomnessAmount);
+    //var lambda = globalData.gridHeight * globalData.gridWidth * (10 ** globalData.randomnessAmount);
+    var lambda = (10 ** globalData.randomnessAmount);
     // Sample the number of events from a Poisson distribution
     var numEvents = poissonSample(lambda);
     for (var n = 0; n < numEvents; n++) {
