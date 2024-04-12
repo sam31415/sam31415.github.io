@@ -33,11 +33,11 @@ let globalData = {
     mask: null,
 };
 
-    // Compute cellSize based on gridWidth
-    //globalData.cellSize = canvas.width / globalData.gridWidth;
-    globalData.canvas.width = globalData.gridWidth;
-    globalData.canvas.height = globalData.gridHeight;
-    globalData.imageData = ctx.createImageData(canvas.width, canvas.height);
+// Compute cellSize based on gridWidth
+//globalData.cellSize = canvas.width / globalData.gridWidth;
+globalData.canvas.width = globalData.gridWidth;
+globalData.canvas.height = globalData.gridHeight;
+globalData.imageData = ctx.createImageData(canvas.width, canvas.height);
 
 
 window.onload = function() {

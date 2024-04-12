@@ -1,6 +1,6 @@
 import { submitValue, updateRandomnessValue } from './formHandlers.js';
-import { initializeGrid } from "../../../js/cellular-automatons/initialisation.js";
-import { determineColorPalette, setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/optionSetter.js';
+import { initializeGrid } from "./initialisation.js";
+import { determineColorPalette, setFindNeighbour, setCellUpdateRule} from './optionSetter.js';
 
 export function addRandomnessCheckboxListener(globalData) {
     document.getElementById('randomnessCheckbox').addEventListener('change', function() {
