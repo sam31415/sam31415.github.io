@@ -1,7 +1,7 @@
 import { submitValue, updateRandomnessValue } from './formHandlers.js';
-import { initializeGrid } from "./initialisation.js";
+import { initializeGrid } from "../initialisation/initialiseGrid.js";
 import { setFindNeighbour, setCellUpdateRule} from './optionSetter.js';
-import { determineColorPalette } from './coloring.js';
+import { determineColorPalette } from '../draw/coloring.js';
 
 export function addRandomnessCheckboxListener(globalData) {
     document.getElementById('randomnessCheckbox').addEventListener('change', function() {

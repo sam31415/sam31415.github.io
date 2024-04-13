@@ -40,7 +40,7 @@ var ruleConditions = ruleConditionsEq.concat(ruleConditionsBigger);
 
 // To try to avoid rules with less colors, but in the end not used.
 function testConditionCompatibility(conditionIndex1, conditionIndex2) {
-    if (conditionIndex1 == conditionIndex2){
+    if (conditionIndex1 == conditionIndex2) {
         return false;
     }
     if (conditionIndex1 < 3 && conditionIndex2 >= 3 && conditionIndex2 - 3 < conditionIndex1) {
@@ -84,8 +84,8 @@ export function updateCellValueSecondary3ValuesMeta(
 // Meta update rule depending on three conditions, for 4 color rules.
 
 export function updateCellValueSecondary4ValuesMeta(
-    conditionFunc1, neighbor_type1, enableInactiveOnly1, 
-    conditionFunc2, neighbor_type2, enableInactiveOnly2, 
+    conditionFunc1, neighbor_type1, enableInactiveOnly1,
+    conditionFunc2, neighbor_type2, enableInactiveOnly2,
     conditionFunc3, neighbor_type3, enableInactiveOnly3) {
     function updateRule(cellValue, newCellValue, neighbor_list) {
         newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
@@ -103,11 +103,11 @@ export function updateCellValueSecondary4ValuesMeta(
 }
 
 export function updateCellValueTertiary4ValuesMeta(
-    conditionFunc1, neighbor_type1, enableInactiveOnly1, 
-    conditionFunc2, neighbor_type2, enableInactiveOnly2, 
+    conditionFunc1, neighbor_type1, enableInactiveOnly1,
+    conditionFunc2, neighbor_type2, enableInactiveOnly2,
     conditionFunc3, neighbor_type3, enableInactiveOnly3,
-    conditionFunc4, neighbor_type4, enableInactiveOnly4, 
-    conditionFunc5, neighbor_type5, enableInactiveOnly5, 
+    conditionFunc4, neighbor_type4, enableInactiveOnly4,
+    conditionFunc5, neighbor_type5, enableInactiveOnly5,
     conditionFunc6, neighbor_type6, enableInactiveOnly6, flavour = 0) {
     function updateRule(cellValue, newCellValue, neighbor_list) {
         newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
@@ -125,19 +125,19 @@ export function updateCellValueTertiary4ValuesMeta(
             newCellValue = (newCellValue + 8) % 16;
         } else if (conditionFunc3(neighbor_list[neighbor_type3]) && conditionInactive(enableInactiveOnly3)(cellValue)) {
             newCellValue = (newCellValue + 12) % 16;
-        } 
+        }
         newCellValue = newCellValue % 16;
-        if (conditionFunc4(neighbor_list[neighbor_type4]) 
+        if (conditionFunc4(neighbor_list[neighbor_type4])
             //&& conditionInactive(enableInactiveOnly4)(cellValue)
-            ) {
+        ) {
             newCellValue = (newCellValue + 16) % 64;
-        } else if (conditionFunc5(neighbor_list[neighbor_type5]) 
+        } else if (conditionFunc5(neighbor_list[neighbor_type5])
             //&& conditionInactive(enableInactiveOnly5)(cellValue)
-            ) {
+        ) {
             newCellValue = (newCellValue + 32) % 64;
-        } else if (conditionFunc6(neighbor_list[neighbor_type6]) 
+        } else if (conditionFunc6(neighbor_list[neighbor_type6])
             //&& conditionInactive(enableInactiveOnly6)(cellValue)
-            ) {
+        ) {
             newCellValue = (newCellValue + 48) % 64;
         }
         return newCellValue;
@@ -173,9 +173,9 @@ export function changeRule3Colors(globalData, forceChange = false) {
             ruleCondition1, randomNeighborType1, randomEnableInactiveOnly1,
             ruleCondition2, randomNeighborType2, randomEnableInactiveOnly2);
         globalData.updateCellValue = randomRule;
-        console.log("Rule changed to rule (" + 
-                    randomIndex1 + "-" + randomNeighborType1 + "-" + randomEnableInactiveOnly1 + ", " + 
-                    randomIndex2 + "-" + randomNeighborType2 + "-" + randomEnableInactiveOnly2 + ")");
+        console.log("Rule changed to rule (" +
+            randomIndex1 + "-" + randomNeighborType1 + "-" + randomEnableInactiveOnly1 + ", " +
+            randomIndex2 + "-" + randomNeighborType2 + "-" + randomEnableInactiveOnly2 + ")");
     }
 }
 export function changeRule4Colors(globalData, auxiliary = false, forceChange = false) {
@@ -204,13 +204,13 @@ export function changeRule4Colors(globalData, auxiliary = false, forceChange = f
         if (auxiliary) {
             globalData.updateCellValueAuxiliary = randomRule;
             ruleName = "Auxiliary rule";
-        } else{
+        } else {
             globalData.updateCellValue = randomRule;
         }
-        console.log(ruleName + "changed to rule (" + 
-                    randomIndex1 + "-" + randomNeighborType1 + "-" + randomEnableInactiveOnly1 + ", " + 
-                    randomIndex2 + "-" + randomNeighborType2 + "-" + randomEnableInactiveOnly2 + ", " + 
-                    randomIndex3 + "-" + randomNeighborType3 + "-" + randomEnableInactiveOnly3 + ")");
+        console.log(ruleName + "changed to rule (" +
+            randomIndex1 + "-" + randomNeighborType1 + "-" + randomEnableInactiveOnly1 + ", " +
+            randomIndex2 + "-" + randomNeighborType2 + "-" + randomEnableInactiveOnly2 + ", " +
+            randomIndex3 + "-" + randomNeighborType3 + "-" + randomEnableInactiveOnly3 + ")");
     }
 }
 
@@ -261,22 +261,22 @@ export function changeTertiaryRule4Colors(globalData, auxiliary = false, forceCh
             ruleCondition4, randomNeighborType4, randomEnableInactiveOnly4,
             ruleCondition5, randomNeighborType5, randomEnableInactiveOnly5,
             ruleCondition6, randomNeighborType6, randomEnableInactiveOnly6,
-            flavour=flavour);
+            flavour = flavour);
 
         var ruleName = "Rule";
         if (auxiliary) {
             globalData.updateCellValueAuxiliary = randomRule;
             ruleName = "Auxiliary rule";
-        } else{
+        } else {
             globalData.updateCellValue = randomRule;
         }
-        console.log(ruleName + "changed to rule (" + 
-                    randomIndex1 + "-" + randomNeighborType1 + "-" + randomEnableInactiveOnly1 + ", " + 
-                    randomIndex2 + "-" + randomNeighborType2 + "-" + randomEnableInactiveOnly2 + ", " + 
-                    randomIndex3 + "-" + randomNeighborType3 + "-" + randomEnableInactiveOnly3 + ", " +
-                    randomIndex4 + "-" + randomNeighborType4 + "-" + randomEnableInactiveOnly4 + ", " + 
-                    randomIndex5 + "-" + randomNeighborType5 + "-" + randomEnableInactiveOnly5 + ", " + 
-                    randomIndex6 + "-" + randomNeighborType6 + "-" + randomEnableInactiveOnly6 + ")" );
+        console.log(ruleName + "changed to rule (" +
+            randomIndex1 + "-" + randomNeighborType1 + "-" + randomEnableInactiveOnly1 + ", " +
+            randomIndex2 + "-" + randomNeighborType2 + "-" + randomEnableInactiveOnly2 + ", " +
+            randomIndex3 + "-" + randomNeighborType3 + "-" + randomEnableInactiveOnly3 + ", " +
+            randomIndex4 + "-" + randomNeighborType4 + "-" + randomEnableInactiveOnly4 + ", " +
+            randomIndex5 + "-" + randomNeighborType5 + "-" + randomEnableInactiveOnly5 + ", " +
+            randomIndex6 + "-" + randomNeighborType6 + "-" + randomEnableInactiveOnly6 + ")");
     }
 }
 

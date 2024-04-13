@@ -1,14 +1,12 @@
 import { updateCellValueTest, updateCellValueConway, updateCellValueBB, updateCellValueBBMod, updateCellValueBBTrace, updateCellValueBBTrace2, 
     updateCellValueBBTrace3, updateCellValueBBTrace4, updateCellValueBBTrace5, updateCellValueBBTrace6, updateCellValueBBTrace7,
     updateCellValueBBTrace8, updateCellValueBBTrace9, updateCellValueBBTrace10, updateCellValueSecondary1, updateCellValueSecondary2,
-    updateCellValueStationary1, updateCellValueStationary2, updateCellValueSecondary3 } from './rules.js';
-import { findNeighbourFlipY } from './neighbours.js';
-import { findNeighbourNoFlip } from './neighbours.js';
-import { findNeighbourFlipX } from './neighbours.js';
-import { findNeighbourFlipXY } from './neighbours.js';
-import { changeRule4Colors } from './rulesMeta.js';
-import { changeRule3Colors } from './rulesMeta.js';
-import { changeRule2Colors, changeTertiaryRule4Colors } from './rulesMeta.js';
+    updateCellValueStationary1, updateCellValueStationary2, updateCellValueSecondary3 } from '../rules/rules.js';
+import { findNeighbourFlipY } from '../rules/neighbours.js';
+import { findNeighbourNoFlip } from '../rules/neighbours.js';
+import { findNeighbourFlipX } from '../rules/neighbours.js';
+import { findNeighbourFlipXY } from '../rules/neighbours.js';
+import { changeRule4Colors, changeRule3Colors, changeRule2Colors, changeTertiaryRule4Colors } from '../rules/rulesMeta.js';
 
 export function updatePeriodicityShiftAndTopology(globalData){
     if (Math.random() < 0.0001) {
