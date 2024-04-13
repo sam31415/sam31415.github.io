@@ -1,25 +1,41 @@
 export class GlobalData {
-    constructor(canvas, ctx) {
-        this.gridHeight = 200;
-        this.gridWidth = 200;
+    constructor(
+        canvas, 
+        ctx, 
+        gridHeight = 200, 
+        gridWidth = 200, 
+        timeout = 20, 
+        addRandomness = true, 
+        randomnessAmount = -2.0, 
+        gridPeriodicityShiftX = 0, 
+        gridPeriodicityShiftY = 0, 
+        gridFlipX = false, 
+        gridFlipY = false, 
+        colorPalette = 'black2', 
+        rule = "VariableGR", 
+        initialisation = "random", 
+        ruleOrder = 2
+    ){
+        this.gridHeight = gridHeight;
+        this.gridWidth = gridWidth;
         this.canvasCornerX = 0;
         this.canvasCornerY = 0;
-        this.timeout = 20;
+        this.timeout = timeout;
         this.grid = null;
         this.redraw = null;
         this.imageData = null;
         this.canvas = canvas;
         this.ctx = ctx;
-        this.addRandomness = true;
-        this.randomnessAmount = -6.0;
-        this.gridPeriodicityShiftX = 0;
-        this.gridPeriodicityShiftY = 0;
-        this.gridFlipX = false;
-        this.gridFlipY = false;
-        this.colorPalette = 'black2';
-        this.rule = "VariableGR";
-        this.initialisation = "random";
-        this.ruleOrder = 2;
+        this.addRandomness = addRandomness;
+        this.randomnessAmount = randomnessAmount;
+        this.gridPeriodicityShiftX = gridPeriodicityShiftX;
+        this.gridPeriodicityShiftY = gridPeriodicityShiftY;
+        this.gridFlipX = gridFlipX;
+        this.gridFlipY = gridFlipY;
+        this.colorPalette = colorPalette;
+        this.rule = rule;
+        this.initialisation = initialisation;
+        this.ruleOrder = ruleOrder;
         this.updateCellValue = null;
         this.updateCellValueAuxiliary = null;
         this.findNeighbour = null;

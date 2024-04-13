@@ -10,7 +10,38 @@ console.log("Loading main.js")
 
 var canvas = document.getElementById('gameCanvas');
 var ctx = canvas.getContext('2d');
-var globalData = new GlobalData(canvas, ctx);
+var gridHeight = 200
+var gridWidth = 200
+var timeout = 20
+var addRandomness = true
+var randomnessAmount = -2.0
+var gridPeriodicityShiftX = 0
+var gridPeriodicityShiftY = 0
+var gridFlipX = false
+var gridFlipY = false
+var colorPalette = 'black2'
+var rule = "VariableGR"
+var initialisation = "random"
+var ruleOrder = 2
+
+var globalData = new GlobalData(
+    canvas=canvas, 
+    ctx=ctx,
+    gridHeight=gridHeight,
+    gridWidth=gridWidth,
+    timeout=timeout,
+    addRandomness=addRandomness,
+    randomnessAmount=randomnessAmount,
+    gridPeriodicityShiftX=gridPeriodicityShiftX,
+    gridPeriodicityShiftY=gridPeriodicityShiftY,
+    gridFlipX=gridFlipX,
+    gridFlipY=gridFlipY,
+    colorPalette=colorPalette,
+    rule=rule,
+    initialisation=initialisation,
+    ruleOrder=ruleOrder
+);
+
 
 window.onload = function() {
     addRandomnessCheckboxListener(globalData);
