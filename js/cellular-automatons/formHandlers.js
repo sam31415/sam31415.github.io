@@ -45,7 +45,6 @@ export function retrieveGlobalData(globalData) {
             globalData.gridWidth = 1000;
         }
         globalData.imageData = globalData.ctx.createImageData(globalData.gridWidth, globalData.gridHeight);
-        //globalData.cellSize = canvas.width / globalData.gridWidth;
         globalData.timeout = parseInt(localStorage.getItem('userTimeout'));
         globalData.gridPeriodicityShiftX = parseInt(localStorage.getItem('userXShift'));
         if (isNaN(globalData.gridPeriodicityShiftX)) globalData.gridPeriodicityShiftX = 0;
