@@ -3,7 +3,8 @@ import { gameLoop } from '../../../js/cellular-automatons/gameFunctions.js';
 import { initializeGrid } from "../../../js/cellular-automatons/initialisation.js";
 import { addRuleListener, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener } from '../../../js/cellular-automatons/eventHandlers.js';
 import { retrieveGlobalData } from '../../../js/cellular-automatons/formHandlers.js';
-import { determineColorPalette, setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/optionSetter.js';
+import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/optionSetter.js';
+import { determineColorPalette } from '../../../js/cellular-automatons/coloring.js';
 
 console.log("Loading main.js")
 

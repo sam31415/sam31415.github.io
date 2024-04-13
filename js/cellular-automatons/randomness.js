@@ -39,7 +39,6 @@ export function poissonSample(lambda) {
 }
 
 export function addRandomEvents(globalData, i, j, newGrid, findNeighbour) {
-    //var lambda = globalData.gridHeight * globalData.gridWidth * (10 ** globalData.randomnessAmount);
     var lambda = (10 ** globalData.randomnessAmount);
     // Sample the number of events from a Poisson distribution
     var numEvents = poissonSample(lambda);
