@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Celular automata experiments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #F0EFEF;
+        }
+        #content {
+            max-width: 800px;
+            margin: auto;
+        }
+        #gameCanvas {
+            border: 1px solid black;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            image-rendering: pixelated; 
+            image-rendering: crisp-edges;
+            width: 800px; 
+            height: 800px;
+        }
+        #randomnessSlider {
+            vertical-align: middle;
+            width: 150px;
+        }
+        #randomnessCheckbox {
+            margin-right: 0px;
+        }
+        label, input, select, button {
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+        input {
+            width: 10ch;  
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <button id="fullscreenButton">Go Fullscreen</button>
+    </div><br>
+    <canvas id="gameCanvas" width="800" height="800"></canvas>
+    <script type="module" src="js/main.js"></script>
+    <br>
+    <div id="content">
+        <label for="userRule">Automaton rule:</label>
+        <select id="userRule">
+            <!-- <option value="Conway">Conway's game of life</option> -->
+            <option value="BB">Brian's brain</option>
+            <option value="BBMod">Modified Brian's brain</option>
+            <option value="Variable2Colors">Variable (2 colors)</option>
+            <option value="Variable3Colors">Variable (3 colors)</option>
+            <option value="Variable4Colors">Variable (4 colors)</option>
+            <option value="VariableGR">Variable (GR)</option>
+            <option value="BBTrace">Brian's brain trace 1</option>
+            <option value="BBTrace2">Brian's brain trace 2</option>
+            <option value="BBTrace3">Brian's brain trace 3</option>
+            <option value="BBTrace4">Brian's brain trace 4</option>
+            <option value="BBTrace5">Brian's brain trace 5</option>
+            <option value="BBTrace6">Brian's brain trace 6</option>
+            <option value="BBTrace7">Brian's brain trace 7</option>
+            <option value="BBTrace8">Brian's brain trace 8</option>
+            <option value="BBTrace9">Brian's brain trace 9</option>
+            <option value="BBTrace10">Brian's brain trace 10</option>
+            <option value="BBTraceSecondary1">Brian's brain secondary trace 1</option>
+            <option value="BBTraceSecondary2">Brian's brain secondary trace 2</option>
+            <option value="BBTraceSecondary3">Brian's brain secondary trace 3</option>
+            <option value="Stationary1">Stationary 1</option>
+            <option value="Stationary2">Stationary 2</option>
+            <option value="Tertiary4Colors">Variable tertiary (experimental)</option>
+            <option value="TertiaryFancySpcshp">Variable fancy spaceships (experimental)</option>
+            <option value="TestSecondary">Test</option>
+        </select><br>
+        <label for="randomnessCheckbox">Add random seeding? </label> <input type="checkbox" id="randomnessCheckbox"><br>
+        <label for="randomnessSlider">Randomness amount (log10 of expected even number at each step):</label>
+            <input type="range" id="randomnessSlider" min="-5.0" max="1.0" value="-2.0" step="0.05"> <span id="randomnessAmountValue"></span><br>
+        <label for="userXShift">X periodicity shift:</label>
+        <input type="int" id="userXShift" value="0">
+        <label for="userYShift">Y periodicity shift:</label>
+        <input type="int" id="userYShift" value="0"><br>
+        <label for="userFlipX">Twisted boundary across X:</label>
+        <input type="checkbox" id="userFlipX">
+        <label for="userFlipY">Twisted boundary across Y:</label>
+        <input type="checkbox" id="userFlipY"><br>
+        <label for="category">Color scheme:</label>
+        <select id="userColorPalette">
+            <option value="variable">Variable</option>
+            <!-- <option value="blue">Blue</option>
+            <option value="blue2">Blue II</option>
+            <option value="grey">Grey</option>
+            <option value="grey2">Grey II</option>
+            <option value="yellow">Yellow</option>
+            <option value="black">Black</option>
+            <option value="black2">Black II</option> -->
+            <option value="blackTrace">Black (trace I)</option>
+            <option value="blackTrace2">Black (trace II)</option>
+            <option value="blackTrace3">Black (trace III)</option>
+        </select><br>
+        <!-- <label for="userGridSize">Grid size (max 1000):</label>
+        <input type="int" id="userGridSize" value="100"> -->
+        <label for="userGridHeight">Grid height:</label>
+        <input type="int" id="userGridHeight" value="100">
+        <label for="userGridWidth">Grid width:</label>
+        <input type="int" id="userGridWidth" value="100"><br>
+        <label for="userTimeout">Timeout (smaller is faster):</label>
+        <input type="int" id="userTimeout" value="50"><br>
+        <button id="submitButton">Submit</button>
+    </div>
+</body>
+</html>
