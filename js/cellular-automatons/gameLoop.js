@@ -1,5 +1,8 @@
 
-import { changeRule4Colors, changeRule3Colors, changeRule2Colors, changeTertiaryRule4Colors } from './rules/rulesMeta.js';
+import { changeTertiaryRule4Colors } from "./rules/changeRule.js";
+import { changeRule4Colors } from "./rules/changeRule.js";
+import { changeRule3Colors } from "./rules/changeRule.js";
+import { changeRule2Colors } from "./rules/changeRule.js";
 import { driftColorPalette } from './draw/coloring.js';
 import { updatePeriodicityShiftAndTopology } from './interactivity/optionSetter.js';
 import { drawGrid } from './draw/drawGrid.js';

@@ -6,7 +6,10 @@ import { findNeighbourFlipY } from '../rules/neighbours.js';
 import { findNeighbourNoFlip } from '../rules/neighbours.js';
 import { findNeighbourFlipX } from '../rules/neighbours.js';
 import { findNeighbourFlipXY } from '../rules/neighbours.js';
-import { changeRule4Colors, changeRule3Colors, changeRule2Colors, changeTertiaryRule4Colors } from '../rules/rulesMeta.js';
+import { changeTertiaryRule4Colors } from "../rules/changeRule.js";
+import { changeRule4Colors } from "../rules/changeRule.js";
+import { changeRule3Colors } from "../rules/changeRule.js";
+import { changeRule2Colors } from "../rules/changeRule.js";
 
 export function updatePeriodicityShiftAndTopology(globalData){
     if (Math.random() < 0.0001) {
