@@ -1,10 +1,10 @@
-import { GlobalData } from '../../../js/cellular-automatons/globalData.js';
-import { gameLoop } from '../../../js/cellular-automatons/gameFunctions.js';
-import { initializeGrid } from "../../../js/cellular-automatons/initialisation.js";
-import { addRuleListener, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener } from '../../../js/cellular-automatons/eventHandlers.js';
-import { retrieveGlobalData } from '../../../js/cellular-automatons/formHandlers.js';
-import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/optionSetter.js';
-import { determineColorPalette } from '../../../js/cellular-automatons/coloring.js';
+import { GlobalData } from '../../../js/cellular-automatons/classes/globalData.js';
+import { gameLoop } from '../../../js/cellular-automatons/gameLoop.js';
+import { initializeGrid } from "../../../js/cellular-automatons/initialisation/initialiseGrid.js";
+import { addRuleListener, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener } from '../../../js/cellular-automatons/interactivity/eventHandlers.js';
+import { retrieveGlobalData } from '../../../js/cellular-automatons/interactivity/formHandlers.js';
+import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/interactivity/optionSetter.js';
+import { determineColorPalette } from '../../../js/cellular-automatons/draw/coloring.js';
 
 console.log("Loading main.js")
 
