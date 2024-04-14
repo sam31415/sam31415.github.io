@@ -150,3 +150,9 @@ export function addColorPaletteListener(globalData) {
     });
 }
 
+
+export function addChangeColoringRuleListener(globalData) {
+    document.getElementById('changeColoringRule').addEventListener('click', function() {
+        globalData.changeColoringRuleFlag = true;
+    });
+}
