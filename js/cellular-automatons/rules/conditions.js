@@ -32,9 +32,9 @@ export function conditionInactive(variation) {
     }
 }
 
-var valuesEq = [1, 2, 3];
+var valuesEq = [1, 2, 3, 4, 5, 6, 7, 8];
 var ruleConditionsEq = valuesEq.map(value => conditionNeighborEq(value));
-var valuesBigger = [0, 1, 2, 3];
+var valuesBigger = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 var ruleConditionsBigger = valuesBigger.map(value => conditionNeighborBigger(value));
 export var ruleConditions = ruleConditionsEq.concat(ruleConditionsBigger);
 

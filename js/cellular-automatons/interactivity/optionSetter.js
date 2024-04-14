@@ -83,14 +83,14 @@ export function setCellUpdateRule(globalData){
     } else if (globalData.rule == "Variable4Colors") {
         changeRuleNColors(globalData, 4, false, true);
     } else if (globalData.rule == "Variable") {
-        var nColors = Math.floor(Math.random() * 6) + 2;
+        var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
         changeRuleNColors(globalData, nColors, false, true);
     } else if (globalData.rule == "Tertiary4Colors" || globalData.rule == "TertiaryFancySpcshp") {
         changeTertiaryRule4Colors(globalData, false, true);
     } else if (globalData.rule == "VariableGR") {
-        var nColors = Math.floor(Math.random() * 6) + 2;
+        var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
         changeRuleNColors(globalData, nColors, false, true);
-        nColors = Math.floor(Math.random() * 6) + 2;
+        nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
         changeRuleNColors(globalData, nColors, true, true);
     } else if (globalData.rule == "Stationary1") {
         globalData.updateCellValue = updateCellValueStationary1;

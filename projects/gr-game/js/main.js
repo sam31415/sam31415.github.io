@@ -14,7 +14,7 @@ var gridHeight = 128
 var gridWidth = 128
 var timeout = 20
 var addRandomness = true
-var randomnessAmount = -1.5
+var randomnessAmount = -1.0
 var gridPeriodicityShiftX = 0
 var gridPeriodicityShiftY = 0
 var gridFlipX = false
@@ -23,6 +23,7 @@ var colorPalette = 'black2'
 var rule = "VariableGR"
 var initialisation = "random"
 var ruleOrder = 2
+var maxNColors = 6
 
 var globalData = new GlobalData(
     canvas=canvas, 
@@ -39,7 +40,8 @@ var globalData = new GlobalData(
     colorPalette=colorPalette,
     rule=rule,
     initialisation=initialisation,
-    ruleOrder=ruleOrder
+    ruleOrder=ruleOrder,
+    maxNColors=maxNColors
 );
 
 

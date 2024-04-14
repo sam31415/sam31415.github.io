@@ -18,10 +18,12 @@ export function gameLoop(globalData) {
     } else if (globalData.rule == "Tertiary4Colors" || globalData.rule == "TertiaryFancySpcshp") {
         changeTertiaryRule4Colors(globalData, false);
     } else if (globalData.rule == "VariableGR") {
-        changeRuleNColors(globalData, 4, false, false);
-        changeRuleNColors(globalData, 4, true, false);
+        var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
+        changeRuleNColors(globalData, nColors, false, false);
+        nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
+        changeRuleNColors(globalData, nColors, true, false);
     } else if (globalData.rule == "Variable") {
-        var nColors = Math.floor(Math.random() * 6) + 2;
+        var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
         changeRuleNColors(globalData, nColors, false, false);
     } 
     if (globalData.rule.includes("Variable")) {

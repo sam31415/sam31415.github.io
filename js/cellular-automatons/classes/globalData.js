@@ -14,7 +14,8 @@ export class GlobalData {
         colorPalette = 'black2', 
         rule = "VariableGR", 
         initialisation = "random", 
-        ruleOrder = 2
+        ruleOrder = 2,
+        maxNColors = 6
     ){
         this.gridHeight = gridHeight;
         this.gridWidth = gridWidth;
@@ -36,6 +37,7 @@ export class GlobalData {
         this.rule = rule;
         this.initialisation = initialisation;
         this.ruleOrder = ruleOrder;
+        this.maxNColors = maxNColors;
         this.updateCellValue = null;
         this.updateCellValueAuxiliary = null;
         this.findNeighbour = null;
