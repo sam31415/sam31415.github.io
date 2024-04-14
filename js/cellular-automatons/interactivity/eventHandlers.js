@@ -140,7 +140,6 @@ export function addRuleListener(globalData) {
             globalData.ruleOrder = 3;
         }
         setCellUpdateRule(globalData);
-        setCellUpdateRule(globalData, true);
         // if (globalData.rule == "Variable2Colors"){
         //     changeRule2Colors(globalData, true);
         // } else if (globalData.rule == "Variable3Colors"){

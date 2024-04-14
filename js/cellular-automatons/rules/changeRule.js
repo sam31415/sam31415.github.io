@@ -29,7 +29,7 @@ export function changeRuleNColors(globalData, nColors, auxiliary = false, forceC
         }
         var conditionNames = conditions.map(condition => condition.conditionName);
         var conditionNamesString = conditionNames.join(' | ');
-        console.log(ruleName + "changed to " + conditionNamesString);
+        console.log(ruleName + " changed to " + nColors + " colors " + conditionNamesString);
     }
 }
 

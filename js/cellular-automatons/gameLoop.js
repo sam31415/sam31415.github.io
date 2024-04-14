@@ -20,7 +20,10 @@ export function gameLoop(globalData) {
     } else if (globalData.rule == "VariableGR") {
         changeRuleNColors(globalData, 4, false, false);
         changeRuleNColors(globalData, 4, true, false);
-    }
+    } else if (globalData.rule == "Variable") {
+        var nColors = Math.floor(Math.random() * 6) + 2;
+        changeRuleNColors(globalData, nColors, false, false);
+    } 
     if (globalData.rule.includes("Variable")) {
         updatePeriodicityShiftAndTopology(globalData);
     }

@@ -43,7 +43,7 @@ export function setFindNeighbour(globalData){
     }
 }
 
-export function setCellUpdateRule(globalData, auxiliary){
+export function setCellUpdateRule(globalData){
     if (globalData.rule == "Conway") {
         globalData.updateCellValue = updateCellValueConway;
     } else if (globalData.rule == "BB") {
@@ -82,10 +82,16 @@ export function setCellUpdateRule(globalData, auxiliary){
         changeRuleNColors(globalData, 3, false, true);
     } else if (globalData.rule == "Variable4Colors") {
         changeRuleNColors(globalData, 4, false, true);
+    } else if (globalData.rule == "Variable") {
+        var nColors = Math.floor(Math.random() * 6) + 2;
+        changeRuleNColors(globalData, nColors, false, true);
     } else if (globalData.rule == "Tertiary4Colors" || globalData.rule == "TertiaryFancySpcshp") {
         changeTertiaryRule4Colors(globalData, false, true);
     } else if (globalData.rule == "VariableGR") {
-        changeRuleNColors(globalData, 4, auxiliary, true);
+        var nColors = Math.floor(Math.random() * 6) + 2;
+        changeRuleNColors(globalData, nColors, false, true);
+        nColors = Math.floor(Math.random() * 6) + 2;
+        changeRuleNColors(globalData, nColors, true, true);
     } else if (globalData.rule == "Stationary1") {
         globalData.updateCellValue = updateCellValueStationary1;
     } else if (globalData.rule == "Stationary2") {

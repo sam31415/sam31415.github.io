@@ -11,9 +11,9 @@ export function drawGrid(globalData) {
                 continue;
             }
             if (globalData.ruleOrder == 2) {
-                var value = Math.floor(globalData.grid.get(i, j) / 4);
+                var value = Math.floor(globalData.grid.get(i, j) / 4) % 4;
             } else if (globalData.ruleOrder == 3) {
-                var value = Math.floor((globalData.grid.get(i, j)) / 16);
+                var value = Math.floor((globalData.grid.get(i, j)) / 16) % 4;
             } else {
                 var value = globalData.grid.get(i, j) % 4;
             }
