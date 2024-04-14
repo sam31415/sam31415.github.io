@@ -1,8 +1,9 @@
 
 export function drawGrid(globalData) {
-    let canvas = globalData.canvas; //document.getElementById('gameCanvas');
     let ctx = globalData.ctx; //canvas.getContext('2d');
     let imageData = globalData.imageData;
+
+    var nCellChanged = 0;
 
     // Only draw rectangles for the cells that are not zero
     for (var i = 0; i < globalData.gridHeight; i++) {
@@ -10,6 +11,7 @@ export function drawGrid(globalData) {
             if (globalData.redraw.get(i, j) == 0) {
                 continue;
             }
+            nCellChanged += 1;
             if (globalData.ruleOrder == 2) {
                 var value = Math.floor(globalData.grid.get(i, j) / 4) % 4;
             } else if (globalData.ruleOrder == 3) {
@@ -35,6 +37,10 @@ export function drawGrid(globalData) {
             imageData.data[index + 2] = color.b; // Blue
             imageData.data[index + 3] = 255; // Alpha (255 = fully opaque)
         }
+    }
+    if (nCellChanged < 3) {
+        globalData.changeColoringRuleFlag = true;
+        console.log('Changing rule because not enough cells changed (' + nCellChanged + ').')
     }
     ctx.putImageData(imageData, globalData.canvasCornerX, globalData.canvasCornerY);
 }

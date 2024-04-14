@@ -49,5 +49,6 @@ export class GlobalData {
         this.canvas.width = this.gridWidth;
         this.canvas.height = this.gridHeight;
         this.imageData = ctx.createImageData(canvas.width, canvas.height);
+        this.changeColoringRuleFlag = true;
     }
 }

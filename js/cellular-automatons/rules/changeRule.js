@@ -5,26 +5,27 @@ import { updateCellValueTertiary4ValuesMeta, updateCellValueSecondaryMeta } from
 
 export function changeRule(globalData) {
     if (globalData.rule == "Variable2Colors") {
-        changeRuleNColors(globalData, 2, false, false);
+        changeRuleNColors(globalData, 2, false, globalData.changeColoringRuleFlag);
     } else if (globalData.rule == "Variable3Colors") {
-        changeRuleNColors(globalData, 3, false, false);
+        changeRuleNColors(globalData, 3, false, globalData.changeColoringRuleFlag);
     } else if (globalData.rule == "Variable4Colors") {
-        changeRuleNColors(globalData, 4, false, false);
+        changeRuleNColors(globalData, 4, false, globalData.changeColoringRuleFlag);
     } else if (globalData.rule == "Tertiary4Colors" || globalData.rule == "TertiaryFancySpcshp") {
-        changeTertiaryRule4Colors(globalData, false);
+        changeTertiaryRule4Colors(globalData, globalData.changeColoringRuleFlag);
     } else if (globalData.rule == "VariableGR") {
         var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
-        changeRuleNColors(globalData, nColors, false, false);
+        changeRuleNColors(globalData, nColors, false, globalData.changeColoringRuleFlag);
         nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
-        changeRuleNColors(globalData, nColors, true, false);
+        changeRuleNColors(globalData, nColors, true, globalData.changeColoringRuleFlag);
     } else if (globalData.rule == "Variable") {
         var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
-        changeRuleNColors(globalData, nColors, false, false);
+        changeRuleNColors(globalData, nColors, false, globalData.changeColoringRuleFlag);
     } 
     globalData.ruleSwitchProbability += 1 / (globalData.ruleSwitchPeriod ** 2);
     if (globalData.ruleSwitchProbability > 1) {
         globalData.ruleSwitchProbability = 1;
     }
+    globalData.changeColoringRuleFlag = false;
 }
 
 
