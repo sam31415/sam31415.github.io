@@ -4,12 +4,15 @@ export function conditionNeighborEq(nvalue) {
         return neighbors == nvalue;
     }
     return conditionNeighborEqValue;
-}export function conditionNeighborBigger(value) {
+}
+
+export function conditionNeighborBigger(value) {
     function conditionNeighborBiggerValue(neighbors) {
         return neighbors > value;
     }
     return conditionNeighborBiggerValue;
 }
+
 export function conditionInactive(variation) {
     function conditionInactiveCondFunction(cellValue) {
         return cellValue == 0;
@@ -28,11 +31,13 @@ export function conditionInactive(variation) {
         return noCondition;
     }
 }
+
 var valuesEq = [1, 2, 3];
 var ruleConditionsEq = valuesEq.map(value => conditionNeighborEq(value));
 var valuesBigger = [0, 1, 2, 3];
 var ruleConditionsBigger = valuesBigger.map(value => conditionNeighborBigger(value));
 export var ruleConditions = ruleConditionsEq.concat(ruleConditionsBigger);
+
 // To try to avoid rules with less colors, but in the end not used.
 function testConditionCompatibility(conditionIndex1, conditionIndex2) {
     if (conditionIndex1 == conditionIndex2) {

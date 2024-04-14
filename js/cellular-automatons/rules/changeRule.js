@@ -1,64 +1,25 @@
 
 import { ruleConditions } from "./conditions.js";
-import { updateCellValueSecondary2ValuesMeta } from "./rulesMeta.js";
-import { updateCellValueSecondary3ValuesMeta } from "./rulesMeta.js";
-import { updateCellValueSecondary4ValuesMeta } from "./rulesMeta.js";
-import { updateCellValueTertiary4ValuesMeta } from "./rulesMeta.js";
+import { updateCellValueTertiary4ValuesMeta, updateCellValueSecondaryMeta } from "./rulesMeta.js";
 
-
-export function changeRule2Colors(globalData, forceChange = false) {
-    if (Math.random() < 0.0002 || forceChange) {
-        var randomIndex = Math.floor(Math.random() * ruleConditions.length);
-        var randomNeighborType = Math.floor(Math.random() * 3);
-        var randomEnableInactiveOnly = Math.floor(Math.random() * 3);
-        var randomCondition = ruleConditions[randomIndex];
-        var randomRule = updateCellValueSecondary2ValuesMeta(randomCondition, randomNeighborType, randomEnableInactiveOnly);
-        globalData.updateCellValue = randomRule;
-        console.log("Rule changed to rule " + randomIndex + "-" + randomNeighborType + "-" + randomEnableInactiveOnly);
-    }
-}export function changeRule3Colors(globalData, forceChange = false) {
-    if (Math.random() < 0.0002 || forceChange) {
-        var randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
-        var randomNeighborType1 = Math.floor(Math.random() * 3);
-        var randomEnableInactiveOnly1 = Math.floor(Math.random() * 3);
-        var randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
-        var randomNeighborType2 = Math.floor(Math.random() * 3);
-        var randomEnableInactiveOnly2 = Math.floor(Math.random() * 3);
-        randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
-        randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
-        var ruleCondition1 = ruleConditions[randomIndex1];
-        var ruleCondition2 = ruleConditions[randomIndex2];
-        var randomRule = updateCellValueSecondary3ValuesMeta(
-            ruleCondition1, randomNeighborType1, randomEnableInactiveOnly1,
-            ruleCondition2, randomNeighborType2, randomEnableInactiveOnly2);
-        globalData.updateCellValue = randomRule;
-        console.log("Rule changed to rule (" +
-            randomIndex1 + "-" + randomNeighborType1 + "-" + randomEnableInactiveOnly1 + ", " +
-            randomIndex2 + "-" + randomNeighborType2 + "-" + randomEnableInactiveOnly2 + ")");
-    }
+function sampleCondition() {
+    var randomIndex = Math.floor(Math.random() * ruleConditions.length);
+    var randomNeighborType = Math.floor(Math.random() * 3);
+    var randomEnableInactiveOnly = Math.floor(Math.random() * 3);
+    var randomCondition = ruleConditions[randomIndex];
+    return { conditionFunc: randomCondition, 
+             neighborType: randomNeighborType, 
+             enableInactiveOnly: randomEnableInactiveOnly,
+             conditionName: `CI: ${randomIndex}, NT: ${randomNeighborType}, IO: ${randomEnableInactiveOnly}` };
 }
-export function changeRule4Colors(globalData, auxiliary = false, forceChange = false) {
-    if (Math.random() < 0.0002 || forceChange) {
-        var randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
-        var randomNeighborType1 = Math.floor(Math.random() * 3);
-        var randomEnableInactiveOnly1 = Math.floor(Math.random() * 3);
-        var randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
-        var randomNeighborType2 = Math.floor(Math.random() * 3);
-        var randomEnableInactiveOnly2 = Math.floor(Math.random() * 3);
-        var randomIndex3 = Math.floor(Math.random() * ruleConditions.length);
-        var randomNeighborType3 = Math.floor(Math.random() * 3);
-        var randomEnableInactiveOnly3 = Math.floor(Math.random() * 3);
-        randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
-        randomIndex2 = Math.floor(Math.random() * ruleConditions.length);
-        randomIndex3 = Math.floor(Math.random() * ruleConditions.length);
-        var ruleCondition1 = ruleConditions[randomIndex1];
-        var ruleCondition2 = ruleConditions[randomIndex2];
-        var ruleCondition3 = ruleConditions[randomIndex3];
-        var randomRule = updateCellValueSecondary4ValuesMeta(
-            ruleCondition1, randomNeighborType1, randomEnableInactiveOnly1,
-            ruleCondition2, randomNeighborType2, randomEnableInactiveOnly2,
-            ruleCondition3, randomNeighborType3, randomEnableInactiveOnly3);
 
+export function changeRuleNColors(globalData, nColors, auxiliary = false, forceChange = false) {
+    if (Math.random() < 0.0002 || forceChange) {
+        var conditions = [];
+        for (let i = 0; i < nColors - 1; i++) {
+            conditions.push(sampleCondition());
+        }
+        var randomRule = updateCellValueSecondaryMeta(conditions);
         var ruleName = "Rule";
         if (auxiliary) {
             globalData.updateCellValueAuxiliary = randomRule;
@@ -66,12 +27,12 @@ export function changeRule4Colors(globalData, auxiliary = false, forceChange = f
         } else {
             globalData.updateCellValue = randomRule;
         }
-        console.log(ruleName + "changed to rule (" +
-            randomIndex1 + "-" + randomNeighborType1 + "-" + randomEnableInactiveOnly1 + ", " +
-            randomIndex2 + "-" + randomNeighborType2 + "-" + randomEnableInactiveOnly2 + ", " +
-            randomIndex3 + "-" + randomNeighborType3 + "-" + randomEnableInactiveOnly3 + ")");
+        var conditionNames = conditions.map(condition => condition.conditionName);
+        var conditionNamesString = conditionNames.join(' | ');
+        console.log(ruleName + "changed to " + conditionNamesString);
     }
 }
+
 export function changeTertiaryRule4Colors(globalData, auxiliary = false, forceChange = false) {
     if (Math.random() < 0.0002 || forceChange) {
         var randomIndex1 = Math.floor(Math.random() * ruleConditions.length);

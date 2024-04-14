@@ -7,9 +7,8 @@ import { findNeighbourNoFlip } from '../rules/neighbours.js';
 import { findNeighbourFlipX } from '../rules/neighbours.js';
 import { findNeighbourFlipXY } from '../rules/neighbours.js';
 import { changeTertiaryRule4Colors } from "../rules/changeRule.js";
-import { changeRule4Colors } from "../rules/changeRule.js";
-import { changeRule3Colors } from "../rules/changeRule.js";
-import { changeRule2Colors } from "../rules/changeRule.js";
+import { changeRuleNColors } from "../rules/changeRule.js";
+
 
 export function updatePeriodicityShiftAndTopology(globalData){
     if (Math.random() < 0.0001) {
@@ -78,15 +77,15 @@ export function setCellUpdateRule(globalData, auxiliary){
     } else if (globalData.rule == "BBTraceSecondary3") {
         globalData.updateCellValue = updateCellValueSecondary3;
     } else if (globalData.rule == "Variable2Colors") {
-        changeRule2Colors(globalData, true);
+        changeRuleNColors(globalData, 2, false, true);
     } else if (globalData.rule == "Variable3Colors") {
-        changeRule3Colors(globalData, true);
+        changeRuleNColors(globalData, 3, false, true);
     } else if (globalData.rule == "Variable4Colors") {
-        changeRule4Colors(globalData, false, true);
+        changeRuleNColors(globalData, 4, false, true);
     } else if (globalData.rule == "Tertiary4Colors" || globalData.rule == "TertiaryFancySpcshp") {
         changeTertiaryRule4Colors(globalData, false, true);
     } else if (globalData.rule == "VariableGR") {
-        changeRule4Colors(globalData, auxiliary, true);
+        changeRuleNColors(globalData, 4, auxiliary, true);
     } else if (globalData.rule == "Stationary1") {
         globalData.updateCellValue = updateCellValueStationary1;
     } else if (globalData.rule == "Stationary2") {

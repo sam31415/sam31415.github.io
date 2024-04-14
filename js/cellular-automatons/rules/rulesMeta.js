@@ -1,50 +1,14 @@
 import { conditionInactive } from "./conditions.js";
 import { BBRuleNoZero } from "./rules.js";
 
-
-// Meta update rule depending on a condition, for 2 color rules.
-export function updateCellValueSecondary2ValuesMeta(conditionFunc, neighbor_type, enableInactiveOnly) {
+export function updateCellValueSecondaryMeta(conditions) {
     function updateRule(cellValue, newCellValue, neighbor_list) {
         newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
-        if (conditionFunc(neighbor_list[neighbor_type]) && conditionInactive(enableInactiveOnly)(cellValue)) {
-            newCellValue = (newCellValue + 4) % 8;
-        }
-        return newCellValue;
-    }
-
-    return updateRule;
-}
-
-// Meta update rule depending on two conditions, for 3 color rules.
-export function updateCellValueSecondary3ValuesMeta(
-    conditionFunc1, neighbor_type1, enableInactiveOnly1,
-    conditionFunc2, neighbor_type2, enableInactiveOnly2) {
-    function updateRule(cellValue, newCellValue, neighbor_list) {
-        newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
-        if (conditionFunc1(neighbor_list[neighbor_type1]) && conditionInactive(enableInactiveOnly1)(cellValue)) {
-            newCellValue = (newCellValue + 4) % 12;
-        } else if (conditionFunc2(neighbor_list[neighbor_type2]) && conditionInactive(enableInactiveOnly2)(cellValue)) {
-            newCellValue = (newCellValue + 8) % 12;
-        }
-        return newCellValue;
-    }
-
-    return updateRule;
-}
-
-// Meta update rule depending on three conditions, for 4 color rules.
-export function updateCellValueSecondary4ValuesMeta(
-    conditionFunc1, neighbor_type1, enableInactiveOnly1,
-    conditionFunc2, neighbor_type2, enableInactiveOnly2,
-    conditionFunc3, neighbor_type3, enableInactiveOnly3) {
-    function updateRule(cellValue, newCellValue, neighbor_list) {
-        newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
-        if (conditionFunc1(neighbor_list[neighbor_type1]) && conditionInactive(enableInactiveOnly1)(cellValue)) {
-            newCellValue = (newCellValue + 4) % 16;
-        } else if (conditionFunc2(neighbor_list[neighbor_type2]) && conditionInactive(enableInactiveOnly2)(cellValue)) {
-            newCellValue = (newCellValue + 8) % 16;
-        } else if (conditionFunc3(neighbor_list[neighbor_type3]) && conditionInactive(enableInactiveOnly3)(cellValue)) {
-            newCellValue = (newCellValue + 12) % 16;
+        for (let i = 0; i < conditions.length; i++) {
+            const { conditionFunc, neighborType, enableInactiveOnly } = conditions[i];
+            if (conditionFunc(neighbor_list[neighborType]) && conditionInactive(enableInactiveOnly)(cellValue)) {
+                newCellValue = (newCellValue + 4 * (i + 1)) % (4 * (conditions.length + 1));
+            }
         }
         return newCellValue;
     }
