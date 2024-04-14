@@ -140,16 +140,6 @@ export function addRuleListener(globalData) {
             globalData.ruleOrder = 3;
         }
         setCellUpdateRule(globalData);
-        // if (globalData.rule == "Variable2Colors"){
-        //     changeRule2Colors(globalData, true);
-        // } else if (globalData.rule == "Variable3Colors"){
-        //     changeRule3Colors(globalData, true);
-        // } else if (globalData.rule == "Variable4Colors"){
-        //     changeRule4Colors(globalData, false, true);
-        // } else if (globalData.rule == "VariableGR"){
-        //     changeRule4Colors(globalData, true, true);
-        //     changeRule4Colors(globalData, false, true);
-        // }
     });
 }
 

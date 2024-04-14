@@ -24,7 +24,7 @@ export function drawGrid(globalData) {
                 color = globalData.activatedColor;
             } else if (value == 2) {
                 color = globalData.deadColor;
-            } else if (value >= 3) {
+            } else if (value == 3) {
                 color = globalData.superActivatedColor;
             } else {
                 continue;
