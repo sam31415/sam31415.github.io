@@ -1,6 +1,7 @@
 export function driftColorPalette(globalData) {
     if (Math.random() < 1.0) {
-        globalData.activatedColor = driftColor(globalData.activatedColor);
+        //globalData.activatedColor = driftColor(globalData.activatedColor);
+        globalData.superActivatedColor = driftColor(globalData.superActivatedColor);
         globalData.deadColor = driftColor(globalData.deadColor);
     }
 }
@@ -86,8 +87,8 @@ export function determineColorPalette(globalData) {
         globalData.superActivatedColor = grey;
     } else if (globalData.colorPalette == 'variable') {
         globalData.backgroundColor = black;
-        globalData.activatedColor = mediumGrey;
+        globalData.activatedColor = whitish;
         globalData.deadColor = darkGrey;
-        globalData.superActivatedColor = whitish;
+        globalData.superActivatedColor = mediumGrey;
     }
 }
