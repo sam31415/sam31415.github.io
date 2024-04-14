@@ -20,7 +20,7 @@ var gridPeriodicityShiftY = 0
 var gridFlipX = false
 var gridFlipY = false
 var colorPalette = 'variable'
-var rule = "VariableGR"
+var rule = "Variable4Colors"
 var initialisation = "random"
 var ruleOrder = 2
 
