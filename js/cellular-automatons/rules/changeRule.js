@@ -2,6 +2,32 @@
 import { ruleConditions } from "./conditions.js";
 import { updateCellValueTertiary4ValuesMeta, updateCellValueSecondaryMeta } from "./rulesMeta.js";
 
+
+export function changeRule(globalData) {
+    if (globalData.rule == "Variable2Colors") {
+        changeRuleNColors(globalData, 2, false, false);
+    } else if (globalData.rule == "Variable3Colors") {
+        changeRuleNColors(globalData, 3, false, false);
+    } else if (globalData.rule == "Variable4Colors") {
+        changeRuleNColors(globalData, 4, false, false);
+    } else if (globalData.rule == "Tertiary4Colors" || globalData.rule == "TertiaryFancySpcshp") {
+        changeTertiaryRule4Colors(globalData, false);
+    } else if (globalData.rule == "VariableGR") {
+        var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
+        changeRuleNColors(globalData, nColors, false, false);
+        nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
+        changeRuleNColors(globalData, nColors, true, false);
+    } else if (globalData.rule == "Variable") {
+        var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
+        changeRuleNColors(globalData, nColors, false, false);
+    } 
+    globalData.ruleSwitchProbability += 1 / (globalData.ruleSwitchPeriod ** 2);
+    if (globalData.ruleSwitchProbability > 1) {
+        globalData.ruleSwitchProbability = 1;
+    }
+}
+
+
 function sampleCondition() {
     var randomIndex = Math.floor(Math.random() * ruleConditions.length);
     var randomNeighborType = Math.floor(Math.random() * 3);
@@ -14,7 +40,7 @@ function sampleCondition() {
 }
 
 export function changeRuleNColors(globalData, nColors, auxiliary = false, forceChange = false) {
-    if (Math.random() < 0.0002 || forceChange) {
+    if (Math.random() < globalData.ruleSwitchProbability || forceChange) {
         var conditions = [];
         for (let i = 0; i < nColors - 1; i++) {
             conditions.push(sampleCondition());
@@ -30,11 +56,12 @@ export function changeRuleNColors(globalData, nColors, auxiliary = false, forceC
         var conditionNames = conditions.map(condition => condition.conditionName);
         var conditionNamesString = conditionNames.join(' | ');
         console.log(ruleName + " changed to " + nColors + " colors " + conditionNamesString);
+        globalData.ruleSwitchProbability = 0;
     }
 }
 
 export function changeTertiaryRule4Colors(globalData, auxiliary = false, forceChange = false) {
-    if (Math.random() < 0.0002 || forceChange) {
+    if (Math.random() < globalData.ruleSwitchProbability || forceChange) {
         var randomIndex1 = Math.floor(Math.random() * ruleConditions.length);
         var randomNeighborType1 = Math.floor(Math.random() * 3);
         var randomEnableInactiveOnly1 = Math.floor(Math.random() * 3);
@@ -95,6 +122,8 @@ export function changeTertiaryRule4Colors(globalData, auxiliary = false, forceCh
             randomIndex4 + "-" + randomNeighborType4 + "-" + randomEnableInactiveOnly4 + ", " +
             randomIndex5 + "-" + randomNeighborType5 + "-" + randomEnableInactiveOnly5 + ", " +
             randomIndex6 + "-" + randomNeighborType6 + "-" + randomEnableInactiveOnly6 + ")");
+        globalData.ruleSwitchProbability = 0;
+
     }
 }
 
