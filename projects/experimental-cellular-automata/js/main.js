@@ -14,13 +14,13 @@ var gridHeight = 358
 var gridWidth = 358
 var timeout = 0
 var addRandomness = true
-var randomnessAmount = -2.0
+var randomnessAmount = -1.5
 var gridPeriodicityShiftX = 0
 var gridPeriodicityShiftY = 0
 var gridFlipX = false
 var gridFlipY = false
 var colorPalette = 'variable'
-var rule = "Variable4Colors"
+var rule = "Variable"
 var initialisation = "random"
 var ruleOrder = 2
 
@@ -57,8 +57,7 @@ window.onload = function() {
     retrieveGlobalData(globalData);
     determineColorPalette(globalData);
     setFindNeighbour(globalData);
-    setCellUpdateRule(globalData, false, true);
-    setCellUpdateRule(globalData, true, true);
+    setCellUpdateRule(globalData);
 
     initializeGrid(globalData).then(() =>{
         gameLoop(globalData);

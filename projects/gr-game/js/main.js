@@ -10,11 +10,11 @@ console.log("Loading main.js")
 
 var canvas = document.getElementById('gameCanvas');
 var ctx = canvas.getContext('2d');
-var gridHeight = 200
-var gridWidth = 200
+var gridHeight = 128
+var gridWidth = 128
 var timeout = 20
 var addRandomness = true
-var randomnessAmount = -2.0
+var randomnessAmount = -1.5
 var gridPeriodicityShiftX = 0
 var gridPeriodicityShiftY = 0
 var gridFlipX = false
@@ -58,8 +58,7 @@ window.onload = function() {
     retrieveGlobalData(globalData);
     determineColorPalette(globalData);
     setFindNeighbour(globalData);
-    setCellUpdateRule(globalData, false, true);
-    setCellUpdateRule(globalData, true, true);
+    setCellUpdateRule(globalData);
 
     initializeGrid(globalData).then(() =>{
         gameLoop(globalData);
