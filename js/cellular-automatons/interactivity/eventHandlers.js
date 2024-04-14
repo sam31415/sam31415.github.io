@@ -35,10 +35,10 @@ export function addMouseMoveListener(globalData) {
             var cellScreenSizeY = rect.height / globalData.gridHeight;
     
             // Calculate the clicked cell
-            var i = Math.floor(x / cellScreenSizeX);
-            var j = Math.floor(y / cellScreenSizeY);
+            var j = Math.floor(x / cellScreenSizeX);
+            var i = Math.floor(y / cellScreenSizeY);
 
-            globalData.grid.set(j, i, 1);
+            globalData.grid.set(i, j, 1);
         }
     });
 }
@@ -54,8 +54,8 @@ export function addMouseDownListener(globalData) {
         var cellScreenSizeY = rect.height / globalData.gridHeight;
 
         // Calculate the clicked cell
-        var i = Math.floor(x / cellScreenSizeX);
-        var j = Math.floor(y / cellScreenSizeY);
+        var j = Math.floor(x / cellScreenSizeX);
+        var i = Math.floor(y / cellScreenSizeY);
         
         if (!event.shiftKey && !event.ctrlKey) {
             globalData.grid.set((i+1) % globalData.gridHeight, (j+1) % globalData.gridWidth, 1);
