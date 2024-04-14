@@ -23,6 +23,7 @@ var colorPalette = 'variable'
 var rule = "Variable"
 var initialisation = "random"
 var ruleOrder = 2
+var maxNColors = 8
 
 var globalData = new GlobalData(
     canvas=canvas, 
@@ -39,7 +40,8 @@ var globalData = new GlobalData(
     colorPalette=colorPalette,
     rule=rule,
     initialisation=initialisation,
-    ruleOrder=ruleOrder
+    ruleOrder=ruleOrder,
+    maxNColors=maxNColors
 );
 
 window.onload = function() {
