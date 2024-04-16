@@ -85,6 +85,9 @@ export function setCellUpdateRule(globalData){
     } else if (globalData.rule == "Variable") {
         var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
         changeRuleNColors(globalData, nColors, false, true);
+    } else if (globalData.rule == "VariableSecAutomata") {
+        var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
+        changeRuleNColors(globalData, nColors, false, true, 1.0);
     } else if (globalData.rule == "Tertiary4Colors" || globalData.rule == "TertiaryFancySpcshp") {
         changeTertiaryRule4Colors(globalData, false, true);
     } else if (globalData.rule == "VariableGR") {

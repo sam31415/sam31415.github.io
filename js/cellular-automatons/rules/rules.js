@@ -1,6 +1,6 @@
 // Primary rule creating the starships
 
-function BBRule(cellValue, newCellValue, neighbors) {
+export function BBRule(cellValue, newCellValue, neighbors) {
     if (cellValue == 1 || cellValue == 3) {
         newCellValue = 2;
     } else if (cellValue == 2) {
@@ -27,6 +27,58 @@ export function BBRuleNoZero(cellValue, newCellValue, neighbors) {
     }
     return newCellValue;
 }
+
+export function BBRuleNoZerotest(cellValue, newCellValue, neighbors) {
+    if (cellValue == 1 || cellValue == 3) {
+        newCellValue = 2;
+    } else if (cellValue == 2) {
+        newCellValue = 0;
+    } else if (cellValue == 0 && neighbors == 2) {
+        newCellValue = 1;
+    } else if (cellValue == 0 && neighbors > 2) {
+        newCellValue = 3;
+    }
+    return newCellValue;
+}
+
+export function DayAndNight(cellValue, newCellValue, sneighbors) {
+    // Day and night
+    if (cellValue == 1 || cellValue == 3) {
+        if ([3,4,6,7,8].includes(sneighbors)) {
+            newCellValue = 1;
+        } else {
+            newCellValue = 2;
+        }
+    } else if (cellValue == 0 || cellValue == 2) {
+        if ([3,6,7,8].includes(sneighbors)){
+            newCellValue = 3;
+        } else {
+            newCellValue = 0;
+        }
+    }
+    return newCellValue;
+}
+
+export function PhaseBoundaries(cellValue, newCellValue, sneighbors) {
+    // Phase boundaries (original B2/S124, experimenting)
+    // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
+    if (cellValue == 1 || cellValue == 3) {
+        if ([1,2,3,4,5].includes(sneighbors)) {
+            newCellValue = 1;
+        } else {
+            newCellValue = 2;
+        }
+    } else if (cellValue == 0 || cellValue == 2) {
+        if ([3,7].includes(sneighbors)){
+            newCellValue = 3;
+        } else {
+            newCellValue = 0;
+        }
+    }
+    return newCellValue;
+}
+
+
 
 // Secondary rules to color the grid
 export function updateCellValueTest(cellValue, newCellValue, neighbor_list) {
@@ -313,6 +365,93 @@ export function updateCellValueConway(cellValue, newCellValue, neighbor_list) {
     } else if (cellValue == 2) {
         newCellValue = 0;
     }
+
+
+
+    // // Really interesting when on a square of size a power of 2. 
+    // // Goes black, but then one of the random seed produces nice expanding patterns. 
+    // // Too much blinking, though. Maybe we can correct this with more states.
+    // var sneighbors = neighbor_list[1];
+    // if (cellValue == 1 || cellValue == 3) {
+    //     if ([1,3,5,7].includes(sneighbors)) {
+    //         newCellValue = 1;
+    //     } else {
+    //         newCellValue = 2;
+    //     }
+    // } else if (cellValue == 0 || cellValue == 2) {
+    //     if ([1,3,5,7].includes(sneighbors)){
+    //         newCellValue = 3;
+    //     } else {
+    //         newCellValue = 0;
+    //     }
+    // }
+
+    // // Like Conway, but doesn't seem to settle
+    // var sneighbors = neighbor_list[1];
+    // if (cellValue == 1 || cellValue == 3) {
+    //     if ([2,3,7].includes(sneighbors)) {
+    //         newCellValue = 1;
+    //     } else {
+    //         newCellValue = 2;
+    //     }
+    // } else if (cellValue == 0 || cellValue == 2) {
+    //     if ([3,6].includes(sneighbors)){
+    //         newCellValue = 3;
+    //     } else {
+    //         newCellValue = 0;
+    //     }
+    // }
+
+
+
+    // // Conway
+    // var sneighbors = neighbor_list[1];
+    // if (cellValue == 1 || cellValue == 3) {
+    //     if ([2,3].includes(sneighbors)) {
+    //         newCellValue = 1;
+    //     } else {
+    //         newCellValue = 2;
+    //     }
+    // } else if (cellValue == 0 || cellValue == 2) {
+    //     if ([3].includes(sneighbors)){
+    //         newCellValue = 3;
+    //     } else {
+    //         newCellValue = 0;
+    //     }
+    // }
+
+    // Fluttering (needs randomness to survive...)
+    // var sneighbors = neighbor_list[1];
+    // if (cellValue == 1 || cellValue == 3) {
+    //     if ([4,5,6].includes(sneighbors)) {
+    //         newCellValue = 1;
+    //     } else {
+    //         newCellValue = 2;
+    //     }
+    // } else if (cellValue == 0 || cellValue == 2) {
+    //     if ([3,4].includes(sneighbors)){
+    //         newCellValue = 3;
+    //     } else {
+    //         newCellValue = 0;
+    //     }
+    // }
+
+    // Pseudo-life https://conwaylife.com/wiki/OCA:Pseudo_Life
+    // var sneighbors = neighbor_list[1];
+    // if (cellValue == 1 || cellValue == 3) {
+    //     if ([2,3,8].includes(sneighbors)) {
+    //         newCellValue = 1;
+    //     } else {
+    //         newCellValue = 2;
+    //     }
+    // } else if (cellValue == 0 || cellValue == 2) {
+    //     if ([3,5,7].includes(sneighbors)){
+    //         newCellValue = 3;
+    //     } else {
+    //         newCellValue = 0;
+    //     }
+    // }
+
     return newCellValue;
 }
 

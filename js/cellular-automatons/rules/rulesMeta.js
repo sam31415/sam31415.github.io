@@ -1,20 +1,58 @@
 import { conditionInactive } from "./conditions.js";
-import { BBRuleNoZero } from "./rules.js";
+import { BBRuleNoZero, BBRule, DayAndNight, PhaseBoundaries } from "./rules.js";
+import { twoStateRuleStringToFunction } from "./twoStateRules.js";
 
-export function updateCellValueSecondaryMeta(conditions) {
+
+// Idea: Trying to get the secondary value to evolve according to a labyrinthine rule, see
+// https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
+// while the primary value evolves according to the BB rule. Looks good now.
+// Try different modulo on the second line of updateRule
+// ["B2S124", ]
+// B167S2567 ntype 1 modulo 12
+export function updateCellValueSecondaryMeta(ruleDefinition) {
+    var secondaryRule = ruleDefinition.secondaryRule;
+    var secondaryNeighborType = ruleDefinition.neighborType;
+    var secondaryModulo = ruleDefinition.modulo;
+    var secondaryRuleEnabled = ruleDefinition.secondaryRuleEnabled;
+    var conditions = ruleDefinition.conditions;
     function updateRule(cellValue, newCellValue, neighbor_list) {
         newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
+        if (secondaryRuleEnabled) {
+            newCellValue = newCellValue % secondaryModulo + 4 * ((secondaryRule(Math.floor(cellValue / 4) % 4, neighbor_list[secondaryNeighborType])) % 4); 
+        }
+        //newCellValue = newCellValue % 12 + 4 * ((PhaseBoundaries(Math.floor(cellValue / 4) % 4, neighbor_list[3])) % 4); 
+        //newCellValue = newCellValue % 4 + 4 * ((DayAndNight(Math.floor(cellValue / 4) % 4, newCellValue, neighbor_list[4])) % 4); 
         for (let i = 0; i < conditions.length; i++) {
             const { conditionFunc, neighborType, enableInactiveOnly } = conditions[i];
             if (conditionFunc(neighbor_list[neighborType]) && conditionInactive(enableInactiveOnly)(cellValue)) {
                 newCellValue = (newCellValue + 4 * (i + 1)) % (4 * (conditions.length + 1));
-            }
+            } 
         }
         return newCellValue;
     }
 
     return updateRule;
 }
+
+// Random experiments...
+// export function updateCellValueSecondaryMetaTest(conditions) {
+//     function updateRule(cellValue, newCellValue, neighbor_list) {
+//         newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
+//         //newCellValue = BBRule(cellValue % 4, newCellValue, neighbor_list[0]) 
+        
+//         for (let i = 0; i < conditions.length; i++) {
+//             const { conditionFunc, neighborType, enableInactiveOnly } = conditions[i];
+//             if (conditionFunc(neighbor_list[neighborType]) && conditionInactive(enableInactiveOnly)(cellValue)) {
+//                 newCellValue = (newCellValue + 4 * (i + 1)) % (4 * (conditions.length + 1));
+//             } else {
+//                 newCellValue = (newCellValue + Math.max(0, Math.floor(cellValue / 4) - 3) * 4) % (4 * (conditions.length + 1));
+//             }
+//         }
+//         return newCellValue;
+//     }
+
+//     return updateRule;
+// }
 
 export function updateCellValueTertiary4ValuesMeta(
     conditionFunc1, neighbor_type1, enableInactiveOnly1,

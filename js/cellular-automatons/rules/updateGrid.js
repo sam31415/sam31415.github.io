@@ -53,7 +53,7 @@ export function updateGrid(globalData) {
                     globalData.redraw.set(i, j, 0);
                 }
             } else if (globalData.ruleOrder == 2) {
-                if (Math.floor(newCellValue / 4) != Math.floor(cellValue / 4)) {
+                if (Math.floor(newCellValue / 4) % 4 != Math.floor(cellValue / 4) % 4) {
                     globalData.redraw.set(i, j, 1);
                 } else {
                     globalData.redraw.set(i, j, 0);
