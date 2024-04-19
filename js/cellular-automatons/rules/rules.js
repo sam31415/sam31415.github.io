@@ -28,15 +28,15 @@ export function BBRuleNoZero(cellValue, newCellValue, neighbors) {
     return newCellValue;
 }
 
-export function BBRuleNoZerotest(cellValue, newCellValue, neighbors) {
+export function BBRuleNoZeroTest(cellValue, newCellValue, neighbors) {
     if (cellValue == 1 || cellValue == 3) {
-        newCellValue = 2;
+        newCellValue = 10;
     } else if (cellValue == 2) {
         newCellValue = 0;
     } else if (cellValue == 0 && neighbors == 2) {
-        newCellValue = 1;
+        newCellValue = 5;
     } else if (cellValue == 0 && neighbors > 2) {
-        newCellValue = 3;
+        newCellValue = 15;
     }
     return newCellValue;
 }

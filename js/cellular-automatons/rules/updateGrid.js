@@ -40,7 +40,7 @@ export function updateGrid(globalData) {
             }
             let cellValue = globalData.grid.get(i, j);
             var newCellValue = cellValue;
-            var neighbor_list = [neighbors, sneighbors, dneighbors, neighborsAux0, neighborsAux1, neighborsAux2, neighborsAux3];
+            var neighbor_list = [neighbors, sneighbors, dneighbors, neighborsAux0, neighborsAux1, neighborsAux2, neighborsAux3, neighborsAux1 + neighborsAux3];
             if (globalData.rule != "VariableGR" || globalData.mask.get(i, j) == 0) {
                 newCellValue = globalData.updateCellValue(cellValue, newCellValue, neighbor_list);
             } else {

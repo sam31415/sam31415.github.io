@@ -43,7 +43,6 @@ var goodRules = [
 export function randomTwoStateRuleFunction() {
     // Generate a random rule string
     const ruleString = generateRandomRule();
-    //const ruleString = pickRandomElement(goodRules);
 
     // Return the rule function
     return [ruleString, twoStateRuleStringToFunction(ruleString)];

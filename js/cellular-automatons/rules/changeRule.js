@@ -1,7 +1,7 @@
 
 import { ruleConditions } from "./conditions.js";
-import { updateCellValueTertiary4ValuesMeta, updateCellValueSecondaryMeta } from "./rulesMeta.js";
-import { randomTwoStateRuleFunction } from "./twoStateRules.js";
+import { updateCellValueTertiary4ValuesMeta, updateCellValueSecondaryMeta, updateCellValueTertiaryMeta } from "./rulesMeta.js";
+import { randomTwoStateRuleFunction, twoStateRuleStringToFunction } from "./twoStateRules.js";
 
 
 export function changeRule(globalData) {
@@ -24,6 +24,9 @@ export function changeRule(globalData) {
     } else if (globalData.rule == "VariableSecAutomata") {
         var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
         changeRuleNColors(globalData, nColors, false, globalData.changeColoringRuleFlag, 1.0);
+    } else if (globalData.rule == "TertiaryAutomata") {
+        var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
+        changeRuleTertiaryNColors(globalData, nColors, false, globalData.changeColoringRuleFlag, 1.0);
     } 
     globalData.ruleSwitchProbability += 1 / (globalData.ruleSwitchPeriod ** 2);
     if (globalData.ruleSwitchProbability > 1) {
@@ -46,8 +49,10 @@ function sampleCondition() {
 
 function sampleSecondaryRule(nColors = 4, secondaryAutomatonFraction = 0.0) {
     const [secondaryRuleString, secondaryRule] = randomTwoStateRuleFunction();
-    var neighborType = Math.floor(Math.random() * 7);
-    var modulo = (Math.floor(Math.random() * 3) + 1) * 4;
+    //const secondaryRuleString = "B123478S123456"
+    //const secondaryRule = twoStateRuleStringToFunction(secondaryRuleString);
+    var neighborType = Math.floor(Math.random() * 5) + 3;
+    var modulo = (Math.floor(Math.random() * 15) + 1) * 4;
     var secondaryRuleEnabled = Math.random() < secondaryAutomatonFraction;
     var conditions = [];
         for (let i = 0; i < nColors - 1; i++) {
@@ -65,6 +70,29 @@ export function changeRuleNColors(globalData, nColors, auxiliary = false, forceC
     if (Math.random() < globalData.ruleSwitchProbability || forceChange) {
         var ruleDefinition = sampleSecondaryRule(nColors, secondaryAutomatonFraction)
         var randomRule = updateCellValueSecondaryMeta(ruleDefinition);
+        var ruleName = "Rule";
+        if (auxiliary) {
+            globalData.updateCellValueAuxiliary = randomRule;
+            ruleName = "Auxiliary rule";
+        } else {
+            globalData.updateCellValue = randomRule;
+        }
+        var conditionNames = ruleDefinition.conditions.map(condition => condition.conditionName);
+        var conditionNamesString = conditionNames.join(' | ');
+        console.log(ruleName + " changed to:")
+        if (ruleDefinition.secondaryRuleEnabled) {
+            console.log("  - " + ruleDefinition.secondaryRuleSString + " ntype " + ruleDefinition.neighborType + " modulo " + ruleDefinition.modulo)
+        }
+        console.log("  - " + nColors + " colors " + conditionNamesString);
+        globalData.ruleSwitchProbability = 0;
+    }
+}
+
+
+export function changeRuleTertiaryNColors(globalData, nColors, auxiliary = false, forceChange = false, secondaryAutomatonFraction = 0.0) {
+    if (Math.random() < globalData.ruleSwitchProbability || forceChange) {
+        var ruleDefinition = sampleSecondaryRule(nColors, secondaryAutomatonFraction)
+        var randomRule = updateCellValueTertiaryMeta(ruleDefinition);
         var ruleName = "Rule";
         if (auxiliary) {
             globalData.updateCellValueAuxiliary = randomRule;

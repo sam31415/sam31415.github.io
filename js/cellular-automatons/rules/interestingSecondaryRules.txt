@@ -1,0 +1,17 @@
+  - B134S28 ntype 3 modulo 8
+  - B2457S12457 ntype 4 modulo 16
+  - B378S1246 ntype 4 modulo 4
+  - B35S1234578 ntype 3 modulo 4
+  - B123478S123456 ntype 4 modulo 4
+  - B4678S678 ntype 3 modulo 8
+
+
+  Tertiary:
+  - B24678S34568 ntype 3 modulo 12
+  - B178S23 ntype 5 modulo 12
+  - B2345S1 ntype 3 modulo 12
+  - B23456S37 ntype 7 modulo 12
+  - B3458S1478 ntype 3 modulo 12
+  - B234678S4678 ntype 3 modulo 12
+  - B235678S24578 ntype 3 modulo 12
+  - B4S2378 ntype 5 modulo 12

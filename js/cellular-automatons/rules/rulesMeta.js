@@ -1,5 +1,5 @@
 import { conditionInactive } from "./conditions.js";
-import { BBRuleNoZero, BBRule, DayAndNight, PhaseBoundaries } from "./rules.js";
+import { BBRuleNoZero, BBRuleNoZeroTest, BBRule, DayAndNight, PhaseBoundaries } from "./rules.js";
 import { twoStateRuleStringToFunction } from "./twoStateRules.js";
 
 
@@ -20,12 +20,34 @@ export function updateCellValueSecondaryMeta(ruleDefinition) {
         if (secondaryRuleEnabled) {
             newCellValue = newCellValue % secondaryModulo + 4 * ((secondaryRule(Math.floor(cellValue / 4) % 4, neighbor_list[secondaryNeighborType])) % 4); 
         }
-        //newCellValue = newCellValue % 12 + 4 * ((PhaseBoundaries(Math.floor(cellValue / 4) % 4, neighbor_list[3])) % 4); 
-        //newCellValue = newCellValue % 4 + 4 * ((DayAndNight(Math.floor(cellValue / 4) % 4, newCellValue, neighbor_list[4])) % 4); 
         for (let i = 0; i < conditions.length; i++) {
             const { conditionFunc, neighborType, enableInactiveOnly } = conditions[i];
             if (conditionFunc(neighbor_list[neighborType]) && conditionInactive(enableInactiveOnly)(cellValue)) {
-                newCellValue = (newCellValue + 4 * (i + 1)) % (4 * (conditions.length + 1));
+                newCellValue = (newCellValue + 4 * (i + 1)) % 16;
+            } 
+        }
+        return newCellValue;
+    }
+
+    return updateRule;
+}
+
+
+export function updateCellValueTertiaryMeta(ruleDefinition) {
+    var secondaryRule = ruleDefinition.secondaryRule;
+    var secondaryNeighborType = ruleDefinition.neighborType;
+    var secondaryModulo = ruleDefinition.modulo;
+    var secondaryRuleEnabled = ruleDefinition.secondaryRuleEnabled;
+    var conditions = ruleDefinition.conditions;
+    function updateRule(cellValue, newCellValue, neighbor_list) {
+        newCellValue = BBRuleNoZeroTest(cellValue % 4, newCellValue, neighbor_list[0]);
+        if (secondaryRuleEnabled) {
+            newCellValue = newCellValue % secondaryModulo + 4 * ((secondaryRule(Math.floor(cellValue / 4) % 4, neighbor_list[secondaryNeighborType])) % 4); 
+        }
+        for (let i = 0; i < conditions.length; i++) {
+            const { conditionFunc, neighborType, enableInactiveOnly } = conditions[i];
+            if (conditionFunc(neighbor_list[neighborType]) && conditionInactive(enableInactiveOnly)(newCellValue)) {
+                newCellValue = (newCellValue + 16 * (i + 1)) % 64;
             } 
         }
         return newCellValue;
