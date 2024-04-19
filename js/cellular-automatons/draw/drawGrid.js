@@ -45,9 +45,10 @@ export function drawGrid(globalData) {
         console.log('Changing rule because suspected oscillation (running proportion of cells changed: ' + proportion.toFixed(1) + ').');
         globalData.nCellChangedHistoric = 0;
     }
-    if (nCellChanged < 3) {
+    if (globalData.nCellChangedHistoric < 3) {
         globalData.changeColoringRuleFlag = true;
         console.log('Changing rule because not enough cells changed (' + nCellChanged + ').')
+        globalData.nCellChangedHistoric = 20;
     }
     ctx.putImageData(imageData, globalData.canvasCornerX, globalData.canvasCornerY);
 }
