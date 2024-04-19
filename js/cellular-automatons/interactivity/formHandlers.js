@@ -1,3 +1,5 @@
+import { ruleOrder } from '../rules/ruleOrder.js';
+
 export function updateRandomnessValue(globalData, value) {
     globalData.randomnessAmount = value;
     document.getElementById('randomnessAmountValue').textContent = value;
@@ -56,12 +58,7 @@ export function retrieveGlobalData(globalData) {
         globalData.addRandomness = localStorage.getItem('userRandomnessOn') === 'true';
         globalData.randomnessAmount = parseFloat(localStorage.getItem('userRandomnessAmount'));
         globalData.rule = localStorage.getItem('userRule');
-        globalData.ruleOrder = 1;
-        if (globalData.rule.includes("Secondary") || globalData.rule.includes("Variable")){
-            globalData.ruleOrder = 2;
-        } else if (globalData.rule.includes("Tertiary")){
-            globalData.ruleOrder = 3;
-        }
+        globalData.ruleOrder = ruleOrder(globalData.rule);
 
         console.log('Retrieved value from previous session: ...');
     } else {
