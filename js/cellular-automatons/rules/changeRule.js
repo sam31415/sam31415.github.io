@@ -1,7 +1,7 @@
 
 import { ruleConditions } from "./conditions.js";
 import { updateCellValueTertiary4ValuesMeta, updateCellValueSecondaryMeta, updateCellValueTertiaryMeta } from "./rulesMeta.js";
-import { randomTwoStateRuleFunction, twoStateRuleStringToFunction } from "./twoStateRules.js";
+import { randomTwoStateRuleFunction, randomTwoStatePlusDeadRuleFunction } from "./twoStateRules.js";
 
 
 export function changeRule(globalData) {
@@ -48,18 +48,26 @@ function sampleCondition() {
 }
 
 function sampleSecondaryRule(nColors = 4, secondaryAutomatonFraction = 0.0) {
-    const [secondaryRuleString, secondaryRule] = randomTwoStateRuleFunction();
+    var useDeadCells = Math.random() < 0.5;
+    var secondaryRuleString;
+    var secondaryRule
+    if (useDeadCells) {
+        [secondaryRuleString, secondaryRule] = randomTwoStatePlusDeadRuleFunction();
+    } else {
+        [secondaryRuleString, secondaryRule] = randomTwoStateRuleFunction();
+    }
     //const secondaryRuleString = "B123478S123456"
     //const secondaryRule = twoStateRuleStringToFunction(secondaryRuleString);
-    var neighborType = Math.floor(Math.random() * 5) + 3;
-    var modulo = (Math.floor(Math.random() * 15) + 1) * 4;
+    var neighborType = Math.floor(Math.random() * 8);
+    var modulo = 64 // (Math.floor(Math.random() * 12) + 4) * 4;
     var secondaryRuleEnabled = Math.random() < secondaryAutomatonFraction;
     var conditions = [];
         for (let i = 0; i < nColors - 1; i++) {
             conditions.push(sampleCondition());
         }
     return { secondaryRuleSString: secondaryRuleString, 
-             secondaryRule: secondaryRule, 
+             secondaryRule: secondaryRule,
+             useDeadCells: useDeadCells, 
              secondaryRuleEnabled: secondaryRuleEnabled,
              neighborType: neighborType, 
              modulo: modulo,
@@ -81,7 +89,7 @@ export function changeRuleNColors(globalData, nColors, auxiliary = false, forceC
         var conditionNamesString = conditionNames.join(' | ');
         console.log(ruleName + " changed to:")
         if (ruleDefinition.secondaryRuleEnabled) {
-            console.log("  - " + ruleDefinition.secondaryRuleSString + " ntype " + ruleDefinition.neighborType + " modulo " + ruleDefinition.modulo)
+            console.log("  - " + ruleDefinition.secondaryRuleSString + " dead cells " + ruleDefinition.useDeadCells + " ntype " + ruleDefinition.neighborType + " modulo " + ruleDefinition.modulo)
         }
         console.log("  - " + nColors + " colors " + conditionNamesString);
         globalData.ruleSwitchProbability = 0;

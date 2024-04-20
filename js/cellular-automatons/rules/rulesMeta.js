@@ -18,7 +18,7 @@ export function updateCellValueSecondaryMeta(ruleDefinition) {
     function updateRule(cellValue, newCellValue, neighbor_list) {
         newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
         if (secondaryRuleEnabled) {
-            newCellValue = newCellValue % secondaryModulo + 4 * ((secondaryRule(Math.floor(cellValue / 4) % 4, neighbor_list[secondaryNeighborType])) % 4); 
+            newCellValue = newCellValue % secondaryModulo + 4 * ((secondaryRule(Math.floor(cellValue / 4) % 4, newCellValue, neighbor_list[secondaryNeighborType])) % 4); 
         }
         for (let i = 0; i < conditions.length; i++) {
             const { conditionFunc, neighborType, enableInactiveOnly } = conditions[i];
@@ -42,7 +42,7 @@ export function updateCellValueTertiaryMeta(ruleDefinition) {
     function updateRule(cellValue, newCellValue, neighbor_list) {
         newCellValue = BBRuleNoZeroTest(cellValue % 4, newCellValue, neighbor_list[0]);
         if (secondaryRuleEnabled) {
-            newCellValue = newCellValue % secondaryModulo + 4 * ((secondaryRule(Math.floor(cellValue / 4) % 4, neighbor_list[secondaryNeighborType])) % 4); 
+            newCellValue = newCellValue % secondaryModulo + 4 * ((secondaryRule(Math.floor(cellValue / 4) % 4, newCellValue, neighbor_list[secondaryNeighborType])) % 4); 
         }
         for (let i = 0; i < conditions.length; i++) {
             const { conditionFunc, neighborType, enableInactiveOnly } = conditions[i];

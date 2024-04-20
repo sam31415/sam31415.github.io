@@ -14,7 +14,7 @@ export function twoStateRuleStringToFunction(ruleString) {
     const [birthList, survivalList] = extractLists(ruleString);
 
     // Return a function that implements the rule
-    return function(cellValue, neighbors) {
+    return function(cellValue, newCellValue, neighbors) {
         // Phase boundaries (original B2/S124, experimenting)
         // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
         var newCellValue = 0;
@@ -35,6 +35,56 @@ export function twoStateRuleStringToFunction(ruleString) {
     }
 }
 
+export function twoStateNoZeroRuleStringToFunction(ruleString) {
+    // Extract the birth and survival lists from the rule string
+    const [birthList, survivalList] = extractLists(ruleString);
+
+    // Return a function that implements the rule
+    return function(cellValue, newCellValue, neighbors) {
+        // Phase boundaries (original B2/S124, experimenting)
+        // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
+        //var newCellValue = 0;
+        if (cellValue == 1 || cellValue == 3) {
+            if (survivalList.includes(neighbors)) {
+                newCellValue = 1;
+            } else {
+                newCellValue = 2;
+            }
+        } else if (cellValue == 0 || cellValue == 2) {
+            if (birthList.includes(neighbors)){
+                newCellValue = 3;
+            }
+        }
+        return newCellValue;
+    }
+}
+
+export function twoStatePlusDeadRuleStringToFunction(ruleString) {
+    // Extract the birth and survival lists from the rule string
+    const [birthList, survivalList] = extractLists(ruleString);
+
+    // Return a function that implements the rule
+    return function(cellValue, newCellValue, neighbors) {
+        // Phase boundaries (original B2/S124, experimenting)
+        // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
+        //var newCellValue = 0;
+        if (cellValue == 1 || cellValue == 3) {
+            if (survivalList.includes(neighbors)) {
+                newCellValue = 1;
+            } else {
+                newCellValue = 2;
+            }
+        } else if (cellValue == 2) {
+            newCellValue = 0;
+        } else if (cellValue == 0) {
+            if (birthList.includes(neighbors)){
+                newCellValue = 3;
+            }
+        }
+        return newCellValue;
+    }
+}
+
 var goodRules = [
     //"B2S124", 
     //"B167S2567", 
@@ -45,7 +95,17 @@ export function randomTwoStateRuleFunction() {
     const ruleString = generateRandomRule();
 
     // Return the rule function
-    return [ruleString, twoStateRuleStringToFunction(ruleString)];
+    return [ruleString, twoStateNoZeroRuleStringToFunction(ruleString)];
+    // return [ruleString, twoStateRuleStringToFunction(ruleString)];
+
+}
+
+export function randomTwoStatePlusDeadRuleFunction() {
+    // Generate a random rule string
+    const ruleString = generateRandomRule();
+
+    // Return the rule function
+    return [ruleString, twoStatePlusDeadRuleStringToFunction(ruleString)];
 }
 
 export function generateRandomRule() {
