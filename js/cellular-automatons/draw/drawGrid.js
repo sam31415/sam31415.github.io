@@ -38,16 +38,16 @@ export function drawGrid(globalData) {
             imageData.data[index + 3] = 255; // Alpha (255 = fully opaque)
         }
     }
-    globalData.nCellChangedHistoric = 1/10 * nCellChanged + 9 / 10 * globalData.nCellChangedHistoric;
+    globalData.nCellChangedHistoric = 1/30 * nCellChanged + 29 / 30 * globalData.nCellChangedHistoric;
     if (globalData.nCellChangedHistoric > 0.2 * globalData.gridHeight * globalData.gridWidth) {
         globalData.changeColoringRuleFlag = true;
         var proportion = globalData.nCellChangedHistoric / (globalData.gridHeight * globalData.gridWidth);
         console.log('Changing rule because suspected oscillation (running proportion of cells changed: ' + proportion.toFixed(1) + ').');
-        globalData.nCellChangedHistoric = 0;
+        globalData.nCellChangedHistoric = 15;
     }
     if (globalData.nCellChangedHistoric < 3) {
         globalData.changeColoringRuleFlag = true;
-        console.log('Changing rule because not enough cells changed (' + nCellChanged + ').')
+        console.log('Changing rule because not enough cells changed (' + globalData.nCellChangedHistoric + ').')
         globalData.nCellChangedHistoric = 20;
     }
     ctx.putImageData(imageData, globalData.canvasCornerX, globalData.canvasCornerY);
