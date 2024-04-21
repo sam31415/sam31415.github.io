@@ -1,3 +1,4 @@
+import { saveEventData } from '../interactivity/saveEventData.js';
 
 export function drawGrid(globalData) {
     let ctx = globalData.ctx; //canvas.getContext('2d');
@@ -44,11 +45,13 @@ export function drawGrid(globalData) {
         var proportion = globalData.nCellChangedHistoric / (globalData.gridHeight * globalData.gridWidth);
         console.log('Changing rule because suspected oscillation (running proportion of cells changed: ' + proportion.toFixed(1) + ').');
         globalData.nCellChangedHistoric = 15;
+        saveEventData(globalData, 'oscillation');
     }
     if (globalData.nCellChangedHistoric < 3) {
         globalData.changeColoringRuleFlag = true;
         console.log('Changing rule because not enough cells changed (' + globalData.nCellChangedHistoric + ').')
         globalData.nCellChangedHistoric = 20;
+        saveEventData(globalData, 'blackout');
     }
     ctx.putImageData(imageData, globalData.canvasCornerX, globalData.canvasCornerY);
 }

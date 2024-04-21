@@ -3,6 +3,7 @@ import { initializeGrid } from "../initialisation/initialiseGrid.js";
 import { setFindNeighbour, setCellUpdateRule} from './optionSetter.js';
 import { determineColorPalette } from '../draw/coloring.js';
 import { ruleOrder } from '../rules/ruleOrder.js';
+import { saveEventData } from './saveEventData.js';
 
 export function addRandomnessCheckboxListener(globalData) {
     document.getElementById('randomnessCheckbox').addEventListener('change', function() {
@@ -150,5 +151,19 @@ export function addColorPaletteListener(globalData) {
 export function addChangeColoringRuleListener(globalData) {
     document.getElementById('changeColoringRule').addEventListener('click', function() {
         globalData.changeColoringRuleFlag = true;
+    });
+}
+
+export function addLikeButtonListeners(globalData) {
+    document.getElementById('saveEventCheckbox').addEventListener('change', function() {
+        globalData.saveEventData = this.checked; // Set the variable to the checkbox's state
+    });
+
+    document.getElementById('likeButton').addEventListener('click', function() {
+        saveEventData(globalData, 'like');
+    });
+
+    document.getElementById('dislikeButton').addEventListener('click', function() {
+        saveEventData(globalData, 'dislike');
     });
 }

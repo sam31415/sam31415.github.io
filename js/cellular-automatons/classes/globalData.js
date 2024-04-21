@@ -51,5 +51,6 @@ export class GlobalData {
         this.imageData = ctx.createImageData(canvas.width, canvas.height);
         this.changeColoringRuleFlag = true;
         this.nCellChangedHistoric = 0;
+        this.saveEventData = false;
     }
 }

@@ -59,7 +59,7 @@ function sampleSecondaryRule(nColors = 4, secondaryAutomatonFraction = 0.0) {
     //const secondaryRuleString = "B123478S123456"
     //const secondaryRule = twoStateRuleStringToFunction(secondaryRuleString);
     var neighborType = Math.floor(Math.random() * 8);
-    var modulo = 64 // (Math.floor(Math.random() * 12) + 4) * 4;
+    var modulo = (Math.floor(Math.random() * 12) + 4) * 4;
     var secondaryRuleEnabled = Math.random() < secondaryAutomatonFraction;
     var conditions = [];
         for (let i = 0; i < nColors - 1; i++) {
@@ -93,6 +93,9 @@ export function changeRuleNColors(globalData, nColors, auxiliary = false, forceC
         }
         console.log("  - " + nColors + " colors " + conditionNamesString);
         globalData.ruleSwitchProbability = 0;
+
+        // Add the rule information to globalData
+        globalData.ruleDefinition = ruleDefinition;
     }
 }
 
@@ -116,6 +119,9 @@ export function changeRuleTertiaryNColors(globalData, nColors, auxiliary = false
         }
         console.log("  - " + nColors + " colors " + conditionNamesString);
         globalData.ruleSwitchProbability = 0;
+
+        // Add the rule information to globalData
+        globalData.ruleDefinition = ruleDefinition;
     }
 }
 

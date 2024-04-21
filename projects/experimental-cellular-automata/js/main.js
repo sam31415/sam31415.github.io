@@ -1,7 +1,7 @@
 import { GlobalData } from '../../../js/cellular-automatons/classes/globalData.js';
 import { gameLoop } from '../../../js/cellular-automatons/gameLoop.js';
 import { initializeGrid } from "../../../js/cellular-automatons/initialisation/initialiseGrid.js";
-import { addChangeColoringRuleListener, addRuleListener, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener } from '../../../js/cellular-automatons/interactivity/eventHandlers.js';
+import { addLikeButtonListeners, addChangeColoringRuleListener, addRuleListener, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener } from '../../../js/cellular-automatons/interactivity/eventHandlers.js';
 import { retrieveGlobalData } from '../../../js/cellular-automatons/interactivity/formHandlers.js';
 import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/interactivity/optionSetter.js';
 import { determineColorPalette } from '../../../js/cellular-automatons/draw/coloring.js';
@@ -56,6 +56,7 @@ window.onload = function() {
     addColorPaletteListener(globalData);
     addRuleListener(globalData);
     addChangeColoringRuleListener(globalData);
+    addLikeButtonListeners(globalData);
 
     retrieveGlobalData(globalData);
     determineColorPalette(globalData);
