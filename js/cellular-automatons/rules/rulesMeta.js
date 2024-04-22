@@ -1,6 +1,6 @@
 import { conditionInactive } from "./conditions.js";
 import { BBRuleNoZero, BBRuleNoZeroTest, BBRule, DayAndNight, PhaseBoundaries } from "./rules.js";
-import { twoStateRuleStringToFunction } from "./twoStateRules.js";
+import { twoStateRuleStringToFunction, twoStateNoZeroRuleStringToFunction } from "./twoStateRules.js";
 
 
 // Idea: Trying to get the secondary value to evolve according to a labyrinthine rule, see
@@ -10,13 +10,14 @@ import { twoStateRuleStringToFunction } from "./twoStateRules.js";
 // ["B2S124", ]
 // B167S2567 ntype 1 modulo 12
 export function updateCellValueSecondaryMeta(ruleDefinition) {
+    var primaryRule = ruleDefinition.primaryRule 
     var secondaryRule = ruleDefinition.secondaryRule;
     var secondaryNeighborType = ruleDefinition.neighborType;
     var secondaryModulo = ruleDefinition.modulo;
     var secondaryRuleEnabled = ruleDefinition.secondaryRuleEnabled;
     var conditions = ruleDefinition.conditions;
     function updateRule(cellValue, newCellValue, neighbor_list) {
-        newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
+        newCellValue = primaryRule(cellValue % 4, newCellValue, neighbor_list[0]);
         if (secondaryRuleEnabled) {
             newCellValue = newCellValue % secondaryModulo + 4 * ((secondaryRule(Math.floor(cellValue / 4) % 4, newCellValue, neighbor_list[secondaryNeighborType])) % 4); 
         }
@@ -34,13 +35,14 @@ export function updateCellValueSecondaryMeta(ruleDefinition) {
 
 
 export function updateCellValueTertiaryMeta(ruleDefinition) {
+    var primaryRule = ruleDefinition.primaryRule
     var secondaryRule = ruleDefinition.secondaryRule;
     var secondaryNeighborType = ruleDefinition.neighborType;
     var secondaryModulo = ruleDefinition.modulo;
     var secondaryRuleEnabled = ruleDefinition.secondaryRuleEnabled;
     var conditions = ruleDefinition.conditions;
     function updateRule(cellValue, newCellValue, neighbor_list) {
-        newCellValue = BBRuleNoZeroTest(cellValue % 4, newCellValue, neighbor_list[0]);
+        newCellValue = primaryRule(cellValue % 4, newCellValue, neighbor_list[0]);
         if (secondaryRuleEnabled) {
             newCellValue = newCellValue % secondaryModulo + 4 * ((secondaryRule(Math.floor(cellValue / 4) % 4, newCellValue, neighbor_list[secondaryNeighborType])) % 4); 
         }

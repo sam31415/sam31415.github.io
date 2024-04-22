@@ -1,7 +1,7 @@
 
 import { ruleConditions } from "./conditions.js";
 import { updateCellValueTertiary4ValuesMeta, updateCellValueSecondaryMeta, updateCellValueTertiaryMeta } from "./rulesMeta.js";
-import { randomTwoStateRuleFunction, randomTwoStatePlusDeadRuleFunction } from "./twoStateRules.js";
+import { randomTwoStateRuleFunction, randomTwoStatePlusDeadRuleFunction, twoStateRuleStringToFunction } from "./twoStateRules.js";
 
 
 export function changeRule(globalData) {
@@ -48,6 +48,7 @@ function sampleCondition() {
 }
 
 function sampleSecondaryRule(nColors = 4, secondaryAutomatonFraction = 0.0) {
+    var primaryRule = BBRuleNoZero // twoStateNoZeroRuleStringToFunction("B23456S237") // 
     var useDeadCells = Math.random() < 0.5;
     var secondaryRuleString;
     var secondaryRule
@@ -56,8 +57,8 @@ function sampleSecondaryRule(nColors = 4, secondaryAutomatonFraction = 0.0) {
     } else {
         [secondaryRuleString, secondaryRule] = randomTwoStateRuleFunction();
     }
-    //const secondaryRuleString = "B123478S123456"
-    //const secondaryRule = twoStateRuleStringToFunction(secondaryRuleString);
+    //secondaryRuleString = "B3S1234"
+    //secondaryRule = twoStateRuleStringToFunction(secondaryRuleString);
     var neighborType = Math.floor(Math.random() * 8);
     var modulo = (Math.floor(Math.random() * 12) + 4) * 4;
     var secondaryRuleEnabled = Math.random() < secondaryAutomatonFraction;
@@ -65,7 +66,8 @@ function sampleSecondaryRule(nColors = 4, secondaryAutomatonFraction = 0.0) {
         for (let i = 0; i < nColors - 1; i++) {
             conditions.push(sampleCondition());
         }
-    return { secondaryRuleSString: secondaryRuleString, 
+    return { primaryRule: primaryRule,
+             secondaryRuleSString: secondaryRuleString, 
              secondaryRule: secondaryRule,
              useDeadCells: useDeadCells, 
              secondaryRuleEnabled: secondaryRuleEnabled,
