@@ -2,6 +2,7 @@
 import { ruleConditions } from "./conditions.js";
 import { updateCellValueTertiary4ValuesMeta, updateCellValueSecondaryMeta, updateCellValueTertiaryMeta } from "./rulesMeta.js";
 import { randomTwoStateRuleFunction, randomTwoStatePlusDeadRuleFunction, twoStateRuleStringToFunction } from "./twoStateRules.js";
+import { BBRuleNoZero } from "./rules.js";
 
 
 export function changeRule(globalData) {
