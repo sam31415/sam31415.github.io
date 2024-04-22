@@ -52,9 +52,10 @@ export function DayAndNight(cellValue, newCellValue, sneighbors) {
     } else if (cellValue == 0 || cellValue == 2) {
         if ([3,6,7,8].includes(sneighbors)){
             newCellValue = 3;
-        } else {
-            newCellValue = 0;
-        }
+        } 
+        // else {
+        //     newCellValue = 0;
+        // }
     }
     return newCellValue;
 }
@@ -71,9 +72,10 @@ export function PhaseBoundaries(cellValue, newCellValue, sneighbors) {
     } else if (cellValue == 0 || cellValue == 2) {
         if ([3,7].includes(sneighbors)){
             newCellValue = 3;
-        } else {
-            newCellValue = 0;
-        }
+        } 
+        // else {
+        //     newCellValue = 0;
+        // }
     }
     return newCellValue;
 }
