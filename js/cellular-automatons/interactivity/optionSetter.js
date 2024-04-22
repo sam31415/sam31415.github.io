@@ -91,6 +91,9 @@ export function setCellUpdateRule(globalData){
     } else if (globalData.rule == "TertiaryAutomata") {
         var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
         changeRuleTertiaryNColors(globalData, nColors, false, true, 1.0);
+    } else if (globalData.rule == "TertiaryGood") {
+        var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
+        changeRuleTertiaryNColors(globalData, nColors, false, true, 0.5, true);
     } else if (globalData.rule == "Tertiary4Colors" || globalData.rule == "TertiaryFancySpcshp") {
         changeTertiaryRule4Colors(globalData, false, true);
     } else if (globalData.rule == "VariableGR") {

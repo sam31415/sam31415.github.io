@@ -87,26 +87,31 @@ export function twoStatePlusDeadRuleStringToFunction(ruleString) {
 
 var goodRules = [
     //"B2S124", 
-    //"B167S2567", 
-    "B37S12345"]
+    //"B167S2567"
+    //"B37S12345"
+    "B3S1234", 
+    ]
 
-export function randomTwoStateRuleFunction() {
+
+export function randomTwoStateRuleFunction(useDeadCells = false, onlyGoodRules = false) {
     // Generate a random rule string
-    const ruleString = generateRandomRule();
+    var ruleString;
+    if (onlyGoodRules) {
+        var randomIndex = Math.floor(Math.random() * goodRules.length);
+        ruleString = goodRules[randomIndex];
+    } else {
+        ruleString = generateRandomRule();
+    }
 
     // Return the rule function
-    return [ruleString, twoStateNoZeroRuleStringToFunction(ruleString)];
-    // return [ruleString, twoStateRuleStringToFunction(ruleString)];
-
+    if (useDeadCells) {
+        return [ruleString, twoStatePlusDeadRuleStringToFunction(ruleString)];
+    } {
+        return [ruleString, twoStateNoZeroRuleStringToFunction(ruleString)];
+        // return [ruleString, twoStateRuleStringToFunction(ruleString)];
+    }
 }
 
-export function randomTwoStatePlusDeadRuleFunction() {
-    // Generate a random rule string
-    const ruleString = generateRandomRule();
-
-    // Return the rule function
-    return [ruleString, twoStatePlusDeadRuleStringToFunction(ruleString)];
-}
 
 export function generateRandomRule() {
     // Generate two random sets of integers between 1 and 8
