@@ -14,7 +14,8 @@ let unnormMaskProb = {
     gliderSE: {prob: 1, mask: [[0, 0, 1, 2], [0, 2, 0, 0], [1, 2, 1, 0]]},
     gliderNE: {prob: 1, mask: [[2, 1, 0, 0], [0, 0, 2, 0], [0, 1, 2, 1]]},
     gliderSW: {prob: 1, mask: [[1, 2, 1, 0], [0, 2, 0, 0], [0, 0, 1, 2]]},
-    gliderNW: {prob: 1, mask: [[0, 1, 2, 1], [0, 0, 2, 0], [2, 1, 0, 0]]}
+    gliderNW: {prob: 1, mask: [[0, 1, 2, 1], [0, 0, 2, 0], [2, 1, 0, 0]]},
+    random2: {prob: 4, mask: null}
 };
 
 export let masks = Object.keys(unnormMaskProb).map(key => unnormMaskProb[key].mask);
@@ -59,6 +60,9 @@ export function addRandomEvents(globalData, i, j, newGrid, findNeighbour) {
 }
 
 export function applyMask(grid, globalData, mask, i, j, findNeighbour) {
+    if (mask === null) {
+        mask = generateRandomMask();
+    }
     let maskHeight = mask.length;
     let maskWidth = mask[0].length;
 
@@ -75,5 +79,17 @@ export function applyMask(grid, globalData, mask, i, j, findNeighbour) {
     }
 }
 
+function generateRandomMask() {
+    let maskHeight = Math.floor(Math.random() * 5) + 1;
+    let maskWidth = Math.floor(Math.random() * 5) + 1;
+    let mask = [];
+    for (let i = 0; i < maskHeight; i++) {
+        mask.push([]);
+        for (let j = 0; j < maskWidth; j++) {
+            mask[i].push(Math.floor(Math.random() * 4));
+        }
+    }
+    return mask;
+}
 
 
