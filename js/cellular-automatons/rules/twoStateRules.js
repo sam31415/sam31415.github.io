@@ -18,13 +18,13 @@ export function twoStateRuleStringToFunction(ruleString) {
         // Phase boundaries (original B2/S124, experimenting)
         // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
         var newCellValue = 0;
-        if (cellValue == 1 || cellValue == 3) {
+        if (cellValue % 4 == 1 || cellValue % 4 == 3) {
             if (survivalList.includes(neighbors)) {
                 newCellValue = 1;
             } else {
                 newCellValue = 2;
             }
-        } else if (cellValue == 0 || cellValue == 2) {
+        } else if (cellValue % 4 == 0 || cellValue % 4 == 2) {
             if (birthList.includes(neighbors)){
                 newCellValue = 3;
             } else {
@@ -44,13 +44,13 @@ export function twoStateNoZeroRuleStringToFunction(ruleString) {
         // Phase boundaries (original B2/S124, experimenting)
         // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
         //var newCellValue = 0;
-        if (cellValue == 1 || cellValue == 3) {
+        if (cellValue % 4 == 1 || cellValue % 4 == 3) {
             if (survivalList.includes(neighbors)) {
                 newCellValue = 1;
             } else {
                 newCellValue = 2;
             }
-        } else if (cellValue == 0 || cellValue == 2) {
+        } else if (cellValue % 4 == 0 || cellValue % 4 == 2) {
             if (birthList.includes(neighbors)){
                 newCellValue = 3;
             }
@@ -59,29 +59,52 @@ export function twoStateNoZeroRuleStringToFunction(ruleString) {
     }
 }
 
-export function twoStatePlusDeadRuleStringToFunction(ruleString) {
+export function twoStatePlusDeadRuleStringToFunction(ruleString, neighborIndex = null) {
     // Extract the birth and survival lists from the rule string
     const [birthList, survivalList] = extractLists(ruleString);
 
-    // Return a function that implements the rule
-    return function(cellValue, newCellValue, neighbors) {
-        // Phase boundaries (original B2/S124, experimenting)
-        // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
-        //var newCellValue = 0;
-        if (cellValue == 1 || cellValue == 3) {
-            if (survivalList.includes(neighbors)) {
-                newCellValue = 1;
-            } else {
-                newCellValue = 2;
+    if (neighborIndex == null) {
+        // Return a function that implements the rule
+        return function(cellValue, newCellValue, neighbors) {
+            // Phase boundaries (original B2/S124, experimenting)
+            // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
+            //var newCellValue = 0;
+            if (cellValue % 4 == 1 || cellValue % 4 == 3) {
+                if (survivalList.includes(neighbors)) {
+                    newCellValue = 1;
+                } else {
+                    newCellValue = 2;
+                }
+            } else if (cellValue % 4 == 2) {
+                newCellValue = 0;
+            } else if (cellValue % 4 == 0) {
+                if (birthList.includes(neighbors)){
+                    newCellValue = 3;
+                }
             }
-        } else if (cellValue == 2) {
-            newCellValue = 0;
-        } else if (cellValue == 0) {
-            if (birthList.includes(neighbors)){
-                newCellValue = 3;
-            }
+            return newCellValue;
         }
-        return newCellValue;
+    } else {
+        // Return a function that implements the rule
+        return function(cellValue, newCellValue, neighbors) {
+            // Phase boundaries (original B2/S124, experimenting)
+            // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
+            neighbors = neighbors[neighborIndex];
+            if (cellValue % 4 == 1 || cellValue % 4 == 3) {
+                if (survivalList.includes(neighbors)) {
+                    newCellValue = 1;
+                } else {
+                    newCellValue = 2;
+                }
+            } else if (cellValue % 4 == 2) {
+                newCellValue = 0;
+            } else if (cellValue % 4 == 0) {
+                if (birthList.includes(neighbors)){
+                    newCellValue = 3;
+                }
+            }
+            return newCellValue;
+        }
     }
 }
 

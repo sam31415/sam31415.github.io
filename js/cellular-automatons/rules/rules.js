@@ -154,15 +154,15 @@ export function updateCellValueBBTrace10(cellValue, newCellValue, neighbor_list)
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    if (cellValue == 1) {
+    if (cellValue % 4 == 1) {
         newCellValue = 2;
-    } else if (cellValue == 2) {
+    } else if (cellValue % 4 == 2) {
         newCellValue = 0;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors == 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors == 2) {
         newCellValue = 1;
-    } else if (cellValue == 0 && sneighbors < 1) {
+    } else if (cellValue % 4 == 0 && sneighbors < 1) {
         newCellValue = 3;
-    } else if (cellValue == 0 && neighbors == 1) {
+    } else if (cellValue % 4 == 0 && neighbors == 1) {
          newCellValue = 3;
     }
     return newCellValue;
@@ -172,15 +172,15 @@ export function updateCellValueBBTrace9(cellValue, newCellValue, neighbor_list) 
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    if (cellValue == 1) {
+    if (cellValue % 4 == 1) {
         newCellValue = 2;
-    } else if (cellValue == 2) {
+    } else if (cellValue % 4 == 2) {
         newCellValue = 0;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors == 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors == 2) {
         newCellValue = 1;
-    } else if (cellValue == 0 && sneighbors < 1) {
+    } else if (cellValue % 4 == 0 && sneighbors < 1) {
         newCellValue = 3;
-    } else if (cellValue == 0 && neighbors == 2) {
+    } else if (cellValue % 4 == 0 && neighbors == 2) {
          newCellValue = 3;
     }
     return newCellValue;
@@ -190,15 +190,15 @@ export function updateCellValueBBTrace8(cellValue, newCellValue, neighbor_list) 
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    if (cellValue == 1) {
+    if (cellValue % 4 == 1) {
         newCellValue = 2;
-    } else if (cellValue == 2) {
+    } else if (cellValue % 4 == 2) {
         newCellValue = 0;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors == 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors == 2) {
         newCellValue = 1;
-    } else if (cellValue == 0 && sneighbors < 1) {
+    } else if (cellValue % 4 == 0 && sneighbors < 1) {
         newCellValue = 3;
-    } else if (cellValue == 0 && neighbors == 3) {
+    } else if (cellValue % 4 == 0 && neighbors == 3) {
          newCellValue = 3;
     }
     return newCellValue;
@@ -208,15 +208,15 @@ export function updateCellValueBBTrace7(cellValue, newCellValue, neighbor_list) 
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    if (cellValue == 1) {
+    if (cellValue % 4 == 1) {
         newCellValue = 2;
-    } else if (cellValue == 2) {
+    } else if (cellValue % 4 == 2) {
         newCellValue = 0;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors == 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors == 2) {
         newCellValue = 1;
-    } else if (cellValue == 0 && sneighbors < 1) {
+    } else if (cellValue % 4 == 0 && sneighbors < 1) {
         newCellValue = 3;
-    } else if (cellValue == 0 && dneighbors == 3) {
+    } else if (cellValue % 4 == 0 && dneighbors == 3) {
          newCellValue = 3;
     }
     return newCellValue;
@@ -228,13 +228,13 @@ export function updateCellValueBBTrace6(cellValue, newCellValue, neighbor_list) 
     var dneighbors = neighbor_list[2];
     if (cellValue == 1) {
         newCellValue = 2;
-    } else if (cellValue == 2) {
+    } else if (cellValue % 4 == 2) {
         newCellValue = 0;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors == 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors == 2) {
         newCellValue = 1;
-    } else if (cellValue == 0 && sneighbors < 3) {
+    } else if (cellValue % 4 == 0 && sneighbors < 3) {
         newCellValue = 3;
-    } else if (cellValue == 0 && dneighbors == 3) {
+    } else if (cellValue % 4 == 0 && dneighbors == 3) {
          newCellValue = 3;
     }
     return newCellValue;
@@ -243,15 +243,15 @@ export function updateCellValueBBTrace6(cellValue, newCellValue, neighbor_list) 
 export function updateCellValueBBTrace5(cellValue, newCellValue, neighbor_list) {
     var neighbors = neighbor_list[0];
     var dneighbors = neighbor_list[2];
-    if (cellValue == 1) {
+    if (cellValue % 4 == 1) {
         newCellValue = 2;
-    } else if (cellValue == 2) {
+    } else if (cellValue % 4 == 2) {
         newCellValue = 0;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors == 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors == 2) {
         newCellValue = 1;
-    } else if (cellValue == 0 && neighbors > 2) {
+    } else if (cellValue % 4 == 0 && neighbors > 2) {
         newCellValue = 3;
-    } else if (cellValue == 0 && dneighbors == 3) {
+    } else if (cellValue % 4 == 0 && dneighbors == 3) {
          newCellValue = 3;
     }
     return newCellValue;
@@ -262,13 +262,13 @@ export function updateCellValueBBTrace4(cellValue, newCellValue, neighbor_list) 
     var dneighbors = neighbor_list[2];
     if (cellValue == 1) {
         newCellValue = 2;
-    } else if (cellValue == 2) {
+    } else if (cellValue % 4 == 2) {
         newCellValue = 0;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors == 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors == 2) {
         newCellValue = 1;
-    } else if (cellValue == 0 && neighbors > 2) {
+    } else if (cellValue % 4 == 0 && neighbors > 2) {
         newCellValue = 3;
-    } else if (cellValue == 0 && dneighbors == 1) {
+    } else if (cellValue % 4 == 0 && dneighbors == 1) {
          newCellValue = 3;
     }
     return newCellValue;
@@ -278,15 +278,15 @@ export function updateCellValueBBTrace4(cellValue, newCellValue, neighbor_list) 
 export function updateCellValueBBTrace3(cellValue, newCellValue, neighbor_list) {
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
-    if (cellValue == 1) {
+    if (cellValue % 4 == 1) {
         newCellValue = 2;
-    } else if (cellValue == 2) {
+    } else if (cellValue % 4 == 2) {
         newCellValue = 0;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors == 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors == 2) {
         newCellValue = 1;
-    } else if (cellValue == 0 && neighbors > 2) {
+    } else if (cellValue % 4 == 0 && neighbors > 2) {
         newCellValue = 3;
-    } else if (cellValue == 0 && sneighbors == 3) {
+    } else if (cellValue % 4 == 0 && sneighbors == 3) {
          newCellValue = 3;
     }
     return newCellValue;
@@ -296,15 +296,15 @@ export function updateCellValueBBTrace3(cellValue, newCellValue, neighbor_list) 
 export function updateCellValueBBTrace2(cellValue, newCellValue, neighbor_list) {
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
-    if (cellValue == 1) {
+    if (cellValue % 4 == 1) {
         newCellValue = 2;
-    } else if (cellValue == 2) {
+    } else if (cellValue % 4 == 2) {
         newCellValue = 0;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors == 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors == 2) {
         newCellValue = 1;
-    } else if (cellValue == 0 && neighbors > 2) {
+    } else if (cellValue % 4 == 0 && neighbors > 2) {
         newCellValue = 3;
-    } else if (cellValue == 0 && sneighbors == 1) {
+    } else if (cellValue % 4 == 0 && sneighbors == 1) {
          newCellValue = 3;
     }
     return newCellValue;
@@ -313,13 +313,13 @@ export function updateCellValueBBTrace2(cellValue, newCellValue, neighbor_list) 
 
 export function updateCellValueBBTrace(cellValue, newCellValue, neighbor_list) {
     var neighbors = neighbor_list[0];
-    if (cellValue == 1) {
+    if (cellValue % 4 == 1) {
         newCellValue = 2;
-    } else if (cellValue == 2) {
+    } else if (cellValue % 4 == 2) {
         newCellValue = 0;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors == 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors == 2) {
         newCellValue = 1;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors > 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors > 2) {
         newCellValue = 3;
     }
     return newCellValue;
@@ -328,13 +328,13 @@ export function updateCellValueBBTrace(cellValue, newCellValue, neighbor_list) {
 
 export function updateCellValueBB(cellValue, newCellValue, neighbor_list) {
     var neighbors = neighbor_list[0];
-    if (cellValue == 1) {
+    if (cellValue % 4 == 1) {
         newCellValue = 2;
-    } else if (cellValue == 2 || cellValue == 3) {
+    } else if (cellValue % 4 == 2 || cellValue % 4 == 3) {
         newCellValue = 0;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors == 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors == 2) {
         newCellValue = 1;
-    } else if ((cellValue == 0 || cellValue == 3) && neighbors > 2) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 3) && neighbors > 2) {
         newCellValue = 3;
     }
     return newCellValue;
@@ -342,13 +342,13 @@ export function updateCellValueBB(cellValue, newCellValue, neighbor_list) {
 
 export function updateCellValueBBMod(cellValue, newCellValue, neighbor_list) {
     var neighbors = neighbor_list[0];
-    if (cellValue == 1 || cellValue == 3) {
+    if (cellValue % 4 == 1 || cellValue % 4 == 3) {
         newCellValue = 2;
-    } else if (cellValue == 2) {
+    } else if (cellValue % 4 == 2) {
         newCellValue = 0;
-    } else if (cellValue == 0 && neighbors == 2) {
+    } else if (cellValue % 4 == 0 && neighbors == 2) {
         newCellValue = 1;
-    } else if (cellValue == 0 && neighbors > 2) {
+    } else if (cellValue % 4 == 0 && neighbors > 2) {
         newCellValue = 3;
     }
     return newCellValue;
@@ -356,15 +356,15 @@ export function updateCellValueBBMod(cellValue, newCellValue, neighbor_list) {
 
 export function updateCellValueConway(cellValue, newCellValue, neighbor_list) {
     var sneighbors = neighbor_list[1];
-    if ((cellValue == 1 || cellValue == 3) && sneighbors < 2) {
+    if ((cellValue % 4 == 1 || cellValue % 4 == 3) && sneighbors < 2) {
         newCellValue = 2;
-    } else if ((cellValue == 1 || cellValue == 3) && (sneighbors == 2 || sneighbors == 3)) {
+    } else if ((cellValue % 4 == 1 || cellValue % 4 == 3) && (sneighbors == 2 || sneighbors == 3)) {
         newCellValue = 1;
-    } else if ((cellValue == 1 || cellValue == 3) && sneighbors > 5) {
+    } else if ((cellValue % 4 == 1 || cellValue % 4 == 3) && sneighbors > 5) {
         newCellValue = 2;
-    } else if ((cellValue == 0 || cellValue == 2) && sneighbors == 3) {
+    } else if ((cellValue % 4 == 0 || cellValue % 4 == 2) && sneighbors == 3) {
         newCellValue = 3;
-    } else if (cellValue == 2) {
+    } else if (cellValue % 4 == 2) {
         newCellValue = 0;
     }
 
