@@ -8,6 +8,7 @@ import { findNeighbourFlipX } from '../rules/neighbours.js';
 import { findNeighbourFlipXY } from '../rules/neighbours.js';
 import { changeTertiaryRule4Colors } from "../rules/changeRule.js";
 import { changeRuleNColors, changeRuleTertiaryNColors } from "../rules/changeRule.js";
+import { twoStatePlusDeadRuleStringToFunction } from "../rules/twoStateRules.js";
 
 
 export function updatePeriodicityShiftAndTopology(globalData){
