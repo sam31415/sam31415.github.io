@@ -29,3 +29,6 @@
   - B234S23 ntype 0
   - B2345S237 dead cells false
   - B23456S237
+twoStatePlusDeadRuleStringToFunction("B123S245678")
+twoStatePlusDeadRuleStringToFunction("B13S23")
+twoStatePlusDeadRuleStringToFunction("B1345678S236")
