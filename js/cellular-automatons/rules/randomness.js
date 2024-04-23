@@ -1,21 +1,21 @@
 let unnormMaskProb = {
-    shortStar0: {prob: 4, mask: [[1, 0], [0, 1]]},
-    shortStar1: {prob: 4, mask: [[0, 1], [1, 0]]},
-    shortStar2: {prob: 4, mask: [[1, 0], [0, 1]]},
-    waveSquare: {prob: 0.5, mask: [[1, 1], [1, 1]]},
-    waveHorizontal: {prob: 0.5, mask: [[0, 0], [1, 1]]},
-    waveVertical: {prob: 0.5, mask: [[0, 1], [0, 1]]},
+    // shortStar0: {prob: 4, mask: [[1, 0], [0, 1]]},
+    // shortStar1: {prob: 4, mask: [[0, 1], [1, 0]]},
+    // shortStar2: {prob: 4, mask: [[1, 0], [0, 1]]},
+    // waveSquare: {prob: 0.5, mask: [[1, 1], [1, 1]]},
+    // waveHorizontal: {prob: 0.5, mask: [[0, 0], [1, 1]]},
+    // waveVertical: {prob: 0.5, mask: [[0, 1], [0, 1]]},
     star: {prob: 4, mask: [[1, 0, 1], [0, 0, 0], [1, 0, 1]]},
-    spaceshipE: {prob: 2, mask: [[1, 1], [2, 2]]},
-    spaceshipN: {prob: 2, mask: [[1, 2], [1, 2]]},
-    spaceshipW: {prob: 2, mask: [[2, 2], [1, 1]]},
-    spaceshipS: {prob: 2, mask: [[2, 1], [2, 1]]},
-    oscillator: {prob: 4, mask: [[0, 0, 1, 0], [1, 2, 2, 0], [0, 2, 2, 1], [0, 1, 0, 0]]},
-    gliderSE: {prob: 1, mask: [[0, 0, 1, 2], [0, 2, 0, 0], [1, 2, 1, 0]]},
-    gliderNE: {prob: 1, mask: [[2, 1, 0, 0], [0, 0, 2, 0], [0, 1, 2, 1]]},
-    gliderSW: {prob: 1, mask: [[1, 2, 1, 0], [0, 2, 0, 0], [0, 0, 1, 2]]},
-    gliderNW: {prob: 1, mask: [[0, 1, 2, 1], [0, 0, 2, 0], [2, 1, 0, 0]]},
-    random2: {prob: 4, mask: null}
+    // spaceshipE: {prob: 2, mask: [[1, 1], [2, 2]]},
+    // spaceshipN: {prob: 2, mask: [[1, 2], [1, 2]]},
+    // spaceshipW: {prob: 2, mask: [[2, 2], [1, 1]]},
+    // spaceshipS: {prob: 2, mask: [[2, 1], [2, 1]]},
+    // oscillator: {prob: 4, mask: [[0, 0, 1, 0], [1, 2, 2, 0], [0, 2, 2, 1], [0, 1, 0, 0]]},
+    // gliderSE: {prob: 1, mask: [[0, 0, 1, 2], [0, 2, 0, 0], [1, 2, 1, 0]]},
+    // gliderNE: {prob: 1, mask: [[2, 1, 0, 0], [0, 0, 2, 0], [0, 1, 2, 1]]},
+    // gliderSW: {prob: 1, mask: [[1, 2, 1, 0], [0, 2, 0, 0], [0, 0, 1, 2]]},
+    // gliderNW: {prob: 1, mask: [[0, 1, 2, 1], [0, 0, 2, 0], [2, 1, 0, 0]]},
+    random2: {prob: 40, mask: null}
 };
 
 export let masks = Object.keys(unnormMaskProb).map(key => unnormMaskProb[key].mask);
@@ -80,8 +80,8 @@ export function applyMask(grid, globalData, mask, i, j, findNeighbour) {
 }
 
 function generateRandomMask() {
-    let maskHeight = Math.floor(Math.random() * 5) + 1;
-    let maskWidth = Math.floor(Math.random() * 5) + 1;
+    let maskHeight = Math.floor(Math.random() * 10) + 1;
+    let maskWidth = Math.floor(Math.random() * 10) + 1;
     let mask = [];
     for (let i = 0; i < maskHeight; i++) {
         mask.push([]);
