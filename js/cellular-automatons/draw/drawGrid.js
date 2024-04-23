@@ -39,7 +39,7 @@ export function drawGrid(globalData) {
             imageData.data[index + 3] = 255; // Alpha (255 = fully opaque)
         }
     }
-    globalData.nCellChangedHistoric = 1/30 * nCellChanged + 29 / 30 * globalData.nCellChangedHistoric;
+    globalData.nCellChangedHistoric = 1/300 * nCellChanged + 299 / 300 * globalData.nCellChangedHistoric;
     if (globalData.nCellChangedHistoric > 0.2 * globalData.gridHeight * globalData.gridWidth) {
         globalData.changeColoringRuleFlag = true;
         var proportion = globalData.nCellChangedHistoric / (globalData.gridHeight * globalData.gridWidth);
