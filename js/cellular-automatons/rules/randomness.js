@@ -2,7 +2,7 @@ let unnormMaskProb = {
     // shortStar0: {prob: 4, mask: [[1, 0], [0, 1]]},
     // shortStar1: {prob: 4, mask: [[0, 1], [1, 0]]},
     // shortStar2: {prob: 4, mask: [[1, 0], [0, 1]]},
-    // waveSquare: {prob: 0.5, mask: [[1, 1], [1, 1]]},
+    waveSquare: {prob: 0.1, mask: [[1, 1], [1, 1]]},
     // waveHorizontal: {prob: 0.5, mask: [[0, 0], [1, 1]]},
     // waveVertical: {prob: 0.5, mask: [[0, 1], [0, 1]]},
     star: {prob: 1, mask: [[1, 0, 1], [0, 0, 0], [1, 0, 1]]},
