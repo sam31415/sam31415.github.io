@@ -5,7 +5,7 @@ let unnormMaskProb = {
     // waveSquare: {prob: 0.5, mask: [[1, 1], [1, 1]]},
     // waveHorizontal: {prob: 0.5, mask: [[0, 0], [1, 1]]},
     // waveVertical: {prob: 0.5, mask: [[0, 1], [0, 1]]},
-    star: {prob: 4, mask: [[1, 0, 1], [0, 0, 0], [1, 0, 1]]},
+    star: {prob: 1, mask: [[1, 0, 1], [0, 0, 0], [1, 0, 1]]},
     // spaceshipE: {prob: 2, mask: [[1, 1], [2, 2]]},
     // spaceshipN: {prob: 2, mask: [[1, 2], [1, 2]]},
     // spaceshipW: {prob: 2, mask: [[2, 2], [1, 1]]},
