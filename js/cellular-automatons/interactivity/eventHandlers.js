@@ -154,6 +154,12 @@ export function addChangeColoringRuleListener(globalData) {
     });
 }
 
+export function addChangeColorListener(globalData) {
+    document.getElementById('changeColor').addEventListener('click', function() {
+        determineColorPalette(globalData);
+    });
+}
+
 export function addLikeButtonListeners(globalData) {
     document.getElementById('saveEventCheckbox').addEventListener('change', function() {
         globalData.saveEventData = this.checked; // Set the variable to the checkbox's state
