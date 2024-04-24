@@ -1,7 +1,7 @@
 
 import { ruleConditions } from "./conditions.js";
 import { updateCellValueTertiary4ValuesMeta, updateCellValueSecondaryMeta, updateCellValueTertiaryMeta } from "./rulesMeta.js";
-import { randomTwoStateRuleFunction, twoStateRuleStringToFunction } from "./twoStateRules.js";
+import { randomTwoStateRuleFunction, twoStateNoZeroRuleStringToFunction, twoStatePlusDeadRuleStringToFunction } from "./twoStateRules.js";
 import { BBRuleNoZero } from "./rules.js";
 
 
@@ -52,7 +52,7 @@ function sampleCondition() {
 }
 
 function sampleSecondaryRule(nColors = 4, secondaryAutomatonFraction = 0.0, onlyGoodSecondary = false) {
-    var primaryRule = BBRuleNoZero // twoStateNoZeroRuleStringToFunction("B23456S237") // 
+    var primaryRule = BBRuleNoZero // twoStatePlusDeadRuleStringToFunction("B13456S236") // twoStateNoZeroRuleStringToFunction("B23456S238") // 
     var useDeadCells = Math.random() < 0.5;
     var secondaryRuleString;
     var secondaryRule
