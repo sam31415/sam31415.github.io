@@ -25,6 +25,8 @@ export function determineColorPalette(globalData) {
     var darkGrey = { r: 75, g: 75, b: 75 };
     var mediumGrey = { r: 175, g: 175, b: 175 };
     var whitish = { r: 240, g: 240, b: 240 };
+    var randomColor1 = { r: Math.floor(Math.random() * 256), g: Math.floor(Math.random() * 256), b: Math.floor(Math.random() * 256) };
+    var randomColor2 = { r: Math.floor(Math.random() * 256), g: Math.floor(Math.random() * 256), b: Math.floor(Math.random() * 256) };
 
     if (globalData.colorPalette == 'yellow') {
         globalData.backgroundColor = yellow;
@@ -88,7 +90,7 @@ export function determineColorPalette(globalData) {
     } else if (globalData.colorPalette == 'variable') {
         globalData.backgroundColor = black;
         globalData.activatedColor = whitish;
-        globalData.deadColor = darkGrey;
-        globalData.superActivatedColor = mediumGrey;
+        globalData.deadColor = randomColor1;
+        globalData.superActivatedColor = randomColor2;
     }
 }
