@@ -18,3 +18,5 @@ module.exports = {
   ],
   },
 };
+
+// Run npx webpack in the folder to build the project
