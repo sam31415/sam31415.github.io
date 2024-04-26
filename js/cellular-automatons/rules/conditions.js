@@ -1,18 +1,3 @@
-
-export function conditionNeighborEq(nvalue) {
-    function conditionNeighborEqValue(neighbors) {
-        return neighbors == nvalue;
-    }
-    return conditionNeighborEqValue;
-}
-
-export function conditionNeighborBigger(value) {
-    function conditionNeighborBiggerValue(neighbors) {
-        return neighbors > value;
-    }
-    return conditionNeighborBiggerValue;
-}
-
 export function conditionInactive(variation) {
     function conditionInactiveCondFunction(cellValue) {
         return cellValue == 0;
@@ -23,32 +8,72 @@ export function conditionInactive(variation) {
     function noCondition(cellValue) {
         return true;
     }
-    if (variation == 0) {
+    if (variation == "Cond") {
         return conditionInactiveCondFunction;
-    } else if (variation == 1) {
+    } else if (variation == "Abs") {
         return conditionInactiveAbsFunction;
     } else {
         return noCondition;
     }
 }
 
-var valuesEq = [1, 2, 3, 4, 5, 6, 7, 8];
-var ruleConditionsEq = valuesEq.map(value => conditionNeighborEq(value));
-var valuesBigger = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-var ruleConditionsBigger = valuesBigger.map(value => conditionNeighborBigger(value));
-export var ruleConditions = ruleConditionsEq.concat(ruleConditionsBigger);
-
-// To try to avoid rules with less colors, but in the end not used.
-function testConditionCompatibility(conditionIndex1, conditionIndex2) {
-    if (conditionIndex1 == conditionIndex2) {
-        return false;
+export function conditionNeighbor(threshold, type, neighborType) {
+    function conditionNeighborEqValue(neighborList) {
+        return neighborList[neighborType] == threshold;
     }
-    if (conditionIndex1 < 3 && conditionIndex2 >= 3 && conditionIndex2 - 3 < conditionIndex1) {
-        return false;
+    function conditionNeighborBiggerValue(neighborList) {
+        return neighborList[neighborType] > threshold;
     }
-    if (conditionIndex1 >= 3 && conditionIndex2 >= 3 && conditionIndex1 < conditionIndex2) {
-        return false;
+    if (type == 'Eq') {
+        return conditionNeighborEqValue;
+    } else if (type == 'Bigger') {
+        return conditionNeighborBiggerValue;
     }
-    return true;
 }
 
+
+export class Condition {
+    constructor(type, threshold, neighborType, inactivation) {
+        this.type = type;
+        this.threshold = threshold;
+        this.neighborType = neighborType;
+        this.inactivation = inactivation;
+
+        this.testInactive = conditionInactive(this.inactivation);
+        this.testValue = conditionNeighbor(this.threshold, this.type, this.neighborType);
+    }
+
+    test(neighborList, cellValue) {
+        return this.testValue(neighborList) && this.testInactive(cellValue);
+    }
+
+    name() {
+        return `${this.type}${this.threshold}${this.inactivation}NT${this.neighborType}`
+    }
+
+    static randomSample(neighborType = null) {
+        // Generate a random type
+        const types = ['Eq', 'Bigger'];
+        const type = types[Math.floor(Math.random() * types.length)];
+
+        // Generate a random threshold
+        var threshold = 0;
+        if (type === 'Eq') {
+            threshold = Math.floor(Math.random() * 8) + 1;
+        } else {
+            threshold = Math.floor(Math.random() * 9);
+        }
+        
+        // Generate a random inactive variation
+        const inactivations = ['Cond', 'Abs', 'None'];
+        const inactivation = inactivations[Math.floor(Math.random() * inactivations.length)];
+
+        // Generate a random neighbor type
+        if (neighborType === null) {
+            neighborType = Math.floor(Math.random() * 8);
+        }
+
+        // Create a new Condition with the random values
+        return new Condition(type, threshold, neighborType, inactivation);
+    }
+}

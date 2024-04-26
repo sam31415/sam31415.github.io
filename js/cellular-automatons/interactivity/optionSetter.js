@@ -83,7 +83,7 @@ export function setCellUpdateRule(globalData){
         changeRuleNColors(globalData, 3, false, true);
     } else if (globalData.rule == "Variable4Colors") {
         changeRuleNColors(globalData, 4, false, true);
-    } else if (globalData.rule == "Variable") {
+    } else if (["Variable", "VariableUnsafe"].includes(globalData.rule)) {
         var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
         changeRuleNColors(globalData, nColors, false, true);
     } else if (globalData.rule == "VariableSecAutomata") {

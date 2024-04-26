@@ -128,7 +128,7 @@ export function randomTwoStateRuleFunction(useDeadCells = false, onlyGoodRules =
 
     // Return the rule function
     if (useDeadCells) {
-        return [ruleString, twoStatePlusDeadRuleStringToFunction(ruleString)];
+        return [ruleString + "D", twoStatePlusDeadRuleStringToFunction(ruleString)];
     } {
         return [ruleString, twoStateNoZeroRuleStringToFunction(ruleString)];
         // return [ruleString, twoStateRuleStringToFunction(ruleString)];
