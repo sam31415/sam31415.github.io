@@ -40,7 +40,7 @@ export function drawGrid(globalData) {
         }
     }
     globalData.nCellChangedHistoric = 1/300 * nCellChanged + 299 / 300 * globalData.nCellChangedHistoric;
-    if (globalData.nCellChangedHistoric > 0.2 * globalData.gridHeight * globalData.gridWidth) {
+    if (globalData.nCellChangedHistoric > 0.5 * globalData.gridHeight * globalData.gridWidth) {
         globalData.changeColoringRuleFlag = true;
         var proportion = globalData.nCellChangedHistoric / (globalData.gridHeight * globalData.gridWidth);
         console.log('Changing rule because suspected oscillation (running proportion of cells changed: ' + proportion.toFixed(1) + ').');
