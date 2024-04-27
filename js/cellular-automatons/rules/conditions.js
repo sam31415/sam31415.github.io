@@ -51,7 +51,7 @@ export class Condition {
         return `${this.type}${this.threshold}${this.inactivation}NT${this.neighborType}`
     }
 
-    static randomSample(neighborType = null) {
+    static randomSample(neighborTypes = null) {
         // Generate a random type
         const types = ['Eq', 'Bigger'];
         const type = types[Math.floor(Math.random() * types.length)];
@@ -69,9 +69,10 @@ export class Condition {
         const inactivation = inactivations[Math.floor(Math.random() * inactivations.length)];
 
         // Generate a random neighbor type
-        if (neighborType === null) {
-            neighborType = Math.floor(Math.random() * 8);
+        if (neighborTypes === null) {
+            neighborTypes = [0, 1, 2, 3, 4, 5, 6, 7];
         }
+        const neighborType = neighborTypes[Math.floor(Math.random() * neighborTypes.length)];
 
         // Create a new Condition with the random values
         return new Condition(type, threshold, neighborType, inactivation);

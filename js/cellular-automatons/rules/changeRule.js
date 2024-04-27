@@ -53,13 +53,14 @@ function sampleSecondaryRule(nColors = 4, secondaryAutomatonFraction = 0.0, only
     //secondaryRule = twoStateRuleStringToFunction(secondaryRuleString);
     var modulo = (Math.floor(Math.random() * 12) + 4) * 4;
     var secondaryRuleEnabled = Math.random() < secondaryAutomatonFraction;
-    var neighborType = null
+    var neighborTypes = null
     if (safe) {
-        neighborType = Math.floor(Math.random() * 3);
+        //neighborType = Math.floor(Math.random() * 3);
+        neighborTypes = [0, 1, 2]
     }
     var conditions = [];
         for (let i = 0; i < nColors - 1; i++) {
-            conditions.push(Condition.randomSample(neighborType));
+            conditions.push(Condition.randomSample(neighborTypes));
         }
     return { primaryRuleString: primaryRuleString,
              primaryRule: primaryRule,
