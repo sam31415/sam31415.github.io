@@ -78,3 +78,15 @@ export class Condition {
         return new Condition(type, threshold, neighborType, inactivation);
     }
 }
+
+export function sampleMultipleConditions(nConditions, safe = true) {
+    var conditions = [];
+    var neighborTypes = null;
+    if (safe) {
+        neighborTypes = [0, 1, 2];
+    }
+    for (let i = 0; i < nConditions; i++) {
+        conditions.push(Condition.randomSample(neighborTypes));
+    }
+    return conditions;
+}

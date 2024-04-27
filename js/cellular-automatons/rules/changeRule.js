@@ -1,5 +1,5 @@
 
-import { Condition } from "./conditions.js";
+import { Condition, sampleMultipleConditions } from "./conditions.js";
 import { updateCellValueTertiary4ValuesMeta, updateCellValueSecondaryMeta, updateCellValueTertiaryMeta } from "./rulesMeta.js";
 import { randomTwoStateRuleFunction, twoStateNoZeroRuleStringToFunction, twoStatePlusDeadRuleStringToFunction } from "./twoStateRules.js";
 import { BBRuleNoZero } from "./rules.js";
@@ -30,7 +30,7 @@ export function changeRule(globalData) {
         changeRuleNColors(globalData, nColors, false, globalData.changeColoringRuleFlag, 1.0);
     } else if (globalData.rule == "TertiaryAutomata") {
         var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
-        changeRuleTertiaryNColors(globalData, nColors, false, globalData.changeColoringRuleFlag, 1.0);
+        changeRuleTertiaryNColors(globalData, nColors, false, globalData.changeColoringRuleFlag, 1.0, false, false);
     }  else if (globalData.rule == "TertiaryGood") {
         var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
         changeRuleTertiaryNColors(globalData, nColors, false, globalData.changeColoringRuleFlag, 0.5, true);
@@ -42,7 +42,7 @@ export function changeRule(globalData) {
     globalData.changeColoringRuleFlag = false;
 }
 
-function sampleSecondaryRule(nColors = 4, secondaryAutomatonFraction = 0.0, onlyGoodSecondary = false, safe = true) {
+function sampleRule(nColors = 4, secondaryAutomatonFraction = 0.0, onlyGoodSecondary = false, safe = true) {
     var primaryRule = BBRuleNoZero // twoStatePlusDeadRuleStringToFunction("B13456S236") // twoStateNoZeroRuleStringToFunction("B23456S238") // 
     var primaryRuleString = "BBRuleNoZero" // "B13456S236" // "B23456S238" //
     var useDeadCells = Math.random() < 0.5;
@@ -53,15 +53,7 @@ function sampleSecondaryRule(nColors = 4, secondaryAutomatonFraction = 0.0, only
     //secondaryRule = twoStateRuleStringToFunction(secondaryRuleString);
     var modulo = (Math.floor(Math.random() * 12) + 4) * 4;
     var secondaryRuleEnabled = Math.random() < secondaryAutomatonFraction;
-    var neighborTypes = null
-    if (safe) {
-        //neighborType = Math.floor(Math.random() * 3);
-        neighborTypes = [0, 1, 2]
-    }
-    var conditions = [];
-        for (let i = 0; i < nColors - 1; i++) {
-            conditions.push(Condition.randomSample(neighborTypes));
-        }
+    var conditions = sampleMultipleConditions(nColors, safe);
     return { primaryRuleString: primaryRuleString,
              primaryRule: primaryRule,
              secondaryRuleSString: secondaryRuleString, 
@@ -73,7 +65,7 @@ function sampleSecondaryRule(nColors = 4, secondaryAutomatonFraction = 0.0, only
 
 export function changeRuleNColors(globalData, nColors, auxiliary = false, forceChange = false, secondaryAutomatonFraction = 0.0, onlyGoodSecondary = false, safe = true) {
     if (Math.random() < globalData.ruleSwitchProbability || forceChange) {
-        var ruleDefinition = sampleSecondaryRule(nColors, secondaryAutomatonFraction, onlyGoodSecondary, safe=safe)
+        var ruleDefinition = sampleRule(nColors, secondaryAutomatonFraction, onlyGoodSecondary, safe=safe)
         var randomRule = updateCellValueSecondaryMeta(ruleDefinition);
         var ruleName = "Rule";
         if (auxiliary) {
@@ -93,7 +85,7 @@ export function changeRuleNColors(globalData, nColors, auxiliary = false, forceC
 
 export function changeRuleTertiaryNColors(globalData, nColors, auxiliary = false, forceChange = false, secondaryAutomatonFraction = 0.0, onlyGoodSecondary = false, safe = true) {
     if (Math.random() < globalData.ruleSwitchProbability || forceChange) {
-        var ruleDefinition = sampleSecondaryRule(nColors, secondaryAutomatonFraction, onlyGoodSecondary, safe=safe)
+        var ruleDefinition = sampleRule(nColors, secondaryAutomatonFraction, onlyGoodSecondary, safe=safe)
         var randomRule = updateCellValueTertiaryMeta(ruleDefinition);
         var ruleName = "Rule";
         if (auxiliary) {
