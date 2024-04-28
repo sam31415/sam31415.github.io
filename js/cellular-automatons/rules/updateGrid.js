@@ -44,7 +44,7 @@ export function updateGrid(globalData) {
             if (globalData.rule != "VariableGR" || globalData.mask.get(i, j) == 0) {
                 newCellValue = globalData.ruleClass.updateRule(cellValue, newCellValue, neighbor_list);
             } else {
-                newCellValue = globalData.updateCellValueAuxiliary(cellValue, newCellValue, neighbor_list);
+                newCellValue = globalData.ruleClass2.updateRule(cellValue, newCellValue, neighbor_list);
             }
 
             if (Math.floor(newCellValue / globalData.ruleClass.colorUnit) % 4 != Math.floor(cellValue / globalData.ruleClass.colorUnit) % 4) {
@@ -52,25 +52,7 @@ export function updateGrid(globalData) {
             } else {
                 globalData.redraw.set(i, j, 0);
             }
-            // if (globalData.ruleOrder == 1) {
-            //     if (newCellValue != cellValue) {
-            //         globalData.redraw.set(i, j, 1);
-            //     } else {
-            //         globalData.redraw.set(i, j, 0);
-            //     }
-            // } else if (globalData.ruleOrder == 2) {
-            //     if (Math.floor(newCellValue / 4) % 4 != Math.floor(cellValue / 4) % 4) {
-            //         globalData.redraw.set(i, j, 1);
-            //     } else {
-            //         globalData.redraw.set(i, j, 0);
-            //     }
-            // } else if (globalData.ruleOrder == 3) {
-            //     if (Math.floor(newCellValue / 16) != Math.floor(cellValue / 16)) {
-            //         globalData.redraw.set(i, j, 1);
-            //     } else {
-            //         globalData.redraw.set(i, j, 0);
-            //     }
-            // }
+
             newGrid.set(i, j, newCellValue);
         }
     }
