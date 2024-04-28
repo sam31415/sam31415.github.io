@@ -1,8 +1,8 @@
 
 import { Condition, sampleMultipleConditions } from "./conditions.js";
-import { updateCellValueTertiary4ValuesMeta, updateCellValueSecondaryMeta, updateCellValueTertiaryMeta } from "./rulesMeta.js";
+import { BBColoring, updateCellValueTertiary4ValuesMeta, updateCellValueSecondaryMeta, updateCellValueTertiaryMeta } from "./metaRules.js";
 import { randomTwoStateRuleFunction, twoStateNoZeroRuleStringToFunction, twoStatePlusDeadRuleStringToFunction } from "./twoStateRules.js";
-import { BBRuleNoZero } from "./rules.js";
+import { bbRuleNoZero } from "./rules.js";
 
 
 export function changeRule(globalData) {
@@ -19,6 +19,16 @@ export function changeRule(globalData) {
         changeRuleNColors(globalData, nColors, false, globalData.changeColoringRuleFlag);
         nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
         changeRuleNColors(globalData, nColors, true, globalData.changeColoringRuleFlag);
+    } else if (globalData.rule == "Variable") {
+        //var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
+        //changeRuleNColors(globalData, nColors, false, true);
+        globalData.ruleClass = new BBColoring(true);
+        globalData.updateCellValue = globalData.ruleClass.updateRule;
+    } else if (globalData.rule == "VariableUnsafe") {
+        //var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
+        //changeRuleNColors(globalData, nColors, false, true);
+        globalData.ruleClass = new BBColoring(false);
+        globalData.updateCellValue = globalData.ruleClass.updateRule;
     } else if (globalData.rule == "Variable") {
         var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
         changeRuleNColors(globalData, nColors, false, globalData.changeColoringRuleFlag);
@@ -43,7 +53,7 @@ export function changeRule(globalData) {
 }
 
 function sampleRule(nColors = 4, secondaryAutomatonFraction = 0.0, onlyGoodSecondary = false, safe = true) {
-    var primaryRule = BBRuleNoZero // twoStatePlusDeadRuleStringToFunction("B13456S236") // twoStateNoZeroRuleStringToFunction("B23456S238") // 
+    var primaryRule = bbRuleNoZero // twoStatePlusDeadRuleStringToFunction("B13456S236") // twoStateNoZeroRuleStringToFunction("B23456S238") // 
     var primaryRuleString = "BBRuleNoZero" // "B13456S236" // "B23456S238" //
     var useDeadCells = Math.random() < 0.5;
     var secondaryRuleString;

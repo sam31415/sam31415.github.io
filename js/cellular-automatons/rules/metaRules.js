@@ -1,6 +1,54 @@
 import { conditionInactive } from "./conditions.js";
-import { BBRuleNoZero, BBRuleNoZeroTest, BBRule, DayAndNight, PhaseBoundaries } from "./rules.js";
+import { BBRuleNoZero, ColoringRule, bbRuleNoZero, BBRuleNoZeroTest, BBRule, DayAndNight, PhaseBoundaries } from "./rules.js";
 import { twoStateRuleStringToFunction, twoStateNoZeroRuleStringToFunction } from "./twoStateRules.js";
+import { sampleMultipleConditions } from "./conditions.js";
+
+
+export class MetaRule {
+    getRuleChain() {
+        throw new Error("Must override method");
+    }
+
+    getUpdateRule() {
+        function updateRule(cellValue, newCellValue, neighbor_list) {
+            newCellValue = this.ruleChain[0].updateRule(cellValue % this.ruleChain[0].nStates, newCellValue, neighbor_list);
+            var nStates = this.ruleChain[0].nStates;
+            for (let i = 1; i < this.ruleChain.length; i++) {
+                newCellValue += nStates * this.ruleChain[i].updateRule(
+                    Math.floor(cellValue / nStates) % this.ruleChain[i].nStates, 
+                    newCellValue, 
+                    neighbor_list); 
+                nStates *= this.ruleChain[i].nStates;
+                newCellValue = newCellValue % nStates;
+            }
+            return newCellValue % nStates;
+        }
+
+        return updateRule
+    }
+}
+
+export class BBColoring extends MetaRule {
+    constructor(safe) {
+        super();
+        this.safe = safe;
+        this.colorUnit = 4;
+        this.ruleChain = this.getRuleChain();
+        this.updateRule = this.getUpdateRule();
+    }
+
+    getRuleChain() {
+        var ruleChain = [];
+        ruleChain.push(new BBRuleNoZero());
+        var conditions = sampleMultipleConditions(null, this.safe)
+        ruleChain.push(new ColoringRule(conditions, 4));
+
+        return ruleChain;
+    }
+
+}
+
+
 
 
 // Idea: Trying to get the secondary value to evolve according to a labyrinthine rule, see
@@ -84,7 +132,7 @@ export function updateCellValueTertiary4ValuesMeta(
     conditionFunc5, neighbor_type5, enableInactiveOnly5,
     conditionFunc6, neighbor_type6, enableInactiveOnly6, flavour = 0) {
     function updateRule(cellValue, newCellValue, neighbor_list) {
-        newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
+        newCellValue = bbRuleNoZero(cellValue % 4, newCellValue, neighbor_list[0]);
         if (flavour == 0) {
             newCellValue = newCellValue % 16
         }

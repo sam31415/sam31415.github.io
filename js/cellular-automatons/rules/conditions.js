@@ -1,9 +1,9 @@
-export function conditionInactive(variation) {
+export function conditionInactive(variation, modulo) {
     function conditionInactiveCondFunction(cellValue) {
         return cellValue == 0;
     }
     function conditionInactiveAbsFunction(cellValue) {
-        return cellValue % 4 == 0;
+        return cellValue % modulo == 0;
     }
     function noCondition(cellValue) {
         return true;
@@ -33,25 +33,26 @@ export function conditionNeighbor(threshold, type, neighborType) {
 
 
 export class Condition {
-    constructor(type, threshold, neighborType, inactivation) {
+    constructor(type, threshold, neighborType, inactivation, modulo) {
         this.type = type;
         this.threshold = threshold;
         this.neighborType = neighborType;
         this.inactivation = inactivation;
+        this.modulo = modulo;
 
-        this.testInactive = conditionInactive(this.inactivation);
+        this.testInactive = conditionInactive(this.inactivation, this.modulo);
         this.testValue = conditionNeighbor(this.threshold, this.type, this.neighborType);
     }
 
     test(neighborList, cellValue) {
-        return this.testValue(neighborList) && this.testInactive(cellValue);
+        return this.testValue(neighborList); // && this.testInactive(cellValue);
     }
 
     name() {
         return `${this.type}${this.threshold}${this.inactivation}NT${this.neighborType}`
     }
 
-    static randomSample(neighborTypes = null) {
+    static randomSample(neighborTypes = null, modulo = 4) {
         // Generate a random type
         const types = ['Eq', 'Bigger'];
         const type = types[Math.floor(Math.random() * types.length)];
@@ -75,18 +76,21 @@ export class Condition {
         const neighborType = neighborTypes[Math.floor(Math.random() * neighborTypes.length)];
 
         // Create a new Condition with the random values
-        return new Condition(type, threshold, neighborType, inactivation);
+        return new Condition(type, threshold, neighborType, inactivation, modulo);
     }
 }
 
-export function sampleMultipleConditions(nConditions, safe = true) {
+export function sampleMultipleConditions(nConditions, safe = true, modulo = 4) {
     var conditions = [];
+    if (nConditions == null) {
+        nConditions = Math.floor(Math.random() * 8) + 2;
+    }
     var neighborTypes = null;
     if (safe) {
         neighborTypes = [0, 1, 2];
     }
     for (let i = 0; i < nConditions; i++) {
-        conditions.push(Condition.randomSample(neighborTypes));
+        conditions.push(Condition.randomSample(neighborTypes, modulo));
     }
     return conditions;
 }

@@ -9,6 +9,7 @@ import { findNeighbourFlipXY } from '../rules/neighbours.js';
 import { changeTertiaryRule4Colors } from "../rules/changeRule.js";
 import { changeRuleNColors, changeRuleTertiaryNColors } from "../rules/changeRule.js";
 import { twoStatePlusDeadRuleStringToFunction } from "../rules/twoStateRules.js";
+import { BBColoring } from "../rules/metaRules.js";
 
 
 export function updatePeriodicityShiftAndTopology(globalData){
@@ -83,9 +84,16 @@ export function setCellUpdateRule(globalData){
         changeRuleNColors(globalData, 3, false, true);
     } else if (globalData.rule == "Variable4Colors") {
         changeRuleNColors(globalData, 4, false, true);
-    } else if (["Variable", "VariableUnsafe"].includes(globalData.rule)) {
-        var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
-        changeRuleNColors(globalData, nColors, false, true);
+    } else if (globalData.rule == "Variable") {
+        //var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
+        //changeRuleNColors(globalData, nColors, false, true);
+        globalData.ruleClass = new BBColoring(true);
+        globalData.updateCellValue = globalData.ruleClass.updateRule;
+    } else if (globalData.rule == "VariableUnsafe") {
+        //var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
+        //changeRuleNColors(globalData, nColors, false, true);
+        globalData.ruleClass = new BBColoring(false);
+        globalData.updateCellValue = globalData.ruleClass.updateRule;
     } else if (globalData.rule == "VariableSecAutomata") {
         var nColors = Math.floor(Math.random() * globalData.maxNColors) + 2;
         changeRuleNColors(globalData, nColors, false, true, 1.0);

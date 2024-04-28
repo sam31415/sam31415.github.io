@@ -1,3 +1,58 @@
+class Rule {
+    constructor() {
+        this.nStates;
+    }
+
+    updateRule(cellValue, newCellValue, neighbor_list) {
+        throw new Error("Must override method");
+    }
+
+}
+
+export class BBRuleNoZero extends Rule{
+    constructor() {
+        super();
+        this.nStates = 4;
+    }
+
+    updateRule(cellValue, newCellValue, neighbor_list) {
+        var cellValueM4 = cellValue % 4;
+        if (cellValueM4 == 1 || cellValueM4 == 3) {
+            newCellValue = 2;
+        } else if (cellValueM4 == 2) {
+            newCellValue = 0;
+        } else if (cellValueM4 == 0 && neighbor_list[0] == 2) {
+            newCellValue = 1;
+        } else if (cellValueM4 == 0 && neighbor_list[0] > 2) {
+            newCellValue = 3;
+        }
+        return newCellValue;
+    }
+}
+
+export class ColoringRule extends Rule{
+    constructor(conditions, nColors) {
+        super();
+        this.nColors = nColors;
+        this.conditions = conditions;
+        this.nStates = this.nColors;
+    }
+
+    updateRule(cellValue, newCellValue, neighbor_list) {
+        newCellValue = 0;
+        for (let i = 0; i < this.conditions.length; i++) {
+            if (this.conditions[i].test(neighbor_list, cellValue)) {
+                //newCellValue = (newCellValue + this.nUnderlyingStates * (i + 1)) % this.nStates;
+                newCellValue = (i + 1) % this.nColors;
+                break;
+            } 
+        }
+        return newCellValue;
+    }
+}
+
+
+
 // Primary rule creating the starships
 
 export function BBRule(cellValue, newCellValue, neighbors) {
@@ -15,7 +70,7 @@ export function BBRule(cellValue, newCellValue, neighbors) {
     return newCellValue;
 }
 
-export function BBRuleNoZero(cellValue, newCellValue, neighbors) {
+export function bbRuleNoZero(cellValue, newCellValue, neighbors) {
     if (cellValue == 1 || cellValue == 3) {
         newCellValue = 2;
     } else if (cellValue == 2) {
@@ -87,7 +142,7 @@ export function updateCellValueTest(cellValue, newCellValue, neighbor_list) {
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbors);
+    newCellValue = bbRuleNoZero(cellValue % 4, newCellValue, neighbors);
     var secondaryCellValue = Math.floor(cellValue / 4);
     if (neighbors > 1) {
         newCellValue = (newCellValue + 4) % 8;
@@ -100,7 +155,7 @@ export function updateCellValueSecondary3(cellValue, newCellValue, neighbor_list
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbors);
+    newCellValue = bbRuleNoZero(cellValue % 4, newCellValue, neighbors);
     var secondaryCellValue = Math.floor(cellValue / 4);
     if (neighbors > 3) {
         newCellValue = (newCellValue + 4) % 16;
@@ -118,7 +173,7 @@ export function updateCellValueSecondary2(cellValue, newCellValue, neighbor_list
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbors);
+    newCellValue = bbRuleNoZero(cellValue % 4, newCellValue, neighbors);
     var secondaryCellValue = Math.floor(cellValue / 4);
     if (secondaryCellValue == 0 && sneighbors > 3) {
         newCellValue = (newCellValue + 4) % 16;
@@ -135,7 +190,7 @@ export function updateCellValueSecondary1(cellValue, newCellValue, neighbor_list
     var neighbors = neighbor_list[0];
     var sneighbors = neighbor_list[1];
     var dneighbors = neighbor_list[2];
-    newCellValue = BBRuleNoZero(cellValue % 4, newCellValue, neighbors);
+    newCellValue = bbRuleNoZero(cellValue % 4, newCellValue, neighbors);
     var secondaryCellValue = Math.floor(cellValue / 4);
     if (secondaryCellValue == 0 && sneighbors < 1) {
         newCellValue = (newCellValue + 4) % 16;
