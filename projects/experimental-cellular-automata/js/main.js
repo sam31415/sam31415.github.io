@@ -20,7 +20,7 @@ var gridPeriodicityShiftY = 0
 var gridFlipX = false
 var gridFlipY = false
 var colorPalette = 'variable'
-var rule = "VariableUnsafe" // "Variable" // "Conway" //
+var rule = "Variable" // "Variable" // "Conway" //
 var initialisation = "random"
 var ruleOrder = 3 // 2
 var maxNColors = 8
@@ -41,7 +41,7 @@ var globalData = new GlobalData(
     rule=rule,
     initialisation=initialisation,
     ruleOrder=ruleOrder,
-    maxNColors=maxNColors
+    maxNColors=maxNColors,
 );
 
 window.onload = function() {
