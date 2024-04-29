@@ -74,6 +74,7 @@ export class Condition {
         // Generate a random neighbor type
         if (neighborTypes === null) {
             neighborTypes = {0: 1/8, 1: 1/8, 2: 1/8, 3: 1/8, 4: 1/8, 5: 1/8, 6: 1/8, 7: 1/8};
+            //neighborTypes = {0: 0.25, 1: 0.25, 2: 0.25, 3: 0.05, 4: 0.05, 5: 0.05, 6: 0.05, 7: 0.05};
         }
         var neighborTypeSampler = createWeightedSampler(neighborTypes);
         const neighborType = neighborTypeSampler();
@@ -90,7 +91,7 @@ export function sampleMultipleConditions(nConditions, safe = true, modulo = 4) {
     }
     var neighborTypes = null;
     if (safe) {
-        neighborTypes = {0: 0.25, 1: 0.25, 2: 0.25, 3: 0.05, 4: 0.05, 5: 0.05, 6: 0.05, 7: 0.05};
+        neighborTypes = {0: 1/3, 1: 1/3, 2: 1/3};
     }
     for (let i = 0; i < nConditions; i++) {
         conditions.push(Condition.randomSample(neighborTypes, modulo));
