@@ -1,5 +1,5 @@
 import { Grid } from "../classes/grid.js";
-import { addRandomEvents } from './randomness.js';
+import { addRandomEvents } from '../randomness/randomness.js';
 
 
 export function updateGrid(globalData) {

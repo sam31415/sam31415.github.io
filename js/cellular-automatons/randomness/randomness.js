@@ -1,4 +1,6 @@
-let unnormMaskProb = {
+import { createWeightedSampler } from "./weightedSampler.js";
+
+let maskDefinitions = {
     // shortStar0: {prob: 4, mask: [[1, 0], [0, 1]]},
     // shortStar1: {prob: 4, mask: [[0, 1], [1, 0]]},
     // shortStar2: {prob: 4, mask: [[1, 0], [0, 1]]},
@@ -18,14 +20,9 @@ let unnormMaskProb = {
     random2: {prob: 40, mask: null}
 };
 
-export let masks = Object.keys(unnormMaskProb).map(key => unnormMaskProb[key].mask);
-
-// Compute the sum of all unnormalized probabilities
-let totalUnnormProb = Object.values(unnormMaskProb).reduce((a, b) => a + b.prob, 0);
-
-// Compute the normalized probabilities
-export let maskProb = Object.keys(unnormMaskProb).map(key => unnormMaskProb[key].prob / totalUnnormProb);
-let cumulativeMaskProb = maskProb.reduce((a, v, i) => [...a, v + (a[i - 1] || 0)], []);
+let masks = Object.keys(maskDefinitions).map(key => maskDefinitions[key].mask);
+let maskProb = Object.keys(maskDefinitions).map(key => maskDefinitions[key].prob);
+let maskSampler = createWeightedSampler(maskProb);
 
 // Function to sample from a Poisson distribution
 export function poissonSample(lambda) {
@@ -48,13 +45,8 @@ export function addRandomEvents(globalData, i, j, newGrid, findNeighbour) {
         var i = Math.floor(Math.random() * globalData.gridHeight);
         var j = Math.floor(Math.random() * globalData.gridWidth);
         // Randomly select the type of event
-        var rnd = Math.random();
-        for (let k = 0; k < masks.length; k++) {
-            if (rnd < cumulativeMaskProb[k]) {
-                applyMask(newGrid, globalData, masks[k], i, j, findNeighbour);
-                break;
-            }
-        }
+        var mask = masks[maskSampler()];
+        applyMask(newGrid, globalData, mask, i, j, findNeighbour);
     }
     return { i, j };
 }

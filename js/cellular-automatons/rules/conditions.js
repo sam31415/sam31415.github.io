@@ -1,3 +1,5 @@
+import { createWeightedSampler } from "../randomness/weightedSampler.js";
+
 export function conditionInactive(variation, modulo) {
     function conditionInactiveCondFunction(cellValue) {
         return cellValue == 0;
@@ -71,9 +73,10 @@ export class Condition {
 
         // Generate a random neighbor type
         if (neighborTypes === null) {
-            neighborTypes = [0, 1, 2, 3, 4, 5, 6, 7];
+            neighborTypes = {0: 1/8, 1: 1/8, 2: 1/8, 3: 1/8, 4: 1/8, 5: 1/8, 6: 1/8, 7: 1/8};
         }
-        const neighborType = neighborTypes[Math.floor(Math.random() * neighborTypes.length)];
+        var neighborTypeSampler = createWeightedSampler(neighborTypes);
+        const neighborType = neighborTypeSampler();
 
         // Create a new Condition with the random values
         return new Condition(type, threshold, neighborType, inactivation, modulo);
@@ -87,10 +90,11 @@ export function sampleMultipleConditions(nConditions, safe = true, modulo = 4) {
     }
     var neighborTypes = null;
     if (safe) {
-        neighborTypes = [0, 1, 2];
+        neighborTypes = {0: 0.25, 1: 0.25, 2: 0.25, 3: 0.05, 4: 0.05, 5: 0.05, 6: 0.05, 7: 0.05};
     }
     for (let i = 0; i < nConditions; i++) {
         conditions.push(Condition.randomSample(neighborTypes, modulo));
     }
+    console.log('Sampling new conditions: ' + conditions.map(c => c.name()).join(', '))
     return conditions;
 }
