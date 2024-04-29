@@ -27,9 +27,19 @@ export class MetaRule {
 }
 
 export class BBColoring extends MetaRule {
-    constructor(safe) {
+    constructor(preset, neighborTypes) {
         super();
-        this.safe = safe;
+        this.preset = preset;
+        this.neighborTypes = neighborTypes;
+        if (neighborTypes == null) {
+            if (preset == "safe") {
+                this.neighborTypes = {0: 1/3, 1: 1/3, 2: 1/3};
+            } else if (preset == "mix") {
+                this.neighborTypes = {0: 0.25, 1: 0.25, 2: 0.25, 3: 0.05, 4: 0.05, 5: 0.05, 6: 0.05, 7: 0.05};
+            } else {
+                this.neighborTypes = {0: 1/8, 1: 1/8, 2: 1/8, 3: 1/8, 4: 1/8, 5: 1/8, 6: 1/8, 7: 1/8};
+            }
+        }
         this.colorUnit = 4;
         this.ruleChain = this.getRuleChain();
         this.updateRule = this.getUpdateRule();
@@ -38,9 +48,8 @@ export class BBColoring extends MetaRule {
     getRuleChain() {
         var ruleChain = [];
         ruleChain.push(new BBRuleNoZero());
-        ruleChain.push(ColoringRule.sampleRule(null, this.safe));
+        ruleChain.push(ColoringRule.sampleRule(null, this.neighborTypes));
 
         return ruleChain;
     }
-
 }

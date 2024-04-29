@@ -56,13 +56,10 @@ export class ColoringRule extends Rule{
         return this.conditions.map(c => c.name()).join(', ');
     }
 
-    static sampleRule(nConditions = null, safe = true, neighborTypes = null, modulo = 4, nColors = 4) {
+    static sampleRule(nConditions = null, neighborTypes = null, modulo = 4, nColors = 4) {
         var conditions = [];
         if (nConditions == null) {
             nConditions = Math.floor(Math.random() * 8) + 2;
-        }
-        if (safe) {
-            neighborTypes = {0: 1/3, 1: 1/3, 2: 1/3};
         }
         for (let i = 0; i < nConditions; i++) {
             conditions.push(Condition.randomSample(neighborTypes, modulo));

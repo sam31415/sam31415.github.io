@@ -1,3 +1,12 @@
+  Interesting BBColoring rules:
+  Eq8CondNT5, Eq8CondNT3, Eq7AbsNT7
+  Bigger6CondNT6, Bigger7AbsNT5, Eq1AbsNT7, Eq3NoneNT1, Bigger1CondNT2, Eq5AbsNT0
+  Eq2NoneNT1, Bigger6CondNT0, Bigger5NoneNT0, Eq5CondNT0
+
+  
+
+  --------------------------------
+  
   - B134S28 ntype 3 modulo 8
   - B2457S12457 ntype 4 modulo 16
   - B378S1246 ntype 4 modulo 4
