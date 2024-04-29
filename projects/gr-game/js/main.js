@@ -22,7 +22,6 @@ var gridFlipY = false
 var colorPalette = 'black2'
 var rule = "VariableGR"
 var initialisation = "random"
-var ruleOrder = 2
 var maxNColors = 6
 
 var globalData = new GlobalData(
@@ -40,7 +39,6 @@ var globalData = new GlobalData(
     colorPalette=colorPalette,
     rule=rule,
     initialisation=initialisation,
-    ruleOrder=ruleOrder,
     maxNColors=maxNColors
 );
 

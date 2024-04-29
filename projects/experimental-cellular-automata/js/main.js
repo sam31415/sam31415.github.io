@@ -10,19 +10,18 @@ console.log("Loading main.js")
 
 var canvas = document.getElementById('gameCanvas');
 var ctx = canvas.getContext('2d');
-var gridHeight = 200 //358
-var gridWidth = 200 //358
+var gridHeight = 192 //358
+var gridWidth = 192 //358
 var timeout = 30 // 0
 var addRandomness = true
-var randomnessAmount = -1.5 //-1.5
+var randomnessAmount = -1.0 //-1.5
 var gridPeriodicityShiftX = 0
 var gridPeriodicityShiftY = 0
 var gridFlipX = false
 var gridFlipY = false
 var colorPalette = 'variable'
-var rule = "VariableUnsafe" // "Variable" // "Conway" //
+var rule = "Variable" // "Variable" // "Conway" //
 var initialisation = "random"
-var ruleOrder = 3 // 2
 var maxNColors = 8
 
 var globalData = new GlobalData(
@@ -40,8 +39,7 @@ var globalData = new GlobalData(
     colorPalette=colorPalette,
     rule=rule,
     initialisation=initialisation,
-    ruleOrder=ruleOrder,
-    maxNColors=maxNColors
+    maxNColors=maxNColors,
 );
 
 window.onload = function() {
