@@ -1,3 +1,5 @@
+import { Condition } from './conditions.js';
+
 class Rule {
     constructor() {
         this.nStates;
@@ -48,5 +50,32 @@ export class ColoringRule extends Rule{
             } 
         }
         return newCellValue;
+    }
+
+    getName() {
+        return this.conditions.map(c => c.name()).join(', ');
+    }
+
+    static sampleRule(nConditions = null, safe = true, neighborTypes = null, modulo = 4, nColors = 4) {
+        var conditions = [];
+        if (nConditions == null) {
+            nConditions = Math.floor(Math.random() * 8) + 2;
+        }
+        if (safe) {
+            neighborTypes = {0: 1/3, 1: 1/3, 2: 1/3};
+        }
+        for (let i = 0; i < nConditions; i++) {
+            conditions.push(Condition.randomSample(neighborTypes, modulo));
+        }
+        console.log('Sampling coloring rule: ' + conditions.map(c => c.name()).join(', '))
+
+        return new ColoringRule(conditions, nColors);
+    }
+    
+    static ruleFromNames(nameString) {
+        var names = nameString.split(', ');
+        var conditions = names.map(name => Condition.fromName(name));
+
+        return new ColoringRule(conditions, nColors)
     }
 }

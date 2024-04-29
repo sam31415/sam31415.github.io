@@ -54,6 +54,31 @@ export class Condition {
         return `${this.type}${this.threshold}${this.inactivation}NT${this.neighborType}`
     }
 
+    static fromName(name) {
+        var type = null;
+        if (name.startsWith('Eq')) {
+            type = "Eq";
+            name = str.substr
+        } else if (name.startsWith('Bigger')) {
+            type = "Bigger";
+        }
+        var restOfName = name.substring(type.length);
+        var threshold = parseInt(name.substring(0, 1));
+        restOfName = restOfName.substring(1);
+        inactivation = null;
+        if (restOfName.startsWith('Cond')) {
+            inactivation = 'Cond';
+        } else if (restOfName.startsWith('Abs')) {
+            inactivation = 'Abs';
+        } else if (restOfName.startsWith('None')) {
+            inactivation = 'None';
+        }
+        restOfName = restOfName.substring(inactivation.length);
+        var neighborType = parseInt(restOfName.substring(2));
+
+        return new Condition(type, threshold, neighborType, inactivation);
+    }
+
     static randomSample(neighborTypes = null, modulo = 4) {
         // Generate a random type
         const types = ['Eq', 'Bigger'];
@@ -84,18 +109,4 @@ export class Condition {
     }
 }
 
-export function sampleMultipleConditions(nConditions, safe = true, modulo = 4) {
-    var conditions = [];
-    if (nConditions == null) {
-        nConditions = Math.floor(Math.random() * 8) + 2;
-    }
-    var neighborTypes = null;
-    if (safe) {
-        neighborTypes = {0: 1/3, 1: 1/3, 2: 1/3};
-    }
-    for (let i = 0; i < nConditions; i++) {
-        conditions.push(Condition.randomSample(neighborTypes, modulo));
-    }
-    console.log('Sampling new conditions: ' + conditions.map(c => c.name()).join(', '))
-    return conditions;
-}
+

@@ -1,5 +1,4 @@
 import { BBRuleNoZero, ColoringRule } from "./rules.js";
-import { sampleMultipleConditions } from "./conditions.js";
 
 
 export class MetaRule {
@@ -39,8 +38,7 @@ export class BBColoring extends MetaRule {
     getRuleChain() {
         var ruleChain = [];
         ruleChain.push(new BBRuleNoZero());
-        var conditions = sampleMultipleConditions(null, this.safe)
-        ruleChain.push(new ColoringRule(conditions, 4));
+        ruleChain.push(ColoringRule.sampleRule(null, this.safe));
 
         return ruleChain;
     }
