@@ -13,13 +13,7 @@ export function drawGrid(globalData) {
                 continue;
             }
             nCellChanged += 1;
-            if (globalData.ruleOrder == 2) {
-                var value = Math.floor(globalData.grid.get(i, j) / 4) % 4;
-            } else if (globalData.ruleOrder == 3) {
-                var value = Math.floor((globalData.grid.get(i, j)) / 16) % 4;
-            } else {
-                var value = globalData.grid.get(i, j) % 4;
-            }
+            var value = Math.floor((globalData.grid.get(i, j)) / globalData.ruleClass.colorUnit) % 4;
             let color;
             if (value == 0) {
                 color = globalData.backgroundColor;
@@ -39,7 +33,7 @@ export function drawGrid(globalData) {
             imageData.data[index + 3] = 255; // Alpha (255 = fully opaque)
         }
     }
-    globalData.nCellChangedHistoric = 1/300 * nCellChanged + 299 / 300 * globalData.nCellChangedHistoric;
+    globalData.nCellChangedHistoric = 1/100 * nCellChanged + 99 / 100 * globalData.nCellChangedHistoric;
     if (globalData.nCellChangedHistoric > 0.5 * globalData.gridHeight * globalData.gridWidth) {
         globalData.changeColoringRuleFlag = true;
         var proportion = globalData.nCellChangedHistoric / (globalData.gridHeight * globalData.gridWidth);
