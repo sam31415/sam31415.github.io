@@ -14,7 +14,6 @@ export class GlobalData {
         colorPalette = 'black2', 
         rule = "VariableGR", 
         initialisation = "random", 
-        ruleOrder = 2,
         maxNColors = 6,
         ruleSwitchPeriod = 5000,
     ){
@@ -37,7 +36,6 @@ export class GlobalData {
         this.colorPalette = colorPalette;
         this.rule = rule;
         this.initialisation = initialisation;
-        this.ruleOrder = ruleOrder;
         this.maxNColors = maxNColors;
         this.updateCellValue = null;
         this.updateCellValueAuxiliary = null;

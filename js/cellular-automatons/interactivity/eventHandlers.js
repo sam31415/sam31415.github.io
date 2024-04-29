@@ -2,7 +2,6 @@ import { submitValue, updateRandomnessValue } from './formHandlers.js';
 import { initializeGrid } from "../initialisation/initialiseGrid.js";
 import { setFindNeighbour, setCellUpdateRule} from './optionSetter.js';
 import { determineColorPalette } from '../draw/coloring.js';
-import { ruleOrder } from '../rules/ruleOrder.js';
 import { saveEventData } from './saveEventData.js';
 
 export function addRandomnessCheckboxListener(globalData) {
@@ -132,10 +131,6 @@ export function addTimeoutListener(globalData) {
 export function addRuleListener(globalData) {
     document.getElementById('userRule').addEventListener('change', async function() {
         globalData.rule = this.value;
-        if ((globalData.ruleOrder == 2) ^ (globalData.rule.includes("Secondary") || globalData.rule.includes("Variable"))){
-            await initializeGrid(globalData)
-        }
-        globalData.ruleOrder = ruleOrder(globalData.rule);
         setCellUpdateRule(globalData);
     });
 }

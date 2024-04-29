@@ -22,7 +22,6 @@ var gridFlipY = false
 var colorPalette = 'variable'
 var rule = "Variable" // "Variable" // "Conway" //
 var initialisation = "random"
-var ruleOrder = 3 // 2
 var maxNColors = 8
 
 var globalData = new GlobalData(
@@ -40,7 +39,6 @@ var globalData = new GlobalData(
     colorPalette=colorPalette,
     rule=rule,
     initialisation=initialisation,
-    ruleOrder=ruleOrder,
     maxNColors=maxNColors,
 );
 
