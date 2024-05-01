@@ -1,5 +1,5 @@
 
-import { BBColoring } from "./metaRules.js";
+import { BBColoring, SparseFourStates, TestSparseFourStates } from "./metaRules.js";
 
 
 export function changeRule(globalData, forceChange = false) {
@@ -13,6 +13,9 @@ export function changeRule(globalData, forceChange = false) {
             globalData.ruleClass = new BBColoring("mix");
         } else if (globalData.rule == "VariableUnsafe") {
             globalData.ruleClass = new BBColoring("general");
+        } else if (globalData.rule == "SparseFourStates") {
+            globalData.ruleClass = new SparseFourStates();
+            //globalData.ruleClass = new TestSparseFourStates();
         }
         globalData.ruleSwitchProbability = 0;
     }

@@ -1,4 +1,4 @@
-import { BBRuleNoZero, ColoringRule } from "./rules.js";
+import { BBRuleNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
 
 
 export class MetaRule {
@@ -53,3 +53,48 @@ export class BBColoring extends MetaRule {
         return ruleChain;
     }
 }
+
+export class SparseFourStates extends MetaRule {
+    constructor(neighborTypes) {
+        super();
+        this.neighborTypes = neighborTypes;
+        if (neighborTypes == null) {
+            this.neighborTypes = {0: 1/3, 1: 1/3, 2: 1/3};
+        }
+        this.colorUnit = 1;
+        this.ruleChain = this.getRuleChain();
+        this.updateRule = this.getUpdateRule();
+    }
+
+    getRuleChain() {
+        var ruleChain = [];
+        ruleChain.push(SparseFourStateRule.sampleRule(4, this.neighborTypes));
+
+        return ruleChain;
+    }
+}
+
+
+export class TestSparseFourStates extends MetaRule {
+    constructor(preset, neighborTypes) {
+        super();
+        this.preset = preset;
+        this.neighborTypes = neighborTypes;
+        if (neighborTypes == null) {
+            this.neighborTypes = {0: 1/3, 1: 1/3, 2: 1/3};
+        }
+        this.colorUnit = 4;
+        this.ruleChain = this.getRuleChain();
+        this.updateRule = this.getUpdateRule();
+    }
+
+    getRuleChain() {
+        var ruleChain = [];
+        var name = "Bigger0CondNT1, Eq2NoneNT0, Bigger7NoneNT1, Bigger0CondNT0 || Eq2NoneNT0, Bigger5CondNT0, Bigger7CondNT2, Eq1AbsNT2 || Bigger1CondNT1, Bigger3AbsNT2, Bigger7AbsNT1, Eq6AbsNT2 || Bigger8NoneNT2, Eq6AbsNT0, Bigger6CondNT0, Eq5NoneNT1"
+        ruleChain.push(SparseFourStateRule.ruleFromNames(name));
+        ruleChain.push(ColoringRule.sampleRule(null, this.neighborTypes));
+
+        return ruleChain;
+    }
+}
+

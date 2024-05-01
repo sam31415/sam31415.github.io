@@ -76,3 +76,59 @@ export class ColoringRule extends Rule{
         return new ColoringRule(conditions, nColors)
     }
 }
+
+
+export class SparseFourStateRule extends Rule{
+    constructor(conditions, nColors) {
+        super();
+        this.nColors = nColors;
+        this.conditions = conditions;
+        this.nStates = this.nColors;
+    }
+
+    updateRule(cellValue, newCellValue, neighborList) {
+        //newCellValue = 0;
+        var conditions = this.conditions[cellValue % 4];
+        for (let i = 0; i < conditions.length; i++) {
+            if (conditions[i].test(neighborList, cellValue)) {
+                //newCellValue = (newCellValue + this.nUnderlyingStates * (i + 1)) % this.nStates;
+                newCellValue = (i + 1) % this.nColors;
+                break;
+            } 
+        }
+        
+        return newCellValue;
+    }
+
+    getName() {
+        return this.conditions.map(c => c.map(cc => cc.name()).join(', ')).join(' || ');
+    }
+
+    static sampleRule(nConditions = null, neighborTypes = null, modulo = 4, nColors = 4) {
+        var conditions = [];
+        for (let i = 0; i < 4; i++) {
+            conditions.push([]);
+            if (nConditions == null) {
+                nConditions = Math.floor(Math.random() * 8) + 2;
+            }
+            for (let j = 0; j < nConditions; j++) {
+                conditions[i].push(Condition.randomSample(neighborTypes, modulo));
+            }
+        }
+        console.log('Sampling sparse four state rule: ' + conditions.map(c => c.map(cc => cc.name()).join(', ')).join(' || '))
+
+        return new SparseFourStateRule(conditions, nColors);
+    }
+    
+    static ruleFromNames(nameString, nColors = 4) {
+        var conditions = [];
+        var nameGroups = nameString.split(' || ');
+        for (let i = 0; i < nameGroups.length; i++) {
+            conditions.push([]);
+            var names = nameGroups[i].split(', ');
+            conditions[i] = names.map(name => Condition.fromName(name));
+        }
+
+        return new SparseFourStateRule(conditions, nColors)
+    }
+}
