@@ -10,9 +10,8 @@ export function gameLoop(globalData) {
     updateGrid(globalData);
     changeRule(globalData)
 
-    if (globalData.rule.includes("Variable")) {
-        updatePeriodicityShiftAndTopology(globalData);
-    }
+    updatePeriodicityShiftAndTopology(globalData);
+    
     if (globalData.colorPalette == "variable") {
         driftColorPalette(globalData);
     }
