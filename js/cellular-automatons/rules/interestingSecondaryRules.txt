@@ -1,10 +1,27 @@
-  Interesting BBColoring rules:
+Interesting BBColoring rules:
   Eq8CondNT5, Eq8CondNT3, Eq7AbsNT7
   Bigger6CondNT6, Bigger7AbsNT5, Eq1AbsNT7, Eq3NoneNT1, Bigger1CondNT2, Eq5AbsNT0
   Eq2NoneNT1, Bigger6CondNT0, Bigger5NoneNT0, Eq5CondNT0
+  Bigger6NoneNT5, Bigger6CondNT6, Bigger3NoneNT7, Eq5NoneNT7, Eq8NoneNT6, Eq2AbsNT0, Eq5AbsNT0
+  Bigger8AbsNT3, Bigger3AbsNT5, Eq2AbsNT4
 
-  
 
+Interesting Spare four state rules:
+  Eq5CondNT0, Eq1CondNT1, Eq5CondNT1, Eq4CondNT0, Eq6AbsNT2, Eq3AbsNT0, Bigger6AbsNT2, Eq1NoneNT0 || Eq7AbsNT2, Bigger6CondNT2, Eq7CondNT1, Eq6CondNT2, Eq7NoneNT2, Eq4NoneNT1, Eq7CondNT0, Eq8NoneNT0 || Eq8AbsNT0, Bigger3AbsNT2, Eq5NoneNT1, Eq5NoneNT0, Bigger2AbsNT0, Bigger3NoneNT1, Bigger5CondNT1, Eq5AbsNT1 || Eq8CondNT2, Eq1NoneNT1, Bigger0NoneNT2, Bigger0AbsNT2, Bigger8CondNT2, Bigger3CondNT2, Eq5AbsNT1, Eq1NoneNT1
+  Bigger0AbsNT2, Bigger2NoneNT2, Bigger4NoneNT1, Eq2CondNT0, Eq7CondNT0, Bigger4NoneNT1, Eq4CondNT1, Eq6CondNT1 || Bigger2CondNT1, Bigger6NoneNT0, Eq4NoneNT2, Eq6AbsNT2, Eq1CondNT1, Bigger3NoneNT1, Eq6CondNT1, Eq2AbsNT2 || Bigger8CondNT0, Eq4NoneNT2, Bigger8CondNT0, Bigger1NoneNT2, Bigger3CondNT1, Bigger5NoneNT2, Bigger1AbsNT1, Bigger2CondNT0 || Bigger0AbsNT0, Bigger6AbsNT2, Eq5NoneNT1, Bigger1AbsNT1, Eq3AbsNT0, Bigger6AbsNT0, Eq3NoneNT2, Eq4AbsNT0
+  Bigger5AbsNT2, Eq2CondNT2, Eq2CondNT2, Bigger2AbsNT0, Bigger7CondNT1, Eq8CondNT0, Eq6AbsNT0, Eq5NoneNT0 || Eq5AbsNT0, Bigger4AbsNT2, Bigger1CondNT1, Bigger3NoneNT1, Bigger3CondNT1, Eq7NoneNT2, Eq4CondNT0, Eq2CondNT2 || Eq4CondNT1, Eq2NoneNT1, Eq8CondNT1, Bigger0CondNT2, Eq3AbsNT1, Eq2CondNT0, Eq8NoneNT0, Eq1CondNT1 || Eq3CondNT0, Eq8CondNT0, Bigger8CondNT1, Bigger7AbsNT2, Bigger7CondNT0, Bigger7CondNT1, Bigger5AbsNT2, Bigger7NoneNT2
+  Eq2CondNT2, Bigger1AbsNT2 || Eq2NoneNT1, Bigger8NoneNT0 || Eq4CondNT2, Eq6AbsNT2 || Bigger3AbsNT1, Bigger8AbsNT0
+  Eq1AbsNT1, Bigger6NoneNT2 || Bigger1CondNT0, Eq4CondNT0 || Eq3CondNT1, Eq2NoneNT0 || Bigger8CondNT2, Eq6AbsNT0
+  Eq2AbsNT1, Bigger6CondNT0 || Bigger5AbsNT0, Eq1AbsNT0 || Bigger5NoneNT0, Eq6CondNT2 || Bigger7AbsNT2, Bigger5NoneNT1
+  Eq7NoneNT2, Eq1AbsNT1 || Bigger1AbsNT2, Bigger2AbsNT1 || Bigger1NoneNT1, Eq1CondNT2 || Eq3AbsNT0, Eq7CondNT2
+  Bigger0NoneNT2, Bigger0CondNT2 || Bigger4CondNT1, Eq4CondNT0 || Eq6NoneNT2, Bigger0NoneNT2 || Bigger4AbsNT2, Bigger8NoneNT2
+  Eq2NoneNT1, Eq1CondNT0, Eq3CondNT1, Bigger8CondNT0 || Bigger0AbsNT1, Bigger7CondNT0, Eq7AbsNT2, Eq1AbsNT1 || Eq4CondNT0, Eq6NoneNT2, Bigger2CondNT0, Bigger0AbsNT2 || Bigger4AbsNT0, Bigger5AbsNT0, Eq6NoneNT2, Eq7AbsNT0
+  Bigger0NoneNT2, Bigger6CondNT2, Eq2NoneNT0, Eq8AbsNT2 || Bigger5AbsNT1, Bigger7NoneNT2, Bigger6AbsNT2, Bigger4CondNT0 || Bigger4AbsNT1, Eq6NoneNT0, Eq8NoneNT0, Bigger1CondNT0 || Bigger4NoneNT1, Bigger3AbsNT1, Bigger0CondNT2, Eq4NoneNT1
+  After removing the zeroing of the newCellValue:
+  Eq3NoneNT0, Bigger7AbsNT0, Bigger8NoneNT2, Bigger1NoneNT1 || Bigger7CondNT0, Eq6NoneNT0, Eq7CondNT2, Bigger3AbsNT1 || Bigger5AbsNT1, Bigger2CondNT2, Bigger8NoneNT1, Eq3CondNT2 || Bigger0NoneNT0, Eq5CondNT1, Bigger6NoneNT1, Eq4NoneNT1
+  Eq3AbsNT0, Eq2AbsNT0, Eq7CondNT2, Eq1AbsNT0 || Eq1NoneNT1, Bigger1CondNT0, Eq7AbsNT0, Eq3NoneNT2 || Bigger5AbsNT0, Eq7AbsNT1, Eq5AbsNT1, Bigger6CondNT1 || Bigger5NoneNT2, Bigger2NoneNT2, Eq3AbsNT1, Bigger4NoneNT0
+  Eq6CondNT1, Eq3CondNT1, Eq7CondNT1, Bigger8AbsNT1 || Eq2NoneNT0, Eq5CondNT0, Eq2CondNT1, Eq6NoneNT2 || Bigger8CondNT1, Eq3AbsNT1, Bigger3CondNT1, Eq6NoneNT2 || Eq2NoneNT2, Eq2NoneNT1, Eq4CondNT1, Bigger0AbsNT0
+  Bigger0CondNT1, Eq2NoneNT0, Bigger7NoneNT1, Bigger0CondNT0 || Eq2NoneNT0, Bigger5CondNT0, Bigger7CondNT2, Eq1AbsNT2 || Bigger1CondNT1, Bigger3AbsNT2, Bigger7AbsNT1, Eq6AbsNT2 || Bigger8NoneNT2, Eq6AbsNT0, Bigger6CondNT0, Eq5NoneNT1
   --------------------------------
   
   - B134S28 ntype 3 modulo 8
