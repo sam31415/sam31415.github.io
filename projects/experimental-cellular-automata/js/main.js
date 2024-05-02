@@ -62,12 +62,18 @@ window.onload = function() {
     setFindNeighbour(globalData);
     setCellUpdateRule(globalData);
 
-    initializeGrid(globalData).then(() =>{
-        gameLoop(globalData);
-    })
-    .catch((error) => {
-        console.error("Error initialising the grid: ", error)
-    });
+    let encodedHostname = 'c2FtMzE0MTUuZ2l0aHViLmlv'; 
+    let decodedHostname = atob(encodedHostname);
+    
+    if (window.location.hostname === decodedHostname || window.location.hostname === '') {
+        initializeGrid(globalData).then(() =>{
+            gameLoop(globalData);
+        })
+        .catch((error) => {
+            console.error("Error initialising the grid: ", error)
+        });
+    }
+
 }
 
 
