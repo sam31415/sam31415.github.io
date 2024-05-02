@@ -15,7 +15,7 @@ export class GlobalData {
         rule = "VariableGR", 
         initialisation = "random", 
         maxNColors = 6,
-        ruleSwitchPeriod = 3000,
+        ruleSwitchPeriod = 2000,
     ){
         this.gridHeight = gridHeight;
         this.gridWidth = gridWidth;
