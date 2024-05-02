@@ -64,7 +64,7 @@ export class ColoringRule extends Rule{
         for (let i = 0; i < nConditions; i++) {
             conditions.push(Condition.randomSample(neighborTypes, modulo));
         }
-        console.log('Sampling coloring rule: ' + conditions.map(c => c.name()).join(', '))
+        console.log(new Date().toLocaleTimeString() + ' Sampling coloring rule: ' + conditions.map(c => c.name()).join(', '))
 
         return new ColoringRule(conditions, nColors);
     }
@@ -87,7 +87,7 @@ export class SparseFourStateRule extends Rule{
     }
 
     updateRule(cellValue, newCellValue, neighborList) {
-        //newCellValue = 0;
+        newCellValue = 0;
         var conditions = this.conditions[cellValue % 4];
         for (let i = 0; i < conditions.length; i++) {
             if (conditions[i].test(neighborList, cellValue)) {
