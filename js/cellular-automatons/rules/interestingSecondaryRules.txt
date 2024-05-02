@@ -22,6 +22,7 @@ Interesting Spare four state rules:
   Eq3AbsNT0, Eq2AbsNT0, Eq7CondNT2, Eq1AbsNT0 || Eq1NoneNT1, Bigger1CondNT0, Eq7AbsNT0, Eq3NoneNT2 || Bigger5AbsNT0, Eq7AbsNT1, Eq5AbsNT1, Bigger6CondNT1 || Bigger5NoneNT2, Bigger2NoneNT2, Eq3AbsNT1, Bigger4NoneNT0
   Eq6CondNT1, Eq3CondNT1, Eq7CondNT1, Bigger8AbsNT1 || Eq2NoneNT0, Eq5CondNT0, Eq2CondNT1, Eq6NoneNT2 || Bigger8CondNT1, Eq3AbsNT1, Bigger3CondNT1, Eq6NoneNT2 || Eq2NoneNT2, Eq2NoneNT1, Eq4CondNT1, Bigger0AbsNT0
   Bigger0CondNT1, Eq2NoneNT0, Bigger7NoneNT1, Bigger0CondNT0 || Eq2NoneNT0, Bigger5CondNT0, Bigger7CondNT2, Eq1AbsNT2 || Bigger1CondNT1, Bigger3AbsNT2, Bigger7AbsNT1, Eq6AbsNT2 || Bigger8NoneNT2, Eq6AbsNT0, Bigger6CondNT0, Eq5NoneNT1
+  Eq1AbsNT2, Eq8AbsNT0, Eq6NoneNT1, Bigger1CondNT1 || Bigger5AbsNT2, Eq7NoneNT0, Eq2AbsNT2, Bigger3CondNT1 || Eq4NoneNT2, Eq4NoneNT0, Bigger7AbsNT1, Bigger2AbsNT0 || Eq2AbsNT2, Bigger1NoneNT0, Eq3AbsNT0, Bigger5AbsNT0
   --------------------------------
   
   - B134S28 ntype 3 modulo 8
