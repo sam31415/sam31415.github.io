@@ -1,6 +1,6 @@
 export const neighbourTypeNumbers = [12, 5]
 
-export function computeneighbourList(globalData, i, j) {
+export function computeNeighbourList(globalData, i, j) {
     var neighbours = 0;
     var neighboursVH = 0;
     var neighboursDiag = 0;
