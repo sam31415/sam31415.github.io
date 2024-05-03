@@ -32,6 +32,30 @@ export class BBRuleNoZero extends Rule{
     }
 }
 
+
+export class ConwayNoZero extends Rule{
+    constructor() {
+        super();
+        this.nStates = 4;
+    }
+
+    updateRule(cellValue, newCellValue, neighbor_list) {
+        var sneighbors = neighbor_list[1];
+        if ((cellValue % 4 == 1 || cellValue % 4 == 3) && sneighbors < 2) {
+            newCellValue = 2;
+        } else if ((cellValue % 4 == 1 || cellValue % 4 == 3) && (sneighbors == 2 || sneighbors == 3)) {
+            newCellValue = 1;
+        } else if ((cellValue % 4 == 1 || cellValue % 4 == 3) && sneighbors > 5) {
+            newCellValue = 2;
+        } else if ((cellValue % 4 == 0 || cellValue % 4 == 2) && sneighbors == 3) {
+            newCellValue = 3;
+        } else if (cellValue % 4 == 2) {
+            newCellValue = 0;
+        }
+        return newCellValue;
+    }
+}
+
 export class ColoringRule extends Rule{
     constructor(conditions, nColors) {
         super();

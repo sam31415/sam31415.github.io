@@ -1,5 +1,5 @@
 
-import { BBColoring, SparseFourStates, TestSparseFourStates } from "./metaRules.js";
+import { BBColoring, Conway, SparseFourStates, TestSparseFourStates } from "./metaRules.js";
 
 export function changeRule(globalData, forceChange = false) {
     if (Math.random() < Math.exp(globalData.ruleLogSwitchProbability) || forceChange || globalData.changeColoringRuleFlag) {
@@ -13,6 +13,7 @@ export function changeRule(globalData, forceChange = false) {
         } else if (globalData.rule == "VariableUnsafe") {
             globalData.ruleClass = new BBColoring("general");
         } else if (globalData.rule == "SparseFourStates") {
+            //globalData.ruleClass = new Conway("safe");
             globalData.ruleClass = new SparseFourStates();
             //globalData.ruleClass = new TestSparseFourStates();
         }
