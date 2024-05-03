@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Celular automata experiments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #F0EFEF;
+        }
+        #content {
+            max-width: 800px;
+            margin: auto;
+        }
+        #gameCanvas {
+            border: 1px solid black;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            image-rendering: pixelated; 
+            image-rendering: crisp-edges;
+            width: 800px; 
+            height: 800px;
+        }
+        #randomnessSlider {
+            vertical-align: middle;
+            width: 150px;
+        }
+        #randomnessCheckbox {
+            margin-right: 0px;
+        }
+        label, input, select, button {
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+        input {
+            width: 10ch;  
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <h1>Cellular worlds - demo</h1>
+
+        <p>Cellular worlds is a collection of cellullar automata displaying complex and varied animated patterns.</p>
+
+        <p>It is customisable in various ways. The colors cycle smoothly by default, but can changed at will. 
+           
+           A logo as a black and white image can be overlaid on the grid and different coloring rules be used on the 
+           black and white portion of the image, integrating the logo organically into the pattern.</p>
+
+        <p>The automaton can be interacted with by moving the mouse over the canvas while holding the Shift key down. This will activate any cell you mouse over. 
+            Clicking while holding down various combinations of the Shift and Ctrl keys also affects the automaton.</p>
+        
+        <p>This animation is especially well suited to LED walls with a relatively large pitch, where each LED can play the role of a grid cell.</p>
+        <br><br>
+        <button id="fullscreenButton">Go Fullscreen</button>
+    </div><br>
+    <canvas id="gameCanvas" width="800" height="800"></canvas>
+    <script type="module" src="js/main.js"></script>
+    <br>
+    <div id="content">
+        <label for="userRule">Automaton rule:</label>
+        <select id="userRule">
+            <option value="Variable">Plain</option>
+            <option value="VariableGR">With logo</option>
+        </select><br>
+        <label for="category">Color scheme:</label>
+        <select id="userColorPalette">
+            <option value="variable">Variable</option>
+            <option value="blackTrace">Black and white</option>
+            <option value="redblue">Red and blue</option>
+            <option value="blackTrace3">Black (trace III)</option>
+        </select><br>
+        <!-- <label for="userGridSize">Grid size (max 1000):</label>
+        <input type="int" id="userGridSize" value="100"> -->
+        <label for="userGridHeight">Grid height:</label>
+        <input type="int" id="userGridHeight" value="100">
+        <label for="userGridWidth">Grid width:</label>
+        <input type="int" id="userGridWidth" value="100"><br>
+        <label for="userTimeout">Timeout (smaller is faster):</label>
+        <input type="int" id="userTimeout" value="50"><br>
+        <button id="submitButton">Submit</button>   <button id="changeColoringRule">Change coloring rule</button>  <button id="changeColor">Change colors</button>
+    </div>
+</body>
+</html>
