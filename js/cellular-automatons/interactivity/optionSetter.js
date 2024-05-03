@@ -1,4 +1,4 @@
-import { findNeighbourFlipY, findNeighbourNoFlip, findNeighbourFlipX, findNeighbourFlipXY } from '../neighbors/gridTopology.js';
+import { findNeighbourFlipY, findNeighbourNoFlip, findNeighbourFlipX, findNeighbourFlipXY } from '../neighbours/gridTopology.js';
 import { changeRule } from "../rules/changeRule.js";
 
 export function updatePeriodicityShiftAndTopology(globalData){

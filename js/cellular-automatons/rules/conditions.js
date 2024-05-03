@@ -1,5 +1,5 @@
 import { createWeightedSampler } from "../randomness/weightedSampler.js";
-import { neighborTypeNumbers } from "../neighbors/neighbourCount.js";
+import { neighbourTypeNumbers } from "../neighbours/neighbourCount.js";
 
 export function conditionInactive(variation, modulo) {
     function conditionInactiveCondFunction(cellValue) {
@@ -20,39 +20,39 @@ export function conditionInactive(variation, modulo) {
     }
 }
 
-export function conditionNeighbor(threshold, type, neighborType) {
-    function conditionNeighborEqValue(neighborList) {
-        return neighborList[neighborType[0]][neighborType[1]] == threshold;
+export function conditionneighbour(threshold, type, neighbourType) {
+    function conditionneighbourEqValue(neighbourList) {
+        return neighbourList[neighbourType[0]][neighbourType[1]] == threshold;
     }
-    function conditionNeighborBiggerValue(neighborList) {
-        return neighborList[neighborType[0]][neighborType[1]] > threshold;
+    function conditionneighbourBiggerValue(neighbourList) {
+        return neighbourList[neighbourType[0]][neighbourType[1]] > threshold;
     }
     if (type == 'Eq') {
-        return conditionNeighborEqValue;
+        return conditionneighbourEqValue;
     } else if (type == 'Bigger') {
-        return conditionNeighborBiggerValue;
+        return conditionneighbourBiggerValue;
     }
 }
 
 
 export class Condition {
-    constructor(type, threshold, neighborType, inactivation, modulo) {
+    constructor(type, threshold, neighbourType, inactivation, modulo) {
         this.type = type;
         this.threshold = threshold;
-        this.neighborType = neighborType;
+        this.neighbourType = neighbourType;
         this.inactivation = inactivation;
         this.modulo = modulo;
 
         this.testInactive = conditionInactive(this.inactivation, this.modulo);
-        this.testValue = conditionNeighbor(this.threshold, this.type, this.neighborType);
+        this.testValue = conditionneighbour(this.threshold, this.type, this.neighbourType);
     }
 
-    test(neighborList, cellValue) {
-        return this.testValue(neighborList); // && this.testInactive(cellValue);
+    test(neighbourList, cellValue) {
+        return this.testValue(neighbourList); // && this.testInactive(cellValue);
     }
 
     name() {
-        return `${this.type}${this.threshold}${this.inactivation}NT${this.neighborType[0]}|${this.neighborType[1]}`
+        return `${this.type}${this.threshold}${this.inactivation}NT${this.neighbourType[0]}|${this.neighbourType[1]}`
     }
 
     static fromName(name, modulo = 4) {
@@ -74,12 +74,12 @@ export class Condition {
             inactivation = 'None';
         }
         restOfName = restOfName.substring(inactivation.length);
-        var neighborType = restOfName.split('|').map(Number);;
+        var neighbourType = restOfName.split('|').map(Number);;
 
-        return new Condition(type, threshold, neighborType, inactivation, modulo);
+        return new Condition(type, threshold, neighbourType, inactivation, modulo);
     }
 
-    static randomSample(neighborTypes = null, modulo = 4) {
+    static randomSample(neighbourTypes = null, modulo = 4) {
         // Generate a random type
         const types = ['Eq', 'Bigger'];
         const type = types[Math.floor(Math.random() * types.length)];
@@ -96,16 +96,16 @@ export class Condition {
         const inactivations = ['Cond', 'Abs', 'None'];
         const inactivation = inactivations[Math.floor(Math.random() * inactivations.length)];
 
-        // Generate a random neighbor type
-        if (neighborTypes === null) {
-            neighborTypes = {0: 2/3, 1: 1/3};
+        // Generate a random neighbour type
+        if (neighbourTypes === null) {
+            neighbourTypes = {0: 2/3, 1: 1/3};
         }
-        var neighborTypeSampler = createWeightedSampler(neighborTypes);
-        const neighborType0 = neighborTypeSampler();
-        const neighborType = [neighborType0, Math.floor(Math.random() * neighborTypeNumbers[neighborType0])];
+        var neighbourTypeSampler = createWeightedSampler(neighbourTypes);
+        const neighbourType0 = neighbourTypeSampler();
+        const neighbourType = [neighbourType0, Math.floor(Math.random() * neighbourTypeNumbers[neighbourType0])];
 
         // Create a new Condition with the random values
-        return new Condition(type, threshold, neighborType, inactivation, modulo);
+        return new Condition(type, threshold, neighbourType, inactivation, modulo);
     }
 }
 
