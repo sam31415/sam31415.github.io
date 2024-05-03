@@ -23,9 +23,9 @@ export class BBRuleNoZero extends Rule{
             newCellValue = 2;
         } else if (cellValueM4 == 2) {
             newCellValue = 0;
-        } else if (cellValueM4 == 0 && neighbor_list[0] == 2) {
+        } else if (cellValueM4 == 0 && neighbor_list[0][0] == 2) {
             newCellValue = 1;
-        } else if (cellValueM4 == 0 && neighbor_list[0] > 2) {
+        } else if (cellValueM4 == 0 && neighbor_list[0][0] > 2) {
             newCellValue = 3;
         }
         return newCellValue;
@@ -40,7 +40,7 @@ export class ConwayNoZero extends Rule{
     }
 
     updateRule(cellValue, newCellValue, neighbor_list) {
-        var sneighbors = neighbor_list[1];
+        var sneighbors = neighbor_list[0][1];
         if ((cellValue % 4 == 1 || cellValue % 4 == 3) && sneighbors < 2) {
             newCellValue = 2;
         } else if ((cellValue % 4 == 1 || cellValue % 4 == 3) && (sneighbors == 2 || sneighbors == 3)) {
