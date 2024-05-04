@@ -52,5 +52,6 @@ export class GlobalData {
         this.changeColoringRuleFlag = true;
         this.nCellChangedHistoric = 0;
         this.saveEventData = false;
+        this.time = 0;
     }
 }

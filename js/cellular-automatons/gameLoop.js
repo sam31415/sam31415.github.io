@@ -9,6 +9,7 @@ export function gameLoop(globalData) {
     drawGrid(globalData);
     updateGrid(globalData);
     changeRule(globalData)
+    globalData.time = (globalData.time + 1) % 4;
 
     updatePeriodicityShiftAndTopology(globalData);
     
