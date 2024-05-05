@@ -11,7 +11,7 @@ module.exports = {
     minimizer: [new TerserPlugin({
       terserOptions: {
         mangle: {
-          properties: true,
+          properties: false,
         },
       },
     }),
