@@ -34,27 +34,49 @@ export function conditionneighbour(threshold, type, neighbourType) {
     }
 }
 
+export function conditionPeriodicity(periodicity) {
+    let testPeriodicity;
+    if (periodicity == null) {
+        testPeriodicity = function(time) {
+            return true;
+        }
+    } else {
+        testPeriodicity = function(time) {
+            return periodicity[time % periodicity.length];
+        }
+    }
+    return testPeriodicity;
+}
+
 
 export class Condition {
-    constructor(type, threshold, neighbourType, inactivation, modulo) {
+    constructor(type, threshold, neighbourType, inactivation, modulo, periodicity = null) {
         this.type = type;
         this.threshold = threshold;
         this.neighbourType = neighbourType;
         this.inactivation = inactivation;
         this.modulo = modulo;
+        this.periodicity = periodicity;
 
         this.testInactive = conditionInactive(this.inactivation, this.modulo);
         this.testValue = conditionneighbour(this.threshold, this.type, this.neighbourType);
+        this.testPeriodicity = conditionPeriodicity(periodicity);
     }
 
-    test(neighbourList, cellValue) {
-        return this.testValue(neighbourList); // && this.testInactive(cellValue);
+    test(neighbourList, cellValue, time) {
+        var test = this.testPeriodicity(time)
+        return this.testValue(neighbourList) && this.testInactive(cellValue) && test;
     }
 
     name() {
-        return `${this.type}${this.threshold}${this.inactivation}NT${this.neighbourType[0]}|${this.neighbourType[1]}`
+        var periodicityString = '';
+        if (this.periodicity != null) {
+            periodicityString = this.periodicity.map(b => b ? '1' : '0').join('');
+        }
+        return `${this.type}${this.threshold}${this.inactivation}NT${this.neighbourType[0]}|${this.neighbourType[1]}P${periodicityString}`;
     }
 
+    // TO UPDATE TO INCLUDE THE PERIODICITY
     static fromName(name, modulo = 4) {
         var type = null;
         if (name.startsWith('Eq')) {
@@ -79,7 +101,7 @@ export class Condition {
         return new Condition(type, threshold, neighbourType, inactivation, modulo);
     }
 
-    static randomSample(neighbourTypes = null, modulo = 4, geometryType = 'mix') {
+    static randomSample(neighbourTypes = null, modulo = 4, geometryType = 'mix', periodicityLength = null) {
         // Generate a random type
         const types = ['Eq', 'Bigger'];
         const type = types[Math.floor(Math.random() * types.length)];
@@ -105,8 +127,22 @@ export class Condition {
         const neighbourType1 = sampleNeighbourhoodGeometry(neighbourType0, geometryType);
         const neighbourType = [neighbourType0, neighbourType1];
 
+        // Generate a random periodicity
+        var periodicityDraw = Math.random();
+        if (periodicityDraw < 0.5) {
+            periodicity = null;
+        } else {
+            if (periodicityLength == null) {
+                periodicityLength = Math.floor(Math.random() * 4) + 2;
+            }
+            var periodicity;
+            do {
+                periodicity = new Array(periodicityLength).fill(0).map(() => Math.random() < 0.5);
+            } while (!periodicity.includes(true)); 
+        }
+
         // Create a new Condition with the random values
-        return new Condition(type, threshold, neighbourType, inactivation, modulo);
+        return new Condition(type, threshold, neighbourType, inactivation, modulo, periodicity);
     }
 }
 

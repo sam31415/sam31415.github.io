@@ -7,14 +7,15 @@ export class MetaRule {
     }
 
     getUpdateRule() {
-        function updateRule(cellValue, newCellValue, neighbourList) {
-            newCellValue = this.ruleChain[0].updateRule(cellValue % this.ruleChain[0].nStates, newCellValue, neighbourList);
+        function updateRule(cellValue, newCellValue, neighbourList, time) {
+            newCellValue = this.ruleChain[0].updateRule(cellValue % this.ruleChain[0].nStates, newCellValue, neighbourList, time);
             var nStates = this.ruleChain[0].nStates;
             for (let i = 1; i < this.ruleChain.length; i++) {
                 newCellValue += nStates * this.ruleChain[i].updateRule(
                     Math.floor(cellValue / nStates) % this.ruleChain[i].nStates, 
                     newCellValue, 
-                    neighbourList); 
+                    neighbourList,
+                    time); 
                 nStates *= this.ruleChain[i].nStates;
                 newCellValue = newCellValue % nStates;
             }

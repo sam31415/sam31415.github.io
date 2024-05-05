@@ -13,9 +13,9 @@ export function updateGrid(globalData) {
             let cellValue = globalData.grid.get(i, j);
             var newCellValue = cellValue;
             if (globalData.rule != "VariableGR" || globalData.mask.get(i, j) == 0) {
-                newCellValue = globalData.ruleClass.updateRule(cellValue, newCellValue, neighbourList);
+                newCellValue = globalData.ruleClass.updateRule(cellValue, newCellValue, neighbourList, globalData.time);
             } else {
-                newCellValue = globalData.ruleClass2.updateRule(cellValue, newCellValue, neighbourList);
+                newCellValue = globalData.ruleClass2.updateRule(cellValue, newCellValue, neighbourList, globalData.time);
             }
 
             if (Math.floor(newCellValue / globalData.ruleClass.colorUnit) % 4 != Math.floor(cellValue / globalData.ruleClass.colorUnit) % 4) {

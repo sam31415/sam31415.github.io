@@ -6,7 +6,7 @@ class Rule {
         this.nStates;
     }
 
-    updateRule(cellValue, newCellValue, neighbour_list) {
+    updateRule(cellValue, newCellValue, neighbour_list, time) {
         throw new Error("Must override method");
     }
 
@@ -18,7 +18,7 @@ export class BBRuleNoZero extends Rule{
         this.nStates = 4;
     }
 
-    updateRule(cellValue, newCellValue, neighbour_list) {
+    updateRule(cellValue, newCellValue, neighbour_list, time) {
         var cellValueM4 = cellValue % 4;
         if (cellValueM4 == 1 || cellValueM4 == 3) {
             newCellValue = 2;
@@ -40,7 +40,7 @@ export class ConwayNoZero extends Rule{
         this.nStates = 4;
     }
 
-    updateRule(cellValue, newCellValue, neighbour_list) {
+    updateRule(cellValue, newCellValue, neighbour_list, time) {
         var sneighbours = neighbour_list[0][1];
         if ((cellValue % 4 == 1 || cellValue % 4 == 3) && sneighbours < 2) {
             newCellValue = 2;
@@ -65,10 +65,10 @@ export class ColoringRule extends Rule{
         this.nStates = this.nColors;
     }
 
-    updateRule(cellValue, newCellValue, neighbourList) {
+    updateRule(cellValue, newCellValue, neighbourList, time) {
         newCellValue = 0;
         for (let i = 0; i < this.conditions.length; i++) {
-            if (this.conditions[i].test(neighbourList, cellValue)) {
+            if (this.conditions[i].test(neighbourList, cellValue, time)) {
                 //newCellValue = (newCellValue + this.nUnderlyingStates * (i + 1)) % this.nStates;
                 newCellValue = (i + 1) % this.nColors;
                 break;
@@ -87,12 +87,30 @@ export class ColoringRule extends Rule{
             nConditions = Math.floor(Math.random() * 8) + 2;
         }
         var neighbourhoodGeometryType = sampleNeighbourhoodGeometryType();
+        var periodicityLength = this.samplePeriodicityLength();
         for (let i = 0; i < nConditions; i++) {
-            conditions.push(Condition.randomSample(neighbourTypes, modulo, neighbourhoodGeometryType));
+            conditions.push(Condition.randomSample(neighbourTypes, modulo, neighbourhoodGeometryType, periodicityLength));
         }
         console.log(new Date().toLocaleTimeString() + ' Sampling coloring rule ' + neighbourhoodGeometryType + ': ' + conditions.map(c => c.name()).join(', '))
 
         return new ColoringRule(conditions, nColors);
+    }
+
+    static samplePeriodicityLength() {
+        var rnd = Math.random();
+        if (rnd < 0.3) {
+            return null;
+        } else if (rnd < 0.6) {
+            return 1;
+        } else if (rnd < 0.7) {
+            return 2;
+        } else if (rnd < 0.8) {
+            return 3;
+        } else if (rnd < 0.9) {
+            return 4;
+        } else {
+            return Math.floor(Math.random() * 5) + 5;
+        }
     }
     
     static ruleFromNames(nameString) {
@@ -112,7 +130,7 @@ export class SparseFourStateRule extends Rule{
         this.nStates = this.nColors;
     }
 
-    updateRule(cellValue, newCellValue, neighbourList) {
+    updateRule(cellValue, newCellValue, neighbourList, time) {
         newCellValue = 0;
         var conditions = this.conditions[cellValue % 4];
         for (let i = 0; i < conditions.length; i++) {
