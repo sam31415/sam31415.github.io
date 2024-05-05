@@ -58,11 +58,13 @@ export class ConwayNoZero extends Rule{
 }
 
 export class ColoringRule extends Rule{
-    constructor(conditions, nColors) {
+    constructor(conditions, nColors, neighbourhoodGeometryType, periodicityLength) {
         super();
         this.nColors = nColors;
         this.conditions = conditions;
         this.nStates = this.nColors;
+        this.neighbourhoodGeometryType = neighbourhoodGeometryType;
+        this.periodicityLength = periodicityLength;
     }
 
     updateRule(cellValue, newCellValue, neighbourList, time) {
@@ -93,7 +95,7 @@ export class ColoringRule extends Rule{
         }
         console.log(new Date().toLocaleTimeString() + ' Sampling coloring rule ' + neighbourhoodGeometryType + ': ' + conditions.map(c => c.name()).join(', '))
 
-        return new ColoringRule(conditions, nColors);
+        return new ColoringRule(conditions, nColors, neighbourhoodGeometryType, periodicityLength);
     }
 
     static samplePeriodicityLength() {
@@ -117,7 +119,55 @@ export class ColoringRule extends Rule{
         var names = nameString.split(', ');
         var conditions = names.map(name => Condition.fromName(name));
 
-        return new ColoringRule(conditions, nColors)
+        return new ColoringRule(conditions, nColors, 'mix', null)
+    }
+
+    evolveRule() {
+        var rnd;
+        var nConditions = this.conditions.length;
+        if (nConditions == 2) {
+            rnd = Math.floor(Math.random() * 2) + 1;
+        } else if (nConditions == 10) {
+            rnd = Math.floor(Math.random() * 2);
+        } else {
+            rnd = Math.floor(Math.random() * 3);
+        }
+        if (rnd == 0) {
+            this.removeCondition();
+        } else if (rnd == 1) {
+            this.changeCondition();
+        } else {
+            this.addCondition();
+        }
+    }
+
+    addCondition() {
+        var newConditions = this.conditions.slice();
+        newConditions.push(Condition.randomSample(null, 4, this.neighbourhoodGeometryType, this.periodicityLength));
+        console.log(new Date().toLocaleTimeString() + ' Adding condition ' + this.neighbourhoodGeometryType + ': ' + newConditions.map(c => c.name()).join(', '))
+
+        this.conditions = newConditions;
+        //return new ColoringRule(newConditions, this.nColors, this.neighbourhoodGeometryType, this.periodicityLength);
+    }
+
+    removeCondition() {
+        var newConditions = this.conditions.slice();
+        var index = Math.floor(Math.random() * newConditions.length);
+        newConditions.splice(index, 1)[0];
+        console.log(new Date().toLocaleTimeString() + ' Removing condition: ' + newConditions.map(c => c.name()).join(', '))
+
+        this.conditions = newConditions;
+        //return new ColoringRule(newConditions, this.nColors, this.neighbourhoodGeometryType, this.periodicityLength);
+    }
+
+    changeCondition() {
+        var newConditions = this.conditions.slice();
+        var index = Math.floor(Math.random() * newConditions.length);
+        newConditions[index] = Condition.randomSample(null, 4, this.neighbourhoodGeometryType, this.periodicityLength);
+        console.log(new Date().toLocaleTimeString() + ' Changing condition ' + index + ' to ' + this.neighbourhoodGeometryType + ': ' + newConditions.map(c => c.name()).join(', '))
+
+        this.conditions = newConditions;
+        //return new ColoringRule(newConditions, this.nColors, this.neighbourhoodGeometryType, this.periodicityLength);
     }
 }
 

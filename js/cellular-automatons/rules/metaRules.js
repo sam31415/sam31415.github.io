@@ -25,6 +25,10 @@ export class MetaRule {
 
         return updateRule
     }
+
+    evolveRuleChain() {
+        throw new Error("Must override method");
+    }
 }
 
 export class BBColoring extends MetaRule {
@@ -52,6 +56,10 @@ export class BBColoring extends MetaRule {
         ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes));
 
         return ruleChain;
+    }
+
+    evolveRuleChain() {
+        this.ruleChain[1].evolveRule()
     }
 }
 
@@ -82,6 +90,10 @@ export class Conway extends MetaRule {
 
         return ruleChain;
     }
+
+    evolveRuleChain() {
+        return ;
+    }
 }
 
 export class SparseFourStates extends MetaRule {
@@ -101,6 +113,11 @@ export class SparseFourStates extends MetaRule {
         ruleChain.push(SparseFourStateRule.sampleRule(4, this.neighbourTypes));
 
         return ruleChain;
+    }
+
+    evolveRuleChain() {
+        // TO IMPLEMENT !!!
+        return ;
     }
 }
 
@@ -125,6 +142,11 @@ export class TestSparseFourStates extends MetaRule {
         ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes));
 
         return ruleChain;
+    }
+
+    evolveRuleChain() {
+        // TO IMPLEMENT !!!
+        return ;
     }
 }
 

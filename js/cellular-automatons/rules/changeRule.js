@@ -18,10 +18,17 @@ export function changeRule(globalData, forceChange = false) {
             //globalData.ruleClass = new TestSparseFourStates();
         }
         globalData.ruleLogSwitchProbability = -25;
+    } else if (Math.random() < Math.exp(globalData.ruleLogEvolveProbability)) {
+        globalData.ruleClass.evolveRuleChain();
+        globalData.ruleLogEvolveProbability = -25;
     }
     globalData.ruleLogSwitchProbability = globalData.ruleLogSwitchProbability + globalData.logMultiplicativeFactor;
     if (globalData.ruleLogSwitchProbability > 0) {
         globalData.ruleLogSwitchProbability = 0;
+    }
+    globalData.ruleLogEvolveProbability = globalData.ruleLogEvolveProbability + globalData.logMultiplicativeEvolveFactor;
+    if (globalData.ruleLogEvolveProbability > 0) {
+        globalData.ruleLogEvolveProbability = 0;
     }
     globalData.changeColoringRuleFlag = false;
 }
