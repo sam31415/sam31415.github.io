@@ -1,4 +1,6 @@
-export const neighbourTypeNumbers = [44, 44]
+import { createWeightedSampler } from "../randomness/weightedSampler.js";
+
+export const neighbourTypeNumbers = [44, 44];
 
 export function computeNeighbourList(globalData, i, j, neighbours, maskVariables) {
     for (var di = -1; di <= 1; di++) {
@@ -67,5 +69,64 @@ export function computeNeighbourList(globalData, i, j, neighbours, maskVariables
     }
     return neighbours;
     ;
+}
+
+export const neighbourhoodGeometryTypes = {
+    "mix": 0.3, 
+    "isotropic": 0.3, 
+    "xcross": 0.05,
+    "vcross": 0.05,
+    "xvcross": 0.05,
+    "directional1": 0.05,
+    "directional2": 0.05,
+    "directional3": 0.05,
+    "directional2b": 0.05,
+    "directional": 0.05
+}
+
+export function sampleNeighbourhoodGeometryType() {
+    var neighbourhoodGeometryTypeSampler = createWeightedSampler(neighbourhoodGeometryTypes);
+    return neighbourhoodGeometryTypeSampler();
+}
+
+
+export function sampleNeighbourhoodGeometry(neighbourhoodType0, geometryType) {
+    var type = geometryType;
+    if (type == 'mix') {
+        var typeChoice = Math.random();
+        if (typeChoice < 0.5) {
+            type = 'isotropic';
+        } else if (typeChoice < 0.7) {
+            type = 'xcross';
+        } else if (typeChoice < 0.9) {
+            type = 'vcross';
+        } else {
+            type = 'directional';;
+        }
+        return Math.floor(Math.random() * neighbourTypeNumbers[neighbourhoodType0]);
+    } 
+    if (type == 'isotropic') {
+        return Math.floor(Math.random() * 4);
+    } else if (type == 'vcross') {
+        return Math.floor(Math.random() * 4 + 4);
+    } else if (type == 'xcross') {
+        return Math.floor(Math.random() * 4 + 8);
+    } else if (type == 'xvcross') {
+        return Math.floor(Math.random() * 8 + 4);
+    } else if (type == 'directional1') {
+        return Math.floor(Math.random() * 4 + 12);
+    } else if (type == 'directional2') {
+        return Math.floor(Math.random() * 8 + 12);
+    } else if (type == 'directional3') {
+        return Math.floor(Math.random() * 12 + 12);
+    } else if (type == 'directional2b') {
+        var rnd = Math.floor(Math.random() * 8 + 12);
+        if (rnd >= 16) {
+            rnd += 4;
+        }
+        return rnd
+    } else if (type == 'directional') {
+        return Math.floor(Math.random() * 16 + 12);
+    } 
 }
 

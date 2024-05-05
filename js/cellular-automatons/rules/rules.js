@@ -1,4 +1,5 @@
 import { Condition } from './conditions.js';
+import { sampleNeighbourhoodGeometryType } from '../neighbours/neighbourCount.js';
 
 class Rule {
     constructor() {
@@ -85,10 +86,11 @@ export class ColoringRule extends Rule{
         if (nConditions == null) {
             nConditions = Math.floor(Math.random() * 8) + 2;
         }
+        var neighbourhoodGeometryType = sampleNeighbourhoodGeometryType();
         for (let i = 0; i < nConditions; i++) {
-            conditions.push(Condition.randomSample(neighbourTypes, modulo));
+            conditions.push(Condition.randomSample(neighbourTypes, modulo, neighbourhoodGeometryType));
         }
-        console.log(new Date().toLocaleTimeString() + ' Sampling coloring rule: ' + conditions.map(c => c.name()).join(', '))
+        console.log(new Date().toLocaleTimeString() + ' Sampling coloring rule ' + neighbourhoodGeometryType + ': ' + conditions.map(c => c.name()).join(', '))
 
         return new ColoringRule(conditions, nColors);
     }
