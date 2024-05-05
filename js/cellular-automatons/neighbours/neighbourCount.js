@@ -36,10 +36,6 @@ export function computeNeighbourList(globalData, i, j, neighbours, maskVariables
                     neighbours[0][8*(k+1) + 3] += 1 - maskVariables[k];
                 }
             }
-            neighbours[0][1] = neighbours[0][0] + neighbours[0][3];
-            for (var k = 0; k < maskVariables.length + 1; k++) {
-                neighbours[0][4*k + 1] += neighbours[0][4*k] + neighbours[0][4*k + 3];
-            }
             if (Math.floor(gridValueDiv4 == 0)) {
                 neighbours[1][0] += 1;
                 for (var k = 0; k < maskVariables.length; k++) {
@@ -66,6 +62,10 @@ export function computeNeighbourList(globalData, i, j, neighbours, maskVariables
                 }
             }
         }
+    }
+    neighbours[0][1] = neighbours[0][0] + neighbours[0][3];
+    for (var k = 0; k < maskVariables.length + 1; k++) {
+        neighbours[0][4*k + 1] += neighbours[0][4*k] + neighbours[0][4*k + 3];
     }
     return neighbours;
     ;
