@@ -1,4 +1,5 @@
 import { createWeightedSampler } from "../randomness/weightedSampler.js";
+import { neighbourTypeNumbers, sampleNeighbourhoodGeometry } from "../neighbours/neighbourCount.js";
 
 export function conditionInactive(variation, modulo) {
     function conditionInactiveCondFunction(cellValue) {
@@ -19,53 +20,74 @@ export function conditionInactive(variation, modulo) {
     }
 }
 
-export function conditionNeighbor(threshold, type, neighborType) {
-    function conditionNeighborEqValue(neighborList) {
-        return neighborList[neighborType] == threshold;
+export function conditionneighbour(threshold, type, neighbourType) {
+    function conditionneighbourEqValue(neighbourList) {
+        return neighbourList[neighbourType[0]][neighbourType[1]] == threshold;
     }
-    function conditionNeighborBiggerValue(neighborList) {
-        return neighborList[neighborType] > threshold;
+    function conditionneighbourBiggerValue(neighbourList) {
+        return neighbourList[neighbourType[0]][neighbourType[1]] > threshold;
     }
     if (type == 'Eq') {
-        return conditionNeighborEqValue;
+        return conditionneighbourEqValue;
     } else if (type == 'Bigger') {
-        return conditionNeighborBiggerValue;
+        return conditionneighbourBiggerValue;
     }
+}
+
+export function conditionPeriodicity(periodicity) {
+    let testPeriodicity;
+    if (periodicity == null) {
+        testPeriodicity = function(time) {
+            return true;
+        }
+    } else {
+        testPeriodicity = function(time) {
+            return periodicity[time % periodicity.length];
+        }
+    }
+    return testPeriodicity;
 }
 
 
 export class Condition {
-    constructor(type, threshold, neighborType, inactivation, modulo) {
+    constructor(type, threshold, neighbourType, inactivation, modulo, periodicity = null) {
         this.type = type;
         this.threshold = threshold;
-        this.neighborType = neighborType;
+        this.neighbourType = neighbourType;
         this.inactivation = inactivation;
         this.modulo = modulo;
+        this.periodicity = periodicity;
 
         this.testInactive = conditionInactive(this.inactivation, this.modulo);
-        this.testValue = conditionNeighbor(this.threshold, this.type, this.neighborType);
+        this.testValue = conditionneighbour(this.threshold, this.type, this.neighbourType);
+        this.testPeriodicity = conditionPeriodicity(periodicity);
     }
 
-    test(neighborList, cellValue) {
-        return this.testValue(neighborList); // && this.testInactive(cellValue);
+    test(neighbourList, cellValue, time) {
+        var test = this.testPeriodicity(time)
+        return this.testValue(neighbourList) && this.testInactive(cellValue) && test;
     }
 
     name() {
-        return `${this.type}${this.threshold}${this.inactivation}NT${this.neighborType}`
+        var periodicityString = '';
+        if (this.periodicity != null) {
+            periodicityString = this.periodicity.map(b => b ? '1' : '0').join('');
+        }
+        return `${this.type}${this.threshold}${this.inactivation}NT${this.neighbourType[0]}|${this.neighbourType[1]}P${periodicityString}`;
     }
 
-    static fromName(name) {
+    // TO UPDATE TO INCLUDE THE PERIODICITY
+    static fromName(name, modulo = 4) {
         var type = null;
         if (name.startsWith('Eq')) {
             type = "Eq";
-            name = str.substr
         } else if (name.startsWith('Bigger')) {
             type = "Bigger";
         }
         var restOfName = name.substring(type.length);
-        var threshold = parseInt(name.substring(0, 1));
+        var threshold = parseInt(restOfName.substring(0, 1));
         restOfName = restOfName.substring(1);
-        inactivation = null;
+        var inactivation = null;
         if (restOfName.startsWith('Cond')) {
             inactivation = 'Cond';
         } else if (restOfName.startsWith('Abs')) {
@@ -74,12 +96,12 @@ export class Condition {
             inactivation = 'None';
         }
         restOfName = restOfName.substring(inactivation.length);
-        var neighborType = parseInt(restOfName.substring(2));
+        var neighbourType = restOfName.split('|').map(Number);;
 
-        return new Condition(type, threshold, neighborType, inactivation);
+        return new Condition(type, threshold, neighbourType, inactivation, modulo);
     }
 
-    static randomSample(neighborTypes = null, modulo = 4) {
+    static randomSample(neighbourTypes = null, modulo = 4, geometryType = 'mix', periodicityLength = null) {
         // Generate a random type
         const types = ['Eq', 'Bigger'];
         const type = types[Math.floor(Math.random() * types.length)];
@@ -96,16 +118,31 @@ export class Condition {
         const inactivations = ['Cond', 'Abs', 'None'];
         const inactivation = inactivations[Math.floor(Math.random() * inactivations.length)];
 
-        // Generate a random neighbor type
-        if (neighborTypes === null) {
-            neighborTypes = {0: 1/8, 1: 1/8, 2: 1/8, 3: 1/8, 4: 1/8, 5: 1/8, 6: 1/8, 7: 1/8};
-            //neighborTypes = {0: 0.25, 1: 0.25, 2: 0.25, 3: 0.05, 4: 0.05, 5: 0.05, 6: 0.05, 7: 0.05};
+        // Generate a random neighbour type
+        if (neighbourTypes === null) {
+            neighbourTypes = {0: 2/3, 1: 1/3};
         }
-        var neighborTypeSampler = createWeightedSampler(neighborTypes);
-        const neighborType = neighborTypeSampler();
+        var neighbourTypeSampler = createWeightedSampler(neighbourTypes);
+        const neighbourType0 = neighbourTypeSampler();
+        const neighbourType1 = sampleNeighbourhoodGeometry(neighbourType0, geometryType);
+        const neighbourType = [neighbourType0, neighbourType1];
+
+        // Generate a random periodicity
+        var periodicityDraw = Math.random();
+        if (periodicityDraw < 0.5) {
+            periodicity = null;
+        } else {
+            if (periodicityLength == null) {
+                periodicityLength = Math.floor(Math.random() * 4) + 2;
+            }
+            var periodicity;
+            do {
+                periodicity = new Array(periodicityLength).fill(0).map(() => Math.random() < 0.5);
+            } while (!periodicity.includes(true)); 
+        }
 
         // Create a new Condition with the random values
-        return new Condition(type, threshold, neighborType, inactivation, modulo);
+        return new Condition(type, threshold, neighbourType, inactivation, modulo, periodicity);
     }
 }
 

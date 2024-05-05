@@ -14,18 +14,18 @@ export function twoStateRuleStringToFunction(ruleString) {
     const [birthList, survivalList] = extractLists(ruleString);
 
     // Return a function that implements the rule
-    return function(cellValue, newCellValue, neighbors) {
+    return function(cellValue, newCellValue, neighbours) {
         // Phase boundaries (original B2/S124, experimenting)
         // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
         var newCellValue = 0;
         if (cellValue % 4 == 1 || cellValue % 4 == 3) {
-            if (survivalList.includes(neighbors)) {
+            if (survivalList.includes(neighbours)) {
                 newCellValue = 1;
             } else {
                 newCellValue = 2;
             }
         } else if (cellValue % 4 == 0 || cellValue % 4 == 2) {
-            if (birthList.includes(neighbors)){
+            if (birthList.includes(neighbours)){
                 newCellValue = 3;
             } else {
                 newCellValue = 0;
@@ -40,18 +40,18 @@ export function twoStateNoZeroRuleStringToFunction(ruleString) {
     const [birthList, survivalList] = extractLists(ruleString);
 
     // Return a function that implements the rule
-    return function(cellValue, newCellValue, neighbors) {
+    return function(cellValue, newCellValue, neighbours) {
         // Phase boundaries (original B2/S124, experimenting)
         // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
         //var newCellValue = 0;
         if (cellValue % 4 == 1 || cellValue % 4 == 3) {
-            if (survivalList.includes(neighbors)) {
+            if (survivalList.includes(neighbours)) {
                 newCellValue = 1;
             } else {
                 newCellValue = 2;
             }
         } else if (cellValue % 4 == 0 || cellValue % 4 == 2) {
-            if (birthList.includes(neighbors)){
+            if (birthList.includes(neighbours)){
                 newCellValue = 3;
             }
         }
@@ -59,18 +59,18 @@ export function twoStateNoZeroRuleStringToFunction(ruleString) {
     }
 }
 
-export function twoStatePlusDeadRuleStringToFunction(ruleString, neighborIndex = null) {
+export function twoStatePlusDeadRuleStringToFunction(ruleString, neighbourIndex = null) {
     // Extract the birth and survival lists from the rule string
     const [birthList, survivalList] = extractLists(ruleString);
 
-    if (neighborIndex == null) {
+    if (neighbourIndex == null) {
         // Return a function that implements the rule
-        return function(cellValue, newCellValue, neighbors) {
+        return function(cellValue, newCellValue, neighbours) {
             // Phase boundaries (original B2/S124, experimenting)
             // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
             //var newCellValue = 0;
             if (cellValue % 4 == 1 || cellValue % 4 == 3) {
-                if (survivalList.includes(neighbors)) {
+                if (survivalList.includes(neighbours)) {
                     newCellValue = 1;
                 } else {
                     newCellValue = 2;
@@ -78,7 +78,7 @@ export function twoStatePlusDeadRuleStringToFunction(ruleString, neighborIndex =
             } else if (cellValue % 4 == 2) {
                 newCellValue = 0;
             } else if (cellValue % 4 == 0) {
-                if (birthList.includes(neighbors)){
+                if (birthList.includes(neighbours)){
                     newCellValue = 3;
                 }
             }
@@ -86,12 +86,12 @@ export function twoStatePlusDeadRuleStringToFunction(ruleString, neighborIndex =
         }
     } else {
         // Return a function that implements the rule
-        return function(cellValue, newCellValue, neighbors) {
+        return function(cellValue, newCellValue, neighbours) {
             // Phase boundaries (original B2/S124, experimenting)
             // See also https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=423
-            neighbors = neighbors[neighborIndex];
+            neighbours = neighbours[neighbourIndex];
             if (cellValue % 4 == 1 || cellValue % 4 == 3) {
-                if (survivalList.includes(neighbors)) {
+                if (survivalList.includes(neighbours)) {
                     newCellValue = 1;
                 } else {
                     newCellValue = 2;
@@ -99,7 +99,7 @@ export function twoStatePlusDeadRuleStringToFunction(ruleString, neighborIndex =
             } else if (cellValue % 4 == 2) {
                 newCellValue = 0;
             } else if (cellValue % 4 == 0) {
-                if (birthList.includes(neighbors)){
+                if (birthList.includes(neighbours)){
                     newCellValue = 3;
                 }
             }
