@@ -23,6 +23,9 @@ var colorPalette = 'variable'
 var rule = "Variable" // "Variable" // "Conway" //
 var initialisation = "random"
 var maxNColors = 8
+var ruleSwitchPeriod = 30000
+var ruleEvolvePeriod = 3000
+
 
 var globalData = new GlobalData(
     canvas=canvas, 
@@ -40,6 +43,8 @@ var globalData = new GlobalData(
     rule=rule,
     initialisation=initialisation,
     maxNColors=maxNColors,
+    ruleSwitchPeriod=ruleSwitchPeriod,
+    ruleEvolvePeriod=ruleEvolvePeriod,
 );
 
 window.onload = function() {
