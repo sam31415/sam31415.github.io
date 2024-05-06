@@ -54,6 +54,7 @@ export class GlobalData {
         this.canvas.height = this.gridHeight;
         this.imageData = ctx.createImageData(canvas.width, canvas.height);
         this.changeColoringRuleFlag = true;
+        this.evolveColoringRuleFlag = false;
         this.nCellChangedHistoric = 0;
         this.saveEventData = false;
         this.time = 0;
