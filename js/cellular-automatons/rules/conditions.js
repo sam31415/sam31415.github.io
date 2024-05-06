@@ -102,10 +102,15 @@ export class Condition {
         } else if (restOfName.startsWith(INACTIVENONE)) {
             inactivation = INACTIVENONE;
         }
-        restOfName = restOfName.substring(inactivation.length);
-        var neighbourType = restOfName.split('|').map(Number);;
+        restOfName = restOfName.substring(inactivation.length + 2);
+        var neighbourType = restOfName.split('P')[0].split('|').map(Number);
+        var periodicity = null;
+        if (restOfName.split('P').length > 0 && restOfName.split('P')[1].length > 0) {
+            restOfName = restOfName.split('P')[1];
+            periodicity = restOfName.split('').map(b => b == '1');
+        }
 
-        return new Condition(type, threshold, neighbourType, inactivation, modulo);
+        return new Condition(type, threshold, neighbourType, inactivation, modulo, periodicity);
     }
 
     static randomSample(neighbourTypes = null, modulo = 4, geometryType = MIX, periodicityLength = null) {

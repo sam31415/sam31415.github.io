@@ -63,7 +63,8 @@ export class BBColoring extends MetaRule {
     }
 
     evolveRuleChain() {
-        this.ruleChain[1].evolveRule()
+        var neighbourTypes = this.neighbourTypes;
+        this.ruleChain[1].evolveRule(neighbourTypes)
     }
 }
 
@@ -105,7 +106,7 @@ export class SparseFourStates extends MetaRule {
         super();
         this.neighbourTypes = neighbourTypes;
         if (neighbourTypes == null) {
-            this.neighbourTypes = {0: 1/3, 1: 1/3, 2: 1/3};
+            this.neighbourTypes = {0: 0.5, 1: 0.5};;
         }
         this.colorUnit = 1;
         this.ruleChain = this.getRuleChain();
@@ -132,7 +133,7 @@ export class TestSparseFourStates extends MetaRule {
         this.preset = preset;
         this.neighbourTypes = neighbourTypes;
         if (neighbourTypes == null) {
-            this.neighbourTypes = {0: 1/3, 1: 1/3, 2: 1/3};
+            this.neighbourTypes = {0: 0.5, 1: 0.5};;
         }
         this.colorUnit = 4;
         this.ruleChain = this.getRuleChain();
@@ -141,7 +142,7 @@ export class TestSparseFourStates extends MetaRule {
 
     getRuleChain() {
         var ruleChain = [];
-        var name = "Bigger0CondNT1, Eq2NoneNT0, Bigger7NoneNT1, Bigger0CondNT0 || Eq2NoneNT0, Bigger5CondNT0, Bigger7CondNT2, Eq1AbsNT2 || Bigger1CondNT1, Bigger3AbsNT2, Bigger7AbsNT1, Eq6AbsNT2 || Bigger8NoneNT2, Eq6AbsNT0, Bigger6CondNT0, Eq5NoneNT1"
+        var name = "Eq1CondNT0|15P011, Eq3AbsNT1|12P110, Eq7NoneNT1|13P0001, Eq6NoneNT0|12P11000, Eq8AbsNT0|15P, Bigger4CondNT0|13P, Eq7AbsNT0|12P10, Bigger5NoneNT0|13P"
         ruleChain.push(SparseFourStateRule.ruleFromNames(name));
         ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes));
 

@@ -15,8 +15,8 @@ export class GlobalData {
         rule = "VariableGR", 
         initialisation = "random", 
         maxNColors = 6,
-        ruleSwitchPeriod = 30000,
-        ruleEvolvePeriod = 3000,
+        ruleSwitchPeriod = 20000,
+        ruleEvolvePeriod = 2000,
     ){
         this.gridHeight = gridHeight;
         this.gridWidth = gridWidth;
@@ -54,6 +54,7 @@ export class GlobalData {
         this.canvas.height = this.gridHeight;
         this.imageData = ctx.createImageData(canvas.width, canvas.height);
         this.changeColoringRuleFlag = true;
+        this.evolveColoringRuleFlag = false;
         this.nCellChangedHistoric = 0;
         this.saveEventData = false;
         this.time = 0;

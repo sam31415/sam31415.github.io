@@ -19,9 +19,11 @@ export function changeRule(globalData, forceChange = false) {
         }
         globalData.ruleLogSwitchProbability = -25;
         globalData.ruleLogEvolveProbability = -25;
-    } else if (Math.random() < Math.exp(globalData.ruleLogEvolveProbability)) {
+        globalData.changeColoringRuleFlag = false;
+    } else if (Math.random() < Math.exp(globalData.ruleLogEvolveProbability) || globalData.evolveColoringRuleFlag) {
         globalData.ruleClass.evolveRuleChain();
         globalData.ruleLogEvolveProbability = -25;
+        globalData.evolveColoringRuleFlag = false;
     }
     globalData.ruleLogSwitchProbability = globalData.ruleLogSwitchProbability + globalData.logMultiplicativeFactor;
     if (globalData.ruleLogSwitchProbability > 0) {
@@ -31,7 +33,6 @@ export function changeRule(globalData, forceChange = false) {
     if (globalData.ruleLogEvolveProbability > 0) {
         globalData.ruleLogEvolveProbability = 0;
     }
-    globalData.changeColoringRuleFlag = false;
 }
 
 
