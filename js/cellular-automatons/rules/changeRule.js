@@ -1,17 +1,17 @@
 
-import { BBColoring, Conway, SparseFourStates, TestSparseFourStates } from "./metaRules.js";
+import { BBColoring, Conway, SparseFourStates, TestSparseFourStates, METAPRESETSAFE, METAPRESETMIX, METAPRESETGENERAL } from "./metaRules.js";
 
 export function changeRule(globalData, forceChange = false) {
     if (Math.random() < Math.exp(globalData.ruleLogSwitchProbability) || forceChange || globalData.changeColoringRuleFlag) {
         if (globalData.rule == "VariableGR") {
-            globalData.ruleClass = new BBColoring("safe");
-            globalData.ruleClass2 = new BBColoring("safe");
+            globalData.ruleClass = new BBColoring(METAPRESETSAFE);
+            globalData.ruleClass2 = new BBColoring(METAPRESETSAFE);
         } else if (globalData.rule == "Variable") {
-            globalData.ruleClass = new BBColoring("safe");
+            globalData.ruleClass = new BBColoring(METAPRESETSAFE);
         } else if (globalData.rule == "VariableMix") {
-            globalData.ruleClass = new BBColoring("mix");
+            globalData.ruleClass = new BBColoring(METAPRESETMIX);
         } else if (globalData.rule == "VariableUnsafe") {
-            globalData.ruleClass = new BBColoring("general");
+            globalData.ruleClass = new BBColoring(METAPRESETGENERAL);
         } else if (globalData.rule == "SparseFourStates") {
             //globalData.ruleClass = new Conway("safe");
             globalData.ruleClass = new SparseFourStates();
