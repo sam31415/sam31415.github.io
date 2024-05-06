@@ -63,7 +63,8 @@ export class BBColoring extends MetaRule {
     }
 
     evolveRuleChain() {
-        this.ruleChain[1].evolveRule()
+        var neighbourTypes = this.neighbourTypes;
+        this.ruleChain[1].evolveRule(neighbourTypes)
     }
 }
 
