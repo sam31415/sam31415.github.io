@@ -10,7 +10,7 @@ Interesting extended rules:
 Eq5CondNT0|2, Eq4AbsNT0|2, Eq2NoneNT1|1, Bigger1NoneNT1|4, Eq3CondNT1|3
 Eq1AbsNT0|11, Eq7CondNT0|10, Eq8AbsNT1|0, Eq7CondNT0|8, Eq7CondNT1|2
 
-Eq1CondNT0|15P011;, Eq3AbsNT1|12P110;, Eq7NoneNT1|13P0001;, Eq6NoneNT0|12P11000;, Eq8AbsNT0|15P;, Bigger4CondNT0|13P;, Eq7AbsNT0|12P10;, Bigger5NoneNT0|13P;
+Eq1CondNT0|15P011, Eq3AbsNT1|12P110, Eq7NoneNT1|13P0001, Eq6NoneNT0|12P11000, Eq8AbsNT0|15P, Bigger4CondNT0|13P, Eq7AbsNT0|12P10, Bigger5NoneNT0|13P
 
 
 Interesting Spare four state rules:
