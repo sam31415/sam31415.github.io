@@ -71,17 +71,29 @@ export function computeNeighbourList(globalData, i, j, neighbours, maskVariables
     ;
 }
 
+// Geometry types
+export const MIX = "mix";
+export const ISOTROPIC = "isotropic";
+export const XCROSS = "xcross";
+export const VCROSS = "vcross";
+export const XVCROSS = "xvcross";
+export const DIRECTIONAL1 = "directional1";
+export const DIRECTIONAL2 = "directional2";
+export const DIRECTIONAL3 = "directional3";
+export const DIRECTIONAL2B = "directional2b";
+export const DIRECTIONAL = "directional";
+
 export const neighbourhoodGeometryTypes = {
-    "mix": 0.3, 
-    "isotropic": 0.3, 
-    "xcross": 0.05,
-    "vcross": 0.05,
-    "xvcross": 0.05,
-    "directional1": 0.05,
-    "directional2": 0.05,
-    "directional3": 0.05,
-    "directional2b": 0.05,
-    "directional": 0.05
+    [MIX]: 0.3, 
+    [ISOTROPIC]: 0.3, 
+    [XCROSS]: 0.05,
+    [VCROSS]: 0.05,
+    [XVCROSS]: 0.05,
+    [DIRECTIONAL1]: 0.05,
+    [DIRECTIONAL2]: 0.05,
+    [DIRECTIONAL3]: 0.05,
+    [DIRECTIONAL2B]: 0.05,
+    [DIRECTIONAL]: 0.05
 }
 
 export function sampleNeighbourhoodGeometryType() {
@@ -92,40 +104,40 @@ export function sampleNeighbourhoodGeometryType() {
 
 export function sampleNeighbourhoodGeometry(neighbourhoodType0, geometryType) {
     var type = geometryType;
-    if (type == 'mix') {
+    if (type == MIX) {
         var typeChoice = Math.random();
         if (typeChoice < 0.5) {
-            type = 'isotropic';
+            type = ISOTROPIC;
         } else if (typeChoice < 0.7) {
-            type = 'xcross';
+            type = XCROSS;
         } else if (typeChoice < 0.9) {
-            type = 'vcross';
+            type = VCROSS;
         } else {
-            type = 'directional';;
+            type = DIRECTIONAL;
         }
         return Math.floor(Math.random() * neighbourTypeNumbers[neighbourhoodType0]);
     } 
-    if (type == 'isotropic') {
+    if (type == ISOTROPIC) {
         return Math.floor(Math.random() * 4);
-    } else if (type == 'vcross') {
+    } else if (type == VCROSS) {
         return Math.floor(Math.random() * 4 + 4);
-    } else if (type == 'xcross') {
+    } else if (type == XCROSS) {
         return Math.floor(Math.random() * 4 + 8);
-    } else if (type == 'xvcross') {
+    } else if (type == XVCROSS) {
         return Math.floor(Math.random() * 8 + 4);
-    } else if (type == 'directional1') {
+    } else if (type == DIRECTIONAL1) {
         return Math.floor(Math.random() * 4 + 12);
-    } else if (type == 'directional2') {
+    } else if (type == DIRECTIONAL2) {
         return Math.floor(Math.random() * 8 + 12);
-    } else if (type == 'directional3') {
+    } else if (type == DIRECTIONAL3) {
         return Math.floor(Math.random() * 12 + 12);
-    } else if (type == 'directional2b') {
+    } else if (type == DIRECTIONAL2B) {
         var rnd = Math.floor(Math.random() * 8 + 12);
         if (rnd >= 16) {
             rnd += 4;
         }
         return rnd
-    } else if (type == 'directional') {
+    } else if (type == DIRECTIONAL) {
         return Math.floor(Math.random() * 16 + 12);
     } 
 }

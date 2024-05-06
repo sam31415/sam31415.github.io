@@ -1,5 +1,5 @@
 import { Condition } from './conditions.js';
-import { sampleNeighbourhoodGeometryType } from '../neighbours/neighbourCount.js';
+import { sampleNeighbourhoodGeometryType, MIX } from '../neighbours/neighbourCount.js';
 
 class Rule {
     constructor() {
@@ -119,7 +119,7 @@ export class ColoringRule extends Rule{
         var names = nameString.split(', ');
         var conditions = names.map(name => Condition.fromName(name));
 
-        return new ColoringRule(conditions, nColors, 'mix', null)
+        return new ColoringRule(conditions, nColors, MIX, null)
     }
 
     evolveRule() {
@@ -143,7 +143,8 @@ export class ColoringRule extends Rule{
 
     addCondition() {
         var newConditions = this.conditions.slice();
-        newConditions.push(Condition.randomSample(null, 4, this.neighbourhoodGeometryType, this.periodicityLength));
+        var neighbourTypes = {0: 1.0, 1: 0.0}
+        newConditions.push(Condition.randomSample(neighbourTypes, 4, this.neighbourhoodGeometryType, this.periodicityLength));
         console.log(new Date().toLocaleTimeString() + ' Adding condition ' + this.neighbourhoodGeometryType + ': ' + newConditions.map(c => c.name()).join(', '))
 
         this.conditions = newConditions;
@@ -163,7 +164,8 @@ export class ColoringRule extends Rule{
     changeCondition() {
         var newConditions = this.conditions.slice();
         var index = Math.floor(Math.random() * newConditions.length);
-        newConditions[index] = Condition.randomSample(null, 4, this.neighbourhoodGeometryType, this.periodicityLength);
+        var neighbourTypes = {0: 1.0, 1: 0.0}
+        newConditions[index] = Condition.randomSample(neighbourTypes, 4, this.neighbourhoodGeometryType, this.periodicityLength);
         console.log(new Date().toLocaleTimeString() + ' Changing condition ' + index + ' to ' + this.neighbourhoodGeometryType + ': ' + newConditions.map(c => c.name()).join(', '))
 
         this.conditions = newConditions;

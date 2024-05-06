@@ -1,5 +1,12 @@
 import { createWeightedSampler } from "../randomness/weightedSampler.js";
-import { neighbourTypeNumbers, sampleNeighbourhoodGeometry } from "../neighbours/neighbourCount.js";
+import { neighbourTypeNumbers, sampleNeighbourhoodGeometry, MIX } from "../neighbours/neighbourCount.js";
+
+const INACTIVEABS = "Abs";
+const INACTIVECOND = "Cond";
+const INACTIVENONE = "None";
+
+const COMPAREEQ = "Eq";
+const COMPAREBIGGER = "Bigger";
 
 export function conditionInactive(variation, modulo) {
     function conditionInactiveCondFunction(cellValue) {
@@ -11,9 +18,9 @@ export function conditionInactive(variation, modulo) {
     function noCondition(cellValue) {
         return true;
     }
-    if (variation == "Cond") {
+    if (variation == INACTIVECOND) {
         return conditionInactiveCondFunction;
-    } else if (variation == "Abs") {
+    } else if (variation == INACTIVEABS) {
         return conditionInactiveAbsFunction;
     } else {
         return noCondition;
@@ -27,9 +34,9 @@ export function conditionneighbour(threshold, type, neighbourType) {
     function conditionneighbourBiggerValue(neighbourList) {
         return neighbourList[neighbourType[0]][neighbourType[1]] > threshold;
     }
-    if (type == 'Eq') {
+    if (type == COMPAREEQ) {
         return conditionneighbourEqValue;
-    } else if (type == 'Bigger') {
+    } else if (type == COMPAREBIGGER) {
         return conditionneighbourBiggerValue;
     }
 }
@@ -79,21 +86,21 @@ export class Condition {
     // TO UPDATE TO INCLUDE THE PERIODICITY
     static fromName(name, modulo = 4) {
         var type = null;
-        if (name.startsWith('Eq')) {
-            type = "Eq";
-        } else if (name.startsWith('Bigger')) {
-            type = "Bigger";
+        if (name.startsWith(COMPAREEQ)) {
+            type = COMPAREEQ;
+        } else if (name.startsWith(COMPAREBIGGER)) {
+            type = COMPAREBIGGER;
         }
         var restOfName = name.substring(type.length);
         var threshold = parseInt(restOfName.substring(0, 1));
         restOfName = restOfName.substring(1);
         var inactivation = null;
-        if (restOfName.startsWith('Cond')) {
-            inactivation = 'Cond';
-        } else if (restOfName.startsWith('Abs')) {
-            inactivation = 'Abs';
-        } else if (restOfName.startsWith('None')) {
-            inactivation = 'None';
+        if (restOfName.startsWith(INACTIVECOND)) {
+            inactivation = INACTIVECOND;
+        } else if (restOfName.startsWith(INACTIVEABS)) {
+            inactivation = INACTIVEABS;
+        } else if (restOfName.startsWith(INACTIVENONE)) {
+            inactivation = INACTIVENONE;
         }
         restOfName = restOfName.substring(inactivation.length);
         var neighbourType = restOfName.split('|').map(Number);;
@@ -101,21 +108,21 @@ export class Condition {
         return new Condition(type, threshold, neighbourType, inactivation, modulo);
     }
 
-    static randomSample(neighbourTypes = null, modulo = 4, geometryType = 'mix', periodicityLength = null) {
+    static randomSample(neighbourTypes = null, modulo = 4, geometryType = MIX, periodicityLength = null) {
         // Generate a random type
-        const types = ['Eq', 'Bigger'];
+        const types = [COMPAREEQ, COMPAREBIGGER];
         const type = types[Math.floor(Math.random() * types.length)];
 
         // Generate a random threshold
         var threshold = 0;
-        if (type === 'Eq') {
+        if (type === COMPAREBIGGER) {
             threshold = Math.floor(Math.random() * 8) + 1;
         } else {
             threshold = Math.floor(Math.random() * 9);
         }
         
         // Generate a random inactive variation
-        const inactivations = ['Cond', 'Abs', 'None'];
+        const inactivations = [INACTIVECOND, INACTIVEABS, INACTIVENONE];
         const inactivation = inactivations[Math.floor(Math.random() * inactivations.length)];
 
         // Generate a random neighbour type
