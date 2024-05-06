@@ -1,5 +1,5 @@
 import { Condition } from './conditions.js';
-import { sampleNeighbourhoodGeometryType } from '../neighbours/neighbourCount.js';
+import { sampleNeighbourhoodGeometryType, MIX } from '../neighbours/neighbourCount.js';
 
 class Rule {
     constructor() {
@@ -119,7 +119,7 @@ export class ColoringRule extends Rule{
         var names = nameString.split(', ');
         var conditions = names.map(name => Condition.fromName(name));
 
-        return new ColoringRule(conditions, nColors, 'mix', null)
+        return new ColoringRule(conditions, nColors, MIX, null)
     }
 
     evolveRule() {

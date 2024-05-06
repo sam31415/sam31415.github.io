@@ -1,5 +1,5 @@
 import { createWeightedSampler } from "../randomness/weightedSampler.js";
-import { neighbourTypeNumbers, sampleNeighbourhoodGeometry } from "../neighbours/neighbourCount.js";
+import { neighbourTypeNumbers, sampleNeighbourhoodGeometry, MIX } from "../neighbours/neighbourCount.js";
 
 export function conditionInactive(variation, modulo) {
     function conditionInactiveCondFunction(cellValue) {
@@ -101,7 +101,7 @@ export class Condition {
         return new Condition(type, threshold, neighbourType, inactivation, modulo);
     }
 
-    static randomSample(neighbourTypes = null, modulo = 4, geometryType = 'mix', periodicityLength = null) {
+    static randomSample(neighbourTypes = null, modulo = 4, geometryType = MIX, periodicityLength = null) {
         // Generate a random type
         const types = ['Eq', 'Bigger'];
         const type = types[Math.floor(Math.random() * types.length)];
