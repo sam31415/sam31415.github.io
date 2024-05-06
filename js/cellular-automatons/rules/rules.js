@@ -143,7 +143,8 @@ export class ColoringRule extends Rule{
 
     addCondition() {
         var newConditions = this.conditions.slice();
-        newConditions.push(Condition.randomSample(null, 4, this.neighbourhoodGeometryType, this.periodicityLength));
+        var neighbourTypes = {0: 1.0, 1: 0.0}
+        newConditions.push(Condition.randomSample(neighbourTypes, 4, this.neighbourhoodGeometryType, this.periodicityLength));
         console.log(new Date().toLocaleTimeString() + ' Adding condition ' + this.neighbourhoodGeometryType + ': ' + newConditions.map(c => c.name()).join(', '))
 
         this.conditions = newConditions;
@@ -163,7 +164,8 @@ export class ColoringRule extends Rule{
     changeCondition() {
         var newConditions = this.conditions.slice();
         var index = Math.floor(Math.random() * newConditions.length);
-        newConditions[index] = Condition.randomSample(null, 4, this.neighbourhoodGeometryType, this.periodicityLength);
+        var neighbourTypes = {0: 1.0, 1: 0.0}
+        newConditions[index] = Condition.randomSample(neighbourTypes, 4, this.neighbourhoodGeometryType, this.periodicityLength);
         console.log(new Date().toLocaleTimeString() + ' Changing condition ' + index + ' to ' + this.neighbourhoodGeometryType + ': ' + newConditions.map(c => c.name()).join(', '))
 
         this.conditions = newConditions;
