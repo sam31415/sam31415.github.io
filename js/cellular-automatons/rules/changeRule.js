@@ -18,6 +18,7 @@ export function changeRule(globalData, forceChange = false) {
             //globalData.ruleClass = new TestSparseFourStates();
         }
         globalData.ruleLogSwitchProbability = -25;
+        globalData.ruleLogEvolveProbability = -25;
     } else if (Math.random() < Math.exp(globalData.ruleLogEvolveProbability)) {
         globalData.ruleClass.evolveRuleChain();
         globalData.ruleLogEvolveProbability = -25;
