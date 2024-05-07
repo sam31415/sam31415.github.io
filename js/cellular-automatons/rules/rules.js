@@ -31,6 +31,10 @@ export class BBRuleNoZero extends Rule{
         }
         return newCellValue;
     }
+
+    getName() {
+        return "BB";
+    }
 }
 
 
@@ -81,16 +85,20 @@ export class ColoringRule extends Rule{
     }
 
     getName() {
-        return this.conditions.map(c => c.name()).join(', ');
+        return this.conditions.map(c => c.name()).join('||');
     }
 
-    static sampleRule(nConditions = null, neighbourTypes = null, modulo = 4, nColors = 4) {
+    static sampleRule(nConditions = null, neighbourTypes = null, neighbourhoodGeometryType = null, modulo = 4, nColors = 4, periodicityLength = null) {
         var conditions = [];
         if (nConditions == null) {
             nConditions = Math.floor(Math.random() * 8) + 2;
         }
-        var neighbourhoodGeometryType = sampleNeighbourhoodGeometryType();
-        var periodicityLength = this.samplePeriodicityLength();
+        if (neighbourhoodGeometryType == null) {
+            neighbourhoodGeometryType = sampleNeighbourhoodGeometryType();
+        }
+        if (periodicityLength == null) {
+            periodicityLength = this.samplePeriodicityLength();
+        }
         for (let i = 0; i < nConditions; i++) {
             conditions.push(Condition.randomSample(neighbourTypes, modulo, neighbourhoodGeometryType, periodicityLength));
         }
@@ -116,8 +124,8 @@ export class ColoringRule extends Rule{
         }
     }
     
-    static ruleFromNames(nameString) {
-        var names = nameString.split(', ');
+    static ruleFromNames(nameString, nColors = 4) {
+        var names = nameString.split('||');
         var conditions = names.map(name => Condition.fromName(name));
 
         return new ColoringRule(conditions, nColors, null, MIX, null)
