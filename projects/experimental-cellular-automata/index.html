@@ -53,16 +53,18 @@
     <script type="module" src="js/main.js"></script>
     <br>
     <div id="content">
-        <label for="userRule">Automaton rule:</label>
-        <select id="userRule">
+        <label for="metaRule">Meta rule:</label>
+        <select id="metaRule">
             <!-- <option value="Conway">Conway's game of life</option>
             <option value="BB">Brian's brain</option>
             <option value="BBMod">Modified Brian's brain</option> -->
             <option value="Variable">Variable</option>
             <option value="VariableMix">Variable mix</option>
             <option value="VariableUnsafe">Variable unsafe</option>
+            <option value="CustomRule">Custom rule</option>
             <option value="SparseFourStates">Sparse four states</option>
-        </select><br>
+        </select> 
+        <label for="currentRule">Current rule:</label> <input type="text" id="currentRule" style="width: 60ch;"><br>
         <label for="randomnessCheckbox">Add random seeding? </label> <input type="checkbox" id="randomnessCheckbox"><br>
         <label for="randomnessSlider">Randomness amount (log10 of expected even number at each step):</label>
             <input type="range" id="randomnessSlider" min="-5.0" max="1.0" value="-2.0" step="0.05"> <span id="randomnessAmountValue"></span><br>
