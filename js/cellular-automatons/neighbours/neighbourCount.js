@@ -115,8 +115,7 @@ export function sampleNeighbourhoodGeometry(neighbourhoodType0, geometryType) {
         } else {
             type = DIRECTIONAL;
         }
-        return Math.floor(Math.random() * neighbourTypeNumbers[neighbourhoodType0]);
-    } 
+    }
     if (type == ISOTROPIC) {
         return Math.floor(Math.random() * 4);
     } else if (type == VCROSS) {

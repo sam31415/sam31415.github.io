@@ -1,5 +1,4 @@
 import { BBRuleNoZero, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
-import { ISOTROPIC } from "../neighbours/neighbourCount.js";
 
 
 export const METAPRESETSAFE = "safe";
@@ -55,6 +54,11 @@ export class BBColoring extends MetaRule {
             if (preset == METAPRESETSAFE) {
                 this.neighbourTypes = {0: 1, 1: 0};
             } else if (preset == METAPRESETMIX) {
+                if (Math.random() < 0.5) {
+                    this.neighbourTypes = {0: 0.8, 1: 0.2};
+                } else {
+                    this.neighbourTypes = {0: 1.0, 1: 0.0};
+                }
                 this.neighbourTypes = {0: 0.8, 1: 0.2};
             } else {
                 this.neighbourTypes = {0: 0.5, 1: 0.5};
@@ -78,8 +82,7 @@ export class BBColoring extends MetaRule {
     }
 
     evolveRuleChain() {
-        var neighbourTypes = this.neighbourTypes;
-        this.ruleChain[1].evolveRule(neighbourTypes)
+        this.ruleChain[1].evolveRule(this.neighbourTypes)
     }
 
     getRuleChainfromName(name) {
