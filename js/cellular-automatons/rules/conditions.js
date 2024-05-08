@@ -119,9 +119,9 @@ export class Condition {
         // Generate a random threshold
         var threshold = 0;
         if (type === COMPAREBIGGER) {
-            threshold = Math.floor(Math.random() * 8) + 1;
-        } else {
             threshold = Math.floor(Math.random() * 9);
+        } else {
+            threshold = Math.floor(Math.random() * 8) + 1;
         }
         
         // Generate a random inactive variation

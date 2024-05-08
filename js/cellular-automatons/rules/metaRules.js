@@ -2,7 +2,6 @@ import { BBRuleNoZero, ConwayNoZero, ColoringRule, SparseFourStateRule } from ".
 import { ISOTROPIC } from "../neighbours/neighbourCount.js";
 
 
-export const METAPRESETSUPERSAFE = "gr"
 export const METAPRESETSAFE = "safe";
 export const METAPRESETMIX = "mix";
 export const METAPRESETGENERAL = "general";
@@ -55,10 +54,6 @@ export class BBColoring extends MetaRule {
         if (neighbourTypes == null) {
             if (preset == METAPRESETSAFE) {
                 this.neighbourTypes = {0: 1, 1: 0};
-            } else if (preset == METAPRESETSUPERSAFE) {
-                this.neighbourTypes = {0: 1, 1: 0};
-                this.periodicityLength = 1;
-                this.neighbourGeometryType = ISOTROPIC;
             } else if (preset == METAPRESETMIX) {
                 this.neighbourTypes = {0: 0.8, 1: 0.2};
             } else {
