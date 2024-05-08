@@ -113,17 +113,9 @@ export class Condition {
 
     static randomSample(neighbourTypes = null, modulo = 4, geometryType = MIX, periodicityLength = null) {
         // Generate a random type
-        const types = [COMPAREEQ, COMPAREBIGGER];
-        const type = types[Math.floor(Math.random() * types.length)];
+        const compareTypes = [COMPAREEQ, COMPAREBIGGER];
+        const compareType = compareTypes[Math.floor(Math.random() * compareTypes.length)];
 
-        // Generate a random threshold
-        var threshold = 0;
-        if (type === COMPAREBIGGER) {
-            threshold = Math.floor(Math.random() * 9);
-        } else {
-            threshold = Math.floor(Math.random() * 8) + 1;
-        }
-        
         // Generate a random inactive variation
         const inactivations = [INACTIVECOND, INACTIVEABS, INACTIVENONE];
         const inactivation = inactivations[Math.floor(Math.random() * inactivations.length)];
@@ -136,6 +128,23 @@ export class Condition {
         const neighbourType0 = neighbourTypeSampler();
         const neighbourType1 = sampleNeighbourhoodGeometry(neighbourType0, geometryType);
         const neighbourType = [neighbourType0, neighbourType1];
+
+        // Generate a random threshold, with some condition to avoid blank rules
+        var threshold = 0;
+        var maxThreshold = 8;
+        if (neighbourType[0] == 0 && neighbourType[1] % 4 != 1) {
+            maxThreshold = 5;
+        } else if (neighbourType[1] > 4 && neighbourType[1] <= 16) {
+            maxThreshold = 4;
+        } else if (neighbourType[1] > 16) {
+            maxThreshold = 3;
+        }
+        if (compareType === COMPAREBIGGER) {
+            threshold = Math.floor(Math.random() * maxThreshold);
+        } else {
+            threshold = Math.floor(Math.random() * maxThreshold) + 1;
+        }
+                
 
         // Generate a random periodicity
         var periodicityDraw = Math.random();
@@ -152,7 +161,7 @@ export class Condition {
         }
 
         // Create a new Condition with the random values
-        return new Condition(type, threshold, neighbourType, inactivation, modulo, periodicity);
+        return new Condition(compareType, threshold, neighbourType, inactivation, modulo, periodicity);
     }
 }
 
