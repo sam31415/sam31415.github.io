@@ -1,5 +1,5 @@
 import { createWeightedSampler } from "../randomness/weightedSampler.js";
-import { neighbourTypeNumbers, sampleNeighbourhoodGeometry, MIX } from "../neighbours/neighbourCount.js";
+import { sampleNeighbourhoodGeometry, MIX } from "../neighbours/neighbourCount.js";
 
 const INACTIVEABS = "A";
 const INACTIVECOND = "C";

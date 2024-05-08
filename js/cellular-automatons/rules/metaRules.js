@@ -1,5 +1,4 @@
 import { BBRuleNoZero, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
-import { ISOTROPIC } from "../neighbours/neighbourCount.js";
 
 
 export const METAPRESETSAFE = "safe";

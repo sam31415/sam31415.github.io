@@ -1,5 +1,4 @@
 import { submitValue, updateRandomnessValue } from './formHandlers.js';
-import { initializeGrid } from "../initialisation/initialiseGrid.js";
 import { setFindNeighbour, setCellUpdateRule} from './optionSetter.js';
 import { determineColorPalette } from '../draw/coloring.js';
 import { saveEventData } from './saveEventData.js';
