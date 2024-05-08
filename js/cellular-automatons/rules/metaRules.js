@@ -1,4 +1,5 @@
 import { BBRuleNoZero, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
+import { ISOTROPIC } from "../neighbours/neighbourCount.js";
 
 
 export const METAPRESETSAFE = "safe";
@@ -6,6 +7,10 @@ export const METAPRESETMIX = "mix";
 export const METAPRESETGENERAL = "general";
 
 export class MetaRule {
+    colorUnit;
+    ruleChain;
+    updateRule;
+
     getRuleChain() {
         throw new Error("Must override method");
     }
@@ -33,13 +38,19 @@ export class MetaRule {
     evolveRuleChain() {
         throw new Error("Must override method");
     }
+
+    getName() {
+        return this.ruleChain.map(r => r.getName()).join("-");
+    }
 }
 
 export class BBColoring extends MetaRule {
-    constructor(preset, neighbourTypes) {
+    constructor(preset, neighbourTypes, name = null) {
         super();
         this.preset = preset;
         this.neighbourTypes = neighbourTypes;
+        this.periodicityLength = null;
+        this.neighbourGeometryType = null;
         if (neighbourTypes == null) {
             if (preset == METAPRESETSAFE) {
                 this.neighbourTypes = {0: 1, 1: 0};
@@ -50,14 +61,18 @@ export class BBColoring extends MetaRule {
             }
         }
         this.colorUnit = 4;
-        this.ruleChain = this.getRuleChain();
+        if (name == null) {
+            this.ruleChain = this.getRuleChain();
+        } else {
+            this.ruleChain = this.getRuleChainfromName(name);
+        }
         this.updateRule = this.getUpdateRule();
     }
 
     getRuleChain() {
         var ruleChain = [];
         ruleChain.push(new BBRuleNoZero());
-        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes));
+        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
 
         return ruleChain;
     }
@@ -65,6 +80,16 @@ export class BBColoring extends MetaRule {
     evolveRuleChain() {
         var neighbourTypes = this.neighbourTypes;
         this.ruleChain[1].evolveRule(neighbourTypes)
+    }
+
+    getRuleChainfromName(name) {
+        var ruleChain = [];
+        var ruleNames = name.split("-")[1];
+        ruleChain.push(new BBRuleNoZero());
+        ruleChain.push(ColoringRule.ruleFromNames(ruleNames));
+
+        return ruleChain;
+    
     }
 }
 

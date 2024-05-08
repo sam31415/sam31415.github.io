@@ -31,6 +31,10 @@ export class BBRuleNoZero extends Rule{
         }
         return newCellValue;
     }
+
+    getName() {
+        return "BB";
+    }
 }
 
 
@@ -81,16 +85,20 @@ export class ColoringRule extends Rule{
     }
 
     getName() {
-        return this.conditions.map(c => c.name()).join(', ');
+        return this.conditions.map(c => c.name()).join('||');
     }
 
-    static sampleRule(nConditions = null, neighbourTypes = null, modulo = 4, nColors = 4) {
+    static sampleRule(nConditions = null, neighbourTypes = null, neighbourhoodGeometryType = null, modulo = 4, nColors = 4, periodicityLength = null) {
         var conditions = [];
         if (nConditions == null) {
             nConditions = Math.floor(Math.random() * 8) + 2;
         }
-        var neighbourhoodGeometryType = sampleNeighbourhoodGeometryType();
-        var periodicityLength = this.samplePeriodicityLength();
+        if (neighbourhoodGeometryType == null) {
+            neighbourhoodGeometryType = sampleNeighbourhoodGeometryType();
+        }
+        if (periodicityLength == null) {
+            periodicityLength = this.samplePeriodicityLength();
+        }
         for (let i = 0; i < nConditions; i++) {
             conditions.push(Condition.randomSample(neighbourTypes, modulo, neighbourhoodGeometryType, periodicityLength));
         }
@@ -101,7 +109,7 @@ export class ColoringRule extends Rule{
 
     static samplePeriodicityLength() {
         var rnd = Math.random();
-        if (rnd < 0.3) {
+        if (rnd < 0.2) {
             return null;
         } else if (rnd < 0.6) {
             return 1;
@@ -116,8 +124,8 @@ export class ColoringRule extends Rule{
         }
     }
     
-    static ruleFromNames(nameString) {
-        var names = nameString.split(', ');
+    static ruleFromNames(nameString, nColors = 4) {
+        var names = nameString.split('||');
         var conditions = names.map(name => Condition.fromName(name));
 
         return new ColoringRule(conditions, nColors, null, MIX, null)
@@ -148,7 +156,7 @@ export class ColoringRule extends Rule{
     addCondition(neighbourTypes) {
         var newConditions = this.conditions.slice();
         newConditions.push(Condition.randomSample(neighbourTypes, 4, this.neighbourhoodGeometryType, this.periodicityLength));
-        console.log(new Date().toLocaleTimeString() + ' Adding condition ' + this.neighbourhoodGeometryType + ': ' + newConditions.map(c => c.name()).join(', '))
+        console.log(new Date().toLocaleTimeString() + ' Adding condition ' + this.neighbourhoodGeometryType + ': ' + newConditions.map(c => c.name()).join('||'))
 
         this.conditions = newConditions;
         //return new ColoringRule(newConditions, this.nColors, this.neighbourhoodGeometryType, this.periodicityLength);
@@ -158,7 +166,7 @@ export class ColoringRule extends Rule{
         var newConditions = this.conditions.slice();
         var index = Math.floor(Math.random() * newConditions.length);
         newConditions.splice(index, 1)[0];
-        console.log(new Date().toLocaleTimeString() + ' Removing condition: ' + newConditions.map(c => c.name()).join(', '))
+        console.log(new Date().toLocaleTimeString() + ' Removing condition: ' + newConditions.map(c => c.name()).join('||'))
 
         this.conditions = newConditions;
         //return new ColoringRule(newConditions, this.nColors, this.neighbourhoodGeometryType, this.periodicityLength);
@@ -168,7 +176,7 @@ export class ColoringRule extends Rule{
         var newConditions = this.conditions.slice();
         var index = Math.floor(Math.random() * newConditions.length);
         newConditions[index] = Condition.randomSample(neighbourTypes, 4, this.neighbourhoodGeometryType, this.periodicityLength);
-        console.log(new Date().toLocaleTimeString() + ' Changing condition ' + index + ' to ' + this.neighbourhoodGeometryType + ': ' + newConditions.map(c => c.name()).join(', '))
+        console.log(new Date().toLocaleTimeString() + ' Changing condition ' + index + ' to ' + this.neighbourhoodGeometryType + ': ' + newConditions.map(c => c.name()).join('||'))
 
         this.conditions = newConditions;
         //return new ColoringRule(newConditions, this.nColors, this.neighbourhoodGeometryType, this.periodicityLength);
@@ -213,7 +221,7 @@ export class SparseFourStateRule extends Rule{
                 conditions[i].push(Condition.randomSample(neighbourTypes, modulo));
             }
         }
-        console.log('Sampling sparse four state rule: ' + conditions.map(c => c.map(cc => cc.name()).join(', ')).join(' || '))
+        console.log('Sampling sparse four state rule: ' + conditions.map(c => c.map(cc => cc.name()).join(', ')).join('||'))
 
         return new SparseFourStateRule(conditions, nColors);
     }

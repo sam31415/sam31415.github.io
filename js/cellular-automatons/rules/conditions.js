@@ -1,12 +1,12 @@
 import { createWeightedSampler } from "../randomness/weightedSampler.js";
 import { neighbourTypeNumbers, sampleNeighbourhoodGeometry, MIX } from "../neighbours/neighbourCount.js";
 
-const INACTIVEABS = "Abs";
-const INACTIVECOND = "Cond";
-const INACTIVENONE = "None";
+const INACTIVEABS = "A";
+const INACTIVECOND = "C";
+const INACTIVENONE = "N";
 
-const COMPAREEQ = "Eq";
-const COMPAREBIGGER = "Bigger";
+const COMPAREEQ = "E";
+const COMPAREBIGGER = "B";
 
 export function conditionInactive(variation, modulo) {
     function conditionInactiveCondFunction(cellValue) {
@@ -27,17 +27,17 @@ export function conditionInactive(variation, modulo) {
     }
 }
 
-export function conditionneighbour(threshold, type, neighbourType) {
-    function conditionneighbourEqValue(neighbourList) {
+export function conditionNeighbour(threshold, type, neighbourType) {
+    function conditionNeighbourEqValue(neighbourList) {
         return neighbourList[neighbourType[0]][neighbourType[1]] == threshold;
     }
-    function conditionneighbourBiggerValue(neighbourList) {
+    function conditionNeighbourBiggerValue(neighbourList) {
         return neighbourList[neighbourType[0]][neighbourType[1]] > threshold;
     }
     if (type == COMPAREEQ) {
-        return conditionneighbourEqValue;
+        return conditionNeighbourEqValue;
     } else if (type == COMPAREBIGGER) {
-        return conditionneighbourBiggerValue;
+        return conditionNeighbourBiggerValue;
     }
 }
 
@@ -66,7 +66,7 @@ export class Condition {
         this.periodicity = periodicity;
 
         this.testInactive = conditionInactive(this.inactivation, this.modulo);
-        this.testValue = conditionneighbour(this.threshold, this.type, this.neighbourType);
+        this.testValue = conditionNeighbour(this.threshold, this.type, this.neighbourType);
         this.testPeriodicity = conditionPeriodicity(periodicity);
     }
 
@@ -80,10 +80,9 @@ export class Condition {
         if (this.periodicity != null) {
             periodicityString = this.periodicity.map(b => b ? '1' : '0').join('');
         }
-        return `${this.type}${this.threshold}${this.inactivation}NT${this.neighbourType[0]}|${this.neighbourType[1]}P${periodicityString}`;
+        return `${this.type}${this.threshold}${this.inactivation}[${this.neighbourType[0]}|${this.neighbourType[1]}]${periodicityString}`;
     }
 
-    // TO UPDATE TO INCLUDE THE PERIODICITY
     static fromName(name, modulo = 4) {
         var type = null;
         if (name.startsWith(COMPAREEQ)) {
@@ -102,14 +101,13 @@ export class Condition {
         } else if (restOfName.startsWith(INACTIVENONE)) {
             inactivation = INACTIVENONE;
         }
-        restOfName = restOfName.substring(inactivation.length + 2);
-        var neighbourType = restOfName.split('P')[0].split('|').map(Number);
+        restOfName = restOfName.substring(inactivation.length);
+        var neighbourType = restOfName.split('[')[1].split(']')[0].split('|').map(Number);
+        restOfName = restOfName.split(']')[1];
         var periodicity = null;
-        if (restOfName.split('P').length > 0 && restOfName.split('P')[1].length > 0) {
-            restOfName = restOfName.split('P')[1];
-            periodicity = restOfName.split('').map(b => b == '1');
+        if (restOfName.length > 0) {
+            periodicity = restOfName.split('').map(b => b === '1');
         }
-
         return new Condition(type, threshold, neighbourType, inactivation, modulo, periodicity);
     }
 
@@ -121,9 +119,9 @@ export class Condition {
         // Generate a random threshold
         var threshold = 0;
         if (type === COMPAREBIGGER) {
-            threshold = Math.floor(Math.random() * 8) + 1;
-        } else {
             threshold = Math.floor(Math.random() * 9);
+        } else {
+            threshold = Math.floor(Math.random() * 8) + 1;
         }
         
         // Generate a random inactive variation
@@ -158,4 +156,4 @@ export class Condition {
     }
 }
 
-
+// BB-E7N[0|1]11||B5A[0|0]11||E2N[1|1]11||B3C[1|3]||B3C[0|2]11||E7N[0|3]11

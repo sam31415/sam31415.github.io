@@ -84,8 +84,8 @@ export const DIRECTIONAL2B = "directional2b";
 export const DIRECTIONAL = "directional";
 
 export const neighbourhoodGeometryTypes = {
-    [MIX]: 0.3, 
-    [ISOTROPIC]: 0.3, 
+    [MIX]: 0.2, 
+    [ISOTROPIC]: 0.4, 
     [XCROSS]: 0.05,
     [VCROSS]: 0.05,
     [XVCROSS]: 0.05,

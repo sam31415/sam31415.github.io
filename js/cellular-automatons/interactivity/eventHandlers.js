@@ -129,7 +129,7 @@ export function addTimeoutListener(globalData) {
 }
 
 export function addRuleListener(globalData) {
-    document.getElementById('userRule').addEventListener('change', async function() {
+    document.getElementById('metaRule').addEventListener('change', async function() {
         globalData.rule = this.value;
         setCellUpdateRule(globalData);
     });
