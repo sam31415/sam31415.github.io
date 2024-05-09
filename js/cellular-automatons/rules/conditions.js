@@ -148,11 +148,12 @@ export class Condition {
 
         // Generate a random periodicity
         var periodicityDraw = Math.random();
-        if (periodicityDraw < 0.5) {
+        if (periodicityDraw < 0.2) {
             periodicity = null;
         } else {
             if (periodicityLength == null) {
-                periodicityLength = Math.floor(Math.random() * 4) + 2;
+                //periodicityLength = Math.floor(Math.random() * 4) + 2;
+                periodicityLength = Math.floor(Math.random() * 20) + 2;
             }
             var periodicity;
             do {

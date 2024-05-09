@@ -96,6 +96,63 @@ export class BBColoring extends MetaRule {
     }
 }
 
+export class BBColoring2 extends MetaRule {
+    constructor(preset, neighbourTypes, name = null) {
+        super();
+        this.preset = preset;
+        this.neighbourTypes = neighbourTypes;
+        this.periodicityLength = null;
+        this.neighbourGeometryType = null;
+        if (neighbourTypes == null) {
+            if (preset == METAPRESETSAFE) {
+                this.neighbourTypes = {0: 1, 1: 0};
+            } else if (preset == METAPRESETMIX) {
+                if (Math.random() < 0.5) {
+                    this.neighbourTypes = {0: 0.8, 1: 0.2};
+                } else {
+                    this.neighbourTypes = {0: 1.0, 1: 0.0};
+                }
+                this.neighbourTypes = {0: 0.8, 1: 0.2};
+            } else {
+                this.neighbourTypes = {0: 0.5, 1: 0.5};
+            }
+        }
+        this.colorUnit = 16;
+        if (name == null) {
+            this.ruleChain = this.getRuleChain();
+        } else {
+            this.ruleChain = this.getRuleChainfromName(name);
+        }
+        this.updateRule = this.getUpdateRule();
+    }
+
+    getRuleChain() {
+        var ruleChain = [];
+        ruleChain.push(new BBRuleNoZero());
+        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicity));
+        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 16, 4, this.periodicity));
+
+
+        return ruleChain;
+    }
+
+    evolveRuleChain() {
+        this.ruleChain[1].evolveRule(this.neighbourTypes)
+        this.ruleChain[2].evolveRule(this.neighbourTypes)
+    }
+
+    // TO IMPLEMENT
+    getRuleChainfromName(name) {
+        var ruleChain = [];
+        var ruleNames = name.split("-")[1];
+        ruleChain.push(new BBRuleNoZero());
+        ruleChain.push(ColoringRule.ruleFromNames(ruleNames));
+
+        return ruleChain;
+    
+    }
+}
+
 
 export class Conway extends MetaRule {
     constructor(preset, neighbourTypes) {

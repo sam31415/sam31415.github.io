@@ -120,8 +120,9 @@ export class ColoringRule extends Rule{
         } else if (rnd < 0.9) {
             return 4;
         } else {
-            return Math.floor(Math.random() * 5) + 5;
+            return Math.floor(Math.random() * 20) + 5;
         }
+
     }
     
     static ruleFromNames(nameString, nColors = 4) {
