@@ -2,15 +2,21 @@ import { Grid } from "./classes/grid.js";
 import { addRandomEvents } from './randomness/randomness.js';
 import { computeNeighbourList, neighbourTypeNumbers } from "./neighbours/neighbourCount.js";
 
+// var computeNeighbourListTime = 0;
 
 export function updateGrid(globalData) {
-    var neighbours = [new Array(neighbourTypeNumbers[0]).fill(0), new Array(neighbourTypeNumbers[1]).fill(0)];
-    var maskVariables = [0, 0, 0, 0, 0];
+    var neighbours = [new Uint8Array(neighbourTypeNumbers[0]).fill(0), new Uint8Array(neighbourTypeNumbers[1]).fill(0)];
+    var maskVariables = new Uint8Array(5).fill(0);
     var newGrid = new Grid(globalData.gridWidth, globalData.gridHeight);
+    var grid = globalData.grid;
+    const time = globalData.time;
     for (var i = 0; i < globalData.gridHeight; i++) {
         for (var j = 0; j < globalData.gridWidth; j++) {
-            var neighbourList = computeNeighbourList(globalData, i, j, neighbours, maskVariables);
-            let cellValue = globalData.grid.get(i, j);
+            // var t0 = performance.now();
+            var neighbourList = computeNeighbourList(globalData, i, j, grid, neighbours, maskVariables, time);
+            // var t1 = performance.now();
+            // computeNeighbourListTime += t1 - t0;
+            const cellValue = globalData.grid.get(i, j);
             var newCellValue = cellValue;
             if (globalData.rule != "VariableGR" || globalData.mask.get(i, j) == 0) {
                 newCellValue = globalData.ruleClass.updateRule(cellValue, newCellValue, neighbourList, globalData.time);
@@ -37,4 +43,10 @@ export function updateGrid(globalData) {
         var { i, j } = addRandomEvents(globalData, i, j, newGrid, globalData.findNeighbour);
     }
     globalData.grid = newGrid;
+    // if (globalData.time % 20 == 0) {
+    //     console.log("computeNeighbourList took " + computeNeighbourListTime + " milliseconds.");
+    //     computeNeighbourListTime = 0;
+    // }
+
+
 }

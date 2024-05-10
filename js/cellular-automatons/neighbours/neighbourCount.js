@@ -2,70 +2,84 @@ import { createWeightedSampler } from "../randomness/weightedSampler.js";
 
 export const neighbourTypeNumbers = [44, 44];
 
-export function computeNeighbourList(globalData, i, j, neighbours, maskVariables) {
+export function computeNeighbourList(globalData, i, j, grid, neighbours, maskVariables, time) {
+    const gridHeightMinusOne = grid.height - 1;
+    const gridWidthMinusOne = grid.width - 1;
+    const gridData = grid.data;
+    const gridWidth = grid.width;
+    var neighbours0 = neighbours[0];
+    var neighbours1 = neighbours[1];
     for (var di = -1; di <= 1; di++) {
         for (var dj = -1; dj <= 1; dj++) {
+
             if (di == 0 && dj == 0) continue;
-            maskVariables[0] = (Math.abs(di) + Math.abs(dj)) % 2;
-            maskVariables[(globalData.time % 4) + 1] = (di == -1) ? 1 : 0;
-            maskVariables[((1 + globalData.time) % 4) + 1] = (dj == -1) ? 1 : 0;
-            maskVariables[((2 + globalData.time) % 4) + 1] = (di == 1) ? 1 : 0;
-            maskVariables[((3 + globalData.time) % 4) + 1] = (dj == 1) ? 1 : 0;
-            let neighbourCoord = globalData.findNeighbour(globalData, i, j, di, dj);
-            let ni = neighbourCoord[0];
-            let nj = neighbourCoord[1];
-            let gridValue = globalData.grid.get(ni, nj);
-            let gridValueMod4 = gridValue % 4;
-            let gridValueDiv4 = Math.floor((gridValue % 16) / 4);
+
+            maskVariables[0] = ((di === -1 ? 1 : di) + (dj === -1 ? 1 : dj)) % 2;
+            maskVariables[(time & 3) + 1] = (di == -1) ? 1 : 0;
+            maskVariables[((1 + time) & 3) + 1] = (dj == -1) ? 1 : 0;
+            maskVariables[((2 + time) & 3) + 1] = (di == 1) ? 1 : 0;
+            maskVariables[((3 + time) & 3) + 1] = (dj == 1) ? 1 : 0;
+
+            if (i == 0 || j == 0 || i == gridHeightMinusOne || j == gridWidthMinusOne) {
+                var [ni, nj] = globalData.findNeighbour(globalData, i, j, di, dj);
+            } else {
+               var ni = i + di
+               var nj = j + dj
+            }
+            
+            const gridValue = gridData[ni * gridWidth + nj]
+            const gridValueMod4 = gridValue & 3;
+            const gridValueDiv4 = (gridValue & 15) >> 2;
+
             if (gridValueMod4 == 1) {
-                neighbours[0][0] += 1;
+                neighbours0[0] += 1;
                 for (var k = 0; k < maskVariables.length; k++) {
-                    neighbours[0][4 + 8*k] += maskVariables[k];
-                    neighbours[0][8*(k+1)] += 1 - maskVariables[k];
+                    neighbours0[4 + 8*k] += maskVariables[k];
+                    neighbours0[8*(k+1)] += 1 - maskVariables[k];
                 }
             } else if (gridValueMod4 == 2) {
-                neighbours[0][2] += 1;
+                neighbours0[2] += 1;
                 for (var k = 0; k < maskVariables.length; k++) {
-                    neighbours[0][4 + 8*k + 2] += maskVariables[k];
-                    neighbours[0][8*(k+1) + 2] += 1 - maskVariables[k];
+                    neighbours0[4 + 8*k + 2] += maskVariables[k];
+                    neighbours0[8*(k+1) + 2] += 1 - maskVariables[k];
                 }
             } else if (gridValueMod4 == 3) {
-                neighbours[0][3] += 1;
+                neighbours0[3] += 1;
                 for (var k = 0; k < maskVariables.length; k++) {
-                    neighbours[0][4 + 8*k + 3] += maskVariables[k];
-                    neighbours[0][8*(k+1) + 3] += 1 - maskVariables[k];
+                    neighbours0[4 + 8*k + 3] += maskVariables[k];
+                    neighbours0[8*(k+1) + 3] += 1 - maskVariables[k];
                 }
             }
-            if (Math.floor(gridValueDiv4 == 0)) {
-                neighbours[1][0] += 1;
+            if (gridValueDiv4 == 0) {
+                neighbours1[0] += 1;
                 for (var k = 0; k < maskVariables.length; k++) {
-                    neighbours[1][4 + 8*k] += maskVariables[k];
-                    neighbours[1][8*(k+1)] += 1 - maskVariables[k];
+                    neighbours1[4 + 8*k] += maskVariables[k];
+                    neighbours1[8*(k+1)] += 1 - maskVariables[k];
                 }
-            } else if (Math.floor(gridValueDiv4 == 1)) {
-                neighbours[1][1] += 1;
+            } else if (gridValueDiv4 == 1) {
+                neighbours1[1] += 1;
                 for (var k = 0; k < maskVariables.length; k++) {
-                    neighbours[1][4 + 8*k + 1] += maskVariables[k];
-                    neighbours[1][8*(k+1) + 1] += 1 - maskVariables[k];
+                    neighbours1[4 + 8*k + 1] += maskVariables[k];
+                    neighbours1[8*(k+1) + 1] += 1 - maskVariables[k];
                 }
-            } else if (Math.floor(gridValueDiv4 == 2)) {
-                neighbours[1][2] += 1;
+            } else if (gridValueDiv4 == 2) {
+                neighbours1[2] += 1;
                 for (var k = 0; k < maskVariables.length; k++) {
-                    neighbours[1][4 + 8*k + 2] += maskVariables[k];
-                    neighbours[1][8*(k+1) + 2] += 1 - maskVariables[k];
+                    neighbours1[4 + 8*k + 2] += maskVariables[k];
+                    neighbours1[8*(k+1) + 2] += 1 - maskVariables[k];
                 }
-            } else if (Math.floor(gridValueDiv4 == 3)) {
-                neighbours[1][3] += 1;
+            } else if (gridValueDiv4 == 3) {
+                neighbours1[3] += 1;
                 for (var k = 0; k < maskVariables.length; k++) {
-                    neighbours[1][4 + 8*k + 3] += maskVariables[k];
-                    neighbours[1][8*(k+1) + 3] += 1 - maskVariables[k];
+                    neighbours1[4 + 8*k + 3] += maskVariables[k];
+                    neighbours1[8*(k+1) + 3] += 1 - maskVariables[k];
                 }
             }
         }
     }
-    neighbours[0][1] = neighbours[0][0] + neighbours[0][3];
+    neighbours0[1] = neighbours0[0] + neighbours0[3];
     for (var k = 0; k < maskVariables.length + 1; k++) {
-        neighbours[0][4*k + 1] += neighbours[0][4*k] + neighbours[0][4*k + 3];
+        neighbours0[4*k + 1] += neighbours0[4*k] + neighbours0[4*k + 3];
     }
     return neighbours;
     ;
