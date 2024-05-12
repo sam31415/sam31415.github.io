@@ -40,7 +40,7 @@ export function updateGrid(globalData) {
     }
     if (globalData.addRandomness) {
         // Calculate the parameter for the Poisson distribution
-        var { i, j } = addRandomEvents(globalData, i, j, newGrid, globalData.findNeighbour);
+       addRandomEvents(globalData, newGrid, globalData.findNeighbour);
     }
     globalData.grid = newGrid;
     // if (globalData.time % 20 == 0) {

@@ -1,29 +1,3 @@
-import { createWeightedSampler } from "./weightedSampler.js";
-
-let maskDefinitions = {
-    shortStar0: {prob: 2, mask: [[1, 0], [0, 1]]},
-    shortStar1: {prob: 2, mask: [[0, 1], [1, 0]]},
-    shortStar2: {prob: 2, mask: [[1, 0], [0, 1]]},
-    waveSquare: {prob: 2, mask: [[1, 1], [1, 1]]},
-    //waveHorizontal: {prob: 0.5, mask: [[0, 0], [1, 1]]},
-    //waveVertical: {prob: 0.5, mask: [[0, 1], [0, 1]]},
-    star: {prob: 4, mask: [[1, 0, 1], [0, 0, 0], [1, 0, 1]]},
-    // spaceshipE: {prob: 2, mask: [[1, 1], [2, 2]]},
-    // spaceshipN: {prob: 2, mask: [[1, 2], [1, 2]]},
-    // spaceshipW: {prob: 2, mask: [[2, 2], [1, 1]]},
-    // spaceshipS: {prob: 2, mask: [[2, 1], [2, 1]]},
-    oscillator: {prob: 4, mask: [[0, 0, 1, 0], [1, 2, 2, 0], [0, 2, 2, 1], [0, 1, 0, 0]]},
-    // gliderSE: {prob: 1, mask: [[0, 0, 1, 2], [0, 2, 0, 0], [1, 2, 1, 0]]},
-    // gliderNE: {prob: 1, mask: [[2, 1, 0, 0], [0, 0, 2, 0], [0, 1, 2, 1]]},
-    // gliderSW: {prob: 1, mask: [[1, 2, 1, 0], [0, 2, 0, 0], [0, 0, 1, 2]]},
-    // gliderNW: {prob: 1, mask: [[0, 1, 2, 1], [0, 0, 2, 0], [2, 1, 0, 0]]},
-    random2: {prob: 30, mask: null}
-};
-
-let masks = Object.keys(maskDefinitions).map(key => maskDefinitions[key].mask);
-let maskProb = Object.keys(maskDefinitions).map(key => maskDefinitions[key].prob);
-let maskSampler = createWeightedSampler(maskProb);
-
 // Function to sample from a Poisson distribution
 export function poissonSample(lambda) {
     var L = Math.exp(-lambda);
@@ -36,19 +10,23 @@ export function poissonSample(lambda) {
     return k - 1;
 }
 
-export function addRandomEvents(globalData, i, j, newGrid, findNeighbour) {
+export function addRandomEvents(globalData, newGrid, findNeighbour) {
     var lambda = (10 ** globalData.randomnessAmount);
     // Sample the number of events from a Poisson distribution
     var numEvents = poissonSample(lambda);
+    var sampler = globalData.ruleClass.ruleChain[0].seedSampler;
+    var masks = globalData.ruleClass.ruleChain[0].seedMasks;
     for (var n = 0; n < numEvents; n++) {
         // Randomly select the coordinates for the event
         var i = Math.floor(Math.random() * globalData.gridHeight);
         var j = Math.floor(Math.random() * globalData.gridWidth);
         // Randomly select the type of event
-        var mask = masks[maskSampler()];
+        var mask = null;
+        if (Math.random() < 0.5) {
+            mask = masks[sampler()];
+        }
         applyMask(newGrid, globalData, mask, i, j, findNeighbour);
     }
-    return { i, j };
 }
 
 export function applyMask(grid, globalData, mask, i, j, findNeighbour) {

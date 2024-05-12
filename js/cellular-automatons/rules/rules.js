@@ -1,18 +1,43 @@
 import { Condition } from './conditions.js';
 import { sampleNeighbourhoodGeometryType, MIX } from '../neighbours/neighbourCount.js';
+import { createWeightedSampler } from "../randomness/weightedSampler.js";
+
 
 class Rule {
     constructor() {
-        this.nStates;
+        this.nStates = undefined;
     }
 
     updateRule(cellValue, newCellValue, neighbour_list, time) {
         throw new Error("Must override method");
     }
 
+    getName() {
+        throw new Error("Must override method");
+    }
+
 }
 
-export class ModifiedBriansBrain extends Rule{
+class PrimaryRule extends Rule{
+    constructor() {
+        super();
+        this.seedingPatterns = this.getSeedingPatterns();
+        this.constructSeedingSampler();
+    }
+
+    getSeedingPatterns() {
+        throw new Error("Must override method");
+    }
+
+    constructSeedingSampler() {
+        this.seedMasks = Object.keys(this.seedingPatterns).map(key => this.seedingPatterns[key].mask);
+        let seedProb = Object.keys(this.seedingPatterns).map(key => this.seedingPatterns[key].prob);
+        this.seedSampler = createWeightedSampler(seedProb);
+    }
+
+}
+
+export class ModifiedBriansBrain extends PrimaryRule{
     constructor() {
         super();
         this.nStates = 4;
@@ -35,9 +60,31 @@ export class ModifiedBriansBrain extends Rule{
     getName() {
         return "BB";
     }
+
+    getSeedingPatterns() {
+        let seedingPatterns = {
+            shortStar0: {prob: 2, mask: [[1, 0], [0, 1]]},
+            shortStar1: {prob: 2, mask: [[0, 1], [1, 0]]},
+            shortStar2: {prob: 2, mask: [[1, 0], [0, 1]]},
+            waveSquare: {prob: 2, mask: [[1, 1], [1, 1]]},
+            //waveHorizontal: {prob: 0.5, mask: [[0, 0], [1, 1]]},
+            //waveVertical: {prob: 0.5, mask: [[0, 1], [0, 1]]},
+            star: {prob: 4, mask: [[1, 0, 1], [0, 0, 0], [1, 0, 1]]},
+            // spaceshipE: {prob: 2, mask: [[1, 1], [2, 2]]},
+            // spaceshipN: {prob: 2, mask: [[1, 2], [1, 2]]},
+            // spaceshipW: {prob: 2, mask: [[2, 2], [1, 1]]},
+            // spaceshipS: {prob: 2, mask: [[2, 1], [2, 1]]},
+            oscillator: {prob: 4, mask: [[0, 0, 1, 0], [1, 2, 2, 0], [0, 2, 2, 1], [0, 1, 0, 0]]},
+            // gliderSE: {prob: 1, mask: [[0, 0, 1, 2], [0, 2, 0, 0], [1, 2, 1, 0]]},
+            // gliderNE: {prob: 1, mask: [[2, 1, 0, 0], [0, 0, 2, 0], [0, 1, 2, 1]]},
+            // gliderSW: {prob: 1, mask: [[1, 2, 1, 0], [0, 2, 0, 0], [0, 0, 1, 2]]},
+            // gliderNW: {prob: 1, mask: [[0, 1, 2, 1], [0, 0, 2, 0], [2, 1, 0, 0]]},
+        };
+        return seedingPatterns;
+    }
 }
 
-export class BriansBrain extends Rule{
+export class BriansBrain extends PrimaryRule{
     constructor() {
         super();
         this.nStates = 4;
@@ -60,9 +107,16 @@ export class BriansBrain extends Rule{
     getName() {
         return "TBB";
     }
+
+    getSeedingPatterns() {
+        let seedingPatterns = {
+            void: {prob: 1, mask: null},
+        };
+        return seedingPatterns;
+    }
 }
 
-export class StarWars extends Rule{
+export class StarWars extends PrimaryRule{
     constructor() {
         super();
         this.nStates = 4;
@@ -85,9 +139,16 @@ export class StarWars extends Rule{
     getName() {
         return "SW";
     }
+
+    getSeedingPatterns() {
+        let seedingPatterns = {
+            void: {prob: 1, mask: null},
+        };
+        return seedingPatterns;
+    }
 }
 
-export class Generations extends Rule{
+export class Generations extends PrimaryRule{
     constructor(ruleString) {
         super();
         this.ruleString = ruleString;
@@ -114,10 +175,17 @@ export class Generations extends Rule{
     getName() {
         return this.ruleString;
     }
+
+    getSeedingPatterns() {
+        let seedingPatterns = {
+            void: {prob: 1, mask: null},
+        };
+        return seedingPatterns;
+    }
 }
 
 
-export class ConwayNoZero extends Rule{
+export class ConwayNoZero extends PrimaryRule{
     constructor() {
         super();
         this.nStates = 4;
@@ -137,6 +205,13 @@ export class ConwayNoZero extends Rule{
             newCellValue = 0;
         }
         return newCellValue;
+    }
+
+    getSeedingPatterns() {
+        let seedingPatterns = {
+            void: {prob: 1, mask: null},
+        };
+        return seedingPatterns;
     }
 }
 
@@ -261,6 +336,7 @@ export class ColoringRule extends Rule{
         this.conditions = newConditions;
         //return new ColoringRule(newConditions, this.nColors, this.neighbourhoodGeometryType, this.periodicityLength);
     }
+
 }
 
 
