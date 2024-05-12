@@ -13,7 +13,7 @@ export function poissonSample(lambda) {
 }
 
 export function addRandomEvents(globalData, newGrid, findNeighbour) {
-    var lambda = (10 ** globalData.randomnessAmount);
+    var lambda = (10 ** (globalData.randomnessAmount + globalData.ruleClass.ruleChain[0].randomnessLogShift));
     // Sample the number of events from a Poisson distribution
     var numEvents = poissonSample(lambda);
     var sampler = globalData.ruleClass.ruleChain[0].seedSampler;
@@ -23,10 +23,7 @@ export function addRandomEvents(globalData, newGrid, findNeighbour) {
         var i = Math.floor(Math.random() * globalData.gridHeight);
         var j = Math.floor(Math.random() * globalData.gridWidth);
         // Randomly select the type of event
-        var mask = null;
-        if (Math.random() < 0.5) {
-            mask = masks[sampler()];
-        }
+        var mask = masks[sampler()];
         applyMask(newGrid, globalData, mask, i, j, findNeighbour);
     }
 }
@@ -64,14 +61,13 @@ export function applyMask(grid, globalData, mask, i, j, findNeighbour) {
 function generateRandomMask() {
     let maskHeight = Math.floor(Math.random() * 10) + 1;
     let maskWidth = Math.floor(Math.random() * 10) + 1;
-    let mask = [];
+    let mask = new Grid(maskWidth, maskHeight);
     for (let i = 0; i < maskHeight; i++) {
-        mask.push([]);
         for (let j = 0; j < maskWidth; j++) {
-            mask[i].push(Math.floor(Math.random() * 4));
+            mask.set(i, j, Math.floor(Math.random() * 4));
         }
     }
-    return new Grid(mask);
+    return mask;
 }
 
 
