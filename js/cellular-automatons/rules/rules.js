@@ -1,18 +1,45 @@
 import { Condition } from './conditions.js';
 import { sampleNeighbourhoodGeometryType, MIX } from '../neighbours/neighbourCount.js';
+import { createWeightedSampler } from "../randomness/weightedSampler.js";
+import { Grid } from "../classes/grid.js";
+
 
 class Rule {
     constructor() {
-        this.nStates;
+        this.nStates = undefined;
     }
 
     updateRule(cellValue, newCellValue, neighbour_list, time) {
         throw new Error("Must override method");
     }
 
+    getName() {
+        throw new Error("Must override method");
+    }
+
 }
 
-export class ModifiedBriansBrain extends Rule{
+class PrimaryRule extends Rule{
+    constructor() {
+        super();
+        this.seedingPatterns = this.getSeedingPatterns();
+        this.constructSeedingSampler();
+        this.randomnessLogShift = 0.0;
+    }
+
+    getSeedingPatterns() {
+        throw new Error("Must override method");
+    }
+
+    constructSeedingSampler() {
+        this.seedMasks = Object.keys(this.seedingPatterns).map(key => this.seedingPatterns[key].mask);
+        let seedProb = Object.keys(this.seedingPatterns).map(key => this.seedingPatterns[key].prob);
+        this.seedSampler = createWeightedSampler(seedProb);
+    }
+
+}
+
+export class ModifiedBriansBrain extends PrimaryRule{
     constructor() {
         super();
         this.nStates = 4;
@@ -35,16 +62,48 @@ export class ModifiedBriansBrain extends Rule{
     getName() {
         return "BB";
     }
+
+    getSeedingPatterns() {
+        
+        let seedingPatterns = {
+            random: {prob: 10, mask: null},
+            shortStar0: {prob: 2, mask: Grid.fromArray([[1, 0], [0, 1]])},
+            shortStar1: {prob: 2, mask: Grid.fromArray([[0, 1], [1, 0]])},
+            shortStar2: {prob: 2, mask: Grid.fromArray([[1, 0], [0, 1]])},
+            waveSquare: {prob: 4, mask: Grid.fromArray([[1, 1], [1, 1]])},
+            //waveHorizontal: {prob: 0.5, mask: [[0, 0], [1, 1]]},
+            //waveVertical: {prob: 0.5, mask: [[0, 1], [0, 1]]},
+            star: {prob: 4, mask: new Grid([[1, 0, 1], [0, 0, 0], [1, 0, 1]])},
+            // spaceshipE: {prob: 2, mask: [[1, 1], [2, 2]]},
+            // spaceshipN: {prob: 2, mask: [[1, 2], [1, 2]]},
+            // spaceshipW: {prob: 2, mask: [[2, 2], [1, 1]]},
+            // spaceshipS: {prob: 2, mask: [[2, 1], [2, 1]]},
+            oscillator0: {prob: 2, mask: Grid.fromArray([[0, 0, 1, 0], [1, 2, 2, 0], [0, 2, 2, 1], [0, 1, 0, 0]])},
+            oscillator1: {prob: 2, mask: Grid.fromArray([[0, 0, 2, 0, 0, 0, 0], [0, 1, 1, 0, 0, 1, 0], [0, 0, 2, 1, 2, 1, 2], [0, 0, 1, 0, 1, 0, 0],
+                [2, 1, 2, 1, 2, 0, 0], [0, 1, 0, 0, 1, 1, 0], [0, 0, 0, 0, 2, 0, 0]])},
+            // gliderSE: {prob: 1, mask: [[0, 0, 1, 2], [0, 2, 0, 0], [1, 2, 1, 0]]},
+            // gliderNE: {prob: 1, mask: [[2, 1, 0, 0], [0, 0, 2, 0], [0, 1, 2, 1]]},
+            // gliderSW: {prob: 1, mask: [[1, 2, 1, 0], [0, 2, 0, 0], [0, 0, 1, 2]]},
+            // gliderNW: {prob: 1, mask: [[0, 1, 2, 1], [0, 0, 2, 0], [2, 1, 0, 0]]},
+            snakeHoriz: {prob: 2, mask: Grid.fromArray([[0, 1, 2, 1, 2, 1, 0], [1, 2, 0, 1, 0, 2, 1], [1, 2, 0, 1, 0, 2, 1], [0, 1, 2, 1, 2, 1, 0]])},
+            snakeVert: {prob: 2, mask: Grid.fromArray([[0, 1, 2, 1, 2, 1, 0], [1, 2, 0, 1, 0, 2, 1], [1, 2, 0, 1, 0, 2, 1], [0, 1, 2, 1, 2, 1, 0]], true)},
+        };
+        return seedingPatterns;
+    }
 }
 
-export class BriansBrain extends Rule{
+export class BriansBrain extends PrimaryRule{
     constructor() {
         super();
         this.nStates = 4;
+        this.randomnessLogShift = -1.0
     }
 
     updateRule(cellValue, newCellValue, neighbourList, time) {
         var cellValueM4 = cellValue % 4;
+        if (cellValueM4 == 3) {
+            cellValueM4 = 0;
+        }
         if (cellValueM4 == 1) {
             newCellValue = 2;
         } else if (cellValueM4 == 2 || cellValueM4 == 3) {
@@ -60,12 +119,28 @@ export class BriansBrain extends Rule{
     getName() {
         return "TBB";
     }
+
+    getSeedingPatterns() {
+        let seedingPatterns = {
+            random: {prob: 10, mask: null},
+            snakeHoriz: {prob: 1, mask: Grid.fromArray([[0, 1, 2, 1, 2, 1, 0], [1, 2, 0, 1, 0, 2, 1], [1, 2, 0, 1, 0, 2, 1], [0, 1, 2, 1, 2, 1, 0]])},
+            oscillator0: {prob: 2, mask: Grid.fromArray([[0, 0, 1, 0], [1, 2, 2, 0], [0, 2, 2, 1], [0, 1, 0, 0]])},
+            oscillator1: {prob: 2, mask: Grid.fromArray([[0, 0, 2, 0, 0, 0, 0], [0, 1, 1, 0, 0, 1, 0], [0, 0, 2, 1, 2, 1, 2], [0, 0, 1, 0, 1, 0, 0],
+                [2, 1, 2, 1, 2, 0, 0], [0, 1, 0, 0, 1, 1, 0], [0, 0, 0, 0, 2, 0, 0]])},
+            waveSquare: {prob: 4, mask: Grid.fromArray([[1, 1], [1, 1]])},
+            butterflyGun: {prob: 10000, mask: Grid.fromArray([[0, 2, 1, 0, 0, 0, 0, 0], [0, 0, 2, 1, 0, 0, 0, 0], [2, 0, 0, 2, 1, 0, 0, 0], 
+                [1, 2, 0, 0, 2, 1, 0, 0], [0, 1, 0, 2, 1, 0, 2, 1], [0, 0, 2, 1, 0, 0, 2, 1]])},
+
+        };
+        return seedingPatterns;
+    }
 }
 
-export class StarWars extends Rule{
+export class StarWars extends PrimaryRule{
     constructor() {
         super();
         this.nStates = 4;
+        this.randomnessLogShift = -1.0
     }
 
     updateRule(cellValue, newCellValue, neighbourList, time) {
@@ -85,9 +160,52 @@ export class StarWars extends Rule{
     getName() {
         return "SW";
     }
+
+    getSeedingPatterns() {
+        let gunWeight = 1/5;
+        let snakeWeight = 1;
+        //let stillLifeWeight = 1;
+        let starWeight = 2;
+        let seedingPatterns = {
+            random: {prob: 3, mask: null},
+            snake: {prob: snakeWeight, mask: Grid.fromArray([[0, 1, 2, 1, 2, 1, 0], [1, 2, 0, 1, 0, 2, 1], [1, 2, 0, 1, 0, 2, 1], [0, 1, 2, 1, 2, 1, 0]])},
+            gun0: {prob: gunWeight, mask: Grid.fromArray([[1, 2, 3], [0, 1, 0], [1, 1, 0], [0, 1, 0], [0, 1, 0], [1, 1, 0], [0, 1, 2], [3, 0, 1]])},
+            gun1: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 1, 2, 0], 
+                [3, 0, 1, 0, 0, 0, 1, 0, 3], [0, 0, 1, 1, 0, 1, 1, 1, 0], [0, 0, 1, 1, 0, 0, 1, 0, 0], [0, 0, 2, 0, 0, 3, 2, 1, 0]])},
+            gun2: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 1, 0, 0], [0, 1, 2, 0, 1, 1, 1, 0], [1, 2, 3, 1, 1, 0, 1, 1], 
+                [1, 2, 3, 0, 0, 1, 1, 0], [0, 0, 0, 0, 1, 2, 0, 0]])},   
+            gun3: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 0, 0, 3, 2, 0], [0, 0, 1, 0, 0, 1, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1], 
+                [0, 1, 0, 0, 0, 0, 1, 0], [0, 1, 0, 0, 0, 0, 1, 0], [1, 1, 1, 0, 0, 1, 1, 1], [0, 1, 0, 0, 0, 0, 1, 0]])},  
+            gun4: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 0], [0, 0, 1, 1, 1, 3], [0, 0, 0, 1, 0, 2], [0, 0, 0, 0, 0, 1], 
+                [0, 1, 0, 1, 1, 0], [1, 1, 1, 1, 1, 1], [0, 1, 0, 0, 1, 0]])}, 
+            gun5: {prob: gunWeight, mask: Grid.fromArray([[0, 1, 1, 2, 0], [2, 0, 1, 0, 3], [3, 1, 1, 1, 0], [0, 1, 0, 2, 1]])},
+            gun6: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 2, 0], [3, 0, 1, 1, 0], [2, 1, 1, 1, 3], [1, 0, 1, 0, 2], [0, 0, 0, 1, 0]])},
+            gun7: {prob: gunWeight, mask: Grid.fromArray([[0, 1, 0, 0, 1, 0, 0, 0, 0, 0], [1, 1, 1, 2, 2, 1, 0, 3, 2, 0], [0, 1, 0, 2, 0, 1, 0, 0, 1, 0], 
+                [0, 1, 2, 2, 1, 1, 1, 1, 1, 1], [0, 0, 1, 0, 0, 1, 0, 0, 1, 0]])},
+            gun8: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 0, 3, 2, 0, 0], [0, 0, 0, 0, 1, 0, 3, 0], [0, 0, 1, 2, 0, 1, 0, 0], 
+                [0, 0, 2, 3, 1, 1, 0, 0], [3, 1, 0, 1, 0, 1, 1, 1], [2, 0, 1, 1, 1, 0, 1, 3], [0, 3, 0, 0, 1, 1, 1, 0], [0, 0, 0, 0, 1, 3, 0, 0]])},  
+            gun9: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 3, 0, 0], [0, 0, 2, 0, 1, 0, 2, 1], [0, 0, 3, 1, 1, 1, 2, 1], 
+                [0, 0, 1, 0, 1, 0, 3, 0], [3, 0, 1, 0, 1, 0, 0, 0], [2, 1, 1, 1, 3, 0, 0, 0], [1, 0, 1, 0, 2, 0, 0, 0], [0, 0, 0, 0, 1, 3, 0, 0]])}, 
+            gun10: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 1, 1, 3, 0, 1, 0], [0, 1, 0, 2, 2, 1, 1, 1], [1, 1, 1, 0, 0, 0, 1, 0], 
+                [0, 1, 0, 0, 0, 0, 3, 0]])},  
+            gun11: {prob: gunWeight, mask: Grid.fromArray([[0, 3, 2, 1, 1, 2, 3, 0], [0, 0, 1, 0, 0, 1, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1], 
+                [2, 3, 0, 0, 0, 0, 3, 2]])},  
+            gun12: {prob: gunWeight, mask: Grid.fromArray([[0, 2, 3, 0, 0, 1, 0, 0, 0], [1, 0, 1, 1, 1, 1, 0, 3, 0], [0, 1, 1, 0, 0, 1, 1, 2, 1], 
+                [0, 0, 1, 1, 1, 1, 0, 2, 1], [0, 1, 2, 0, 0, 0, 3, 0, 0]])},
+            gun13: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 0, 3, 0, 0, 0, 0], [0, 0, 0, 0, 2, 0, 0, 0, 0], [0, 0, 1, 0, 1, 0, 1, 0, 0], 
+                [0, 2, 3, 1, 1, 1, 3, 2, 0], [1, 0, 1, 0, 0, 0, 1, 0, 1], [1, 1, 1, 1, 0, 1, 1, 1, 1], [2, 0, 1, 0, 2, 0, 1, 0, 2], [0, 3, 0, 1, 0, 1, 0, 3, 0]])},    
+            gun14: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 1, 0, 0, 0], [1, 0, 1, 0, 1, 0, 1, 0, 1], [2, 1, 1, 1, 1, 1, 1, 1, 2], 
+                [0, 1, 0, 1, 0, 1, 0, 1, 0], [0, 1, 0, 0, 1, 0, 0, 1, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1], [0, 1, 0, 0, 1, 0, 0, 1, 0]])},  
+            gun15: {prob: gunWeight, mask: Grid.fromArray([[0, 1, 0, 0, 0, 0], [1, 1, 1, 0, 0, 0], [0, 1, 0, 0, 1, 0], 
+                [0, 0, 0, 1, 1, 1], [0, 0, 0, 0, 1, 0]])}, 
+            star: {prob: starWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 1, 0, 0, 0, 1, 0], [1, 1, 0, 0, 0, 1, 1], 
+                [0, 1, 0, 0, 0, 1, 0], [0, 0, 1, 1, 1, 0, 0], [0, 0, 0, 1, 0, 0, 0]])},
+        };
+        return seedingPatterns;
+    }
 }
 
-export class Generations extends Rule{
+export class Generations extends PrimaryRule{
     constructor(ruleString) {
         super();
         this.ruleString = ruleString;
@@ -114,10 +232,17 @@ export class Generations extends Rule{
     getName() {
         return this.ruleString;
     }
+
+    getSeedingPatterns() {
+        let seedingPatterns = {
+            random: {prob: 1, mask: null},
+        };
+        return seedingPatterns;
+    }
 }
 
 
-export class ConwayNoZero extends Rule{
+export class ConwayNoZero extends PrimaryRule{
     constructor() {
         super();
         this.nStates = 4;
@@ -137,6 +262,17 @@ export class ConwayNoZero extends Rule{
             newCellValue = 0;
         }
         return newCellValue;
+    }
+
+    getSeedingPatterns() {
+        let seedingPatterns = {
+            void: {prob: 1, mask: null},
+        };
+        return seedingPatterns;
+    }
+
+    getName() {
+        return "CW";
     }
 }
 
@@ -261,6 +397,7 @@ export class ColoringRule extends Rule{
         this.conditions = newConditions;
         //return new ColoringRule(newConditions, this.nColors, this.neighbourhoodGeometryType, this.periodicityLength);
     }
+
 }
 
 
