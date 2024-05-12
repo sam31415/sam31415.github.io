@@ -110,7 +110,7 @@ export class BBColoring extends MetaRule {
             ruleChain.push(new ModifiedBriansBrain());
         } else if (rnd < 0.5) {
             ruleChain.push(new BriansBrain())
-        } else if (rnd < 0.8) {
+        } else if (rnd < 0.8 && this.preset != METAPRESETSAFE) {
             ruleChain.push(new StarWars());
         } else if (rnd < 0.9 && this.preset != METAPRESETSAFE) {
             // A bit flashy...
