@@ -1,3 +1,5 @@
+import { Grid } from '../classes/grid.js';
+
 // Function to sample from a Poisson distribution
 export function poissonSample(lambda) {
     var L = Math.exp(-lambda);
@@ -32,9 +34,19 @@ export function addRandomEvents(globalData, newGrid, findNeighbour) {
 export function applyMask(grid, globalData, mask, i, j, findNeighbour) {
     if (mask === null) {
         mask = generateRandomMask();
+    } else {
+        if (Math.random() < 0.5) {
+            mask.transpose();
+        }
+        if (Math.random() < 0.5) {
+            mask.flipX();
+        }
+        if (Math.random() < 0.5) {
+            mask.flipY();
+        }
     }
-    let maskHeight = mask.length;
-    let maskWidth = mask[0].length;
+    let maskHeight = mask.height;
+    let maskWidth = mask.width;
 
     for (let mi = 0; mi < maskHeight; mi++) {
         for (let mj = 0; mj < maskWidth; mj++) {
@@ -43,7 +55,7 @@ export function applyMask(grid, globalData, mask, i, j, findNeighbour) {
             let dj = mj - Math.floor(maskWidth / 2);
             let neighbour = findNeighbour(globalData, i, j, di, dj);
             // Apply the mask
-            grid.set(neighbour[0], neighbour[1], mask[mi][mj]);
+            grid.set(neighbour[0], neighbour[1], mask.get(mi,mj));
 
         }
     }
@@ -59,7 +71,7 @@ function generateRandomMask() {
             mask[i].push(Math.floor(Math.random() * 4));
         }
     }
-    return mask;
+    return new Grid(mask);
 }
 
 

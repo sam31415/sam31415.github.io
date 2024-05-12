@@ -1,6 +1,7 @@
 import { Condition } from './conditions.js';
 import { sampleNeighbourhoodGeometryType, MIX } from '../neighbours/neighbourCount.js';
 import { createWeightedSampler } from "../randomness/weightedSampler.js";
+import { Grid } from "../classes/grid.js";
 
 
 class Rule {
@@ -62,24 +63,26 @@ export class ModifiedBriansBrain extends PrimaryRule{
     }
 
     getSeedingPatterns() {
+        
         let seedingPatterns = {
-            shortStar0: {prob: 2, mask: [[1, 0], [0, 1]]},
-            shortStar1: {prob: 2, mask: [[0, 1], [1, 0]]},
-            shortStar2: {prob: 2, mask: [[1, 0], [0, 1]]},
-            waveSquare: {prob: 2, mask: [[1, 1], [1, 1]]},
+            shortStar0: {prob: 2, mask: Grid.fromArray([[1, 0], [0, 1]])},
+            shortStar1: {prob: 2, mask: Grid.fromArray([[0, 1], [1, 0]])},
+            shortStar2: {prob: 2, mask: Grid.fromArray([[1, 0], [0, 1]])},
+            waveSquare: {prob: 2, mask: Grid.fromArray([[1, 1], [1, 1]])},
             //waveHorizontal: {prob: 0.5, mask: [[0, 0], [1, 1]]},
             //waveVertical: {prob: 0.5, mask: [[0, 1], [0, 1]]},
-            star: {prob: 4, mask: [[1, 0, 1], [0, 0, 0], [1, 0, 1]]},
+            star: {prob: 4, mask: new Grid([[1, 0, 1], [0, 0, 0], [1, 0, 1]])},
             // spaceshipE: {prob: 2, mask: [[1, 1], [2, 2]]},
             // spaceshipN: {prob: 2, mask: [[1, 2], [1, 2]]},
             // spaceshipW: {prob: 2, mask: [[2, 2], [1, 1]]},
             // spaceshipS: {prob: 2, mask: [[2, 1], [2, 1]]},
-            oscillator: {prob: 4, mask: [[0, 0, 1, 0], [1, 2, 2, 0], [0, 2, 2, 1], [0, 1, 0, 0]]},
+            oscillator: {prob: 4, mask: Grid.fromArray([[0, 0, 1, 0], [1, 2, 2, 0], [0, 2, 2, 1], [0, 1, 0, 0]])},
             // gliderSE: {prob: 1, mask: [[0, 0, 1, 2], [0, 2, 0, 0], [1, 2, 1, 0]]},
             // gliderNE: {prob: 1, mask: [[2, 1, 0, 0], [0, 0, 2, 0], [0, 1, 2, 1]]},
             // gliderSW: {prob: 1, mask: [[1, 2, 1, 0], [0, 2, 0, 0], [0, 0, 1, 2]]},
             // gliderNW: {prob: 1, mask: [[0, 1, 2, 1], [0, 0, 2, 0], [2, 1, 0, 0]]},
-        };
+            snakeHoriz: {prob: 2, mask: Grid.fromArray([[0, 1, 2, 1, 2, 1, 0], [1, 2, 0, 1, 0, 2, 1], [1, 2, 0, 1, 0, 2, 1], [0, 1, 2, 1, 2, 1, 0]])},
+            snakeVert: {prob: 2, mask: Grid.fromArray([[0, 1, 2, 1, 2, 1, 0], [1, 2, 0, 1, 0, 2, 1], [1, 2, 0, 1, 0, 2, 1], [0, 1, 2, 1, 2, 1, 0]], true)}        };
         return seedingPatterns;
     }
 }
@@ -111,6 +114,8 @@ export class BriansBrain extends PrimaryRule{
     getSeedingPatterns() {
         let seedingPatterns = {
             void: {prob: 1, mask: null},
+            snakeHoriz: {prob: 2, mask: Grid.fromArray([[0, 1, 2, 1, 2, 1, 0], [1, 2, 0, 1, 0, 2, 1], [1, 2, 0, 1, 0, 2, 1], [0, 1, 2, 1, 2, 1, 0]])},
+            snakeVert: {prob: 2, mask: Grid.fromArray([[0, 1, 2, 1, 2, 1, 0], [1, 2, 0, 1, 0, 2, 1], [1, 2, 0, 1, 0, 2, 1], [0, 1, 2, 1, 2, 1, 0]], true)}
         };
         return seedingPatterns;
     }
@@ -141,8 +146,40 @@ export class StarWars extends PrimaryRule{
     }
 
     getSeedingPatterns() {
+        let gunWeight = 3;
+        let snakeWeight = 1;
+        let stillLifeWeight
         let seedingPatterns = {
-            void: {prob: 1, mask: null},
+            snake: {prob: snakeWeight, mask: Grid.fromArray([[0, 1, 2, 1, 2, 1, 0], [1, 2, 0, 1, 0, 2, 1], [1, 2, 0, 1, 0, 2, 1], [0, 1, 2, 1, 2, 1, 0]])},
+            gun0: {prob: gunWeight, mask: Grid.fromArray([[1, 2, 3], [0, 1, 0], [1, 1, 0], [0, 1, 0], [0, 1, 0], [1, 1, 0], [0, 1, 2], [3, 0, 1]])},
+            gun1: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 1, 2, 0], 
+                [3, 0, 1, 0, 0, 0, 1, 0, 3], [0, 0, 1, 1, 0, 1, 1, 1, 0], [0, 0, 1, 1, 0, 0, 1, 0, 0], [0, 0, 2, 0, 0, 3, 2, 1, 0]])},
+            gun2: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 1, 0, 0], [0, 1, 2, 0, 1, 1, 1, 0], [1, 2, 3, 1, 1, 0, 1, 1], 
+                [1, 2, 3, 0, 0, 1, 1, 0], [0, 0, 0, 0, 1, 2, 0, 0]])},   
+            gun3: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 0, 0, 3, 2, 0], [0, 0, 1, 0, 0, 1, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1], 
+                [0, 1, 0, 0, 0, 0, 1, 0], [0, 1, 0, 0, 0, 0, 1, 0], [1, 1, 1, 0, 0, 1, 1, 1], [0, 1, 0, 0, 0, 0, 1, 0]])},  
+            gun4: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 0], [0, 0, 1, 1, 1, 3], [0, 0, 0, 1, 0, 2], [0, 0, 0, 0, 0, 1], 
+                [0, 1, 0, 1, 1, 0], [1, 1, 1, 1, 1, 1], [0, 1, 0, 0, 1, 0]])}, 
+            gun5: {prob: gunWeight, mask: Grid.fromArray([[0, 1, 1, 2, 0], [2, 0, 1, 0, 3], [3, 1, 1, 1, 0], [0, 1, 0, 2, 1]])},
+            gun6: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 2, 0], [3, 0, 1, 1, 0], [2, 1, 1, 1, 3], [1, 0, 1, 0, 2], [0, 0, 0, 1, 0]])},
+            gun7: {prob: gunWeight, mask: Grid.fromArray([[0, 1, 0, 0, 1, 0, 0, 0, 0, 0], [1, 1, 1, 2, 2, 1, 0, 3, 2, 0], [0, 1, 0, 2, 0, 1, 0, 0, 1, 0], 
+                [0, 1, 2, 2, 1, 1, 1, 1, 1, 1], [0, 0, 1, 0, 0, 1, 0, 0, 1, 0]])},
+            gun8: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 0, 3, 2, 0, 0], [0, 0, 0, 0, 1, 0, 3, 0], [0, 0, 1, 2, 0, 1, 0, 0], 
+                [0, 0, 2, 3, 1, 1, 0, 0], [3, 1, 0, 1, 0, 1, 1, 1], [2, 0, 1, 1, 1, 0, 1, 3], [0, 3, 0, 0, 1, 1, 1, 0], [0, 0, 0, 0, 1, 3, 0, 0]])},  
+            gun9: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 3, 0, 0], [0, 0, 2, 0, 1, 0, 2, 1], [0, 0, 3, 1, 1, 1, 2, 1], 
+                [0, 0, 1, 0, 1, 0, 3, 0], [3, 0, 1, 0, 1, 0, 0, 0], [2, 1, 1, 1, 3, 0, 0, 0], [1, 0, 1, 0, 2, 0, 0, 0], [0, 0, 0, 0, 1, 3, 0, 0]])}, 
+            gun10: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 1, 1, 3, 0, 1, 0], [0, 1, 0, 2, 2, 1, 1, 1], [1, 1, 1, 0, 0, 0, 1, 0], 
+                [0, 1, 0, 0, 0, 0, 3, 0]])},  
+            gun11: {prob: gunWeight, mask: Grid.fromArray([[0, 3, 2, 1, 1, 2, 3, 0], [0, 0, 1, 0, 0, 1, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1], 
+                [2, 3, 0, 0, 0, 0, 3, 2]])},  
+            gun12: {prob: gunWeight, mask: Grid.fromArray([[0, 2, 3, 0, 0, 1, 0, 0, 0], [1, 0, 1, 1, 1, 1, 0, 3, 0], [0, 1, 1, 0, 0, 1, 1, 2, 1], 
+                [0, 0, 1, 1, 1, 1, 0, 2, 1], [0, 1, 2, 0, 0, 0, 3, 0, 0]])},
+            gun13: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 0, 3, 0, 0, 0, 0], [0, 0, 0, 0, 2, 0, 0, 0, 0], [0, 0, 1, 0, 1, 0, 1, 0, 0], 
+                [0, 2, 3, 1, 1, 1, 3, 2, 0], [1, 0, 1, 0, 0, 0, 1, 0, 1], [1, 1, 1, 1, 0, 1, 1, 1, 1], [2, 0, 1, 0, 2, 0, 1, 0, 2], [0, 3, 0, 1, 0, 1, 0, 3, 0]])},    
+            gun14: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 1, 0, 0, 0], [1, 0, 1, 0, 1, 0, 1, 0, 1], [2, 1, 1, 1, 1, 1, 1, 1, 2], 
+                [0, 1, 0, 1, 0, 1, 0, 1, 0], [0, 1, 0, 0, 1, 0, 0, 1, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1], [0, 1, 0, 0, 1, 0, 0, 1, 0]])},  
+            gun15: {prob: gunWeight, mask: Grid.fromArray([[0, 1, 0, 0, 0, 0], [1, 1, 1, 0, 0, 0], [0, 1, 0, 0, 1, 0], 
+                [0, 0, 0, 1, 1, 1], [0, 0, 0, 0, 1, 0]])}, 
         };
         return seedingPatterns;
     }
