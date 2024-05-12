@@ -12,21 +12,21 @@ class Rule {
 
 }
 
-export class BBRuleNoZero extends Rule{
+export class ModifiedBriansBrain extends Rule{
     constructor() {
         super();
         this.nStates = 4;
     }
 
-    updateRule(cellValue, newCellValue, neighbour_list, time) {
+    updateRule(cellValue, newCellValue, neighbourList, time) {
         var cellValueM4 = cellValue % 4;
         if (cellValueM4 == 1 || cellValueM4 == 3) {
             newCellValue = 2;
         } else if (cellValueM4 == 2) {
             newCellValue = 0;
-        } else if (cellValueM4 == 0 && neighbour_list[0][0] == 2) {
+        } else if (cellValueM4 == 0 && neighbourList[0][0] == 2) {
             newCellValue = 1;
-        } else if (cellValueM4 == 0 && neighbour_list[0][0] > 2) {
+        } else if (cellValueM4 == 0 && neighbourList[0][0] > 2) {
             newCellValue = 3;
         }
         return newCellValue;
@@ -34,6 +34,85 @@ export class BBRuleNoZero extends Rule{
 
     getName() {
         return "BB";
+    }
+}
+
+export class BriansBrain extends Rule{
+    constructor() {
+        super();
+        this.nStates = 4;
+    }
+
+    updateRule(cellValue, newCellValue, neighbourList, time) {
+        var cellValueM4 = cellValue % 4;
+        if (cellValueM4 == 1) {
+            newCellValue = 2;
+        } else if (cellValueM4 == 2 || cellValueM4 == 3) {
+            newCellValue = 0;
+        } else if ((cellValueM4 == 0  || cellValueM4 == 3) && neighbourList[0][0] == 2) {
+            newCellValue = 1;
+        } else if (cellValueM4 == 0 && neighbourList[0][0] > 2) {
+            newCellValue = 3;
+        }
+        return newCellValue;
+    }
+
+    getName() {
+        return "TBB";
+    }
+}
+
+export class StarWars extends Rule{
+    constructor() {
+        super();
+        this.nStates = 4;
+    }
+
+    updateRule(cellValue, newCellValue, neighbourList, time) {
+        var cellValueM4 = cellValue % 4;
+        if (cellValueM4 == 1 && (neighbourList[0][0] < 3 || neighbourList[0][0] > 5)) {
+            newCellValue = 2;
+        } else if (cellValueM4 == 2) {
+            newCellValue = 3;
+        } else if (cellValueM4 == 3) {
+            newCellValue = 0;
+        } else if ((cellValueM4 == 0) && neighbourList[0][0] == 2) {
+            newCellValue = 1;
+        }
+        return newCellValue;
+    }
+
+    getName() {
+        return "SW";
+    }
+}
+
+export class Generations extends Rule{
+    constructor(ruleString) {
+        super();
+        this.ruleString = ruleString;
+        const parts = this.ruleString.split('/');
+        this.birth = new Uint8Array(parts[0].substring(1).split('').map(Number));
+        this.survive = new Uint8Array(parts[1].substring(1).split('').map(Number));
+        this.nStates = Number(parts[2]);
+    }
+
+    updateRule(cellValue, newCellValue, neighbourList, time) {
+        var cellValueM4 = cellValue % this.nStates;
+        if (cellValueM4 == 1 && this.survive.includes(neighbourList[0][0])) {
+            newCellValue = 1;
+        } else if ((cellValueM4 > 0) && (cellValueM4 < this.nStates - 1)) {
+            newCellValue += 1;
+        } else if (cellValueM4 == this.nStates - 1) {
+            newCellValue = 0;neighbourList
+        } else if ((cellValueM4 == 0) && (this.birth.includes(neighbourList[0][0]))) {
+            newCellValue = 1;
+        }
+        return newCellValue;
+    }
+
+    getName() {
+        return this.ruleString;
     }
 }
 
