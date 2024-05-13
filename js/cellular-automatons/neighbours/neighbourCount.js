@@ -77,11 +77,10 @@ export function computeNeighbourList(globalData, i, j, grid, neighbours, maskVar
             }
         }
     }
-    neighbours0[1] = neighbours0[0] + neighbours0[3];
     for (var k = 0; k < maskVariables.length + 1; k++) {
         neighbours0[4*k + 1] += neighbours0[4*k] + neighbours0[4*k + 3];
     }
-    return neighbours;
+    return [neighbours0, neighbours1];
     ;
 }
 

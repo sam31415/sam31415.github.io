@@ -1,11 +1,11 @@
 
-import { PureBB, BBColoring, BBColoring2, Conway, SparseFourStates, TestSparseFourStates, METAPRESETSAFE, METAPRESETMIX, METAPRESETGENERAL } from "./metaRules.js";
+import { PureBB, BBColoring, BBColoring2, Conway, SparseFourStates, TestSparseFourStates, METAPRESETSAFE, METAPRESETMIX, METAPRESETGENERAL, METAPRESETGR } from "./metaRules.js";
 
 export function changeRule(globalData, forceChange = false) {
     if (Math.random() < Math.exp(globalData.ruleLogSwitchProbability) || forceChange || globalData.changeColoringRuleFlag) {
         if (globalData.rule == "VariableGR") {
-            globalData.ruleClass = new BBColoring(METAPRESETSAFE);
-            globalData.ruleClass2 = new BBColoring(METAPRESETSAFE);
+            globalData.ruleClass = new BBColoring(METAPRESETGR);
+            globalData.ruleClass2 = new BBColoring(METAPRESETGR);
         } else if (globalData.rule == "Variable") {
             globalData.ruleClass = new BBColoring(METAPRESETSAFE);
         } else if (globalData.rule == "VariableMix") {
@@ -22,6 +22,8 @@ export function changeRule(globalData, forceChange = false) {
             globalData.ruleClass = new PureBB("Modified");
         } else if (globalData.rule == "StarWars") {
             globalData.ruleClass = new PureBB("StarWars");
+        } else if (globalData.rule == "Conway") {
+            globalData.ruleClass = new PureBB("Conway");
         } else if (globalData.rule == "SparseFourStates") {
             //globalData.ruleClass = new Conway("safe");
             globalData.ruleClass = new SparseFourStates();
