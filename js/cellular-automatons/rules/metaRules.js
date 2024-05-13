@@ -113,8 +113,7 @@ export class BBColoring extends MetaRule {
         var rnd = Math.random()
         if (this.preset == METAPRESETGR) {
             ruleChain.push(new ModifiedBriansBrain());
-        }
-        if (this.preset == METAPRESETSAFE) {
+        } else if (this.preset == METAPRESETSAFE) {
             if (rnd < 0.3) {
                 ruleChain.push(new ModifiedBriansBrain());
             } else if (rnd < 0.4) {
