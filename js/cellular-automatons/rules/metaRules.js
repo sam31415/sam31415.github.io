@@ -1,6 +1,6 @@
 import { Generations, ModifiedBriansBrain, BriansBrain, StarWars, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
 
-
+export const METAPRESETGR = "gr";;
 export const METAPRESETSAFE = "safe";
 export const METAPRESETMIX = "mix";
 export const METAPRESETGENERAL = "general";
@@ -60,6 +60,8 @@ export class PureBB extends MetaRule {
             ruleChain.push(new StarWars());
         } else if (this.preset == "Modified") {
             ruleChain.push(new ModifiedBriansBrain());
+        } else if (this.preset == "Conway") {
+            ruleChain.push(new ConwayNoZero());
         } else {
             ruleChain.push(new Generations(this.preset));
         }
@@ -81,7 +83,7 @@ export class BBColoring extends MetaRule {
         this.periodicityLength = null;
         this.neighbourGeometryType = null;
         if (neighbourTypes == null) {
-            if (preset == METAPRESETSAFE) {
+            if (preset == METAPRESETSAFE || preset == METAPRESETGR) {
                 this.neighbourTypes = {0: 1, 1: 0};
             } else if (preset == METAPRESETMIX) {
                 if (Math.random() < 0.5) {
@@ -94,6 +96,9 @@ export class BBColoring extends MetaRule {
                 this.neighbourTypes = {0: 0.5, 1: 0.5};
             }
         }
+        if (preset == METAPRESETGR) {
+            this.periodicityLength = 1;
+        }
         this.colorUnit = 4;
         if (name == null) {
             this.ruleChain = this.getRuleChain();
@@ -105,18 +110,28 @@ export class BBColoring extends MetaRule {
 
     getRuleChain() {
         var ruleChain = [];
-        if (this.preset == METAPRESETSAFE) {
+        var rnd = Math.random()
+        if (this.preset == METAPRESETGR) {
             ruleChain.push(new ModifiedBriansBrain());
-            //ruleChain.push(new ConwayNoZero())
-        } else {
-            var rnd = Math.random()
-            if (rnd < 0.5) {
+        }
+        if (this.preset == METAPRESETSAFE) {
+            if (rnd < 0.3) {
                 ruleChain.push(new ModifiedBriansBrain());
-            } else if (rnd < 0.6) {
+            } else if (rnd < 0.4) {
                 ruleChain.push(new BriansBrain())
-            } else if (rnd < 0.8) {
+            } else if (rnd < 0.7) {
                 ruleChain.push(new StarWars());
-            } else if (rnd < 0.9) {
+            } else {
+                ruleChain.push(new ConwayNoZero())
+            }
+        } else {
+            if (rnd < 0.3) {
+                ruleChain.push(new ModifiedBriansBrain());
+            } else if (rnd < 0.4) {
+                ruleChain.push(new BriansBrain())
+            } else if (rnd < 0.7) {
+                ruleChain.push(new StarWars());
+            } else if (rnd < 1.0) {
                 // A bit flashy...
                 //ruleChain.push(new Generations("B3/S123/4"))
                 ruleChain.push(new ConwayNoZero())
@@ -127,6 +142,7 @@ export class BBColoring extends MetaRule {
             if (ruleChain.length == 0) {
                 ruleChain.push(new ModifiedBriansBrain());
             }
+
         }
 
         ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));

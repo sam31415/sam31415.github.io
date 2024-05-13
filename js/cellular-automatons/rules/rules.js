@@ -246,27 +246,33 @@ export class ConwayNoZero extends PrimaryRule{
     constructor() {
         super();
         this.nStates = 4;
+        this.randomnessLogShift = 0.4
     }
 
-    updateRule(cellValue, newCellValue, neighbour_list, time) {
-        var sneighbours = neighbour_list[0][1];
-        if ((cellValue % 4 == 1 || cellValue % 4 == 3) && sneighbours < 2) {
+    updateRule(cellValue, newCellValue, neighbourList, time) {
+        var cellValueM4 = cellValue % 4;
+        var sneighbours = neighbourList[0][1];
+        if ((cellValueM4 == 1 || cellValueM4 == 3) && (sneighbours < 2 || sneighbours > 3)) {
             newCellValue = 2;
-        } else if ((cellValue % 4 == 1 || cellValue % 4 == 3) && (sneighbours == 2 || sneighbours == 3)) {
+        } else if ((cellValueM4 == 1 || cellValueM4 == 3) && (sneighbours == 2 || sneighbours == 3)) {
             newCellValue = 1;
-        } else if ((cellValue % 4 == 1 || cellValue % 4 == 3) && sneighbours > 5) {
-            newCellValue = 2;
-        } else if ((cellValue % 4 == 0 || cellValue % 4 == 2) && sneighbours == 3) {
+        } else if ((cellValueM4 == 0 || cellValueM4 == 2) && sneighbours == 3) {
             newCellValue = 3;
-        } else if (cellValue % 4 == 2) {
+        } else if (cellValueM4 == 2) {
             newCellValue = 0;
         }
+
         return newCellValue;
     }
 
     getSeedingPatterns() {
+        //let gliderWeight = 1;
         let seedingPatterns = {
             void: {prob: 1, mask: null},
+            //glider1: {prob: 0 * gliderWeight, mask: Grid.fromArray([[0, 1, 0], [1, 0, 0], [1, 1, 1]])},
+            //glider2: {prob: gliderWeight, mask: Grid.fromArray([[0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 1], [0, 1, 1, 1, 1, 1]])},
+            //glider2: {prob: gliderWeight, mask: Grid.fromArray([[0, 1, 1, 1, 1], [1, 0, 0, 0, 1], [0, 0, 0, 0, 1], [1, 0, 0, 1, 0]])},
+
         };
         return seedingPatterns;
     }
