@@ -57,17 +57,18 @@
         
         <p>This animation is especially well suited to LED walls with a relatively large pitch, where each LED can play the role of a grid cell.</p>
         <br><br>
-        <button id="fullscreenButton">Go Fullscreen</button>
+        <button id="fullscreenButton">Fullscreen</button>
     </div><br>
     <canvas id="gameCanvas" width="800" height="800"></canvas>
     <script type="module" src="js/main.js"></script>
     <br>
     <div id="content">
-        <label for="userRule">Automaton rule:</label>
-        <select id="userRule">
+        <label for="metaRule">Automaton rule:</label>
+        <select id="metaRule">
             <option value="Variable">Plain</option>
             <option value="VariableGR">With logo</option>
         </select><br>
+        <label for="currentRule">Current rule:</label> <input type="text" id="currentRule" style="width: 60ch;"><br>
         <label for="category">Color scheme:</label>
         <select id="userColorPalette">
             <option value="variable">Variable</option>
@@ -83,7 +84,10 @@
         <input type="int" id="userGridWidth" value="100"><br>
         <label for="userTimeout">Timeout (smaller is faster):</label>
         <input type="int" id="userTimeout" value="50"><br>
-        <button id="submitButton">Submit</button>   <button id="changeColoringRule">Change coloring rule</button>  <button id="changeColor">Change colors</button>
+        <button id="submitButton">Submit</button>
+        <button id="changeColoringRule">Change coloring rule</button>  
+        <button id="evolveColoringRule">Evolve coloring rule</button>  
+        <button id="changeColor">Change colors</button>
     </div>
 </body>
 </html>
