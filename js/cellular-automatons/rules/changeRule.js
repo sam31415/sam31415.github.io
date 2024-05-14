@@ -6,6 +6,8 @@ export function changeRule(globalData, forceChange = false) {
         if (globalData.rule == "VariableGR") {
             globalData.ruleClass = new BBColoring(METAPRESETGR);
             globalData.ruleClass2 = new BBColoring(METAPRESETGR);
+        } else if (globalData.rule == "VariableDemo") {
+            globalData.ruleClass = new BBColoring(METAPRESETGR);
         } else if (globalData.rule == "Variable") {
             globalData.ruleClass = new BBColoring(METAPRESETSAFE);
         } else if (globalData.rule == "VariableMix") {
@@ -53,7 +55,7 @@ export function changeRule(globalData, forceChange = false) {
 }
 
 function displayRule(globalData) {
-    var element = document.getElementById('currentRule');
+    var element = document.getElementById('currentStyle');
     if (element) {
         element.value = globalData.ruleClass.getName();
     }}

@@ -22,9 +22,9 @@ export function submitValue(globalData) {
     var userRandomnessAmount = userRandomnessAmountElement ? userRandomnessAmountElement.value : globalData.randomnessAmount;
     var userColorPalette = document.getElementById('userColorPalette').value;
     var metaRule = document.getElementById('metaRule').value;
-    var currentRule = null;
-    if (document.getElementById('currentRule')) {
-        currentRule = document.getElementById('currentRule').value;
+    var currentStyle = null;
+    if (document.getElementById('currentStyle')) {
+        currentStyle = document.getElementById('currentStyle').value;
     }
 
     // Store the value in localStorage so it can be retrieved after the page reloads
@@ -40,7 +40,7 @@ export function submitValue(globalData) {
     localStorage.setItem('userRandomnessOn', userRandomnessOn);
     localStorage.setItem('userRandomnessAmount', userRandomnessAmount);
     localStorage.setItem('metaRule', metaRule);
-    localStorage.setItem('currentRule', currentRule);
+    localStorage.setItem('currentStyle', currentStyle);
 
     // Reload the page
     location.reload();
@@ -68,7 +68,7 @@ export function retrieveGlobalData(globalData) {
         globalData.addRandomness = localStorage.getItem('userRandomnessOn') === 'true';
         globalData.randomnessAmount = parseFloat(localStorage.getItem('userRandomnessAmount'));
         globalData.rule = localStorage.getItem('metaRule');
-        globalData.tempRuleStorage = localStorage.getItem('currentRule');
+        globalData.tempRuleStorage = localStorage.getItem('currentStyle');
 
         console.log('Retrieved value from previous session: ...');
     } else {
