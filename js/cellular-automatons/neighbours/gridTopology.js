@@ -15,9 +15,7 @@ export function findNeighbourFlipXY(globalData, i, j, di, dj) {
         nni = (globalData.gridHeight - ni - globalData.gridPeriodicityShiftY + globalData.gridHeight) % globalData.gridHeight;
     }
     return [nni, nnj];
-}
-
-export function findNeighbourFlipX(globalData, i, j, di, dj) {
+}export function findNeighbourFlipX(globalData, i, j, di, dj) {
     let ni = (i + di + globalData.gridHeight) % globalData.gridHeight;
     let nj = (j + dj + globalData.gridWidth) % globalData.gridWidth;
     let nni = ni;
@@ -34,7 +32,6 @@ export function findNeighbourFlipX(globalData, i, j, di, dj) {
     }
     return [nni, nnj];
 }
-
 export function findNeighbourFlipY(globalData, i, j, di, dj) {
     let ni = (i + di + globalData.gridHeight) % globalData.gridHeight;
     let nj = (j + dj + globalData.gridWidth) % globalData.gridWidth;
@@ -52,7 +49,6 @@ export function findNeighbourFlipY(globalData, i, j, di, dj) {
     }
     return [nni, nnj];
 }
-
 export function findNeighbourNoFlip(globalData, i, j, di, dj) {
     let ni = (i + di + globalData.gridHeight) % globalData.gridHeight;
     let nj = (j + dj + globalData.gridWidth) % globalData.gridWidth;

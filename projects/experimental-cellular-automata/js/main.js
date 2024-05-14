@@ -14,7 +14,7 @@ var gridHeight = 192 //358
 var gridWidth = 192 //358
 var timeout = 30 // 0
 var addRandomness = true
-var randomnessAmount = -1.0 //-1.5
+var randomnessAmount = -1.5
 var gridPeriodicityShiftX = 0
 var gridPeriodicityShiftY = 0
 var gridFlipX = false
@@ -23,6 +23,9 @@ var colorPalette = 'variable'
 var rule = "Variable" // "Variable" // "Conway" //
 var initialisation = "random"
 var maxNColors = 8
+var ruleSwitchPeriod = 20000
+var ruleEvolvePeriod = 2000
+
 
 var globalData = new GlobalData(
     canvas=canvas, 
@@ -40,6 +43,8 @@ var globalData = new GlobalData(
     rule=rule,
     initialisation=initialisation,
     maxNColors=maxNColors,
+    ruleSwitchPeriod=ruleSwitchPeriod,
+    ruleEvolvePeriod=ruleEvolvePeriod,
 );
 
 window.onload = function() {

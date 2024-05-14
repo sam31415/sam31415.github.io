@@ -1,5 +1,4 @@
 import { submitValue, updateRandomnessValue } from './formHandlers.js';
-import { initializeGrid } from "../initialisation/initialiseGrid.js";
 import { setFindNeighbour, setCellUpdateRule} from './optionSetter.js';
 import { determineColorPalette } from '../draw/coloring.js';
 import { saveEventData } from './saveEventData.js';
@@ -129,7 +128,7 @@ export function addTimeoutListener(globalData) {
 }
 
 export function addRuleListener(globalData) {
-    document.getElementById('userRule').addEventListener('change', async function() {
+    document.getElementById('metaRule').addEventListener('change', async function() {
         globalData.rule = this.value;
         setCellUpdateRule(globalData);
     });
@@ -146,6 +145,9 @@ export function addColorPaletteListener(globalData) {
 export function addChangeColoringRuleListener(globalData) {
     document.getElementById('changeColoringRule').addEventListener('click', function() {
         globalData.changeColoringRuleFlag = true;
+    });
+    document.getElementById('evolveColoringRule').addEventListener('click', function() {
+        globalData.evolveColoringRuleFlag = true;
     });
 }
 

@@ -1,9 +1,25 @@
+BB-E7N[0|1]11||B5A[0|0]11||E2N[1|1]11||B3C[1|3]||B3C[0|2]11||E7N[0|3]11
+BB-E2A[1|15]||E3C[1|16]||B3N[1|13]1||B6A[1|12]||B3A[0|13]||E8N[0|18]
+BB-B4N[1|25]01||B2N[1|18]||B6A[1|8]00100||B8N[1|26]||E5A[1|20]11101||B2C[1|27]||B5C[1|20]||E5N[1|28]||B2C[1|8]10110
+
+
+
+
+### Old
+
 Interesting BBColoring rules:
   Eq8CondNT5, Eq8CondNT3, Eq7AbsNT7
   Bigger6CondNT6, Bigger7AbsNT5, Eq1AbsNT7, Eq3NoneNT1, Bigger1CondNT2, Eq5AbsNT0
   Eq2NoneNT1, Bigger6CondNT0, Bigger5NoneNT0, Eq5CondNT0
   Bigger6NoneNT5, Bigger6CondNT6, Bigger3NoneNT7, Eq5NoneNT7, Eq8NoneNT6, Eq2AbsNT0, Eq5AbsNT0
   Bigger8AbsNT3, Bigger3AbsNT5, Eq2AbsNT4
+
+
+Interesting extended rules:
+Eq5CondNT0|2, Eq4AbsNT0|2, Eq2NoneNT1|1, Bigger1NoneNT1|4, Eq3CondNT1|3
+Eq1AbsNT0|11, Eq7CondNT0|10, Eq8AbsNT1|0, Eq7CondNT0|8, Eq7CondNT1|2
+
+Eq1CondNT0|15P011, Eq3AbsNT1|12P110, Eq7NoneNT1|13P0001, Eq6NoneNT0|12P11000, Eq8AbsNT0|15P, Bigger4CondNT0|13P, Eq7AbsNT0|12P10, Bigger5NoneNT0|13P
 
 
 Interesting Spare four state rules:

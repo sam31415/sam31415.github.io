@@ -53,16 +53,23 @@
     <script type="module" src="js/main.js"></script>
     <br>
     <div id="content">
-        <label for="userRule">Automaton rule:</label>
-        <select id="userRule">
+        <label for="metaRule">Meta rule:</label>
+        <select id="metaRule">
             <!-- <option value="Conway">Conway's game of life</option>
             <option value="BB">Brian's brain</option>
             <option value="BBMod">Modified Brian's brain</option> -->
             <option value="Variable">Variable</option>
             <option value="VariableMix">Variable mix</option>
             <option value="VariableUnsafe">Variable unsafe</option>
+            <option value="Variable2Unsafe">Variable unsafe 2nd gen</option>
+            <option value="CustomRule">Custom rule</option>
+            <option value="OriginalBB">Original Brian's brain</option>
+            <option value="ModifiedBB">Modified Brian's brain</option>
+            <option value="StarWars">Star wars</option>
+            <option value="Conway">Conway's game of life</option>
             <option value="SparseFourStates">Sparse four states</option>
-        </select><br>
+        </select> 
+        <label for="currentRule">Current rule:</label> <input type="text" id="currentRule" style="width: 60ch;"><br>
         <label for="randomnessCheckbox">Add random seeding? </label> <input type="checkbox" id="randomnessCheckbox"><br>
         <label for="randomnessSlider">Randomness amount (log10 of expected even number at each step):</label>
             <input type="range" id="randomnessSlider" min="-5.0" max="1.0" value="-2.0" step="0.05"> <span id="randomnessAmountValue"></span><br>
@@ -96,7 +103,10 @@
         <input type="int" id="userGridWidth" value="100"><br>
         <label for="userTimeout">Timeout (smaller is faster):</label>
         <input type="int" id="userTimeout" value="50"><br>
-        <button id="submitButton">Submit</button>   <button id="changeColoringRule">Change coloring rule</button>  <button id="changeColor">Change colors</button>
+        <button id="submitButton">Submit</button>   
+        <button id="changeColoringRule">Change coloring rule</button>  
+        <button id="evolveColoringRule">Evolve coloring rule</button>  
+        <button id="changeColor">Change colors</button>
     </div>
 </body>
 </html>

@@ -1,20 +1,29 @@
-import { BBRuleNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
+import { Generations, ModifiedBriansBrain, BriansBrain, StarWars, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
 
+export const METAPRESETGR = "gr";;
+export const METAPRESETSAFE = "safe";
+export const METAPRESETMIX = "mix";
+export const METAPRESETGENERAL = "general";
 
 export class MetaRule {
+    colorUnit;
+    ruleChain;
+    updateRule;
+
     getRuleChain() {
         throw new Error("Must override method");
     }
 
     getUpdateRule() {
-        function updateRule(cellValue, newCellValue, neighborList) {
-            newCellValue = this.ruleChain[0].updateRule(cellValue % this.ruleChain[0].nStates, newCellValue, neighborList);
+        function updateRule(cellValue, newCellValue, neighbourList, time) {
+            newCellValue = this.ruleChain[0].updateRule(cellValue % this.ruleChain[0].nStates, newCellValue, neighbourList, time);
             var nStates = this.ruleChain[0].nStates;
             for (let i = 1; i < this.ruleChain.length; i++) {
                 newCellValue += nStates * this.ruleChain[i].updateRule(
                     Math.floor(cellValue / nStates) % this.ruleChain[i].nStates, 
                     newCellValue, 
-                    neighborList); 
+                    neighbourList,
+                    time); 
                 nStates *= this.ruleChain[i].nStates;
                 newCellValue = newCellValue % nStates;
             }
@@ -24,20 +33,214 @@ export class MetaRule {
 
         return updateRule
     }
+
+    evolveRuleChain() {
+        throw new Error("Must override method");
+    }
+
+    getName() {
+        return this.ruleChain.map(r => r.getName()).join("-");
+    }
+}
+
+export class PureBB extends MetaRule {
+    constructor(preset) {
+        super();
+        this.preset = preset;
+        this.colorUnit = 1;
+        this.ruleChain = this.getRuleChain();
+        this.updateRule = this.getUpdateRule();
+    }
+
+    getRuleChain() {
+        var ruleChain = [];
+        if (this.preset == "Original") {
+            ruleChain.push(new BriansBrain());
+        } else if (this.preset == "StarWars") {
+            ruleChain.push(new StarWars());
+        } else if (this.preset == "Modified") {
+            ruleChain.push(new ModifiedBriansBrain());
+        } else if (this.preset == "Conway") {
+            ruleChain.push(new ConwayNoZero());
+        } else {
+            ruleChain.push(new Generations(this.preset));
+        }
+
+        return ruleChain;
+    }
+
+    evolveRuleChain() {
+        return
+    }
+
 }
 
 export class BBColoring extends MetaRule {
-    constructor(preset, neighborTypes) {
+    constructor(preset, neighbourTypes, name = null) {
         super();
         this.preset = preset;
-        this.neighborTypes = neighborTypes;
-        if (neighborTypes == null) {
-            if (preset == "safe") {
-                this.neighborTypes = {0: 1/3, 1: 1/3, 2: 1/3};
-            } else if (preset == "mix") {
-                this.neighborTypes = {0: 0.25, 1: 0.25, 2: 0.25, 3: 0.05, 4: 0.05, 5: 0.05, 6: 0.05, 7: 0.05};
+        this.neighbourTypes = neighbourTypes;
+        this.periodicityLength = null;
+        this.neighbourGeometryType = null;
+        if (neighbourTypes == null) {
+            if (preset == METAPRESETSAFE || preset == METAPRESETGR) {
+                this.neighbourTypes = {0: 1, 1: 0};
+            } else if (preset == METAPRESETMIX) {
+                if (Math.random() < 0.5) {
+                    this.neighbourTypes = {0: 0.8, 1: 0.2};
+                } else {
+                    this.neighbourTypes = {0: 1.0, 1: 0.0};
+                }
+                this.neighbourTypes = {0: 0.8, 1: 0.2};
             } else {
-                this.neighborTypes = {0: 1/8, 1: 1/8, 2: 1/8, 3: 1/8, 4: 1/8, 5: 1/8, 6: 1/8, 7: 1/8};
+                this.neighbourTypes = {0: 0.5, 1: 0.5};
+            }
+        }
+        if (preset == METAPRESETGR) {
+            this.periodicityLength = 1;
+        }
+        this.colorUnit = 4;
+        if (name == null) {
+            this.ruleChain = this.getRuleChain();
+        } else {
+            this.ruleChain = this.getRuleChainfromName(name);
+        }
+        this.updateRule = this.getUpdateRule();
+    }
+
+    getRuleChain() {
+        var ruleChain = [];
+        var rnd = Math.random()
+        if (this.preset == METAPRESETGR) {
+            ruleChain.push(new ModifiedBriansBrain());
+        } else if (this.preset == METAPRESETSAFE) {
+            if (rnd < 0.3) {
+                ruleChain.push(new ModifiedBriansBrain());
+            } else if (rnd < 0.4) {
+                ruleChain.push(new BriansBrain())
+            } else if (rnd < 0.7) {
+                ruleChain.push(new StarWars());
+            } else {
+                ruleChain.push(new ConwayNoZero())
+            }
+        } else {
+            if (rnd < 0.3) {
+                ruleChain.push(new ModifiedBriansBrain());
+            } else if (rnd < 0.4) {
+                ruleChain.push(new BriansBrain())
+            } else if (rnd < 0.7) {
+                ruleChain.push(new StarWars());
+            } else if (rnd < 1.0) {
+                // A bit flashy...
+                //ruleChain.push(new Generations("B3/S123/4"))
+                ruleChain.push(new ConwayNoZero())
+            } else if (this.preset != METAPRESETSAFE) {
+                // Caterpillars. Reevaluate with proper random masks.
+                //ruleChain.push(new Generations("B378/S124567/4"))
+            } 
+            if (ruleChain.length == 0) {
+                ruleChain.push(new ModifiedBriansBrain());
+            }
+
+        }
+
+        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
+
+        return ruleChain;
+    }
+
+    evolveRuleChain() {
+        this.ruleChain[1].evolveRule(this.neighbourTypes)
+    }
+
+    getRuleChainfromName(name) {
+        var ruleChain = [];
+        var [baseRuleName, ruleNames] = name.split("-");
+        if (baseRuleName == "BB") {
+            ruleChain.push(new ModifiedBriansBrain());
+        } else if (baseRuleName == "TBB") {
+            ruleChain.push(new BriansBrain())
+        } else if (baseRuleName == "SW") {
+            ruleChain.push(new StarWars())
+        }
+        ruleChain.push(new StarWars());
+        ruleChain.push(ColoringRule.ruleFromNames(ruleNames));
+
+        return ruleChain;
+    
+    }
+}
+
+export class BBColoring2 extends MetaRule {
+    constructor(preset, neighbourTypes, name = null) {
+        super();
+        this.preset = preset;
+        this.neighbourTypes = neighbourTypes;
+        this.periodicityLength = null;
+        this.neighbourGeometryType = null;
+        if (neighbourTypes == null) {
+            if (preset == METAPRESETSAFE) {
+                this.neighbourTypes = {0: 1, 1: 0};
+            } else if (preset == METAPRESETMIX) {
+                if (Math.random() < 0.5) {
+                    this.neighbourTypes = {0: 0.8, 1: 0.2};
+                } else {
+                    this.neighbourTypes = {0: 1.0, 1: 0.0};
+                }
+                this.neighbourTypes = {0: 0.8, 1: 0.2};
+            } else {
+                this.neighbourTypes = {0: 0.5, 1: 0.5};
+            }
+        }
+        this.colorUnit = 16;
+        if (name == null) {
+            this.ruleChain = this.getRuleChain();
+        } else {
+            this.ruleChain = this.getRuleChainfromName(name);
+        }
+        this.updateRule = this.getUpdateRule();
+    }
+
+    getRuleChain() {
+        var ruleChain = [];
+        ruleChain.push(new ModifiedBriansBrain());
+        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicity));
+        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 16, 4, this.periodicity));
+
+
+        return ruleChain;
+    }
+
+    evolveRuleChain() {
+        this.ruleChain[1].evolveRule(this.neighbourTypes)
+        this.ruleChain[2].evolveRule(this.neighbourTypes)
+    }
+
+    // TO IMPLEMENT
+    getRuleChainfromName(name) {
+        var ruleChain = [];
+        var ruleNames = name.split("-")[1];
+        ruleChain.push(new ModifiedBriansBrain());
+        ruleChain.push(ColoringRule.ruleFromNames(ruleNames));
+
+        return ruleChain;
+    
+    }
+}
+
+
+export class Conway extends MetaRule {
+    constructor(preset, neighbourTypes) {
+        super();
+        this.preset = preset;
+        this.neighbourTypes = neighbourTypes;
+        if (neighbourTypes == null) {
+            if (preset == METAPRESETSAFE) {
+                this.neighbourTypes = {0: 1/3, 1: 1/3, 2: 1/3};
+            } else if (preset == METAPRESETMIX) {
+                this.neighbourTypes = {0: 0.25, 1: 0.25, 2: 0.25, 3: 0.05, 4: 0.05, 5: 0.05, 6: 0.05, 7: 0.05};
+            } else {
+                this.neighbourTypes = {0: 1/8, 1: 1/8, 2: 1/8, 3: 1/8, 4: 1/8, 5: 1/8, 6: 1/8, 7: 1/8};
             }
         }
         this.colorUnit = 4;
@@ -47,19 +250,23 @@ export class BBColoring extends MetaRule {
 
     getRuleChain() {
         var ruleChain = [];
-        ruleChain.push(new BBRuleNoZero());
-        ruleChain.push(ColoringRule.sampleRule(null, this.neighborTypes));
+        ruleChain.push(new ConwayNoZero());
+        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes));
 
         return ruleChain;
+    }
+
+    evolveRuleChain() {
+        return ;
     }
 }
 
 export class SparseFourStates extends MetaRule {
-    constructor(neighborTypes) {
+    constructor(neighbourTypes) {
         super();
-        this.neighborTypes = neighborTypes;
-        if (neighborTypes == null) {
-            this.neighborTypes = {0: 1/3, 1: 1/3, 2: 1/3};
+        this.neighbourTypes = neighbourTypes;
+        if (neighbourTypes == null) {
+            this.neighbourTypes = {0: 0.5, 1: 0.5};;
         }
         this.colorUnit = 1;
         this.ruleChain = this.getRuleChain();
@@ -68,20 +275,25 @@ export class SparseFourStates extends MetaRule {
 
     getRuleChain() {
         var ruleChain = [];
-        ruleChain.push(SparseFourStateRule.sampleRule(4, this.neighborTypes));
+        ruleChain.push(SparseFourStateRule.sampleRule(4, this.neighbourTypes));
 
         return ruleChain;
+    }
+
+    evolveRuleChain() {
+        // TO IMPLEMENT !!!
+        return ;
     }
 }
 
 
 export class TestSparseFourStates extends MetaRule {
-    constructor(preset, neighborTypes) {
+    constructor(preset, neighbourTypes) {
         super();
         this.preset = preset;
-        this.neighborTypes = neighborTypes;
-        if (neighborTypes == null) {
-            this.neighborTypes = {0: 1/3, 1: 1/3, 2: 1/3};
+        this.neighbourTypes = neighbourTypes;
+        if (neighbourTypes == null) {
+            this.neighbourTypes = {0: 0.5, 1: 0.5};;
         }
         this.colorUnit = 4;
         this.ruleChain = this.getRuleChain();
@@ -90,11 +302,16 @@ export class TestSparseFourStates extends MetaRule {
 
     getRuleChain() {
         var ruleChain = [];
-        var name = "Bigger0CondNT1, Eq2NoneNT0, Bigger7NoneNT1, Bigger0CondNT0 || Eq2NoneNT0, Bigger5CondNT0, Bigger7CondNT2, Eq1AbsNT2 || Bigger1CondNT1, Bigger3AbsNT2, Bigger7AbsNT1, Eq6AbsNT2 || Bigger8NoneNT2, Eq6AbsNT0, Bigger6CondNT0, Eq5NoneNT1"
+        var name = "Eq1CondNT0|15P011, Eq3AbsNT1|12P110, Eq7NoneNT1|13P0001, Eq6NoneNT0|12P11000, Eq8AbsNT0|15P, Bigger4CondNT0|13P, Eq7AbsNT0|12P10, Bigger5NoneNT0|13P"
         ruleChain.push(SparseFourStateRule.ruleFromNames(name));
-        ruleChain.push(ColoringRule.sampleRule(null, this.neighborTypes));
+        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes));
 
         return ruleChain;
+    }
+
+    evolveRuleChain() {
+        // TO IMPLEMENT !!!
+        return ;
     }
 }
 
