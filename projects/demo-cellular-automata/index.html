@@ -43,32 +43,39 @@
 </head>
 <body>
     <div id="content">
-        <h1>Cellular worlds - demo</h1>
+        <h1>Cellular worlds - demonstration page</h1>
 
         <p>Cellular worlds is a collection of cellullar automata displaying complex and varied animated patterns.</p>
+            
+        <p>These animations are especially well suited to LED walls with a relatively large pitch, where each LED can play the role of a grid cell.</p>
 
-        <p>It is customisable in various ways. The colors cycle smoothly by default, but can changed at will. 
-           
-           A logo as a black and white image can be overlaid on the grid and different coloring rules be used on the 
-           black and white portion of the image, integrating the logo organically into the pattern.</p>
+        <p>The automaton can be interacted with by moving the mouse over the canvas while holding the Shift key down. This will activate any cell moused over. 
+           Clicking while holding down various combinations of the Shift and Ctrl keys also affects the automaton. In applications, this feature could be coupled to motion sensors.</p>
+        <p>Cellular worlds is customisable in various ways. 
+            <ul>
+                <li>The colors cycle smoothly by default, but they can be changed at will.</li>
+                <li>The patterns come in various styles, uniquely identified by the style identifier below.</li>
+                <li>A logo can be incorporated in the animation. Given a logo provided as a black and white image, different styles can be applied on the 
+                    black and white portion of the image, integrating the logo organically into the pattern.</li>
+                <li>Other automata, with different dynamics, are available upon request.</li>
+            </ul>
+        </p>
 
-        <p>The automaton can be interacted with by moving the mouse over the canvas while holding the Shift key down. This will activate any cell you mouse over. 
-            Clicking while holding down various combinations of the Shift and Ctrl keys also affects the automaton.</p>
+        <p>The javascript code and the resulting animations are © S.Monnier, 2024. Any commercial use without the explicit agreement of the author is forbidden.</p>
         
-        <p>This animation is especially well suited to LED walls with a relatively large pitch, where each LED can play the role of a grid cell.</p>
-        <br><br>
+        <br>
         <button id="fullscreenButton">Fullscreen</button>
     </div><br>
     <canvas id="gameCanvas" width="800" height="800"></canvas>
     <script type="module" src="js/main.js"></script>
     <br>
     <div id="content">
-        <label for="metaRule">Automaton rule:</label>
+        <label for="metaRule">Include logo</label>
         <select id="metaRule">
-            <option value="Variable">Plain</option>
-            <option value="VariableGR">With logo</option>
+            <option value="VariableDemo">No</option>
+            <option value="VariableGR">Yes</option>
         </select><br>
-        <label for="currentRule">Current rule:</label> <input type="text" id="currentRule" style="width: 60ch;"><br>
+        <label for="currentStyle">Style identifier:</label> <input type="text" id="currentStyle" style="width: 60ch;"><br>
         <label for="category">Color scheme:</label>
         <select id="userColorPalette">
             <option value="variable">Variable</option>
@@ -85,8 +92,8 @@
         <label for="userTimeout">Timeout (smaller is faster):</label>
         <input type="int" id="userTimeout" value="50"><br>
         <button id="submitButton">Submit</button>
-        <button id="changeColoringRule">Change coloring rule</button>  
-        <button id="evolveColoringRule">Evolve coloring rule</button>  
+        <button id="changeColoringRule">Change style</button>  
+        <button id="evolveColoringRule">Evolve style</button>  
         <button id="changeColor">Change colors</button>
     </div>
 </body>
