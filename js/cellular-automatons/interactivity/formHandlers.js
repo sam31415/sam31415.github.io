@@ -21,8 +21,6 @@ export function submitValue(globalData) {
     var userRandomnessAmountElement = document.getElementById('randomnessSlider');
     var userRandomnessAmount = userRandomnessAmountElement ? userRandomnessAmountElement.value : globalData.randomnessAmount;
     var userColorPalette = document.getElementById('userColorPalette').value;
-    var userRandomnessOn = document.getElementById('randomnessCheckbox').checked;
-    var userRandomnessAmount = document.getElementById('randomnessSlider').value;
     var metaRule = document.getElementById('metaRule').value;
     var currentRule = null;
     if (document.getElementById('currentRule')) {
@@ -106,8 +104,6 @@ export function retrieveGlobalData(globalData) {
         randomnessSlider.value = globalData.randomnessAmount;
     }
     document.getElementById('userColorPalette').value = globalData.colorPalette;
-    document.getElementById('randomnessCheckbox').checked = globalData.addRandomness;
-    document.getElementById('randomnessSlider').value = globalData.randomnessAmount;
     document.getElementById('metaRule').value = globalData.rule;
 
     // Adjust the canvas size
