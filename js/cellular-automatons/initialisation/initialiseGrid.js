@@ -3,7 +3,14 @@ import { initialiseMask } from "./initialiseMask.js";
 
 
 export async function initializeGrid(globalData, image) {
-    await initialiseMask(globalData, image);
-    return initialiseGridRandom(globalData);
+    if (globalData.rule == "VariableGR") {
+        await initialiseMask(globalData, image);
+    }
+    if (globalData.initialisation == "zero") {
+        globalData.grid = new Grid(globalData.gridWidth, globalData.gridHeight);
+        globalData.redraw = new Grid(globalData.gridWidth, globalData.gridHeight);
+    } else {
+        return initialiseGridRandom(globalData);
+    }
 
 }
