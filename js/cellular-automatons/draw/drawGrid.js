@@ -6,10 +6,6 @@ export function drawGrid(globalData) {
 
     var nCellChanged = 0;
 
-    if (globalData.hasOwnProperty('img') && globalData.img.complete) {
-        ctx.drawImage(globalData.img, 0, 0, globalData.canvas.width, globalData.canvas.height);
-    }
-
     // Only draw rectangles for the cells that are not zero
     for (var i = 0; i < globalData.gridHeight; i++) {
         for (var j = 0; j < globalData.gridWidth; j++) {

@@ -33,6 +33,8 @@ export function changeRule(globalData, forceChange = false) {
             //globalData.ruleClass = new Conway("safe");
             //globalData.ruleClass = new SparseFourStates();
             //globalData.ruleClass = new TestSparseFourStates();
+        } else {
+            globalData.ruleClass = new BBColoring(METAPRESETMIX);
         }
         globalData.ruleLogSwitchProbability = -25;
         globalData.ruleLogEvolveProbability = -25;
