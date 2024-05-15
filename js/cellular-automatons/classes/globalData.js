@@ -7,6 +7,7 @@ export class GlobalData {
         timeout = 20, 
         addRandomness = true, 
         randomnessAmount = -2.0, 
+        randomisePeriodicityShiftAndTopology = true,
         gridPeriodicityShiftX = 0, 
         gridPeriodicityShiftY = 0, 
         gridFlipX = false, 
@@ -30,6 +31,7 @@ export class GlobalData {
         this.ctx = ctx;
         this.addRandomness = addRandomness;
         this.randomnessAmount = randomnessAmount;
+        this.randomisePeriodicityShiftAndTopology = randomisePeriodicityShiftAndTopology;
         this.gridPeriodicityShiftX = gridPeriodicityShiftX;
         this.gridPeriodicityShiftY = gridPeriodicityShiftY;
         this.gridFlipX = gridFlipX;
