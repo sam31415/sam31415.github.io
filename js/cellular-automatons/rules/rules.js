@@ -212,7 +212,12 @@ export class Generations extends PrimaryRule{
         const parts = this.ruleString.split('/');
         this.birth = new Uint8Array(parts[0].substring(1).split('').map(Number));
         this.survive = new Uint8Array(parts[1].substring(1).split('').map(Number));
-        this.nStates = Number(parts[2]);
+        if (parts[2][0] == 'I') {
+            this.inhibited = new Uint8Array(parts[2].substring(1).split('').map(Number));
+            this.nStates = Number(parts[3])
+        } else {
+            this.nStates = Number(parts[2]);
+        }
     }
 
     updateRule(cellValue, newCellValue, neighbourList, time) {
@@ -222,9 +227,11 @@ export class Generations extends PrimaryRule{
         } else if ((cellValueM4 > 0) && (cellValueM4 < this.nStates - 1)) {
             newCellValue += 1;
         } else if (cellValueM4 == this.nStates - 1) {
-            newCellValue = 0;neighbourList
+            newCellValue = 0;
         } else if ((cellValueM4 == 0) && (this.birth.includes(neighbourList[0][0]))) {
             newCellValue = 1;
+        } else if ((cellValueM4 == 0) && (this.inhibited.includes(neighbourList[0][0]))) {
+            newCellValue = this.nStates - 1;
         }
         return newCellValue;
     }
