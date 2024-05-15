@@ -15,6 +15,7 @@ export function driftColor(color) {
         driftedValue = Math.max(0, Math.min(255, driftedValue)); // Ensure value is within 0-255 range
         driftedColor[channel] = driftedValue;
     }
+    driftedColor['t'] = color['t'];
     return driftedColor;
 }
 
