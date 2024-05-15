@@ -9,6 +9,7 @@ export function driftColorPalette(globalData) {
 export function driftColor(color) {
     let driftedColor = {};
     for (let channel in color) {
+        if (channel == 't') continue; // Skip transparency channel (if present
         let driftAmount = Math.floor(Math.random() * 3) - 1;  // Generate a new drift amount for each channel
         let driftedValue = color[channel] + driftAmount;
         driftedValue = Math.max(0, Math.min(255, driftedValue)); // Ensure value is within 0-255 range
@@ -18,17 +19,18 @@ export function driftColor(color) {
 }
 
 export function determineColorPalette(globalData) {
-    var yellow = { r: 247, g: 255, b: 28 };
-    var blue = { r: 13, g: 112, b: 255 };
-    var grey = { r: 240, g: 239, b: 239 };
-    var black = { r: 0, g: 0, b: 0 };
-    var darkGrey = { r: 75, g: 75, b: 75 };
-    var mediumGrey = { r: 175, g: 175, b: 175 };
-    var whitish = { r: 240, g: 240, b: 240 };
-    var randomColor1 = { r: Math.floor(Math.random() * 256), g: Math.floor(Math.random() * 256), b: Math.floor(Math.random() * 256) };
-    var randomColor2 = { r: Math.floor(Math.random() * 256), g: Math.floor(Math.random() * 256), b: Math.floor(Math.random() * 256) };
-    var redblue1 = {r: 221, g: 85, b: 12};
-    var redblue2 = {r: 49, g: 130, b: 189};
+    var yellow = { r: 247, g: 255, b: 28, t: 255 };
+    var blue = { r: 13, g: 112, b: 255, t: 255 };
+    var grey = { r: 240, g: 239, b: 239, t: 255 };
+    var black = { r: 0, g: 0, b: 0, t: 255 };
+    var darkGrey = { r: 75, g: 75, b: 75, t: 255 };
+    var mediumGrey = { r: 175, g: 175, b: 175, t: 255 };
+    var whitish = { r: 240, g: 240, b: 240, t: 255 };
+    var randomColor1 = { r: Math.floor(Math.random() * 256), g: Math.floor(Math.random() * 256), b: Math.floor(Math.random() * 256), t: 255 };
+    var randomColor2 = { r: Math.floor(Math.random() * 256), g: Math.floor(Math.random() * 256), b: Math.floor(Math.random() * 256), t: 255 };
+    var redblue1 = {r: 221, g: 85, b: 12, t: 255};
+    var redblue2 = {r: 49, g: 130, b: 189, t: 255};
+    var transparent = { r: 0, g: 0, b: 0, t: 0 };
 
     if (globalData.colorPalette == 'yellow') {
         globalData.backgroundColor = yellow;
@@ -99,5 +101,10 @@ export function determineColorPalette(globalData) {
         globalData.activatedColor = whitish;
         globalData.deadColor = randomColor1;
         globalData.superActivatedColor = randomColor2;
+    } else if (globalData.colorPalette == 'mouseAnimation') {
+        globalData.backgroundColor = transparent;
+        globalData.activatedColor = blue;
+        globalData.deadColor = black;
+        globalData.superActivatedColor = yellow;
     }
 }

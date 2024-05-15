@@ -6,6 +6,10 @@ export function drawGrid(globalData) {
 
     var nCellChanged = 0;
 
+    if (globalData.hasOwnProperty('img') && globalData.img.complete) {
+        ctx.drawImage(globalData.img, 0, 0, globalData.canvas.width, globalData.canvas.height);
+    }
+
     // Only draw rectangles for the cells that are not zero
     for (var i = 0; i < globalData.gridHeight; i++) {
         for (var j = 0; j < globalData.gridWidth; j++) {
@@ -30,7 +34,7 @@ export function drawGrid(globalData) {
             imageData.data[index + 0] = color.r; // Red
             imageData.data[index + 1] = color.g; // Green
             imageData.data[index + 2] = color.b; // Blue
-            imageData.data[index + 3] = 255; // Alpha (255 = fully opaque)
+            imageData.data[index + 3] = color.t; // Transparency
         }
     }
     globalData.nCellChangedHistoric = 1/100 * nCellChanged + 99 / 100 * globalData.nCellChangedHistoric;
