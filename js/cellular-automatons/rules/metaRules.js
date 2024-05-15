@@ -4,6 +4,7 @@ export const METAPRESETGR = "gr";;
 export const METAPRESETSAFE = "safe";
 export const METAPRESETMIX = "mix";
 export const METAPRESETGENERAL = "general";
+export const METAPRESETTEST = "test";
 
 export class MetaRule {
     colorUnit;
@@ -83,7 +84,7 @@ export class BBColoring extends MetaRule {
         this.periodicityLength = null;
         this.neighbourGeometryType = null;
         if (neighbourTypes == null) {
-            if (preset == METAPRESETSAFE || preset == METAPRESETGR) {
+            if (preset == METAPRESETSAFE || preset == METAPRESETGR || preset == METAPRESETTEST) {
                 this.neighbourTypes = {0: 1, 1: 0};
             } else if (preset == METAPRESETMIX) {
                 if (Math.random() < 0.5) {
@@ -141,10 +142,15 @@ export class BBColoring extends MetaRule {
             if (ruleChain.length == 0) {
                 ruleChain.push(new ModifiedBriansBrain());
             }
-
+        }
+        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
+        if (this.preset == METAPRESETTEST) {
+            ruleChain = [];
+            //ruleChain.push(new ModifiedBriansBrain());
+            ruleChain.push(new Generations("B378/S124567/4"));
+            //ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
         }
 
-        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
 
         return ruleChain;
     }
