@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A different mouse animation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #F0EFEF;
+        }
+        #content {
+            max-width: 800px;
+            margin: auto;
+        }
+        #gameCanvas {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            image-rendering: pixelated; 
+            image-rendering: crisp-edges;
+            width: 1269px; 
+            height: 479px;
+        }
+        #randomnessSlider {
+            vertical-align: middle;
+            width: 150px;
+        }
+        #randomnessCheckbox {
+            margin-right: 0px;
+        }
+        label, input, select, button {
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+        input {
+            width: 10ch;  
+        }
+
+        #canvasContainer {
+            position: relative;
+            width: 1269px;
+            height: 479px;
+        }
+
+        #canvasContainer canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <br><br>
+    <div id="canvasContainer">
+        <canvas id="gameCanvas" width="1269" height="479"></canvas>
+        <canvas id="background" width="1269" height="479"></canvas>
+    </div>
+    <script type="module" src="js/mainMouse.js"></script>
+</body>
+</html>
