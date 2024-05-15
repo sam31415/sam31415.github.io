@@ -13,7 +13,9 @@ export function gameLoop(globalData) {
     changeRule(globalData)
     globalData.time = (globalData.time + 1) % globalPeriodicity;
 
-    updatePeriodicityShiftAndTopology(globalData);
+    if (globalData.randomisePeriodicityShiftAndTopology){
+        updatePeriodicityShiftAndTopology(globalData);
+    }
     
     if (globalData.colorPalette == "variable") {
         driftColorPalette(globalData);

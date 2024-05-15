@@ -4,21 +4,27 @@ export function updateRandomnessValue(globalData, value) {
     document.getElementById('randomnessAmountValue').textContent = value;
 }
 
-export function submitValue() {
+export function submitValue(globalData) {
     var userGridHeight = document.getElementById('userGridHeight').value;
     var userGridWidth = document.getElementById('userGridWidth').value;
     var userTimeout = document.getElementById('userTimeout').value;
-    var userXShift = document.getElementById('userXShift').value;
-    var userYShift = document.getElementById('userYShift').value;
-    var userFlipX = document.getElementById('userFlipX').checked;
-    var userFlipY = document.getElementById('userFlipY').checked;
+    var userXShiftElement = document.getElementById('userXShift');
+    var userXShift = userXShiftElement ? userXShiftElement.value : globalData.userXShift;
+    var userYShiftElement = document.getElementById('userYShift');
+    var userYShift = userYShiftElement ? userYShiftElement.value : globalData.userYShift;
+    var userFlipXElement = document.getElementById('userFlipX');
+    var userFlipX = userFlipXElement ? userFlipXElement.checked : globalData.userFlipX;
+    var userFlipYElement = document.getElementById('userFlipY');
+    var userFlipY = userFlipYElement ? userFlipYElement.checked : globalData.userFlipY;
+    var userRandomnessOnElement = document.getElementById('randomnessCheckbox');
+    var userRandomnessOn = userRandomnessOnElement ? userRandomnessOnElement.checked : globalData.addRandomness;
+    var userRandomnessAmountElement = document.getElementById('randomnessSlider');
+    var userRandomnessAmount = userRandomnessAmountElement ? userRandomnessAmountElement.value : globalData.randomnessAmount;
     var userColorPalette = document.getElementById('userColorPalette').value;
-    var userRandomnessOn = document.getElementById('randomnessCheckbox').checked;
-    var userRandomnessAmount = document.getElementById('randomnessSlider').value;
     var metaRule = document.getElementById('metaRule').value;
-    var currentRule = null;
-    if (document.getElementById('currentRule')) {
-        currentRule = document.getElementById('currentRule').value;
+    var currentStyle = null;
+    if (document.getElementById('currentStyle')) {
+        currentStyle = document.getElementById('currentStyle').value;
     }
 
     // Store the value in localStorage so it can be retrieved after the page reloads
@@ -34,7 +40,7 @@ export function submitValue() {
     localStorage.setItem('userRandomnessOn', userRandomnessOn);
     localStorage.setItem('userRandomnessAmount', userRandomnessAmount);
     localStorage.setItem('metaRule', metaRule);
-    localStorage.setItem('currentRule', currentRule);
+    localStorage.setItem('currentStyle', currentStyle);
 
     // Reload the page
     location.reload();
@@ -62,7 +68,7 @@ export function retrieveGlobalData(globalData) {
         globalData.addRandomness = localStorage.getItem('userRandomnessOn') === 'true';
         globalData.randomnessAmount = parseFloat(localStorage.getItem('userRandomnessAmount'));
         globalData.rule = localStorage.getItem('metaRule');
-        globalData.tempRuleStorage = localStorage.getItem('currentRule');
+        globalData.tempRuleStorage = localStorage.getItem('currentStyle');
 
         console.log('Retrieved value from previous session: ...');
     } else {
@@ -73,13 +79,31 @@ export function retrieveGlobalData(globalData) {
     document.getElementById('userGridHeight').value = globalData.gridHeight;
     document.getElementById('userGridWidth').value = globalData.gridWidth;
     document.getElementById('userTimeout').value = globalData.timeout;
-    document.getElementById('userXShift').value = globalData.gridPeriodicityShiftX;
-    document.getElementById('userYShift').value = globalData.gridPeriodicityShiftY;
-    document.getElementById('userFlipX').checked = globalData.gridFlipX;
-    document.getElementById('userFlipY').checked = globalData.gridFlipY;
+    let userXShift = document.getElementById('userXShift');
+    if (userXShift) {
+        userXShift.value = globalData.gridPeriodicityShiftX;
+    } 
+    let userYShift = document.getElementById('userYShift');
+    if (userYShift) {
+        userYShift.value = globalData.gridPeriodicityShiftY;
+    }
+    let userFlipX = document.getElementById('userFlipX');
+    if (userFlipX) {
+        userFlipX.checked = globalData.gridFlipX;
+    }
+    let userFlipY = document.getElementById('userFlipY');
+    if (userFlipY) {
+        userFlipY.checked = globalData.gridFlipY;
+    }
+    let randomnessCheckbox = document.getElementById('randomnessCheckbox');
+    if (randomnessCheckbox) {
+        randomnessCheckbox.checked = globalData.addRandomness;
+    }
+    let randomnessSlider = document.getElementById('randomnessSlider');
+    if (randomnessSlider) {
+        randomnessSlider.value = globalData.randomnessAmount;
+    }
     document.getElementById('userColorPalette').value = globalData.colorPalette;
-    document.getElementById('randomnessCheckbox').checked = globalData.addRandomness;
-    document.getElementById('randomnessSlider').value = globalData.randomnessAmount;
     document.getElementById('metaRule').value = globalData.rule;
 
     // Adjust the canvas size
