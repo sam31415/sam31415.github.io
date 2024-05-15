@@ -64,7 +64,7 @@ function generateRandomMask() {
     let mask = new Grid(maskWidth, maskHeight);
     for (let i = 0; i < maskHeight; i++) {
         for (let j = 0; j < maskWidth; j++) {
-            mask.set(i, j, Math.floor(Math.random() * 4));
+            mask.set(i, j, Math.floor(Math.random() * 100000));
         }
     }
     return mask;
