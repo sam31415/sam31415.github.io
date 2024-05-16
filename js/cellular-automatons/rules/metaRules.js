@@ -1,4 +1,4 @@
-import { Generations, ModifiedBriansBrain, BriansBrain, StarWars, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
+import { Generations, GenerationsStraightShips, ModifiedBriansBrain, BriansBrain, StarWars, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
 
 export const METAPRESETGR = "gr";;
 export const METAPRESETSAFE = "safe";
@@ -119,8 +119,10 @@ export class BBColoring extends MetaRule {
                 ruleChain.push(new ModifiedBriansBrain());
             } else if (rnd < 0.4) {
                 ruleChain.push(new BriansBrain())
-            } else if (rnd < 0.7) {
+            } else if (rnd < 0.6) {
                 ruleChain.push(new StarWars());
+            } else if (rnd < 0.8) {
+                ruleChain.push(new GenerationsStraightShips());
             } else {
                 ruleChain.push(new ConwayNoZero())
             }
@@ -129,8 +131,10 @@ export class BBColoring extends MetaRule {
                 ruleChain.push(new ModifiedBriansBrain());
             } else if (rnd < 0.4) {
                 ruleChain.push(new BriansBrain())
-            } else if (rnd < 0.7) {
+            } else if (rnd < 0.6) {
                 ruleChain.push(new StarWars());
+            } else if (rnd < 0.8) {
+                ruleChain.push(new GenerationsStraightShips());
             } else if (rnd < 1.0) {
                 // A bit flashy...
                 //ruleChain.push(new Generations("B3/S123/4"))
@@ -147,8 +151,9 @@ export class BBColoring extends MetaRule {
         if (this.preset == METAPRESETTEST) {
             ruleChain = [];
             //ruleChain.push(new ModifiedBriansBrain());
-            ruleChain.push(new Generations("B378/S124567/4"));
-            //ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
+            ruleChain.push(new GenerationsStraightShips());
+            this.colorUnit = 1;
+            ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
         }
 
 
