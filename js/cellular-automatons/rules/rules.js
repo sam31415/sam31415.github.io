@@ -66,10 +66,10 @@ export class ModifiedBriansBrain extends PrimaryRule{
     getSeedingPatterns() {
         
         let seedingPatterns = {
-            random: {prob: 10, mask: null},
-            shortStar0: {prob: 2, mask: Grid.fromArray([[1, 0], [0, 1]])},
-            shortStar1: {prob: 2, mask: Grid.fromArray([[0, 1], [1, 0]])},
-            shortStar2: {prob: 2, mask: Grid.fromArray([[1, 0], [0, 1]])},
+            random: {prob: 15, mask: null},
+            // shortStar0: {prob: 2, mask: Grid.fromArray([[1, 0], [0, 1]])},
+            // shortStar1: {prob: 2, mask: Grid.fromArray([[0, 1], [1, 0]])},
+            // shortStar2: {prob: 2, mask: Grid.fromArray([[1, 0], [0, 1]])},
             waveSquare: {prob: 4, mask: Grid.fromArray([[1, 1], [1, 1]])},
             //waveHorizontal: {prob: 0.5, mask: [[0, 0], [1, 1]]},
             //waveVertical: {prob: 0.5, mask: [[0, 1], [0, 1]]},
@@ -122,7 +122,7 @@ export class BriansBrain extends PrimaryRule{
 
     getSeedingPatterns() {
         let seedingPatterns = {
-            random: {prob: 10, mask: null},
+            random: {prob: 15, mask: null},
             snakeHoriz: {prob: 1, mask: Grid.fromArray([[0, 1, 2, 1, 2, 1, 0], [1, 2, 0, 1, 0, 2, 1], [1, 2, 0, 1, 0, 2, 1], [0, 1, 2, 1, 2, 1, 0]])},
             oscillator0: {prob: 2, mask: Grid.fromArray([[0, 0, 1, 0], [1, 2, 2, 0], [0, 2, 2, 1], [0, 1, 0, 0]])},
             oscillator1: {prob: 2, mask: Grid.fromArray([[0, 0, 2, 0, 0, 0, 0], [0, 1, 1, 0, 0, 1, 0], [0, 0, 2, 1, 2, 1, 2], [0, 0, 1, 0, 1, 0, 0],
@@ -167,7 +167,7 @@ export class StarWars extends PrimaryRule{
         //let stillLifeWeight = 1;
         let starWeight = 2;
         let seedingPatterns = {
-            random: {prob: 3, mask: null},
+            random: {prob: 6, mask: null},
             snake: {prob: snakeWeight, mask: Grid.fromArray([[0, 1, 2, 1, 2, 1, 0], [1, 2, 0, 1, 0, 2, 1], [1, 2, 0, 1, 0, 2, 1], [0, 1, 2, 1, 2, 1, 0]])},
             gun0: {prob: gunWeight, mask: Grid.fromArray([[1, 2, 3], [0, 1, 0], [1, 1, 0], [0, 1, 0], [0, 1, 0], [1, 1, 0], [0, 1, 2], [3, 0, 1]])},
             gun1: {prob: gunWeight, mask: Grid.fromArray([[0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 1, 2, 0], 
@@ -204,6 +204,7 @@ export class StarWars extends PrimaryRule{
         return seedingPatterns;
     }
 }
+
 
 export class Generations extends PrimaryRule{
     constructor(ruleString) {
@@ -247,6 +248,52 @@ export class Generations extends PrimaryRule{
         return seedingPatterns;
     }
 }
+
+
+export class GenerationsStraightShips extends Generations{
+    constructor() {
+        super("B2/S245678/I1/4");
+        this.randomnessLogShift = 0.0
+    }
+
+    getName() {
+        return "SS";
+    }
+
+    getSeedingPatterns() {
+        let shipsWeight = 1/5;
+        let burstWeight = 1;
+        //let stillLifeWeight = 1;
+        let seedingPatterns = {
+            random: {prob: 10, mask: null},
+            burst1: {prob: burstWeight, mask: Grid.fromArray([[0, 1, 2, 1, 2, 1, 0], [1, 2, 0, 1, 0, 2, 1], [1, 2, 0, 1, 0, 2, 1], [0, 1, 2, 1, 2, 1, 0]])},
+            ships1: {prob: shipsWeight, mask: Grid.fromArray([[0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 1, 2, 0], 
+                [3, 0, 1, 0, 0, 0, 1, 0, 3], [0, 0, 1, 1, 0, 1, 1, 1, 0], [0, 0, 1, 1, 0, 0, 1, 0, 0], [0, 0, 2, 0, 0, 3, 2, 1, 0]])},
+            ships2: {prob: shipsWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 1, 0, 0], [0, 1, 2, 0, 1, 1, 1, 0], [1, 2, 3, 1, 1, 0, 1, 1], 
+                [1, 2, 3, 0, 0, 1, 1, 0], [0, 0, 0, 0, 1, 2, 0, 0]])},   
+            ships3: {prob: shipsWeight, mask: Grid.fromArray([[0, 0, 0, 0, 0, 3, 2, 0], [0, 0, 1, 0, 0, 1, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1], 
+                [0, 1, 0, 0, 0, 0, 1, 0], [0, 1, 0, 0, 0, 0, 1, 0], [1, 1, 1, 0, 0, 1, 1, 1], [0, 1, 0, 0, 0, 0, 1, 0]])},  
+            ships4: {prob: shipsWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 0], [0, 0, 1, 1, 1, 3], [0, 0, 0, 1, 0, 2], [0, 0, 0, 0, 0, 1], 
+                [0, 1, 0, 1, 1, 0], [1, 1, 1, 1, 1, 1], [0, 1, 0, 0, 1, 0]])}, 
+            ships5: {prob: shipsWeight, mask: Grid.fromArray([[0, 1, 1, 2, 0], [2, 0, 1, 0, 3], [3, 1, 1, 1, 0], [0, 1, 0, 2, 1]])},
+            ships6: {prob: shipsWeight, mask: Grid.fromArray([[0, 0, 0, 2, 0], [3, 0, 1, 1, 0], [2, 1, 1, 1, 3], [1, 0, 1, 0, 2], [0, 0, 0, 1, 0]])},
+            burst2: {prob: burstWeight, mask: Grid.fromArray([[0, 1, 0, 0, 1, 0, 0, 0, 0, 0], [1, 1, 1, 2, 2, 1, 0, 3, 2, 0], [0, 1, 0, 2, 0, 1, 0, 0, 1, 0], 
+                [0, 1, 2, 2, 1, 1, 1, 1, 1, 1], [0, 0, 1, 0, 0, 1, 0, 0, 1, 0]])}, 
+            ships7: {prob: shipsWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 3, 0, 0], [0, 0, 2, 0, 1, 0, 2, 1], [0, 0, 3, 1, 1, 1, 2, 1], 
+                [0, 0, 1, 0, 1, 0, 3, 0], [3, 0, 1, 0, 1, 0, 0, 0], [2, 1, 1, 1, 3, 0, 0, 0], [1, 0, 1, 0, 2, 0, 0, 0], [0, 0, 0, 0, 1, 3, 0, 0]])}, 
+            ships8: {prob: shipsWeight, mask: Grid.fromArray([[0, 0, 1, 1, 3, 0, 1, 0], [0, 1, 0, 2, 2, 1, 1, 1], [1, 1, 1, 0, 0, 0, 1, 0], 
+                [0, 1, 0, 0, 0, 0, 3, 0]])},  
+            burst3: {prob: burstWeight, mask: Grid.fromArray([[0, 2, 3, 0, 0, 1, 0, 0, 0], [1, 0, 1, 1, 1, 1, 0, 3, 0], [0, 1, 1, 0, 0, 1, 1, 2, 1], 
+                [0, 0, 1, 1, 1, 1, 0, 2, 1], [0, 1, 2, 0, 0, 0, 3, 0, 0]])},
+            burst4: {prob: burstWeight, mask: Grid.fromArray([[0, 0, 0, 0, 3, 0, 0, 0, 0], [0, 0, 0, 0, 2, 0, 0, 0, 0], [0, 0, 1, 0, 1, 0, 1, 0, 0], 
+                [0, 2, 3, 1, 1, 1, 3, 2, 0], [1, 0, 1, 0, 0, 0, 1, 0, 1], [1, 1, 1, 1, 0, 1, 1, 1, 1], [2, 0, 1, 0, 2, 0, 1, 0, 2], [0, 3, 0, 1, 0, 1, 0, 3, 0]])},    
+            birst5: {prob: burstWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 1, 0, 0, 0], [1, 0, 1, 0, 1, 0, 1, 0, 1], [2, 1, 1, 1, 1, 1, 1, 1, 2], 
+                [0, 1, 0, 1, 0, 1, 0, 1, 0], [0, 1, 0, 0, 1, 0, 0, 1, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1], [0, 1, 0, 0, 1, 0, 0, 1, 0]])},  
+        };
+        return seedingPatterns;
+    }
+}
+
 
 
 export class ConwayNoZero extends PrimaryRule{
