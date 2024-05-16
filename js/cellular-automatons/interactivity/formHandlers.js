@@ -1,6 +1,6 @@
 
 export function updateRandomnessValue(globalData, value) {
-    globalData.randomnessAmount = value;
+    globalData.randomnessAmount = parseFloat(value);
     document.getElementById('randomnessAmountValue').textContent = value;
 }
 
@@ -19,7 +19,7 @@ export function submitValue(globalData) {
     var userRandomnessOnElement = document.getElementById('randomnessCheckbox');
     var userRandomnessOn = userRandomnessOnElement ? userRandomnessOnElement.checked : globalData.addRandomness;
     var userRandomnessAmountElement = document.getElementById('randomnessSlider');
-    var userRandomnessAmount = userRandomnessAmountElement ? userRandomnessAmountElement.value : globalData.randomnessAmount;
+    var userRandomnessAmount = userRandomnessAmountElement ? parseFloat(userRandomnessAmountElement.value) : globalData.randomnessAmount;
     var userColorPalette = document.getElementById('userColorPalette').value;
     var metaRule = document.getElementById('metaRule').value;
     var currentStyle = null;
