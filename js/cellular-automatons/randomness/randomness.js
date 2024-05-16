@@ -60,14 +60,186 @@ export function applyMask(grid, globalData, mask, i, j, findNeighbour) {
 
 function generateRandomMask() {
     let maskHeight = Math.floor(Math.random() * 10) + 1;
-    let maskWidth = Math.floor(Math.random() * 10) + 1;
+    let mask;
+    if (Math.random() < 0.7) {
+        mask = generateSquareMask(maskHeight);
+    } else {
+        let maskWidth = Math.floor(Math.random() * 10) + 1;
+        mask = generateRectangularMask(maskHeight, maskWidth);
+    }
+
+    return mask;
+}
+
+function generateSquareMask(maskSize) {
+    let rnd = Math.random();
+    if (rnd < 0.1) {
+        return nonSymmetricRandomMask(maskSize, maskSize);
+    } else if (rnd < 0.2) {
+        return p2hSymmetricRandomMask(maskSize, maskSize);
+    } else if (rnd < 0.3) {
+        return p2vSymmetricRandomMask(maskSize, maskSize);
+    } else if (rnd < 0.4) {
+        return d2aSymmetricRandomMask(maskSize);
+    } else if (rnd < 0.5) {
+        return d2bSymmetricRandomMask(maskSize);
+    } else if (rnd < 0.6) {
+        return g2SymmetricRandomMask(maskSize, maskSize);
+    } else if (rnd < 0.7) {
+        return p4SymmetricRandomMask(maskSize, maskSize);
+    } else if (rnd < 0.8) {
+        return d4SymmetricRandomMask(maskSize);
+    } else if (rnd < 0.9) {
+        return g4SymmetricRandomMask(maskSize);
+    } else {
+        return r8SymmetricRandomMask(maskSize);
+    }
+}
+
+function generateRectangularMask(maskHeight, maskWidth) {
+    let rnd = Math.random();
+    if (rnd < 0.2) {
+        return nonSymmetricRandomMask(maskHeight, maskWidth);
+    } else if (rnd < 0.4) {
+        return p2hSymmetricRandomMask(maskHeight, maskWidth);
+    } else if (rnd < 0.6) {
+        return p2vSymmetricRandomMask(maskHeight, maskWidth);
+    } else if (rnd < 0.8) {
+        return g2SymmetricRandomMask(maskHeight, maskWidth);
+    } else {
+        return p4SymmetricRandomMask(maskHeight, maskWidth);
+    }
+}
+
+
+function p2vSymmetricRandomMask(maskHeight, maskWidth) {
+    let mask = new Grid(maskWidth, maskHeight);
+    for (let i = 0; i < maskHeight; i++) {
+        for (let j = 0; j < Math.ceil(maskWidth/2); j++) {
+            mask.set(i, j, Math.floor(Math.random() * 100000));
+            mask.set(i, maskWidth - 1 - j, mask.get(i,j));
+        }
+    }
+
+    return mask;
+}
+
+function p2hSymmetricRandomMask(maskHeight, maskWidth) {
+    let mask = new Grid(maskWidth, maskHeight);
+    for (let i = 0; i < Math.ceil(maskHeight/2); i++) {
+        for (let j = 0; j < maskWidth; j++) {
+            mask.set(i, j, Math.floor(Math.random() * 100000));
+            mask.set(maskHeight - 1 - i, j, mask.get(i,j));
+        }
+    }
+
+    return mask;
+}
+
+function d2aSymmetricRandomMask(maskSize) {
+    let mask = new Grid(maskSize, maskSize);
+    for (let i = 0; i < maskSize; i++) {
+        for (let j = i; j < maskSize; j++) {
+            mask.set(i, j, Math.floor(Math.random() * 100000));
+            mask.set(j, i, mask.get(i,j));
+        }
+    }
+
+    return mask;
+}
+
+function d2bSymmetricRandomMask(maskSize) {
+    let mask = new Grid(maskSize, maskSize);
+    for (let i = 0; i < maskSize; i++) {
+        for (let j = i; j < maskSize; j++) {
+            mask.set(i, j, Math.floor(Math.random() * 100000));
+            mask.set(maskSize - 1 - j, maskSize - 1 - i, mask.get(i,j));
+        }
+    }
+
+    return mask;
+}
+
+function g2SymmetricRandomMask(maskHeight, maskWidth) {
+    let mask = new Grid(maskWidth, maskHeight);
+    for (let i = 0; i < maskHeight; i++) {
+        for (let j = 0; j < Math.ceil(maskWidth/2); j++) {
+            mask.set(i, j, Math.floor(Math.random() * 100000));
+            mask.set(maskHeight - 1 - i, maskWidth - 1 - j, mask.get(i,j));
+
+        }
+    }
+
+    return mask;
+}
+
+function p4SymmetricRandomMask(maskHeight, maskWidth) {
+    let mask = new Grid(maskWidth, maskHeight);
+    for (let i = 0; i < Math.ceil(maskHeight/2); i++) {
+        for (let j = 0; j < Math.ceil(maskWidth/2); j++) {
+            mask.set(i, j, Math.floor(Math.random() * 100000));
+            mask.set(maskHeight - 1 - i, j, mask.get(i,j));
+            mask.set(i, maskWidth - 1 - j, mask.get(i,j));
+            mask.set(maskHeight - 1 - i, maskWidth - 1 - j, mask.get(i,j));
+        }
+    }
+
+    return mask;
+}
+
+function d4SymmetricRandomMask(maskSize) {
+    let mask = new Grid(maskSize, maskSize);
+    for (let i = 0; i < maskSize; i++) {
+        for (let j = Math.max(i, maskSize - i); j < maskSize; j++) {
+            mask.set(i, j, Math.floor(Math.random() * 100000));
+            mask.set(j, i, mask.get(i,j));
+            mask.set(maskSize - 1 - j, maskSize - 1 - i, mask.get(i,j));
+            mask.set(maskSize - 1 - i, maskSize - 1 - j, mask.get(i,j));
+        }
+    }
+
+    return mask;
+}
+
+function g4SymmetricRandomMask(maskSize) {
+    let mask = new Grid(maskSize, maskSize);
+    for (let i = 0; i < Math.ceil(maskSize/2); i++) {
+        for (let j = 0; j < Math.ceil(maskSize/2); j++) {
+            mask.set(i, j, Math.floor(Math.random() * 100000));
+            mask.set(j, maskSize - 1 - i, mask.get(i,j));
+            mask.set(maskSize - 1 - i, maskSize - 1 - j, mask.get(i,j));
+            mask.set(maskSize - 1 - j, i, mask.get(i,j));
+        }
+    }
+
+    return mask;
+}
+
+function r8SymmetricRandomMask(maskSize) {
+    let mask = new Grid(maskSize, maskSize);
+    for (let i = 0; i < Math.ceil(maskSize/2); i++) {
+        for (let j = 0; j < Math.ceil(maskSize/2); j++) {
+            mask.set(i, j, Math.floor(Math.random() * 100000));
+            mask.set(j, maskSize - 1 - i, mask.get(i,j));
+            mask.set(maskSize - 1 - i, maskSize - 1 - j, mask.get(i,j));
+            mask.set(maskSize - 1 - j, i, mask.get(i,j));
+            mask.set(maskSize - 1 - i, j, mask.get(i,j));
+            mask.set(maskSize - 1 - j, maskSize - 1 - i, mask.get(i,j));
+            mask.set(i, maskSize - 1 - j, mask.get(i,j));
+            mask.set(j, i, mask.get(i,j));
+        }
+    }
+
+    return mask;
+}
+
+function nonSymmetricRandomMask(maskHeight, maskWidth) {
     let mask = new Grid(maskWidth, maskHeight);
     for (let i = 0; i < maskHeight; i++) {
         for (let j = 0; j < maskWidth; j++) {
             mask.set(i, j, Math.floor(Math.random() * 100000));
         }
     }
+
     return mask;
 }
-
-
