@@ -19,7 +19,7 @@ var gridPeriodicityShiftY = 0
 var gridFlipX = false
 var gridFlipY = false
 var colorPalette = 'mouseAnimation'
-var rule = "ModifiedBB"
+var rule = "Variable"
 var initialisation = "zero"
 var maxNColors = 6
 
