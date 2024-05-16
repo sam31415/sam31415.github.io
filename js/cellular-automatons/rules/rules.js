@@ -253,7 +253,7 @@ export class Generations extends PrimaryRule{
 export class GenerationsStraightShips extends Generations{
     constructor() {
         super("B2/S245678/I1/4");
-        this.randomnessLogShift = -0.5
+        this.randomnessLogShift = 0.0
     }
 
     getName() {
