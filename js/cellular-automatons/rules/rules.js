@@ -250,6 +250,80 @@ export class Generations extends PrimaryRule{
     }
 }
 
+export class GenerationsGeneralShips extends Generations{
+    constructor() {
+        super(GenerationsGeneralShips.generateRule());
+        this.randomnessLogShift = 0.0
+    }
+
+    static generateRule() {
+        let B = GenerationsGeneralShips.generateRandomArray(4, 8);
+        let S = GenerationsGeneralShips.generateRandomArray(4, 8);
+        let I = GenerationsGeneralShips.generateRandomArray(4, 8);
+        let weightS = S.reduce((total, s) => total + (8 - s), 0);
+        let weightB = B.reduce((total, b) => total + (8 - b), 0);
+        while (weightS > 8 || 2*weightS + weightB > 20){
+            S = GenerationsGeneralShips.generateRandomArray(4, 8);
+            B = GenerationsGeneralShips.generateRandomArray(4, 8);
+            weightS = S.reduce((total, s) => total + (8 - s), 0);
+            weightB = B.reduce((total, b) => total + (8 - b), 0);
+        }
+        console.log(weightS + weightB, weightS, weightB)
+    
+    
+        // Remove integers from I that are in B or S
+        I = I.filter(i => !B.includes(i) && !S.includes(i));
+    
+        // Convert arrays to strings and concatenate them to form the rule
+        let rule = `B2${B.join('')}/S3${S.join('')}/I1${I.join('')}/4`;
+    
+        return rule;
+    }
+    
+    static generateRandomArray(min, max) {
+        let array = [];
+        for (let i = min; i <= max; i++) {
+            if (Math.random() < 0.5) {
+                array.push(i);
+            }
+        }
+        return array;
+    }
+
+    getSeedingPatterns() {
+        let shipsWeight = 1/5;
+        let burstWeight = 1;
+        let rakeWeight = 1;
+        let starWeight = 1;
+        //let stillLifeWeight = 1;
+        let seedingPatterns = {
+            random: {prob: 20, mask: null},
+            burst1: {prob: burstWeight, mask: Grid.fromArray([[1,1],[1, 1]])},
+            ships1: {prob: shipsWeight, mask: Grid.fromArray([[1, 1],])},
+            rake1: {prob: rakeWeight, mask: Grid.fromArray([[1, 0], [1, 1]])},
+            ships2: {prob: shipsWeight, mask: Grid.fromArray([[1, 1], [2, 2]])},
+            star1: {prob: starWeight, mask: Grid.fromArray([[0, 1, 0], [1, 1, 1], [0, 1, 0]])},
+            star2: {prob: starWeight, mask: Grid.fromArray([[1, 0, 1], [0, 0, 0], [1, 0, 1]])},
+            ships3: {prob: shipsWeight, mask: Grid.fromArray([[1, 0, 0], [1, 1, 0], [0, 1, 1]])},
+            ships4: {prob: shipsWeight, mask: Grid.fromArray([[0, 1, 1, 1, 1, 1, 0], [1, 1, 0, 1, 0, 1, 1], [1, 1, 0, 1, 0, 1, 1], [0, 1, 1, 1, 1, 1, 0]])},
+            burst2: {prob: burstWeight, mask: Grid.fromArray([[0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 1, 2, 0], 
+                [3, 0, 1, 0, 0, 0, 1, 0, 3], [0, 0, 1, 1, 0, 1, 1, 1, 0], [0, 0, 1, 1, 0, 0, 1, 0, 0], [0, 0, 2, 0, 0, 3, 2, 1, 0]])},
+            burst3: {prob: burstWeight, mask: Grid.fromArray([[0, 0, 0, 0, 0, 3, 2, 0], [0, 0, 1, 0, 0, 1, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1], 
+                [0, 1, 0, 0, 0, 0, 1, 0], [0, 1, 0, 0, 0, 0, 1, 0], [1, 1, 1, 0, 0, 1, 1, 1], [0, 1, 0, 0, 0, 0, 1, 0]])},  
+            rake2: {prob: rakeWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 0], [0, 0, 1, 1, 1, 3], [0, 0, 0, 1, 0, 2], [0, 0, 0, 0, 0, 1], 
+                [0, 1, 0, 1, 1, 0], [1, 1, 1, 1, 1, 1], [0, 1, 0, 0, 1, 0]])}, 
+            ships5: {prob: shipsWeight, mask: Grid.fromArray([[0, 1, 0, 0, 1, 0, 0, 0, 0, 0], [1, 1, 1, 2, 2, 1, 0, 3, 2, 0], [0, 1, 0, 2, 0, 1, 0, 0, 1, 0], 
+                [0, 1, 2, 2, 1, 1, 1, 1, 1, 1], [0, 0, 1, 0, 0, 1, 0, 0, 1, 0]])},
+            ships6: {prob: shipsWeight, mask: Grid.fromArray([[0, 0, 1, 1, 3, 0, 1, 0], [0, 1, 0, 2, 2, 1, 1, 1], [1, 1, 1, 0, 0, 0, 1, 0], 
+                [0, 1, 0, 0, 0, 0, 3, 0]])},  
+            ships7: {prob: shipsWeight, mask: Grid.fromArray([[0, 2, 3, 0, 0, 1, 0, 0, 0], [1, 0, 1, 1, 1, 1, 0, 3, 0], [0, 1, 1, 0, 0, 1, 1, 2, 1], 
+                [0, 0, 1, 1, 1, 1, 0, 2, 1], [0, 1, 2, 0, 0, 0, 3, 0, 0]])},
+
+        };
+        return seedingPatterns;
+    }
+}
+
 
 export class GenerationsFlamingShips extends Generations{
     constructor() {
@@ -258,7 +332,7 @@ export class GenerationsFlamingShips extends Generations{
     }
 
     getName() {
-        return "SS";
+        return "FS";
     }
 
     getSeedingPatterns() {
