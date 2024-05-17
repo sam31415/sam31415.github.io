@@ -16,6 +16,9 @@ export function addRandomEvents(globalData, newGrid, findNeighbour) {
     var lambda = (10 ** (globalData.randomnessAmount + globalData.ruleClass.ruleChain[0].randomnessLogShift));
     // Sample the number of events from a Poisson distribution
     var numEvents = poissonSample(lambda);
+    if (numEvents == 0) {
+        return;
+    }
     var sampler = globalData.ruleClass.ruleChain[0].seedSampler;
     var masks = globalData.ruleClass.ruleChain[0].seedMasks;
     for (var n = 0; n < numEvents; n++) {
@@ -32,13 +35,13 @@ export function applyMask(grid, globalData, mask, i, j, findNeighbour) {
     if (mask === null) {
         mask = generateRandomMask();
     } else {
-        if (Math.random() < 0.5) {
+        if (Math.random() < 0.25) {
             mask.transpose();
         }
         if (Math.random() < 0.5) {
             mask.flipX();
         }
-        if (Math.random() < 0.5) {
+        if (Math.random() < 0.75) {
             mask.flipY();
         }
     }
