@@ -1,4 +1,4 @@
-import { Generations, GenerationsStraightShips, ModifiedBriansBrain, BriansBrain, StarWars, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
+import { Generations, GenerationsFlamingShips, GenerationsStraightShips, ModifiedBriansBrain, BriansBrain, StarWars, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
 
 export const METAPRESETGR = "gr";;
 export const METAPRESETSAFE = "safe";
@@ -151,8 +151,8 @@ export class BBColoring extends MetaRule {
         if (this.preset == METAPRESETTEST) {
             ruleChain = [];
             //ruleChain.push(new ModifiedBriansBrain());
-            ruleChain.push(new GenerationsStraightShips());
-            this.colorUnit = 1;
+            ruleChain.push(new GenerationsFlamingShips());
+            this.colorUnit = 4;
             ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
         }
 
@@ -161,7 +161,9 @@ export class BBColoring extends MetaRule {
     }
 
     evolveRuleChain() {
-        this.ruleChain[1].evolveRule(this.neighbourTypes)
+        if (this.ruleChain[1] && typeof this.ruleChain[1].evolveRule === 'function') {
+            this.ruleChain[1].evolveRule(this.neighbourTypes)
+        }
     }
 
     getRuleChainfromName(name) {
