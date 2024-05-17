@@ -1,4 +1,4 @@
-import { Generations, GenerationsFlamingShips, GenerationsStraightShips, ModifiedBriansBrain, BriansBrain, StarWars, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
+import { Generations, GenerationsGeneralShips, GenerationsFlamingShips, GenerationsStraightShips, ModifiedBriansBrain, BriansBrain, StarWars, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
 
 export const METAPRESETGR = "gr";;
 export const METAPRESETSAFE = "safe";
@@ -115,43 +115,48 @@ export class BBColoring extends MetaRule {
         if (this.preset == METAPRESETGR) {
             ruleChain.push(new ModifiedBriansBrain());
         } else if (this.preset == METAPRESETSAFE) {
-            if (rnd < 0.3) {
+            if (rnd < 0.5) {
+                ruleChain.push(new GenerationsGeneralShips());
+            } else if (rnd < 0.65) {
                 ruleChain.push(new ModifiedBriansBrain());
-            } else if (rnd < 0.4) {
+            } else if (rnd < 0.7) {
                 ruleChain.push(new BriansBrain())
-            } else if (rnd < 0.6) {
-                ruleChain.push(new StarWars());
             } else if (rnd < 0.8) {
+                ruleChain.push(new StarWars());
+            } else if (rnd < 0.85) {
                 ruleChain.push(new GenerationsStraightShips());
+            }  else if (rnd < 0.9) {
+                ruleChain.push(new GenerationsFlamingShips());
             } else {
                 ruleChain.push(new ConwayNoZero())
-            }
+            } 
         } else {
-            if (rnd < 0.3) {
+            if (rnd < 0.5) {
+                ruleChain.push(new GenerationsGeneralShips());
+            } else if (rnd < 0.65) {
                 ruleChain.push(new ModifiedBriansBrain());
-            } else if (rnd < 0.4) {
+            } else if (rnd < 0.7) {
                 ruleChain.push(new BriansBrain())
-            } else if (rnd < 0.6) {
-                ruleChain.push(new StarWars());
             } else if (rnd < 0.8) {
+                ruleChain.push(new StarWars());
+            } else if (rnd < 0.85) {
                 ruleChain.push(new GenerationsStraightShips());
-            } else if (rnd < 1.0) {
-                // A bit flashy...
-                //ruleChain.push(new Generations("B3/S123/4"))
+            }  else if (rnd < 0.9) {
+                ruleChain.push(new GenerationsFlamingShips());
+            } else {
                 ruleChain.push(new ConwayNoZero())
-            } else if (this.preset != METAPRESETSAFE) {
-                // Caterpillars. Reevaluate with proper random masks.
-                //ruleChain.push(new Generations("B378/S124567/4"))
             } 
             if (ruleChain.length == 0) {
-                ruleChain.push(new ModifiedBriansBrain());
+                ruleChain.push(new GenerationsGeneralShips());
             }
         }
         ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
         if (this.preset == METAPRESETTEST) {
             ruleChain = [];
             //ruleChain.push(new ModifiedBriansBrain());
-            ruleChain.push(new GenerationsFlamingShips());
+
+            ruleChain.push(new GenerationsGeneralShips());
+            //ruleChain.push(new Generations("B245/S346/I15678/4"));
             this.colorUnit = 4;
             ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
         }
