@@ -58,6 +58,10 @@ export class GlobalData {
         this.changeColoringRuleFlag = true;
         this.evolveColoringRuleFlag = false;
         this.nCellChangedHistoric = 0;
+        this.meanColorChangeHistoric = 0;
+        // this.brightness = 127;
+        // this.maxBrightness = 127;
+        // this.minBrightness = 127;
         this.saveEventData = false;
         this.time = 0;
     }
