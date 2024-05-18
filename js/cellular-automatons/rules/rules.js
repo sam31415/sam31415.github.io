@@ -262,20 +262,22 @@ export class GenerationsGeneralShips extends Generations{
         let I = GenerationsGeneralShips.generateRandomArray(4, 8);
         let weightS = S.reduce((total, s) => total + (8 - s), 0);
         let weightB = B.reduce((total, b) => total + (8 - b), 0);
+        let nStates = Math.floor(Math.random() * 7) + 3;
         while (weightS > 8 || 2*weightS + weightB > 20){
             S = GenerationsGeneralShips.generateRandomArray(4, 8);
             B = GenerationsGeneralShips.generateRandomArray(4, 8);
             weightS = S.reduce((total, s) => total + (8 - s), 0);
             weightB = B.reduce((total, b) => total + (8 - b), 0);
+            nStates = Math.floor(Math.random() * 7) + 3;
         }
         console.log(weightS + weightB, weightS, weightB)
-    
     
         // Remove integers from I that are in B or S
         I = I.filter(i => !B.includes(i) && !S.includes(i));
     
         // Convert arrays to strings and concatenate them to form the rule
-        let rule = `B2${B.join('')}/S3${S.join('')}/I1${I.join('')}/4`;
+        let rule = `B2${B.join('')}/S3${S.join('')}/I1${I.join('')}/${nStates}`;
+
     
         return rule;
     }
