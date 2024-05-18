@@ -49,11 +49,12 @@ export function changeRule(globalData, forceChange = false) {
         globalData.evolveColoringRuleFlag = false;
         displayRule(globalData);
     }
-    globalData.ruleLogSwitchProbability = globalData.ruleLogSwitchProbability + globalData.logMultiplicativeFactor;
+    let updateFactor = Math.max(globalData.meanColorChangeHistoric / 30, 1);
+    globalData.ruleLogSwitchProbability = globalData.ruleLogSwitchProbability + globalData.logMultiplicativeFactor * updateFactor;
     if (globalData.ruleLogSwitchProbability > 0) {
         globalData.ruleLogSwitchProbability = 0;
     }
-    globalData.ruleLogEvolveProbability = globalData.ruleLogEvolveProbability + globalData.logMultiplicativeEvolveFactor;
+    globalData.ruleLogEvolveProbability = globalData.ruleLogEvolveProbability + globalData.logMultiplicativeEvolveFactor * updateFactor;
     if (globalData.ruleLogEvolveProbability > 0) {
         globalData.ruleLogEvolveProbability = 0;
     }
