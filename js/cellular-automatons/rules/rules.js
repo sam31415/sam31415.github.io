@@ -426,7 +426,7 @@ export class ConwayNoZero extends PrimaryRule{
 
     updateRule(cellValue, newCellValue, neighbourList, time) {
         var cellValueM4 = cellValue % 4;
-        var sneighbours = neighbourList[0][1];
+        var sneighbours = neighbourList[0][0] + neighbourList[0][2];
         if ((cellValueM4 == 1 || cellValueM4 == 3) && (sneighbours < 2 || sneighbours > 3)) {
             newCellValue = 2;
         } else if ((cellValueM4 == 1 || cellValueM4 == 3) && (sneighbours == 2 || sneighbours == 3)) {

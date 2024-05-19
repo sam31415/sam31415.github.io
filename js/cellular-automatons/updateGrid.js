@@ -5,15 +5,17 @@ import { computeNeighbourList, neighbourTypeNumbers } from "./neighbours/neighbo
 // var computeNeighbourListTime = 0;
 
 export function updateGrid(globalData) {
-    var neighbours = [new Uint8Array(neighbourTypeNumbers[0]).fill(0), new Uint8Array(neighbourTypeNumbers[1]).fill(0)];
+    var neighbours = [new Uint8Array(neighbourTypeNumbers[0] * globalData.ruleClass.ruleChain[0].nStates).fill(0), new Uint8Array(neighbourTypeNumbers[1]).fill(0)];
     var maskVariables = new Uint8Array(5).fill(0);
     var newGrid = new Grid(globalData.gridWidth, globalData.gridHeight);
     var grid = globalData.grid;
     const time = globalData.time;
+    const nStatesPrimary = globalData.ruleClass.ruleChain[0].nStates;
+    const nStatesSecondary = 4;
     for (var i = 0; i < globalData.gridHeight; i++) {
         for (var j = 0; j < globalData.gridWidth; j++) {
             // var t0 = performance.now();
-            var neighbourList = computeNeighbourList(globalData, i, j, grid, neighbours, maskVariables, time);
+            var neighbourList = computeNeighbourList(globalData, i, j, grid, neighbours, maskVariables, time, nStatesPrimary, nStatesSecondary);
             // var t1 = performance.now();
             // computeNeighbourListTime += t1 - t0;
             const cellValue = globalData.grid.get(i, j);
