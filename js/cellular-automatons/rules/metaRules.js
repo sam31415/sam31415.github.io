@@ -161,7 +161,6 @@ export class BBColoring extends MetaRule {
             ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
         }
 
-
         return ruleChain;
     }
 
@@ -180,10 +179,15 @@ export class BBColoring extends MetaRule {
             ruleChain.push(new BriansBrain())
         } else if (baseRuleName == "SW") {
             ruleChain.push(new StarWars())
+        } else if (baseRuleName == "SS") {
+            ruleChain.push(new GenerationsStraightShips())
+        } else if (baseRuleName == "FS") {
+            ruleChain.push(new GenerationsFlamingShips())
+        } else if (baseRuleName == "CW") {
+            ruleChain.push(new ConwayNoZero())
         } else {
-            ruleChain.push(new Generations(baseRuleName));
+            ruleChain.push(new GenerationsGeneralShips(baseRuleName));
         }
-        ruleChain.push(new StarWars());
         ruleChain.push(ColoringRule.ruleFromNames(ruleNames));
 
         return ruleChain;
