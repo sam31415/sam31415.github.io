@@ -38,7 +38,7 @@ export function drawGrid(globalData) {
         }
     }
     globalData.nCellChangedHistoric = 1/100 * nCellChanged + 99 / 100 * globalData.nCellChangedHistoric;
-    globalData.meanColorChangeHistoric = 1/100 * meanColorChange / (globalData.gridWidth * globalData.gridHeight) + 99 / 100 * globalData.meanColorChangeHistoric;
+    globalData.meanColorChangeHistoric = 1/100 * meanColorChange / (nCellChanged + (globalData.gridHeight * globalData.gridWidth)/30) + 99 / 100 * globalData.meanColorChangeHistoric;
     // brightness = brightness / (3 * nCellChanged);
     // globalData.brightness = 1/30 * brightness + 29/30 * globalData.brightness;
     // globalData.maxBrightness = 29/30 * (globalData.maxBrightness - globalData.brightness) + globalData.brightness;
@@ -48,17 +48,22 @@ export function drawGrid(globalData) {
     // } else if (globalData.minBrightness > brightness) {
     //     globalData.minBrightness -= 3;
     // }
-    if (globalData.time % 30 == 0) {
-        console.log('Mean color change: ' + globalData.meanColorChangeHistoric.toFixed(1) + '.');
-        // console.log('Brightness: ' + globalData.brightness.toFixed(1) + '.');
-        // console.log('Max brightness: ' + globalData.maxBrightness.toFixed(1) + '.');
-        // console.log('Min brightness: ' + globalData.minBrightness.toFixed(1) + '.');
-    }
+    // if (globalData.time % 30 == 0) {
+    //     if (isNaN(globalData.brightness)) {
+    //         globalData.brightness = 127;
+    //         globalData.maxBrightness = 130;
+    //         globalData.maxBrightness = 124;
+    //     }
+    //     console.log('Mean color change: ' + globalData.meanColorChangeHistoric.toFixed(1) + '.');
+    //     console.log('Brightness: ' + globalData.brightness.toFixed(1) + '.');
+    //     let diff = globalData.maxBrightness.toFixed(1) - globalData.minBrightness.toFixed(1);
+    //     console.log('Max - min brightness: ' + diff + '.');
+    // }
     //if (globalData.nCellChangedHistoric > 0.5 * globalData.gridHeight * globalData.gridWidth) {
-    if (globalData.meanColorChangeHistoric > 130) {
+    if (globalData.meanColorChangeHistoric > 330) {
         globalData.changeColoringRuleFlag = true;
         var proportion = globalData.nCellChangedHistoric / (globalData.gridHeight * globalData.gridWidth);
-        console.log('Changing rule because suspected oscillation (running proportion of cells changed: ' + proportion.toFixed(1) + ').');
+        // console.log('Changing rule because suspected oscillation (running proportion of cells changed: ' + proportion.toFixed(1) + ').');
         console.log('Changing rule because suspected oscillation (std of color change: ' + globalData.meanColorChangeHistoric.toFixed(1) + ').');
         globalData.nCellChangedHistoric = 15;
         globalData.meanColorChangeHistoric = 10;

@@ -49,7 +49,7 @@ export function changeRule(globalData, forceChange = false) {
         globalData.evolveColoringRuleFlag = false;
         displayRule(globalData);
     }
-    let updateFactor = Math.max(globalData.meanColorChangeHistoric / 30, 1);
+    let updateFactor = Math.max(globalData.meanColorChangeHistoric / 200, 1);
     globalData.ruleLogSwitchProbability = globalData.ruleLogSwitchProbability + globalData.logMultiplicativeFactor * updateFactor;
     if (globalData.ruleLogSwitchProbability > 0) {
         globalData.ruleLogSwitchProbability = 0;

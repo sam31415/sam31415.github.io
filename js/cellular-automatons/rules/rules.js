@@ -262,13 +262,15 @@ export class GenerationsGeneralShips extends Generations{
         let I = GenerationsGeneralShips.generateRandomArray(1, 8);
         let weightS = S.reduce((total, s) => total + (8 - s), 0);
         let weightB = B.reduce((total, b) => total + (8 - b), 0);
-        while (weightS > 8 || 2*weightS + weightB > 30){
-            S = GenerationsGeneralShips.generateRandomArray(4, 8);
-            B = GenerationsGeneralShips.generateRandomArray(4, 8);
-            weightB = B.reduce((total, b) => total + (8 - b), 0);
-            weightS = S.reduce((total, s) => total + (8 - s), 0);
+        let nStates = Math.floor(Math.random() * 10) + 3;
+        // while (weightS > 8 || 2*weightS + weightB > 30){
+        //     S = GenerationsGeneralShips.generateRandomArray(4, 8);
+        //     B = GenerationsGeneralShips.generateRandomArray(4, 8);
+        //     weightB = B.reduce((total, b) => total + (8 - b), 0);
+        //     weightS = S.reduce((total, s) => total + (8 - s), 0);
+        //     nStates = Math.floor(Math.random() * 6) + 3;
 
-        }
+        // }
         console.log(weightS + weightB, weightS, weightB)
     
     
@@ -276,7 +278,7 @@ export class GenerationsGeneralShips extends Generations{
         I = I.filter(i => !B.includes(i) && !S.includes(i) && i != 2);
     
         // Convert arrays to strings and concatenate them to form the rule
-        let rule = `B2${B.join('')}/S${S.join('')}/I${I.join('')}/4`;
+        let rule = `B2${B.join('')}/S${S.join('')}/I${I.join('')}/${nStates}`;
     
         return rule;
     }
