@@ -150,7 +150,7 @@ export class BBColoring extends MetaRule {
                 ruleChain.push(new GenerationsGeneralShips());
             }
         }
-        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
+        ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, ruleChain[0].nStates, 4, this.periodicityLength));
         if (this.preset == METAPRESETTEST) {
             ruleChain = [];
             //ruleChain.push(new ModifiedBriansBrain());
