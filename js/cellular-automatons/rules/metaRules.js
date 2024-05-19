@@ -180,6 +180,8 @@ export class BBColoring extends MetaRule {
             ruleChain.push(new BriansBrain())
         } else if (baseRuleName == "SW") {
             ruleChain.push(new StarWars())
+        } else {
+            ruleChain.push(new Generations(baseRuleName));
         }
         ruleChain.push(new StarWars());
         ruleChain.push(ColoringRule.ruleFromNames(ruleNames));
