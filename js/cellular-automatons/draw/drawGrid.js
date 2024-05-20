@@ -79,6 +79,3 @@ export function drawGrid(globalData) {
     }
     ctx.putImageData(imageData, globalData.canvasCornerX, globalData.canvasCornerY);
 }
-// Oscillatory rules for which brightness measurement could help
-// B268/S367/I145/3-B0A[0|14]0110||E1N[1|15]1001
-// SW-B1A[0|1]11||E2N[0|0]01||B2N[0|2]11||E4N[1|2]01||B2C[0|3]||E1C[0|2]01||E1A[0|3]11
