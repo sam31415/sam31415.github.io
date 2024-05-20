@@ -1,5 +1,5 @@
 import { createWeightedSampler } from "../randomness/weightedSampler.js";
-import { sampleNeighbourhoodGeometry, MIX } from "../neighbours/neighbourCount.js";
+import { sampleNeighbourhoodGeometry, sampleExtraNeighbourhoodGeometry, MIX } from "../neighbours/neighbourCount.js";
 
 const INACTIVEABS = "A";
 const INACTIVECOND = "C";
@@ -34,10 +34,20 @@ export function conditionNeighbour(threshold, type, neighbourType) {
     function conditionNeighbourBiggerValue(neighbourList) {
         return neighbourList[neighbourType[0]][neighbourType[1]] > threshold;
     }
-    if (type == COMPAREEQ) {
+    function condition2NeighbourEqValue(neighbourList) {
+        return neighbourList[neighbourType[0]][neighbourType[1]] + neighbourList[neighbourType[0]][neighbourType[2]] == threshold;
+    }
+    function condition2NeighbourBiggerValue(neighbourList) {
+        return neighbourList[neighbourType[0]][neighbourType[1]] + neighbourList[neighbourType[0]][neighbourType[2]] > threshold;
+    }
+    if (type == COMPAREEQ && neighbourType.length == 2) {
         return conditionNeighbourEqValue;
-    } else if (type == COMPAREBIGGER) {
+    } else if (type == COMPAREBIGGER && neighbourType.length == 2) {
         return conditionNeighbourBiggerValue;
+    } else if (type == COMPAREEQ && neighbourType.length == 3) {
+        return condition2NeighbourEqValue;
+    } else if (type == COMPAREBIGGER && neighbourType.length == 3) {
+        return condition2NeighbourBiggerValue;
     }
 }
 
@@ -80,7 +90,8 @@ export class Condition {
         if (this.periodicity != null) {
             periodicityString = this.periodicity.map(b => b ? '1' : '0').join('');
         }
-        return `${this.type}${this.threshold}${this.inactivation}[${this.neighbourType[0]}|${this.neighbourType[1]}]${periodicityString}`;
+        var neighbourTypeString = this.neighbourType.join('|');
+        return `${this.type}${this.threshold}${this.inactivation}[${neighbourTypeString}]${periodicityString}`;    
     }
 
     static fromName(name, modulo = 4) {
@@ -127,7 +138,13 @@ export class Condition {
         var neighbourTypeSampler = createWeightedSampler(neighbourTypes);
         const neighbourType0 = neighbourTypeSampler();
         const neighbourType1 = sampleNeighbourhoodGeometry(neighbourType0, geometryType);
-        const neighbourType = [neighbourType0, neighbourType1];
+        var neighbourType = undefined;
+        if (Math.random() < 0.5) {
+            const neighbourType2 = sampleExtraNeighbourhoodGeometry(neighbourType1);
+            neighbourType = [neighbourType0, neighbourType1, neighbourType2];
+        } else {
+            neighbourType = [neighbourType0, neighbourType1];
+        }
 
         // Generate a random threshold, with some condition to avoid blank rules
         var threshold = 0;

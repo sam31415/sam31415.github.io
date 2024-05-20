@@ -156,3 +156,13 @@ export function sampleNeighbourhoodGeometry(neighbourhoodType0, geometryType) {
     } 
 }
 
+export function sampleExtraNeighbourhoodGeometry(neighbourhoodType1) {
+    var root4 = Math.floor(neighbourhoodType1 / 4) * 4;
+    var neighbourhoodType2 = neighbourhoodType1;
+    while (neighbourhoodType2 == neighbourhoodType1) {
+        neighbourhoodType2 = root4 + Math.floor(Math.random() * 4);
+    }
+
+    return neighbourhoodType2;
+}
+
