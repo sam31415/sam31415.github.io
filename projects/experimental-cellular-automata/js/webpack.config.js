@@ -1,4 +1,4 @@
-var ruleWeights = {
+const ruleWeights = {
   "N0/B2/S2/I13": 5,
   "N0/B2/S24/I36/7": 1,
   "N0/B2/S24/I36/8": 1,
@@ -28,7 +28,8 @@ var ruleWeights = {
   "N33/B23/S3/I/11": 1,
   "N42/B234/S345/I1/10": 1,
   "N47/B2/S25/I/11": 1,
-}
+};
+const ruleKeys = Object.keys(ruleWeights);
 
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -43,8 +44,9 @@ module.exports = {
     minimizer: [new TerserPlugin({
       terserOptions: {
         mangle: {
-          properties: true,
-          reserved: ruleWeights.keys,
+          properties: {
+            reserved: ruleKeys,
+          },
         },
       },
     }),
