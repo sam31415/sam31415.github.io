@@ -211,28 +211,34 @@ export class Generations extends PrimaryRule{
         super();
         this.ruleString = ruleString;
         const parts = this.ruleString.split('/');
-        this.birth = new Uint8Array(parts[0].substring(1).split('').map(Number));
-        this.survive = new Uint8Array(parts[1].substring(1).split('').map(Number));
-        if (parts[2][0] == 'I') {
-            this.inhibited = new Uint8Array(parts[2].substring(1).split('').map(Number));
-            this.nStates = Number(parts[3])
-        } else {
-            this.inhibited = [];
-            this.nStates = Number(parts[2]);
+        this.neighbourhood = 0;
+        this.inhibited = []
+        for (var part of parts) {
+            if (part[0] == 'N') {
+                this.neighbourhood = Number(parts[0].substring(1));
+            } else if (part[0] == 'B') {
+                this.birth = new Uint8Array(part.substring(1).split('').map(Number));
+            } else if (part[0] == 'S') {
+                this.survive = new Uint8Array(part.substring(1).split('').map(Number));
+            } else if (part[0] == 'I') {
+                this.inhibited = new Uint8Array(parts[2].substring(1).split('').map(Number));
+            } else {
+                this.nStates = Number(part);
+            }
         }
     }
 
     updateRule(cellValue, newCellValue, neighbourList, time) {
         var cellValueM4 = cellValue % this.nStates;
-        if (cellValueM4 == 1 && this.survive.includes(neighbourList[0][0])) {
+        if (cellValueM4 == 1 && this.survive.includes(neighbourList[0][this.neighbourhood])) {
             newCellValue = 1;
         } else if ((cellValueM4 > 0) && (cellValueM4 < this.nStates - 1)) {
             newCellValue += 1;
         } else if (cellValueM4 == this.nStates - 1) {
             newCellValue = 0;
-        } else if ((cellValueM4 == 0) && (this.birth.includes(neighbourList[0][0]))) {
+        } else if ((cellValueM4 == 0) && (this.birth.includes(neighbourList[0][this.neighbourhood]))) {
             newCellValue = 1;
-        } else if ((cellValueM4 == 0) && (this.inhibited.includes(neighbourList[0][0]))) {
+        } else if ((cellValueM4 == 0) && (this.inhibited.includes(neighbourList[0][this.neighbourhood]))) {
             newCellValue = this.nStates - 1;
         }
         return newCellValue;
@@ -251,18 +257,68 @@ export class Generations extends PrimaryRule{
 }
 
 export class GenerationsGeneralShips extends Generations{
-    constructor() {
-        super(GenerationsGeneralShips.generateRule());
-        this.randomnessLogShift = 0.0
+    constructor(safe=true) {
+        if (safe) {
+            super(GenerationsGeneralShips.getPresetRule())
+        } else {
+            super(GenerationsGeneralShips.generateRule());
+            this.randomnessLogShift = 0.0
+        }
+    }
+
+    static getPresetRule() {
+        let ruleWeights = {
+            "N0/B2/S2/I13": 5,
+            "N0/B2/S24/I36/7": 1,
+            "N0/B2/S24/I36/8": 1,
+            "N0/B2/S24/I36/9": 1,
+            "N0/B2/S24/I36/10": 1,
+            "N0/B2/S24/I36/11": 1,
+            "N1/B2/S3/I/11": 1,
+            "B234568/S2458/I1/6": 1,
+            "B234568/S2458/I1/7": 1,
+            "B234568/S2458/I1/8": 1,
+            "B234568/S2458/I1/9": 1,
+            "B234568/S2458/I1/10": 1,
+            "B234568/S2458/I1/11": 1,
+            "B234568/S2458/I1/12": 1,
+            "B234568/S2458/I1/13": 1,
+            "B234568/S2458/I1/14": 1,
+            "B234568/S4568/I1/4": 1,
+            "B234568/S4568/I1/5": 1,
+            "B234568/S458/I1/4": 1,
+            "B234568/S458/I1/5": 1,
+            "N1/B23468/S146/I5/12": 1,
+            "N19/B248/S457/I1/6": 1,
+            "N30/B24/S23/I1/7": 1,
+            "N30/B24/S23/I1/9": 1,
+            "N30/B24/S23/I1/10": 1,
+            "N30/B24/S23/I1/11": 1, 
+            "N33/B23/S3/I/11": 1,
+            "N42/B234/S345/I1/10": 1,
+            "N47/B2/S25/I/11": 1,
+        }
+        let rule = createWeightedSampler(ruleWeights)();
+        while (rule.split("/").length < 5) {
+            if (rule[0] != "N") {
+                rule = "N0/" + rule;
+            } else {
+                let nStates = Math.floor(Math.random() * 10) + 3;
+                rule = rule + "/" + nStates;
+            }
+        }
+        return rule;
     }
 
     static generateRule() {
-        let B = GenerationsGeneralShips.generateRandomArray(3, 8);
-        let S = GenerationsGeneralShips.generateRandomArray(2, 8);
-        let I = GenerationsGeneralShips.generateRandomArray(1, 8);
-        let weightS = S.reduce((total, s) => total + (8 - s), 0);
-        let weightB = B.reduce((total, b) => total + (8 - b), 0);
-        let nStates = Math.floor(Math.random() * 10) + 3;
+        // let N = Math.floor(Math.random() * 5);
+        // let B = GenerationsGeneralShips.generateRandomArray(3, 8);
+        // let S = GenerationsGeneralShips.generateRandomArray(2, 8);
+        // let I = GenerationsGeneralShips.generateRandomArray(1, 8);
+        // let weightS = S.reduce((total, s) => total + (8 - s), 0);
+        // let weightB = B.reduce((total, b) => total + (8 - b), 0);
+        // let nStates = Math.floor(Math.random() * 10) + 3;
+
         // while (weightS > 8 || 2*weightS + weightB > 30){
         //     S = GenerationsGeneralShips.generateRandomArray(4, 8);
         //     B = GenerationsGeneralShips.generateRandomArray(4, 8);
@@ -271,14 +327,29 @@ export class GenerationsGeneralShips extends Generations{
         //     nStates = Math.floor(Math.random() * 6) + 3;
 
         // }
-        console.log(weightS + weightB, weightS, weightB)
-    
-    
+        // console.log(2*weightS + weightB, weightS, weightB)
+
+
+        let nStates = Math.floor(Math.random() * 10) + 3;
+        let N = Math.floor(Math.random() * 5 * nStates);
+        let Nred =  Math.floor(N / nStates) % 5;
+        var maxNeighbours = 8
+        if ([1, 2].includes(Nred)) {
+            maxNeighbours = 4;
+        } else if (Nred == 3) {
+            maxNeighbours = 3;
+        } else if (Nred == 4) {
+            maxNeighbours = 5;
+        }
+        let B = GenerationsGeneralShips.generateRandomArray(3, maxNeighbours);
+        let S = GenerationsGeneralShips.generateRandomArray(2, maxNeighbours);
+        let I = GenerationsGeneralShips.generateRandomArray(1, maxNeighbours);
+
         // Remove integers from I that are in B or S
         I = I.filter(i => !B.includes(i) && !S.includes(i) && i != 2);
     
         // Convert arrays to strings and concatenate them to form the rule
-        let rule = `B2${B.join('')}/S${S.join('')}/I${I.join('')}/${nStates}`;
+        let rule = `N${N}/B2${B.join('')}/S${S.join('')}/I${I.join('')}/${nStates}`;
     
         return rule;
     }
@@ -300,28 +371,7 @@ export class GenerationsGeneralShips extends Generations{
         let starWeight = 1;
         //let stillLifeWeight = 1;
         let seedingPatterns = {
-            random: {prob: 20, mask: null},
-            burst1: {prob: burstWeight, mask: Grid.fromArray([[1,1],[1, 1]])},
-            ships1: {prob: shipsWeight, mask: Grid.fromArray([[1, 1],])},
-            rake1: {prob: rakeWeight, mask: Grid.fromArray([[1, 0], [1, 1]])},
-            ships2: {prob: shipsWeight, mask: Grid.fromArray([[1, 1], [2, 2]])},
-            star1: {prob: starWeight, mask: Grid.fromArray([[0, 1, 0], [1, 1, 1], [0, 1, 0]])},
-            star2: {prob: starWeight, mask: Grid.fromArray([[1, 0, 1], [0, 0, 0], [1, 0, 1]])},
-            ships3: {prob: shipsWeight, mask: Grid.fromArray([[1, 0, 0], [1, 1, 0], [0, 1, 1]])},
-            ships4: {prob: shipsWeight, mask: Grid.fromArray([[0, 1, 1, 1, 1, 1, 0], [1, 1, 0, 1, 0, 1, 1], [1, 1, 0, 1, 0, 1, 1], [0, 1, 1, 1, 1, 1, 0]])},
-            burst2: {prob: burstWeight, mask: Grid.fromArray([[0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 1, 2, 0], 
-                [3, 0, 1, 0, 0, 0, 1, 0, 3], [0, 0, 1, 1, 0, 1, 1, 1, 0], [0, 0, 1, 1, 0, 0, 1, 0, 0], [0, 0, 2, 0, 0, 3, 2, 1, 0]])},
-            burst3: {prob: burstWeight, mask: Grid.fromArray([[0, 0, 0, 0, 0, 3, 2, 0], [0, 0, 1, 0, 0, 1, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1], 
-                [0, 1, 0, 0, 0, 0, 1, 0], [0, 1, 0, 0, 0, 0, 1, 0], [1, 1, 1, 0, 0, 1, 1, 1], [0, 1, 0, 0, 0, 0, 1, 0]])},  
-            rake2: {prob: rakeWeight, mask: Grid.fromArray([[0, 0, 0, 1, 0, 0], [0, 0, 1, 1, 1, 3], [0, 0, 0, 1, 0, 2], [0, 0, 0, 0, 0, 1], 
-                [0, 1, 0, 1, 1, 0], [1, 1, 1, 1, 1, 1], [0, 1, 0, 0, 1, 0]])}, 
-            ships5: {prob: shipsWeight, mask: Grid.fromArray([[0, 1, 0, 0, 1, 0, 0, 0, 0, 0], [1, 1, 1, 2, 2, 1, 0, 3, 2, 0], [0, 1, 0, 2, 0, 1, 0, 0, 1, 0], 
-                [0, 1, 2, 2, 1, 1, 1, 1, 1, 1], [0, 0, 1, 0, 0, 1, 0, 0, 1, 0]])},
-            ships6: {prob: shipsWeight, mask: Grid.fromArray([[0, 0, 1, 1, 3, 0, 1, 0], [0, 1, 0, 2, 2, 1, 1, 1], [1, 1, 1, 0, 0, 0, 1, 0], 
-                [0, 1, 0, 0, 0, 0, 3, 0]])},  
-            ships7: {prob: shipsWeight, mask: Grid.fromArray([[0, 2, 3, 0, 0, 1, 0, 0, 0], [1, 0, 1, 1, 1, 1, 0, 3, 0], [0, 1, 1, 0, 0, 1, 1, 2, 1], 
-                [0, 0, 1, 1, 1, 1, 0, 2, 1], [0, 1, 2, 0, 0, 0, 3, 0, 0]])},
-
+            random: {prob: 1, mask: null},
         };
         return seedingPatterns;
     }
