@@ -155,10 +155,10 @@ export class BBColoring extends MetaRule {
             ruleChain = [];
             //ruleChain.push(new ModifiedBriansBrain());
 
-            ruleChain.push(new GenerationsGeneralShips());
+            ruleChain.push(new GenerationsGeneralShips(false));
             //ruleChain.push(new Generations("B245/S346/I15678/4"));
-            this.colorUnit = 4;
-            ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
+            this.colorUnit = 1;
+            //ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
         }
 
         return ruleChain;
@@ -186,7 +186,7 @@ export class BBColoring extends MetaRule {
         } else if (baseRuleName == "CW") {
             ruleChain.push(new ConwayNoZero())
         } else {
-            ruleChain.push(new GenerationsGeneralShips(baseRuleName));
+            ruleChain.push(new Generations(baseRuleName));
         }
         ruleChain.push(ColoringRule.ruleFromNames(ruleNames));
 
