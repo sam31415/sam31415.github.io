@@ -209,6 +209,9 @@ export class StarWars extends PrimaryRule{
 export class Generations extends PrimaryRule{
     constructor(ruleString) {
         super();
+        if (ruleString == null) {
+            ruleString = Generations.generateRule();
+        }
         this.ruleString = ruleString;
         const parts = this.ruleString.split('/');
         this.neighbourhood = 0;
@@ -244,6 +247,44 @@ export class Generations extends PrimaryRule{
         return newCellValue;
     }
 
+    static generateRule() {
+        let nStates = Math.floor(Math.random() * 10) + 3;
+        let N = Math.floor(Math.random() * 5 * nStates);
+        let Nred =  Math.floor(N / nStates) % 5;
+        var maxNeighbours = 8
+        if ([1, 2].includes(Nred)) {
+            maxNeighbours = 4;
+        } else if (Nred == 3) {
+            maxNeighbours = 3;
+        } else if (Nred == 4) {
+            maxNeighbours = 5;
+        }
+        let B = GenerationsGeneralShips.generateRandomArray(1, maxNeighbours);
+        if (B.length == 0) {
+            B = [2];
+        }
+        let S = GenerationsGeneralShips.generateRandomArray(1, maxNeighbours);
+        let I = GenerationsGeneralShips.generateRandomArray(1, maxNeighbours);
+
+        // Remove integers from I that are in B or S
+        I = I.filter(i => !B.includes(i) && !S.includes(i) && i != 2);
+    
+        // Convert arrays to strings and concatenate them to form the rule
+        let rule = `N${N}/B${B.join('')}/S${S.join('')}/I${I.join('')}/${nStates}`;
+    
+        return rule;
+    }
+    
+    static generateRandomArray(min, max) {
+        let array = [];
+        for (let i = min; i <= max; i++) {
+            if (Math.random() < 0.5) {
+                array.push(i);
+            }
+        }
+        return array;
+    }
+
     getName() {
         return this.ruleString;
     }
@@ -254,6 +295,32 @@ export class Generations extends PrimaryRule{
         };
         return seedingPatterns;
     }
+}
+
+export class StochasticGenerations extends Generations{
+    constructor(ruleString) {
+        super(ruleString);
+        let b = this.birth[0]
+        this.activationFactor = 20/b**3
+        this.randomnessLogShift = 1.0
+    }
+
+    updateRule(cellValue, newCellValue, neighbourList, time, activityLevel) {
+        var cellValueM4 = cellValue % this.nStates;
+        if (cellValueM4 == 1 && this.survive.includes(neighbourList[0][this.neighbourhood])) {
+            newCellValue = 1;
+        } else if ((cellValueM4 > 0) && (cellValueM4 < this.nStates - 1)) {
+            newCellValue += 1;
+        } else if (cellValueM4 == this.nStates - 1) {
+            newCellValue = 0;
+        } else if ((cellValueM4 == 0) && (this.birth.includes(neighbourList[0][this.neighbourhood])) && Math.random() > this.activationFactor*activityLevel - 0.01) {
+            newCellValue = 1;
+        } else if ((cellValueM4 == 0) && (this.inhibited.includes(neighbourList[0][this.neighbourhood]))) {
+            newCellValue = this.nStates - 1;
+        }
+        return newCellValue;
+    }
+
 }
 
 export class GenerationsGeneralShips extends Generations{
@@ -270,7 +337,6 @@ export class GenerationsGeneralShips extends Generations{
         let ruleWeights = {
             "N0/B2/S2/I13": 5,
             "N0/B2/S24/I36/7": 1,
-            "N0/B2/S24/I36/8": 1,
             "N0/B2/S24/I36/9": 1,
             "N0/B2/S24/I36/10": 1,
             "N0/B2/S24/I36/11": 1,
@@ -300,7 +366,7 @@ export class GenerationsGeneralShips extends Generations{
             "N0/B24568/S34678/I/4": 1,
             "N0/B24568/S34678/I/5": 1,
             "N0/B24568/S34678/I/6": 1,
-            "N0/B24568/S34678/I/7": 3,
+            "N0/B24568/S34678/I/7": 10, // Really good!
             "N0/B24568/S34678/I/8": 3,
             "N0/B24568/S34678/I/9": 1,
             "N0/B24568/S34678/I/10": 1,
@@ -348,60 +414,6 @@ export class GenerationsGeneralShips extends Generations{
             }
         }
         return rule;
-    }
-
-    static generateRule() {
-        // let N = Math.floor(Math.random() * 5);
-        // let B = GenerationsGeneralShips.generateRandomArray(3, 8);
-        // let S = GenerationsGeneralShips.generateRandomArray(2, 8);
-        // let I = GenerationsGeneralShips.generateRandomArray(1, 8);
-        // let weightS = S.reduce((total, s) => total + (8 - s), 0);
-        // let weightB = B.reduce((total, b) => total + (8 - b), 0);
-        // let nStates = Math.floor(Math.random() * 10) + 3;
-
-        // while (weightS > 8 || 2*weightS + weightB > 30){
-        //     S = GenerationsGeneralShips.generateRandomArray(4, 8);
-        //     B = GenerationsGeneralShips.generateRandomArray(4, 8);
-        //     weightB = B.reduce((total, b) => total + (8 - b), 0);
-        //     weightS = S.reduce((total, s) => total + (8 - s), 0);
-        //     nStates = Math.floor(Math.random() * 6) + 3;
-
-        // }
-        // console.log(2*weightS + weightB, weightS, weightB)
-
-
-        let nStates = Math.floor(Math.random() * 10) + 3;
-        let N = Math.floor(Math.random() * 5 * nStates);
-        let Nred =  Math.floor(N / nStates) % 5;
-        var maxNeighbours = 8
-        if ([1, 2].includes(Nred)) {
-            maxNeighbours = 4;
-        } else if (Nred == 3) {
-            maxNeighbours = 3;
-        } else if (Nred == 4) {
-            maxNeighbours = 5;
-        }
-        let B = GenerationsGeneralShips.generateRandomArray(3, maxNeighbours);
-        let S = GenerationsGeneralShips.generateRandomArray(2, maxNeighbours);
-        let I = GenerationsGeneralShips.generateRandomArray(1, maxNeighbours);
-
-        // Remove integers from I that are in B or S
-        I = I.filter(i => !B.includes(i) && !S.includes(i) && i != 2);
-    
-        // Convert arrays to strings and concatenate them to form the rule
-        let rule = `N${N}/B2${B.join('')}/S${S.join('')}/I${I.join('')}/${nStates}`;
-    
-        return rule;
-    }
-    
-    static generateRandomArray(min, max) {
-        let array = [];
-        for (let i = min; i <= max; i++) {
-            if (Math.random() < 0.5) {
-                array.push(i);
-            }
-        }
-        return array;
     }
 
     getSeedingPatterns() {
