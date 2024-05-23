@@ -109,54 +109,46 @@ export class BBColoring extends MetaRule {
         this.updateRule = this.getUpdateRule();
     }
 
+    rulesGeneral = [
+        { rule: StochasticGenerations, args: [null, "ships"], weight: 2},
+        { rule: StochasticGenerations, args: [], weight: 2},
+        { rule: GenerationsGeneralShips, args: [], weight: 2 },
+        { rule: ModifiedBriansBrain, args: [], weight: 4 },
+        { rule: BriansBrain, args: [], weight: 1 },
+        { rule: StarWars, args: [], weight: 1 },
+        { rule: GenerationsStraightShips, args: [], weight: 1 },
+        { rule: GenerationsFlamingShips, args: [], weight: 1 },
+        { rule: ConwayNoZero, args: [], weight: 1 }
+    ];
+    
+    rulesGR = [
+        { rule: ModifiedBriansBrain, args: [], weight: 1 },
+    ];
+
     getRuleChain() {
-        var ruleChain = [];
-        var rnd = Math.random()
+        let rules = this.rulesGeneral;
         if (this.preset == METAPRESETGR) {
-            ruleChain.push(new ModifiedBriansBrain());
-        } else if (this.preset == METAPRESETSAFE) {
-            if (rnd < 0.5) {
-                ruleChain.push(new GenerationsGeneralShips());
-            } else if (rnd < 0.65) {
-                ruleChain.push(new ModifiedBriansBrain());
-            } else if (rnd < 0.7) {
-                ruleChain.push(new BriansBrain())
-            } else if (rnd < 0.8) {
-                ruleChain.push(new StarWars());
-            } else if (rnd < 0.85) {
-                ruleChain.push(new GenerationsStraightShips());
-            }  else if (rnd < 0.9) {
-                ruleChain.push(new GenerationsFlamingShips());
-            } else {
-                ruleChain.push(new ConwayNoZero())
-            } 
-        } else {
-            if (rnd < 0.5) {
-                ruleChain.push(new GenerationsGeneralShips());
-            } else if (rnd < 0.65) {
-                ruleChain.push(new ModifiedBriansBrain());
-            } else if (rnd < 0.7) {
-                ruleChain.push(new BriansBrain())
-            } else if (rnd < 0.8) {
-                ruleChain.push(new StarWars());
-            } else if (rnd < 0.85) {
-                ruleChain.push(new GenerationsStraightShips());
-            }  else if (rnd < 0.9) {
-                ruleChain.push(new GenerationsFlamingShips());
-            } else {
-                ruleChain.push(new ConwayNoZero())
-            } 
-            if (ruleChain.length == 0) {
-                ruleChain.push(new GenerationsGeneralShips());
+            rules = this.rulesGR;
+        }
+        let totalWeight = rules.reduce((total, option) => total + option.weight, 0);
+        var ruleChain = [];
+        let rnd = Math.random() * totalWeight;
+        for (let i = 0; i < rules.length; i++) {
+            if (rnd < rules[i].weight) {
+                ruleChain.push(new rules[i].rule(...rules[i].args));
+                break;
             }
+            rnd -= rules[i].weight;
         }
         ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, ruleChain[0].nStates, 4, this.periodicityLength));
+        
+        // Test mode
         if (this.preset == METAPRESETTEST) {
             ruleChain = [];
             //ruleChain.push(new ModifiedBriansBrain());
 
             //ruleChain.push(new GenerationsGeneralShips(false));
-            ruleChain.push(new StochasticGenerations(null)); 
+            ruleChain.push(new StochasticGenerations(null, "ships")); 
             //ruleChain.push(new Generations("B245/S346/I15678/4"));
             this.colorUnit = ruleChain[0].nStates;
             ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
