@@ -45,15 +45,22 @@
     <div id="content">
         <h1>Cellular worlds - demonstration page</h1>
 
-        <p>Cellular worlds is a collection of cellullar automata displaying complex and varied animated patterns.</p>
+        <p>Cellular worlds is a collection of cellullar automata displaying complex and varied animated patterns. 
             
-        <p>These animations are especially well suited to LED walls with a relatively large pitch, where each LED can play the role of a grid cell.</p>
+            
+        <p>Each cell/pixel's state evolves according to simple rules relating its future state to its current state and the current state of its neighbours.
+            The state of the cell is then turned into a color, through a coloring style.
+            The large number of possible rules and styles, as well as the addition of some randomness guarantees that the animation varies indefinitely, never repeating itself.
+        </p>
+            
+        <p>The cellular worlds animations are especially well suited to LED walls with a relatively large pitch, where each LED can play the role of a grid cell.</p>
 
         <p>The automaton can be interacted with by moving the mouse over the canvas while holding the Shift key down. This will activate any cell moused over. 
-           Clicking while holding down various combinations of the Shift and Ctrl keys also affects the automaton. In applications, this feature could be coupled to motion sensors.</p>
+           Clicking while holding down various combinations of the Shift and Ctrl keys also affects the automaton. 
+           In applications, this feature could be coupled to motion sensors.</p>
         <p>Cellular worlds is customisable in various ways. 
             <ul>
-                <li>The colors cycle smoothly by default, but they can be changed at will.</li>
+                <li>The colors cycle smoothly by default, but they can be changed at will to a custom palette.</li>
                 <li>The patterns come in various styles, uniquely identified by the style identifier below.</li>
                 <li>A logo can be incorporated in the animation. Given a logo provided as a black and white image, different styles can be applied on the 
                     black and white portion of the image, integrating the logo organically into the pattern.</li>
@@ -75,7 +82,7 @@
             <option value="VariableDemo">No</option>
             <option value="VariableGR">Yes</option>
         </select><br>
-        <label for="currentStyle">Style identifier:</label> <input type="text" id="currentStyle" style="width: 60ch;"><br>
+        <label for="currentStyle">Rule and style identifier:</label> <input type="text" id="currentStyle" style="width: 60ch;"><br>
         <label for="category">Color scheme:</label>
         <select id="userColorPalette">
             <option value="variable">Variable</option>
@@ -91,7 +98,7 @@
         <input type="int" id="userGridWidth" value="100"><br>
         <label for="userTimeout">Timeout (smaller is faster):</label>
         <input type="int" id="userTimeout" value="50"><br>
-        <button id="submitButton">Submit</button>
+        <button id="submitButton">Change rule, style and colors</button>
         <button id="changeColoringRule">Change style</button>  
         <button id="evolveColoringRule">Evolve style</button>  
         <button id="changeColor">Change colors</button>
