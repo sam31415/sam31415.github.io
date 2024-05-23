@@ -1,4 +1,4 @@
-import { Generations, GenerationsGeneralShips, GenerationsFlamingShips, GenerationsStraightShips, ModifiedBriansBrain, BriansBrain, StarWars, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
+import { Generations, StochasticGenerations, GenerationsGeneralShips, GenerationsFlamingShips, GenerationsStraightShips, ModifiedBriansBrain, BriansBrain, StarWars, ConwayNoZero, ColoringRule, SparseFourStateRule } from "./rules.js";
 
 export const METAPRESETGR = "gr";;
 export const METAPRESETSAFE = "safe";
@@ -16,8 +16,8 @@ export class MetaRule {
     }
 
     getUpdateRule() {
-        function updateRule(cellValue, newCellValue, neighbourList, time) {
-            newCellValue = this.ruleChain[0].updateRule(cellValue % this.ruleChain[0].nStates, newCellValue, neighbourList, time);
+        function updateRule(cellValue, newCellValue, neighbourList, time, activityLevel) {
+            newCellValue = this.ruleChain[0].updateRule(cellValue % this.ruleChain[0].nStates, newCellValue, neighbourList, time, activityLevel);
             var nStates = this.ruleChain[0].nStates;
             for (let i = 1; i < this.ruleChain.length; i++) {
                 newCellValue += nStates * this.ruleChain[i].updateRule(
@@ -155,10 +155,11 @@ export class BBColoring extends MetaRule {
             ruleChain = [];
             //ruleChain.push(new ModifiedBriansBrain());
 
-            ruleChain.push(new GenerationsGeneralShips(false));
+            //ruleChain.push(new GenerationsGeneralShips(false));
+            ruleChain.push(new StochasticGenerations(null)); 
             //ruleChain.push(new Generations("B245/S346/I15678/4"));
-            this.colorUnit = 1;
-            //ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
+            this.colorUnit = ruleChain[0].nStates;
+            ruleChain.push(ColoringRule.sampleRule(null, this.neighbourTypes, this.neighbourGeometryType, 4, 4, this.periodicityLength));
         }
 
         return ruleChain;
