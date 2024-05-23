@@ -212,6 +212,26 @@ export class Generations extends PrimaryRule{
         if (ruleString == null) {
             ruleString = Generations.generateRule();
         }
+        this.initialiseRule(ruleString);
+    }
+
+    updateRule(cellValue, newCellValue, neighbourList, time) {
+        var cellValueM4 = cellValue % this.nStates;
+        if (cellValueM4 == 1 && this.survive.includes(neighbourList[0][this.neighbourhood])) {
+            newCellValue = 1;
+        } else if ((cellValueM4 > 0) && (cellValueM4 < this.nStates - 1)) {
+            newCellValue += 1;
+        } else if (cellValueM4 == this.nStates - 1) {
+            newCellValue = 0;
+        } else if ((cellValueM4 == 0) && (this.birth.includes(neighbourList[0][this.neighbourhood]))) {
+            newCellValue = 1;
+        } else if ((cellValueM4 == 0) && (this.inhibited.includes(neighbourList[0][this.neighbourhood]))) {
+            newCellValue = this.nStates - 1;
+        }
+        return newCellValue;
+    }
+
+    initialiseRule(ruleString) {
         this.ruleString = ruleString;
         const parts = this.ruleString.split('/');
         this.neighbourhood = 0;
@@ -231,25 +251,11 @@ export class Generations extends PrimaryRule{
         }
     }
 
-    updateRule(cellValue, newCellValue, neighbourList, time) {
-        var cellValueM4 = cellValue % this.nStates;
-        if (cellValueM4 == 1 && this.survive.includes(neighbourList[0][this.neighbourhood])) {
-            newCellValue = 1;
-        } else if ((cellValueM4 > 0) && (cellValueM4 < this.nStates - 1)) {
-            newCellValue += 1;
-        } else if (cellValueM4 == this.nStates - 1) {
-            newCellValue = 0;
-        } else if ((cellValueM4 == 0) && (this.birth.includes(neighbourList[0][this.neighbourhood]))) {
-            newCellValue = 1;
-        } else if ((cellValueM4 == 0) && (this.inhibited.includes(neighbourList[0][this.neighbourhood]))) {
-            newCellValue = this.nStates - 1;
-        }
-        return newCellValue;
-    }
-
-    static generateRule() {
+    static generateRule(N) {
         let nStates = Math.floor(Math.random() * 10) + 3;
-        let N = Math.floor(Math.random() * 5 * nStates);
+        if (N == null) {
+            N = Math.floor(Math.random() * 5 * nStates);
+        }
         let Nred =  Math.floor(N / nStates) % 5;
         var maxNeighbours = 8
         if ([1, 2].includes(Nred)) {
@@ -298,11 +304,41 @@ export class Generations extends PrimaryRule{
 }
 
 export class StochasticGenerations extends Generations{
-    constructor(ruleString) {
+    constructor(ruleString, flavour = null) {
         super(ruleString);
-        let b = this.birth[0]
-        this.activationFactor = 20/b**3
-        this.randomnessLogShift = 1.0
+        if (flavour == "ships") {
+            let ruleString = StochasticGenerations.generateRule(0);
+            this.initialiseRule(ruleString);
+            let index = Array.from(this.birth).indexOf(1);
+            if (index !== -1) {
+                let newArray = new Uint8Array(this.birth.length - 1);
+                newArray.set(this.birth.subarray(0, index), 0);
+                newArray.set(this.birth.subarray(index + 1), index);
+                this.birth = newArray;
+            }
+            if (this.birth.indexOf(2) === -1) {
+                let newArray = new Uint8Array(this.birth.length + 1);
+                newArray[0] = 2;
+                newArray.set(this.birth, 1);
+                this.birth = newArray;
+            }
+            index = Array.from(this.survive).indexOf(1);
+            if (index !== -1) {
+                let newArray = new Uint8Array(this.survive.length - 1);
+                newArray.set(this.survive.subarray(0, index), 0);
+                newArray.set(this.survive.subarray(index + 1), index);
+                this.survive = newArray;            
+            }
+            this.inhibited = this.inhibited.filter(i => !this.birth.includes(i) && !this.survive.includes(i) && i != 2);
+            this.ruleString = `N${this.neighbourhood}/B${this.birth.join('')}/S${this.survive.join('')}/I${this.inhibited.join('')}/${this.nStates}`;
+
+            this.activationFactor = 1.0;
+            this.randomnessLogShift = 0.5;
+        } else {
+            this.activationFactor = 20/this.birth[0]**3;
+            this.randomnessLogShift = 1.0;
+        }
+
     }
 
     updateRule(cellValue, newCellValue, neighbourList, time, activityLevel) {
