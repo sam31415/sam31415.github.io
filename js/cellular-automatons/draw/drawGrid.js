@@ -37,6 +37,7 @@ export function drawGrid(globalData) {
             imageData.data[index + 3] = color.t; // Transparency
         }
     }
+    globalData.activityLevel = 4/5 * globalData.activityLevel + nCellChanged/(globalData.gridHeight * globalData.gridWidth)/5;
     globalData.nCellChangedHistoric = 1/100 * nCellChanged + 99 / 100 * globalData.nCellChangedHistoric;
     globalData.meanColorChangeHistoric = 1/100 * meanColorChange / (nCellChanged + (globalData.gridHeight * globalData.gridWidth)/30) + 99 / 100 * globalData.meanColorChangeHistoric;
     // brightness = brightness / (3 * nCellChanged);

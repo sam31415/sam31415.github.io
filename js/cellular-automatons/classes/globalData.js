@@ -57,6 +57,7 @@ export class GlobalData {
         this.imageData = ctx.createImageData(canvas.width, canvas.height);
         this.changeColoringRuleFlag = true;
         this.evolveColoringRuleFlag = false;
+        this.activityLevel = 0;
         this.nCellChangedHistoric = 0;
         this.meanColorChangeHistoric = 0;
         // this.brightness = 127;
