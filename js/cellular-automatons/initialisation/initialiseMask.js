@@ -4,7 +4,7 @@ import { loadImage } from "./loadImage.js";
 
 export function initialiseMask(globalData, image) {
     console.log('Attempting to load image');
-    return loadImage('grLogoLarge.png').then(image => {
+    return loadImage(globalData.logo).then(image => {
         const grid = new Grid(globalData.gridWidth, globalData.gridHeight);
         const mask = new Grid(globalData.gridWidth, globalData.gridHeight);
         const scaleX = image[0].length / globalData.gridWidth;

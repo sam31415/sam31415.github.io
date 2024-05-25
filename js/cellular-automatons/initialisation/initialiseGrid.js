@@ -3,7 +3,7 @@ import { initialiseMask } from "./initialiseMask.js";
 
 
 export async function initializeGrid(globalData, image) {
-    if (globalData.rule == "VariableGR") {
+    if (globalData.logo !== null) {
         await initialiseMask(globalData, image);
     }
     if (globalData.initialisation == "zero") {

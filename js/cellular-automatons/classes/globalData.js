@@ -1,5 +1,5 @@
 export class GlobalData {
-    constructor(
+    constructor({
         canvas, 
         ctx, 
         gridHeight = 200, 
@@ -18,7 +18,9 @@ export class GlobalData {
         maxNColors = 6,
         ruleSwitchPeriod = 20000,
         ruleEvolvePeriod = 2000,
-    ){
+        logo = null,
+        useLogo = false,
+    } = {}){
         this.gridHeight = gridHeight;
         this.gridWidth = gridWidth;
         this.canvasCornerX = 0;
@@ -46,11 +48,12 @@ export class GlobalData {
         this.mask = null;
         this.ruleSwitchPeriod = ruleSwitchPeriod;
         this.ruleEvolvePeriod = ruleEvolvePeriod;
-        this.ruleLogSwitchProbability = -25
-        this.ruleLogEvolveProbability = -25
-        this.logMultiplicativeFactor = 25/this.ruleSwitchPeriod
-        this.logMultiplicativeEvolveFactor = 25/this.ruleEvolvePeriod
-        ;
+        this.ruleLogSwitchProbability = -25;
+        this.ruleLogEvolveProbability = -25;
+        this.logMultiplicativeFactor = 25/this.ruleSwitchPeriod;
+        this.logMultiplicativeEvolveFactor = 25/this.ruleEvolvePeriod;
+        this.logo = logo;
+        this.useLogo = useLogo;
 
         this.canvas.width = this.gridWidth;
         this.canvas.height = this.gridHeight;

@@ -20,7 +20,7 @@ export function updateGrid(globalData) {
             // computeNeighbourListTime += t1 - t0;
             const cellValue = globalData.grid.get(i, j);
             var newCellValue = cellValue;
-            if (globalData.rule != "VariableGR" || globalData.mask.get(i, j) == 0) {
+            if (!globalData.useLogo || globalData.mask.get(i, j) == 0) {
                 newCellValue = globalData.ruleClass.updateRule(cellValue, newCellValue, neighbourList, globalData.time, globalData.activityLevel);
             } else {
                 newCellValue = globalData.ruleClass2.updateRule(cellValue, newCellValue, neighbourList, globalData.time, globalData.activityLevel);

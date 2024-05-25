@@ -8,46 +8,28 @@ import { determineColorPalette } from '../../../js/cellular-automatons/draw/colo
 
 console.log("Loading main.js")
 
-var canvas = document.getElementById('gameCanvas');
-var ctx = canvas.getContext('2d');
-var gridHeight = 192 //358
-var gridWidth = 192 //358
-var timeout = 30 // 0
-var addRandomness = true
-var randomnessAmount = -1.5
-var randomisePeriodicityShiftAndTopology = true
-var gridPeriodicityShiftX = 0
-var gridPeriodicityShiftY = 0
-var gridFlipX = false
-var gridFlipY = false
-var colorPalette = 'variable'
-var rule = "Variable" // "Variable" // "Conway" //
-var initialisation = "random"
-var maxNColors = 8
-var ruleSwitchPeriod = 20000
-var ruleEvolvePeriod = 2000
+var config = {
+    canvas: document.getElementById('gameCanvas'),
+    ctx: document.getElementById('gameCanvas').getContext('2d'),
+    gridHeight: 192,
+    gridWidth: 192,
+    timeout: 30,
+    addRandomness: true,
+    randomnessAmount: -1.5,
+    randomisePeriodicityShiftAndTopology: true,
+    gridPeriodicityShiftX: 0,
+    gridPeriodicityShiftY: 0,
+    gridFlipX: false,
+    gridFlipY: false,
+    colorPalette: 'variable',
+    rule: "Variable",
+    initialisation: "random",
+    maxNColors: 8,
+    ruleSwitchPeriod: 20000,
+    ruleEvolvePeriod: 2000
+};
 
-
-var globalData = new GlobalData(
-    canvas=canvas, 
-    ctx=ctx,
-    gridHeight=gridHeight,
-    gridWidth=gridWidth,
-    timeout=timeout,
-    addRandomness=addRandomness,
-    randomnessAmount=randomnessAmount,
-    randomisePeriodicityShiftAndTopology=randomisePeriodicityShiftAndTopology,
-    gridPeriodicityShiftX=gridPeriodicityShiftX,
-    gridPeriodicityShiftY=gridPeriodicityShiftY,
-    gridFlipX=gridFlipX,
-    gridFlipY=gridFlipY,
-    colorPalette=colorPalette,
-    rule=rule,
-    initialisation=initialisation,
-    maxNColors=maxNColors,
-    ruleSwitchPeriod=ruleSwitchPeriod,
-    ruleEvolvePeriod=ruleEvolvePeriod,
-);
+var globalData = new GlobalData(config);
 
 window.onload = function() {
     addRandomnessCheckboxListener(globalData);

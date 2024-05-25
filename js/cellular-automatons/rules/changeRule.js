@@ -6,8 +6,11 @@ export function changeRule(globalData, forceChange = false) {
         if (globalData.rule == "VariableGR") {
             globalData.ruleClass = new BBColoring(METAPRESETGR);
             globalData.ruleClass2 = new BBColoring(METAPRESETGR);
+            globalData.useLogo = true;
         } else if (globalData.rule == "VariableDemo") {
             globalData.ruleClass = new BBColoring(METAPRESETGR);
+            globalData.ruleClass2 = null;
+            globalData.useLogo = false;
         } else if (globalData.rule == "Variable") {
             globalData.ruleClass = new BBColoring(METAPRESETSAFE);
         } else if (globalData.rule == "VariableMix") {
@@ -42,7 +45,7 @@ export function changeRule(globalData, forceChange = false) {
         displayRule(globalData);
     } else if ((Math.random() < Math.exp(globalData.ruleLogEvolveProbability) || globalData.evolveColoringRuleFlag) && globalData.rule != "CustomRule") {
         globalData.ruleClass.evolveRuleChain();
-        if (globalData.rule == "VariableGR") {
+        if (globalData.logo !== null) {
             globalData.ruleClass2.evolveRuleChain();
         }
         globalData.ruleLogEvolveProbability = -25;
