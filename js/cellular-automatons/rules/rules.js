@@ -399,7 +399,7 @@ export class GenerationsGeneralShips extends Generations{
             "N0/B24568/S34578/I/12": 1,
             "N0/B24568/S34578/I/13": 1,
             "N0/B24568/S34578/I/14": 1,
-            "N0/B24568/S34678/I/4": 1,
+            "N0/B24568/S34678/I/4": 3, // Really good too
             "N0/B24568/S34678/I/5": 1,
             "N0/B24568/S34678/I/6": 1,
             "N0/B24568/S34678/I/7": 10, // Really good!
