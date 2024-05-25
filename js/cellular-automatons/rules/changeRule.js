@@ -45,7 +45,7 @@ export function changeRule(globalData, forceChange = false) {
         displayRule(globalData);
     } else if ((Math.random() < Math.exp(globalData.ruleLogEvolveProbability) || globalData.evolveColoringRuleFlag) && globalData.rule != "CustomRule") {
         globalData.ruleClass.evolveRuleChain();
-        if (globalData.logo !== null) {
+        if (globalData.useLogo && globalData.ruleClass2 !== null) {
             globalData.ruleClass2.evolveRuleChain();
         }
         globalData.ruleLogEvolveProbability = -25;
