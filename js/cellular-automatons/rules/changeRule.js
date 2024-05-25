@@ -66,7 +66,11 @@ export function changeRule(globalData, forceChange = false) {
 function displayRule(globalData) {
     var element = document.getElementById('currentStyle');
     if (element) {
-        element.value = globalData.ruleClass.getName();
+        if (globalData.useLogo && globalData.ruleClass2 !== null) {
+            element.value = globalData.ruleClass.getName() + "__" + globalData.ruleClass2.getName();
+        } else {
+            element.value = globalData.ruleClass.getName();
+        }
     }}
 
 
