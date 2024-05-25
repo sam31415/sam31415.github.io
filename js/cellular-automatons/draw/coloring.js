@@ -31,6 +31,8 @@ export function determineColorPalette(globalData) {
     var randomColor2 = { r: Math.floor(Math.random() * 256), g: Math.floor(Math.random() * 256), b: Math.floor(Math.random() * 256), t: 255 };
     var redblue1 = {r: 221, g: 85, b: 12, t: 255};
     var redblue2 = {r: 49, g: 130, b: 189, t: 255};
+    var turquoiseRed1 = {r: 39, g: 192, b: 177};
+    var turquoiseRed2 = {r: 252, g: 53, b: 47};
     var transparent = { r: 0, g: 0, b: 0, t: 0 };
 
     if (globalData.colorPalette == 'yellow') {
@@ -97,6 +99,11 @@ export function determineColorPalette(globalData) {
         globalData.activatedColor = whitish;
         globalData.deadColor = redblue1;
         globalData.superActivatedColor = redblue2;
+    } else if (globalData.colorPalette == 'turquoiseRed') {
+        globalData.backgroundColor = black;
+        globalData.activatedColor = whitish;
+        globalData.deadColor = turquoiseRed1;
+        globalData.superActivatedColor = turquoiseRed2;
     } else if (globalData.colorPalette == 'variable') {
         globalData.backgroundColor = black;
         globalData.activatedColor = whitish;
