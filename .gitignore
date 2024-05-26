@@ -4,3 +4,4 @@ projects/gr-game/js/node_*.tmp.js
 
 projects/demo-cellular-automata/logo1.png
 projects/demo-cellular-automata/wifi.svg
+js/cellular-automatons/rules/rulesMeta.js
