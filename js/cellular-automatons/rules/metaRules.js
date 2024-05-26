@@ -147,7 +147,7 @@ export class BBColoring extends MetaRule {
             ruleChain = [];
             //ruleChain.push(new ModifiedBriansBrain());
 
-            //ruleChain.push(new GenerationsGeneralShips(false));
+            //ruleChain.push(new GenerationsGeneralShips(null, false));
             ruleChain.push(new StochasticGenerations(null, "ships")); 
             //ruleChain.push(new Generations("B245/S346/I15678/4"));
             this.colorUnit = ruleChain[0].nStates;
@@ -178,6 +178,10 @@ export class BBColoring extends MetaRule {
             ruleChain.push(new GenerationsFlamingShips())
         } else if (baseRuleName == "CW") {
             ruleChain.push(new ConwayNoZero())
+        } else if (baseRuleName.startsWith("SGen")){
+            ruleChain.push(new StochasticGenerations(baseRuleName, "ships"));
+        } else if (baseRuleName.startsWith("GGShips")){
+            ruleChain.push(new GenerationsGeneralShips(baseRuleName))
         } else {
             ruleChain.push(new Generations(baseRuleName));
         }

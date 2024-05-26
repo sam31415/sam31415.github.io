@@ -372,13 +372,17 @@ export class StochasticGenerations extends Generations{
 }
 
 export class GenerationsGeneralShips extends Generations{
-    constructor(safe=true) {
-        if (safe) {
-            super(GenerationsGeneralShips.getPresetRule())
+    constructor(ruleString = null, safe=true) {
+        if (ruleString == null) {
+            if (safe) {
+                super(GenerationsGeneralShips.getPresetRule())
+            } else {
+                super(GenerationsGeneralShips.generateRule());
+            }
         } else {
-            super(GenerationsGeneralShips.generateRule());
-            this.randomnessLogShift = 0.0
+            super(ruleString);
         }
+        
     }
 
     static getPresetRule() {
