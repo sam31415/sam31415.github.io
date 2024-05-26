@@ -357,6 +357,18 @@ export class StochasticGenerations extends Generations{
         return newCellValue;
     }
 
+    getName() {
+        return `SGen/${this.ruleString}`;
+    }
+
+    initialiseRule(ruleString) {
+        if (ruleString.substring(0, 4) == "SGen") {
+            super.initialiseRule(ruleString.substring(5));
+        } else {
+            super.initialiseRule(ruleString);
+        }
+    }
+
 }
 
 export class GenerationsGeneralShips extends Generations{
@@ -409,7 +421,7 @@ export class GenerationsGeneralShips extends Generations{
             "N0/B24568/S34678/I/11": 1,
             "N0/B25/S345/I/4": 1,
             "N0/B25/S345/I/5": 1,
-            "N0/B25/S345/I/6": 1,
+            "N0/B25/S345/I/6": 3, // Really good!
             "N0/B2568/S345678/I/8": 1,
             "N0/B2568/S345678/I/10": 1,
             "N0/B2568/S345678/I/12": 1,
@@ -453,15 +465,23 @@ export class GenerationsGeneralShips extends Generations{
     }
 
     getSeedingPatterns() {
-        let shipsWeight = 1/5;
-        let burstWeight = 1;
-        let rakeWeight = 1;
-        let starWeight = 1;
         //let stillLifeWeight = 1;
         let seedingPatterns = {
             random: {prob: 1, mask: null},
         };
         return seedingPatterns;
+    }
+
+    getName() {
+        return `GGShips/${this.ruleString}`;
+    }
+
+    initialiseRule(ruleString) {
+        if (ruleString.substring(0, 7) == "GGShips/") {
+            super.initialiseRule(ruleString.substring(8));
+        } else {
+            super.initialiseRule(ruleString);
+        }
     }
 }
 
