@@ -21,7 +21,6 @@ var gridFlipY = false
 var colorPalette = 'mouseAnimation'
 var rule = "Variable"
 var initialisation = "zero"
-var maxNColors = 6
 
 var globalData = new GlobalData(
     canvas=canvas, 
@@ -39,7 +38,6 @@ var globalData = new GlobalData(
     colorPalette=colorPalette,
     rule=rule,
     initialisation=initialisation,
-    maxNColors=maxNColors
 );
 
 

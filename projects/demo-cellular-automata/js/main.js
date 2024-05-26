@@ -24,7 +24,6 @@ var config = {
     colorPalette: 'variable',
     rule: "VariableDemo",
     initialisation: "random",
-    maxNColors: 8,
     ruleSwitchPeriod: 20000,
     ruleEvolvePeriod: 2000,
     logo: "logo2.png",

@@ -24,7 +24,6 @@ var config = {
     colorPalette: 'black2',
     rule: "VariableGR",
     initialisation: "random",
-    maxNColors: 6,
     logo: "grLogoLarge.png",
     useLogo: true,
 };
