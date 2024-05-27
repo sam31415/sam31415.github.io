@@ -1,48 +1,36 @@
 import { GlobalData } from '../../../js/cellular-automatons/classes/globalData.js';
 import { gameLoop } from '../../../js/cellular-automatons/gameLoop.js';
 import { initializeGrid } from "../../../js/cellular-automatons/initialisation/initialiseGrid.js";
-import { addLikeButtonListeners, addChangeColoringRuleListener, addRuleListener, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener, addChangeColorListener } from '../../../js/cellular-automatons/interactivity/eventHandlers.js';
-import { retrieveGlobalData } from '../../../js/cellular-automatons/interactivity/formHandlers.js';
+import { addChangeColoringRuleListener, addRuleListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener, addChangeColorListener } from '../../../js/cellular-automatons/interactivity/eventHandlers.js';
+import { retrieveGlobalData, setDocumentFields, adjustCanvasSize } from '../../../js/cellular-automatons/interactivity/formHandlers.js';
 import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/interactivity/optionSetter.js';
 import { determineColorPalette } from '../../../js/cellular-automatons/draw/coloring.js';
 
 console.log("Loading main.js")
 
-var canvas = document.getElementById('gameCanvas');
-var ctx = canvas.getContext('2d');
-var gridHeight = 192 //358
-var gridWidth = 192 //358
-var timeout = 30 // 0
-var addRandomness = true
-var randomnessAmount = -1.0 //-1.5
-var randomisePeriodicityShiftAndTopology = true
-var gridPeriodicityShiftX = 0
-var gridPeriodicityShiftY = 0
-var gridFlipX = false
-var gridFlipY = false
-var colorPalette = 'variable'
-var rule = "Variable" // "Variable" // "Conway" //
-var initialisation = "random"
-var maxNColors = 8
+var config = {
+    canvas: document.getElementById('gameCanvas'),
+    ctx: document.getElementById('gameCanvas').getContext('2d'),
+    gridHeight: 192,
+    gridWidth: 192,
+    timeout: 30,
+    addRandomness: true,
+    randomnessAmount: -1.0,
+    randomisePeriodicityShiftAndTopology: true,
+    gridPeriodicityShiftX: 0,
+    gridPeriodicityShiftY: 0,
+    gridFlipX: false,
+    gridFlipY: false,
+    colorPalette: 'variable',
+    metaRule: "VariableDemo",
+    initialisation: "random",
+    ruleSwitchPeriod: 20000,
+    ruleEvolvePeriod: 2000,
+    logo: "logo2.png",
+    useLogo: false,
+};
 
-var globalData = new GlobalData(
-    canvas=canvas, 
-    ctx=ctx,
-    gridHeight=gridHeight,
-    gridWidth=gridWidth,
-    timeout=timeout,
-    addRandomness=addRandomness,
-    randomnessAmount=randomnessAmount,
-    randomisePeriodicityShiftAndTopology=randomisePeriodicityShiftAndTopology,
-    gridPeriodicityShiftX=gridPeriodicityShiftX,
-    gridPeriodicityShiftY=gridPeriodicityShiftY,
-    gridFlipX=gridFlipX,
-    gridFlipY=gridFlipY,
-    colorPalette=colorPalette,
-    rule=rule,
-    initialisation=initialisation,
-    maxNColors=maxNColors,
-);
+var globalData = new GlobalData(config);
 
 window.onload = function() {
     addFullscreenButtonListener(globalData);
@@ -56,6 +44,8 @@ window.onload = function() {
     addChangeColorListener(globalData);
 
     retrieveGlobalData(globalData);
+    setDocumentFields(globalData);
+    adjustCanvasSize(globalData);
     determineColorPalette(globalData);
     setFindNeighbour(globalData);
     setCellUpdateRule(globalData);

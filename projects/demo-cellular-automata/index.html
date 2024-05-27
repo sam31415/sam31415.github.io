@@ -25,11 +25,11 @@
             width: 800px; 
             height: 800px;
         }
-        #randomnessSlider {
+        #randomnessAmount {
             vertical-align: middle;
             width: 150px;
         }
-        #randomnessCheckbox {
+        #addRandomness {
             margin-right: 0px;
         }
         label, input, select, button {
@@ -58,6 +58,7 @@
         <p>The automaton can be interacted with by moving the mouse over the canvas while holding the Shift key down. This will activate any cell moused over. 
            Clicking while holding down various combinations of the Shift and Ctrl keys also affects the automaton. 
            In applications, this feature could be coupled to motion sensors.</p>
+
         <p>Cellular worlds is customisable in various ways. 
             <ul>
                 <li>The colors cycle smoothly by default, but they can be changed at will to a custom palette.</li>
@@ -66,10 +67,7 @@
                     black and white portion of the image, integrating the logo organically into the pattern.</li>
                 <li>Other automata, with different dynamics, are available upon request.</li>
             </ul>
-        </p>
-
-        <p>The javascript code and the resulting animations are © S.Monnier, 2024. Any commercial use without the explicit agreement of the author is forbidden.</p>
-        
+        </p>        
         <br>
         <button id="fullscreenButton">Fullscreen</button>
     </div><br>
@@ -84,24 +82,34 @@
         </select><br>
         <label for="currentStyle">Rule and style identifier:</label> <input type="text" id="currentStyle" style="width: 60ch;"><br>
         <label for="category">Color scheme:</label>
-        <select id="userColorPalette">
+        <select id="colorPalette">
             <option value="variable">Variable</option>
             <option value="blackTrace">Black and white</option>
-            <option value="redblue">Red and blue</option>
-            <option value="blackTrace3">Black (trace III)</option>
+            <option value="redBlue">Red and blue</option>
+            <option value="turquoiseRed">Turquoise and red</option>
+            <option value="magentaCyan">Majenta and cyan</option>
+            <option value="black2">Blue and yellow</option>
         </select><br>
         <!-- <label for="userGridSize">Grid size (max 1000):</label>
         <input type="int" id="userGridSize" value="100"> -->
-        <label for="userGridHeight">Grid height:</label>
-        <input type="int" id="userGridHeight" value="100">
-        <label for="userGridWidth">Grid width:</label>
-        <input type="int" id="userGridWidth" value="100"><br>
-        <label for="userTimeout">Timeout (smaller is faster):</label>
-        <input type="int" id="userTimeout" value="50"><br>
+        <label for="gridHeight">Grid height:</label>
+        <input type="int" id="gridHeight" value="100">
+        <label for="gridWidth">Grid width:</label>
+        <input type="int" id="gridWidth" value="100"><br>
+        <label for="timeout">Timeout (smaller is faster):</label>
+        <input type="int" id="timeout" value="50"><br>
         <button id="submitButton">Change rule, style and colors</button>
         <button id="changeColoringRule">Change style</button>  
         <button id="evolveColoringRule">Evolve style</button>  
         <button id="changeColor">Change colors</button>
+
+        <h3>About the artist</h3>
+
+        <h3>Contact</h3>
+        <p>For any question, request or comment, please contact me at <a href="mailto:samuel.monnier@pm.me">samuel.monnier@pm.me</a>.</p>
+        
+        <h3>Legal notice</h3>
+        <p>The javascript code and the resulting animations are © S.Monnier, 2024. Any commercial use without the explicit agreement of the author is forbidden.</p>
     </div>
 </body>
 </html>

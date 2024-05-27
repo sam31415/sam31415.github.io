@@ -2,47 +2,33 @@ import { GlobalData } from '../../../js/cellular-automatons/classes/globalData.j
 import { gameLoop } from '../../../js/cellular-automatons/gameLoop.js';
 import { initializeGrid } from "../../../js/cellular-automatons/initialisation/initialiseGrid.js";
 import { addChangeColoringRuleListener, addRuleListener, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener } from '../../../js/cellular-automatons/interactivity/eventHandlers.js';
-import { retrieveGlobalData } from '../../../js/cellular-automatons/interactivity/formHandlers.js';
+import { retrieveGlobalData, setDocumentFields, adjustCanvasSize } from '../../../js/cellular-automatons/interactivity/formHandlers.js';
 import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/interactivity/optionSetter.js';
 import { determineColorPalette } from '../../../js/cellular-automatons/draw/coloring.js';
 
 console.log("Loading main.js")
 
-var canvas = document.getElementById('gameCanvas');
-var ctx = canvas.getContext('2d');
-var gridHeight = 128
-var gridWidth = 128
-var timeout = 20
-var addRandomness = true
-var randomnessAmount = -1.0
-var randomisePeriodicityShiftAndTopology = true
-var gridPeriodicityShiftX = 0
-var gridPeriodicityShiftY = 0
-var gridFlipX = false
-var gridFlipY = false
-var colorPalette = 'black2'
-var rule = "VariableGR"
-var initialisation = "random"
-var maxNColors = 6
+var config = {
+    canvas: document.getElementById('gameCanvas'),
+    ctx: document.getElementById('gameCanvas').getContext('2d'),
+    gridHeight: 128,
+    gridWidth: 128,
+    timeout: 20,
+    addRandomness: true,
+    randomnessAmount: -1.0,
+    randomisePeriodicityShiftAndTopology: true,
+    gridPeriodicityShiftX: 0,
+    gridPeriodicityShiftY: 0,
+    gridFlipX: false,
+    gridFlipY: false,
+    colorPalette: 'black2',
+    metaRule: "VariableGR",
+    initialisation: "random",
+    logo: "grLogoLarge.png",
+    useLogo: true,
+};
 
-var globalData = new GlobalData(
-    canvas=canvas, 
-    ctx=ctx,
-    gridHeight=gridHeight,
-    gridWidth=gridWidth,
-    timeout=timeout,
-    addRandomness=addRandomness,
-    randomnessAmount=randomnessAmount,
-    randomisePeriodicityShiftAndTopology=randomisePeriodicityShiftAndTopology,
-    gridPeriodicityShiftX=gridPeriodicityShiftX,
-    gridPeriodicityShiftY=gridPeriodicityShiftY,
-    gridFlipX=gridFlipX,
-    gridFlipY=gridFlipY,
-    colorPalette=colorPalette,
-    rule=rule,
-    initialisation=initialisation,
-    maxNColors=maxNColors
-);
+var globalData = new GlobalData(config);
 
 
 window.onload = function() {
@@ -59,6 +45,8 @@ window.onload = function() {
     addChangeColoringRuleListener(globalData);
 
     retrieveGlobalData(globalData);
+    setDocumentFields(globalData);
+    adjustCanvasSize(globalData);
     determineColorPalette(globalData);
     setFindNeighbour(globalData);
     setCellUpdateRule(globalData);
