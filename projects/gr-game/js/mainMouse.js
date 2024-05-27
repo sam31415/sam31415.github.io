@@ -6,39 +6,24 @@ import { Grid } from '../../../js/cellular-automatons/classes/grid.js';
 
 console.log("Loading main.js")
 
-var canvas = document.getElementById('gameCanvas');
-var ctx = canvas.getContext('2d');
-var gridHeight = 29
-var gridWidth = 78
-var timeout = 80
-var addRandomness = false
-var randomnessAmount = -0.0
-var randomisePeriodicityShiftAndTopology = false
-var gridPeriodicityShiftX = 0
-var gridPeriodicityShiftY = 0
-var gridFlipX = false
-var gridFlipY = false
-var colorPalette = 'mouseAnimation'
-var metaRule = "Variable"
-var initialisation = "zero"
+var config = {
+    canvas: document.getElementById('gameCanvas'),
+    ctx: document.getElementById('gameCanvas').getContext('2d'),
+    gridHeight: 29,
+    gridWidth: 78,
+    timeout: 80,
+    addRandomness: false,
+    randomisePeriodicityShiftAndTopology: false,
+    gridPeriodicityShiftX: 0,
+    gridPeriodicityShiftY: 0,
+    gridFlipX: false,
+    gridFlipY: false,
+    colorPalette: 'mouseAnimation',
+    metaRule: "Variable",
+    initialisation: "zero",
+};
 
-var globalData = new GlobalData(
-    canvas=canvas, 
-    ctx=ctx,
-    gridHeight=gridHeight,
-    gridWidth=gridWidth,
-    timeout=timeout,
-    addRandomness=addRandomness,
-    randomnessAmount=randomnessAmount,
-    randomisePeriodicityShiftAndTopology=randomisePeriodicityShiftAndTopology,
-    gridPeriodicityShiftX=gridPeriodicityShiftX,
-    gridPeriodicityShiftY=gridPeriodicityShiftY,
-    gridFlipX=gridFlipX,
-    gridFlipY=gridFlipY,
-    colorPalette=colorPalette,
-    metaRule=metaRule,
-    initialisation=initialisation,
-);
+var globalData = new GlobalData(config);
 
 
 window.onload = function() {
