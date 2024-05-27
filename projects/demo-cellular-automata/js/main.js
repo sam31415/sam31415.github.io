@@ -2,7 +2,7 @@ import { GlobalData } from '../../../js/cellular-automatons/classes/globalData.j
 import { gameLoop } from '../../../js/cellular-automatons/gameLoop.js';
 import { initializeGrid } from "../../../js/cellular-automatons/initialisation/initialiseGrid.js";
 import { addChangeColoringRuleListener, addRuleListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener, addChangeColorListener } from '../../../js/cellular-automatons/interactivity/eventHandlers.js';
-import { retrieveGlobalData } from '../../../js/cellular-automatons/interactivity/formHandlers.js';
+import { retrieveGlobalData, setDocumentFields, adjustCanvasSize } from '../../../js/cellular-automatons/interactivity/formHandlers.js';
 import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/interactivity/optionSetter.js';
 import { determineColorPalette } from '../../../js/cellular-automatons/draw/coloring.js';
 
@@ -22,7 +22,7 @@ var config = {
     gridFlipX: false,
     gridFlipY: false,
     colorPalette: 'variable',
-    rule: "VariableDemo",
+    metaRule: "VariableDemo",
     initialisation: "random",
     ruleSwitchPeriod: 20000,
     ruleEvolvePeriod: 2000,
@@ -44,6 +44,8 @@ window.onload = function() {
     addChangeColorListener(globalData);
 
     retrieveGlobalData(globalData);
+    setDocumentFields(globalData);
+    adjustCanvasSize(globalData);
     determineColorPalette(globalData);
     setFindNeighbour(globalData);
     setCellUpdateRule(globalData);

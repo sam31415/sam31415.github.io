@@ -25,11 +25,11 @@
             width: 800px; 
             height: 800px;
         }
-        #randomnessSlider {
+        #randomnessAmount {
             vertical-align: middle;
             width: 150px;
         }
-        #randomnessCheckbox {
+        #addRandomness {
             margin-right: 0px;
         }
         label, input, select, button {
@@ -82,7 +82,7 @@
         </select><br>
         <label for="currentStyle">Rule and style identifier:</label> <input type="text" id="currentStyle" style="width: 60ch;"><br>
         <label for="category">Color scheme:</label>
-        <select id="userColorPalette">
+        <select id="colorPalette">
             <option value="variable">Variable</option>
             <option value="blackTrace">Black and white</option>
             <option value="redblue">Red and blue</option>
@@ -91,12 +91,12 @@
         </select><br>
         <!-- <label for="userGridSize">Grid size (max 1000):</label>
         <input type="int" id="userGridSize" value="100"> -->
-        <label for="userGridHeight">Grid height:</label>
-        <input type="int" id="userGridHeight" value="100">
-        <label for="userGridWidth">Grid width:</label>
-        <input type="int" id="userGridWidth" value="100"><br>
-        <label for="userTimeout">Timeout (smaller is faster):</label>
-        <input type="int" id="userTimeout" value="50"><br>
+        <label for="gridHeight">Grid height:</label>
+        <input type="int" id="gridHeight" value="100">
+        <label for="gridWidth">Grid width:</label>
+        <input type="int" id="gridWidth" value="100"><br>
+        <label for="timeout">Timeout (smaller is faster):</label>
+        <input type="int" id="timeout" value="50"><br>
         <button id="submitButton">Change rule, style and colors</button>
         <button id="changeColoringRule">Change style</button>  
         <button id="evolveColoringRule">Evolve style</button>  

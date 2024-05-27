@@ -19,7 +19,7 @@ var gridPeriodicityShiftY = 0
 var gridFlipX = false
 var gridFlipY = false
 var colorPalette = 'mouseAnimation'
-var rule = "Variable"
+var metaRule = "Variable"
 var initialisation = "zero"
 
 var globalData = new GlobalData(
@@ -36,7 +36,7 @@ var globalData = new GlobalData(
     gridFlipX=gridFlipX,
     gridFlipY=gridFlipY,
     colorPalette=colorPalette,
-    rule=rule,
+    metaRule=metaRule,
     initialisation=initialisation,
 );
 
