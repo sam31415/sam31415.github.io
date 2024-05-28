@@ -10,11 +10,11 @@ module.exports = [
     optimization: {
       minimize: true,
       minimizer: [new TerserPlugin({
-        terserOptions: {
-          mangle: {
-            properties: true,
-          },
-        },
+        // terserOptions: {
+        //   mangle: {
+        //     properties: true,
+        //   },
+        // },
       }),
     ],
     },
@@ -28,11 +28,11 @@ module.exports = [
     optimization: {
       minimize: true,
       minimizer: [new TerserPlugin({
-        terserOptions: {
-          mangle: {
-            properties: true,
-          },
-        },
+        // terserOptions: {
+        //   mangle: {
+        //     properties: true,
+        //   },
+        // },
       }),
     ],
     },

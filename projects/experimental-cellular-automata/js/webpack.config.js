@@ -84,11 +84,11 @@ module.exports = {
     minimize: true,
     minimizer: [new TerserPlugin({
       terserOptions: {
-        mangle: {
-          properties: {
-            reserved: ruleKeys,
-          },
-        },
+        // mangle: {
+        //   properties: {
+        //     reserved: ruleKeys,
+        //   },
+        // },
       },
     }),
   ],
