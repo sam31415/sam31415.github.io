@@ -1,8 +1,8 @@
-import { GlobalData } from '../../../js/cellular-automatons/classes/globalData.js';
-import { gameLoop } from '../../../js/cellular-automatons/gameLoop.js';
-import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automatons/interactivity/optionSetter.js';
-import { determineColorPalette } from '../../../js/cellular-automatons/draw/coloring.js';
-import { Grid } from '../../../js/cellular-automatons/classes/grid.js';
+import { GlobalData } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/classes/globalData.js';
+import { gameLoop } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/gameLoop.js';
+import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automaton-backend/cellular-automaton-backend/interactivity/optionSetter.js';
+import { determineColorPalette } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/draw/coloring.js';
+import { Grid } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/classes/grid.js';
 
 console.log("Loading main.js")
 
