@@ -1,3 +1,0 @@
-[submodule "js/cellular-automaton-backend"]
-	path = js/cellular-automaton-backend
-	url = https://github.com/sam31415/cellular-automaton-backend.git
