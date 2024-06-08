@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Celular automata experiments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #F0EFEF;
+        }
+        #content {
+            max-width: 800px;
+            margin: auto;
+        }
+        #gameCanvas {
+            border: 1px solid black;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            image-rendering: pixelated; 
+            image-rendering: crisp-edges;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #randomnessAmount {
+            vertical-align: middle;
+            width: 150px;
+        }
+        #addRandomness {
+            margin-right: 0px;
+        }
+        label, input, select, button {
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+        input {
+            width: 10ch;  
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <br><br>
+        <button id="fullscreenButton">Go Fullscreen</button>
+        <button id="likeButton">Like</button>
+        <button id="dislikeButton">Dislike</button>
+        <label for="saveEventCheckbox">Save event data?</label> <input type="checkbox" id="saveEventCheckbox"><br>
+    </div><br>
+    <div id="canvasContainer">
+    <canvas id="gameCanvas" width="192" height="192"></canvas>
+    </div>
+    <script type="module" src="js/mainCorner.js"></script>
+    <br>
+    <div id="content">
+        <label for="metaRule">Meta rule:</label>
+        <select id="metaRule">
+            <!-- <option value="Conway">Conway's game of life</option>
+            <option value="BB">Brian's brain</option>
+            <option value="BBMod">Modified Brian's brain</option> -->
+            <option value="Variable">Variable</option>
+            <option value="VariableMix">Variable mix</option>
+            <option value="VariableUnsafe">Variable unsafe</option>
+            <option value="VariableTest">Variable test</option>
+            <option value="Variable2Unsafe">Variable unsafe 2nd gen</option>
+            <option value="CustomRule">Custom rule</option>
+            <option value="OriginalBB">Original Brian's brain</option>
+            <option value="ModifiedBB">Modified Brian's brain</option>
+            <option value="StarWars">Star wars</option>
+            <option value="Conway">Conway's game of life</option>
+            <option value="SparseFourStates">Sparse four states</option>
+        </select> 
+        <label for="currentStyle">Current rule:</label> <input type="text" id="currentStyle" style="width: 60ch;"><br>
+        <label for="addRandomness">Add random seeding? </label> <input type="checkbox" id="addRandomness"><br>
+        <label for="randomnessAmount">Randomness amount (log10 of expected even number at each step):</label>
+            <input type="range" id="randomnessAmount" min="-5.0" max="1.0" value="-2.0" step="0.05"> <span id="randomnessAmountValue"></span><br>
+        <label for="gridPeriodicityShiftX">X periodicity shift:</label>
+        <input type="int" id="gridPeriodicityShiftX" value="0">
+        <label for="gridPeriodicityShiftY">Y periodicity shift:</label>
+        <input type="int" id="gridPeriodicityShiftY" value="0"><br>
+        <label for="gridFlipX">Twisted boundary across X:</label>
+        <input type="checkbox" id="gridFlipX">
+        <label for="gridFlipY">Twisted boundary across Y:</label>
+        <input type="checkbox" id="gridFlipY"><br>
+        <label for="category">Color scheme:</label>
+        <select id="colorPalette">
+            <option value="variable">Variable</option>
+            <!-- <option value="blue">Blue</option>
+            <option value="blue2">Blue II</option>
+            <option value="grey">Grey</option>
+            <option value="grey2">Grey II</option>
+            <option value="yellow">Yellow</option>
+            <option value="black">Black</option>
+            <option value="black2">Black II</option> -->
+            <option value="blackTrace">Black (trace I)</option>
+            <option value="blackTrace2">Black (trace II)</option>
+            <option value="blackTrace3">Black (trace III)</option>
+        </select><br>
+        <!-- <label for="userGridSize">Grid size (max 1000):</label>
+        <input type="int" id="userGridSize" value="100"> -->
+        <label for="gridHeight">Grid height:</label>
+        <input type="int" id="gridHeight" value="100">
+        <label for="gridWidth">Grid width:</label>
+        <input type="int" id="gridWidth" value="100"><br>
+        <label for="timeout">Timeout (smaller is faster):</label>
+        <input type="int" id="timeout" value="50"><br>
+        <button id="submitButton">Submit</button>   
+        <button id="changeColoringRule">Change coloring rule</button>  
+        <button id="evolveColoringRule">Evolve coloring rule</button>  
+        <button id="changeColor">Change colors</button>
+    </div>
+</body>
+</html>
