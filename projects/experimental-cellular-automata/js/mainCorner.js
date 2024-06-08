@@ -22,7 +22,7 @@ var config = {
     gridFlipX: false,
     gridFlipY: false,
     colorPalette: 'variable',
-    metaRule: "Variable",
+    metaRule: "VariableMix",
     initialisation: "random",
     ruleSwitchPeriod: 20000,
     ruleEvolvePeriod: 2000
