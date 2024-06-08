@@ -74,7 +74,7 @@ const ruleKeys = Object.keys(ruleWeights);
 
 const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = {
+module.exports = [{
   entry: './main.js',
   output: {
     filename: 'output.js',
@@ -93,6 +93,27 @@ module.exports = {
     }),
   ],
   },
-};
+}, 
+{
+  entry: './mainCorner.js',
+  output: {
+    filename: 'outputCorner.js',
+    path: __dirname
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        // mangle: {
+        //   properties: {
+        //     reserved: ruleKeys,
+        //   },
+        // },
+      },
+    }),
+  ],
+  },
+},
+];
 
 // Run npx webpack in the folder to build the project
