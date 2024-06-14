@@ -3,7 +3,7 @@ settings.json
 .vscode/launch.json
 .vscode/settings.json
 
-/js
+/js/cellular-automaon-backend
 
 projects/gr-game/node_*.tmp.js
 projects/gr-game/js/node_*.tmp.js
