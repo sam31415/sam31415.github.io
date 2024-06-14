@@ -5,12 +5,12 @@ import { addChangeColoringRuleListener, addRuleListener, addRandomnessCheckboxLi
 import { retrieveGlobalData, setDocumentFields, adjustCanvasSize } from '../../../js/cellular-automaton-frontend/formHandlers.js';
 import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automaton-backend/cellular-automaton-backend/interactivity/optionSetter.js';
 import { determineColorPalette } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/draw/coloring.js';
+import { updateCanvas } from '../../../js/cellular-automaton-frontend/updateCanvas.js';
+import { enrichGlobalDataWithFromEndData } from '../../../js/cellular-automaton-frontend/enrichGlobalDataWithFrontEndData.js';
 
 console.log("Loading main.js")
 
 var config = {
-    canvas: document.getElementById('gameCanvas'),
-    ctx: document.getElementById('gameCanvas').getContext('2d'),
     gridHeight: 128,
     gridWidth: 128,
     timeout: 20,
@@ -29,6 +29,7 @@ var config = {
 };
 
 var globalData = new GlobalData(config);
+enrichGlobalDataWithFromEndData(globalData);
 
 
 window.onload = function() {
@@ -52,7 +53,7 @@ window.onload = function() {
     setCellUpdateRule(globalData);
 
     initializeGrid(globalData).then(() =>{
-        gameLoop(globalData);
+        gameLoop(globalData, updateCanvas);
     })
     .catch((error) => {
         console.error("Error initialising the grid: ", error)
