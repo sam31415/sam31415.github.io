@@ -77,8 +77,7 @@ export function adjustCanvasSize(globalData) {
     }
 
     // Adjust image data size
-    globalData.imageData = globalData.ctx.createImageData(globalData.gridWidth, globalData.gridHeight);
-
+    globalData.imageData = new Uint8ClampedArray(4 * globalData.gridWidth * globalData.gridHeight).fill(0);
 }
 
 

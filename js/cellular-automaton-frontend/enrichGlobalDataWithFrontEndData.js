@@ -5,5 +5,4 @@ export function enrichGlobalDataWithFromEndData(globalData) {
     globalData.canvas.width = globalData.gridWidth;
     globalData.canvas.height = globalData.gridHeight;
     globalData.ctx = globalData.canvas.getContext('2d');
-    globalData.imageData = globalData.ctx.createImageData(globalData.canvas.width, globalData.canvas.height);
 }
