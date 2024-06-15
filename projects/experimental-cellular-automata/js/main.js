@@ -11,8 +11,6 @@ import { enrichGlobalDataWithFromEndData } from '../../../js/cellular-automaton-
 console.log("Loading main.js")
 
 var config = {
-    canvas: document.getElementById('gameCanvas'),
-    ctx: document.getElementById('gameCanvas').getContext('2d'),
     gridHeight: 192,
     gridWidth: 192,
     timeout: 30,
