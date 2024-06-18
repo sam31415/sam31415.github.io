@@ -3,12 +3,12 @@ import { gameLoop } from '../../../js/cellular-automaton-backend/cellular-automa
 import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automaton-backend/cellular-automaton-backend/interactivity/optionSetter.js';
 import { determineColorPalette } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/draw/coloring.js';
 import { Grid } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/classes/grid.js';
+import { updateCanvas } from '../../../js/cellular-automaton-frontend/updateCanvas.js';
+import { enrichGlobalDataWithFromEndData } from '../../../js/cellular-automaton-frontend/enrichGlobalDataWithFrontEndData.js';
 
 console.log("Loading main.js")
 
 var config = {
-    canvas: document.getElementById('gameCanvas'),
-    ctx: document.getElementById('gameCanvas').getContext('2d'),
     gridHeight: 29,
     gridWidth: 78,
     timeout: 80,
@@ -24,7 +24,7 @@ var config = {
 };
 
 var globalData = new GlobalData(config);
-
+enrichGlobalDataWithFromEndData(globalData);
 
 window.onload = function() {
 
@@ -55,7 +55,7 @@ window.onload = function() {
     setFindNeighbour(globalData);
     setCellUpdateRule(globalData);
     
-    gameLoop(globalData);
+    gameLoop(globalData, updateCanvas);
 }
 
 export function addMouseMoveListenerNoShift(globalData) {
