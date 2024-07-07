@@ -185,3 +185,19 @@ export function addLikeButtonListeners(globalData) {
         saveEventData(globalData, 'dislike');
     });
 }
+
+export function addPlayPauseStepButtonListeners(globalData) {
+
+    const playPauseButton = document.getElementById('playPauseButton');
+    playPauseButton.addEventListener('click', () => {
+        globalData.paused = !globalData.paused;
+        playPauseButton.textContent = globalData.paused ? 'Pause' : 'Play';
+        console.log("Paused", globalData.paused);
+    });
+
+    const stepButton = document.getElementById('stepButton');
+    stepButton.addEventListener('click', () => {
+        globalData.paused = true;
+        globalData.step = true;
+    });
+};
