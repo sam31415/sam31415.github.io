@@ -132,13 +132,13 @@ export function addPeriodicityListeners(globalData) {
 
 }
 
-export function addTimeoutListener(globalData) {
-    document.getElementById('timeout').addEventListener('input', function() {
+export function addCycleTimeListener(globalData) {
+    document.getElementById('cycleTime').addEventListener('input', function() {
         let value = parseInt(this.value);
         if (isNaN(value)) {
             value = 0;
         }
-        globalData.timeout = value;
+        globalData.targetCycleTime = value;
     });
 }
 

@@ -1,7 +1,7 @@
 import { GlobalData } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/classes/globalData.js';
 import { gameLoop } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/gameLoop.js';
 import { initializeGrid } from "../../../js/cellular-automaton-backend/cellular-automaton-backend/initialisation/initialiseGrid.js";
-import { addChangeColoringRuleListener, addRuleListener, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addTimeoutListener, addColorPaletteListener } from '../../../js/cellular-automaton-frontend/eventHandlers.js';
+import { addChangeColoringRuleListener, addRuleListener, addRandomnessCheckboxListener, addFullscreenButtonListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addCycleTimeListener, addColorPaletteListener } from '../../../js/cellular-automaton-frontend/eventHandlers.js';
 import { retrieveGlobalData, setDocumentFields, adjustCanvasSize } from '../../../js/cellular-automaton-frontend/formHandlers.js';
 import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automaton-backend/cellular-automaton-backend/interactivity/optionSetter.js';
 import { determineColorPalette } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/draw/coloring.js';
@@ -13,7 +13,7 @@ console.log("Loading main.js")
 var config = {
     gridHeight: 128,
     gridWidth: 128,
-    timeout: 20,
+    targetCycleTime: 50,
     addRandomness: true,
     randomnessAmount: -1.0,
     randomisePeriodicityShiftAndTopology: true,
@@ -40,7 +40,7 @@ window.onload = function() {
     addSubmitListener(globalData);
     addRandomnessSliderListener(globalData);
     addPeriodicityListeners(globalData);
-    addTimeoutListener(globalData);
+    addCycleTimeListener(globalData);
     addColorPaletteListener(globalData);
     addRuleListener(globalData);
     addChangeColoringRuleListener(globalData);
