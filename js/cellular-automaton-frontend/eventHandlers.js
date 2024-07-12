@@ -168,7 +168,7 @@ export function addChangeColoringRuleListener(globalData) {
 
 export function addChangeColorListener(globalData) {
     document.getElementById('changeColor').addEventListener('click', function() {
-        determineColorPalette(globalData);
+        globalData.reloadColorPaletteFlag = true;
     });
 }
 
