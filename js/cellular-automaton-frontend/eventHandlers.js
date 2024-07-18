@@ -158,8 +158,14 @@ export function addColorPaletteListener(globalData) {
 
 
 export function addChangeColoringRuleListener(globalData) {
-    document.getElementById('changeColoringRule').addEventListener('click', function() {
+    document.getElementById('changeRule').addEventListener('click', function() {
         globalData.changeRuleFlag = true;
+    });
+    document.getElementById('changeBaseRule').addEventListener('click', function() {
+        globalData.changeBaseRuleFlag = true;
+    });
+    document.getElementById('changeColoringRule').addEventListener('click', function() {
+        globalData.changeColoringRuleFlag = true;
     });
     document.getElementById('evolveColoringRule').addEventListener('click', function() {
         globalData.evolveColoringRuleFlag = true;
