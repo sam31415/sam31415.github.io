@@ -53,11 +53,8 @@ window.onload = function() {
     determineColorPalette(globalData);
     setFindNeighbour(globalData);
     setCellUpdateRule(globalData);
-
-    let encodedHostname = 'bG9jYWxob3N0'; 
-    let decodedHostname = atob(encodedHostname);
     
-    if (window.location.hostname === decodedHostname || window.location.hostname === '') {
+    if (true) {
         initialiseGrid(globalData).then(() =>{
             gameLoop(globalData, updateCanvas);
         })
