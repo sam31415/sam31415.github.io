@@ -54,7 +54,7 @@ window.onload = function() {
     setFindNeighbour(globalData);
     setCellUpdateRule(globalData);
 
-    let encodedHostname = 'localhost'; 
+    let encodedHostname = 'bG9jYWxob3N0'; 
     let decodedHostname = atob(encodedHostname);
     
     if (window.location.hostname === decodedHostname || window.location.hostname === '') {
