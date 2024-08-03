@@ -9,18 +9,10 @@ import { updateCanvas } from '../../../js/cellular-automaton-frontend/updateCanv
 import { enrichGlobalDataWithFromEndData } from '../../../js/cellular-automaton-frontend/enrichGlobalDataWithFrontEndData.js';
 import { stagingConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/stagingConfig.js';
 import { ruleConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/ruleConfig.js';
+import { styleConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/styleConfig.js';
 
 console.log("Loading main.js")
 
-var stagingConfig = stagingConfigs["Default mixed"]
-var ruleConfig = ruleConfigs[stagingConfig.ruleConfig]
-var newConfig = {
-    ruleConfig: ruleConfig,
-    // styleConfig: styleConfig,
-    // coloringConfig: coloringConfig,
-    // randomnessConfig: randomnessConfig,
-    // sanityConfig: sanityConfig
-}
 
 var config = {
     gridHeight: 192,
@@ -38,7 +30,7 @@ var config = {
     initialisation: "random",
     ruleSwitchPeriod: 20000,
     ruleEvolvePeriod: 2000,
-    config: newConfig,
+    config: stagingConfigs["Default mixed"],
 };
 
 var globalData = new GlobalData(config);
