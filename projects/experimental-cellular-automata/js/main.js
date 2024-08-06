@@ -30,7 +30,7 @@ var config = {
     initialisation: "random",
     ruleSwitchPeriod: 20000,
     ruleEvolvePeriod: 2000,
-    config: stagingConfigs["Default mixed"],
+    config: stagingConfigs["Mixed"],
 };
 
 var globalData = new GlobalData(config);
