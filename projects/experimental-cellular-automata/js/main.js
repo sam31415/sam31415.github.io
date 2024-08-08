@@ -7,8 +7,12 @@ import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automat
 import { determineColorPalette } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/draw/coloring.js';
 import { updateCanvas } from '../../../js/cellular-automaton-frontend/updateCanvas.js';
 import { enrichGlobalDataWithFromEndData } from '../../../js/cellular-automaton-frontend/enrichGlobalDataWithFrontEndData.js';
+import { stagingConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/stagingConfig.js';
+import { ruleConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/ruleConfig.js';
+import { styleConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/styleConfig.js';
 
 console.log("Loading main.js")
+
 
 var config = {
     gridHeight: 192,
@@ -25,7 +29,8 @@ var config = {
     metaRule: "Variable",
     initialisation: "random",
     ruleSwitchPeriod: 20000,
-    ruleEvolvePeriod: 2000
+    ruleEvolvePeriod: 2000,
+    config: stagingConfigs["Mixed"],
 };
 
 var globalData = new GlobalData(config);

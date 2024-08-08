@@ -165,7 +165,7 @@ export function addChangeColoringRuleListener(globalData) {
         globalData.changeBaseRuleFlag = true;
     });
     document.getElementById('changeColoringRule').addEventListener('click', function() {
-        globalData.changeColoringRuleFlag = true;
+        globalData.changeStyleFlag = true;
     });
     document.getElementById('evolveColoringRule').addEventListener('click', function() {
         globalData.evolveColoringRuleFlag = true;
