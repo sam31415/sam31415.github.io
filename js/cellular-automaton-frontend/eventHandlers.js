@@ -176,6 +176,20 @@ export function addChangeColoringRuleListener(globalData) {
             globalData.reinitialiseGridFlag = true;
         });
     }
+    var element = document.getElementById('recordGif');
+    if (element !== null) {
+        document.getElementById('recordGif').addEventListener('click', function() {
+            if (!globalData.recordingGif) {
+                globalData.recordingGif = true;
+                globalData.startRecordingGifFlag = true;
+                this.textContent = 'Stop recording';
+            } else {
+                globalData.recordingGif = false;
+                globalData.stopRecordingGifFlag = true;
+                this.textContent = 'Record gif';
+            }
+        });
+    }
 }
 
 export function addChangeColorListener(globalData) {
