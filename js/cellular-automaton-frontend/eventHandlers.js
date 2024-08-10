@@ -133,7 +133,7 @@ export function addPeriodicityListeners(globalData) {
 }
 
 export function addCycleTimeListener(globalData) {
-    document.getElementById('cycleTime').addEventListener('input', function() {
+    document.getElementById('targetCycleTime').addEventListener('input', function() {
         let value = parseInt(this.value);
         if (isNaN(value)) {
             value = 0;
