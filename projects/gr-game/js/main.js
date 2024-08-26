@@ -28,7 +28,7 @@ var config = {
     initialisation: "random",
     logo: "grLogoLarge.png",
     useLogo: true,
-    config: stagingConfigs["Safe"],
+    config: stagingConfigs["GR"],
     sanityConfig: sanityConfigs["Default"],
 };
 

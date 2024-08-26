@@ -21,9 +21,9 @@ var config = {
     gridFlipX: false,
     gridFlipY: false,
     colorPalette: 'mouseAnimation',
-    metaRule: "Variable",
+    metaRule: "GRMouse",
     initialisation: "zero",
-    config: stagingConfigs["Safe"],
+    config: stagingConfigs["GRMouse"],
     sanityConfig: sanityConfigs["Default"],
 };
 
