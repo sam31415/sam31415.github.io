@@ -5,6 +5,8 @@ import { determineColorPalette } from '../../../js/cellular-automaton-backend/ce
 import { Grid } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/classes/grid.js';
 import { updateCanvas } from '../../../js/cellular-automaton-frontend/updateCanvas.js';
 import { enrichGlobalDataWithFromEndData } from '../../../js/cellular-automaton-frontend/enrichGlobalDataWithFrontEndData.js';
+import { stagingConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/stagingConfig.js';
+import { sanityConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/sanityConfig.js';
 
 console.log("Loading main.js")
 
@@ -21,6 +23,8 @@ var config = {
     colorPalette: 'mouseAnimation',
     metaRule: "Variable",
     initialisation: "zero",
+    config: stagingConfigs["Safe"],
+    sanityConfig: sanityConfigs["Default"],
 };
 
 var globalData = new GlobalData(config);
