@@ -4,5 +4,5 @@ export function enrichGlobalDataWithFromEndData(globalData) {
     globalData.canvas = document.getElementById('gameCanvas')
     globalData.canvas.width = globalData.gridWidth;
     globalData.canvas.height = globalData.gridHeight;
-    globalData.ctx = globalData.canvas.getContext('2d');
+    globalData.ctx = globalData.canvas.getContext('2d', { willReadFrequently: true });
 }
