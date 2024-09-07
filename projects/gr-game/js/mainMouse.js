@@ -54,8 +54,6 @@ window.onload = function() {
     addMouseMoveListenerNoShift(globalData);
     addMouseDownListener(globalData);
 
-    //retrieveGlobalData(globalData);
-    determineColorPalette(globalData);
     setFindNeighbour(globalData);
     setCellUpdateRule(globalData);
     

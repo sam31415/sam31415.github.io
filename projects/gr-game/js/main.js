@@ -52,7 +52,6 @@ window.onload = function() {
     retrieveGlobalData(globalData);
     setDocumentFields(globalData);
     adjustCanvasSize(globalData);
-    determineColorPalette(globalData);
     setFindNeighbour(globalData);
     setCellUpdateRule(globalData);
 
