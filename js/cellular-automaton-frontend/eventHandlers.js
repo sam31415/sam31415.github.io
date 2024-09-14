@@ -145,6 +145,7 @@ export function addCycleTimeListener(globalData) {
 export function addRuleListener(globalData) {
     document.getElementById('metaRule').addEventListener('change', async function() {
         globalData.metaRule = this.value;
+        globalData.changeMetaRuleFlag = true;
         globalData.currentRuleAndStyle = globalData.ruleClass.getName();
         setCellUpdateRule(globalData);
     });
