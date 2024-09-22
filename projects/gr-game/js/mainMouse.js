@@ -7,6 +7,8 @@ import { updateCanvas } from '../../../js/cellular-automaton-frontend/updateCanv
 import { enrichGlobalDataWithFromEndData } from '../../../js/cellular-automaton-frontend/enrichGlobalDataWithFrontEndData.js';
 import { stagingConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/stagingConfig.js';
 import { sanityConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/sanityConfig.js';
+import { attachConfigInfoToGlobalData } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/initialisation/attachConfigInfoToGlobalData.js';
+
 
 console.log("Loading main.js")
 
@@ -54,9 +56,8 @@ window.onload = function() {
     addMouseMoveListenerNoShift(globalData);
     addMouseDownListener(globalData);
 
-    //retrieveGlobalData(globalData);
-    determineColorPalette(globalData);
     setFindNeighbour(globalData);
+    attachConfigInfoToGlobalData(globalData)
     setCellUpdateRule(globalData);
     
     gameLoop(globalData, updateCanvas);
