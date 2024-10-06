@@ -48,7 +48,7 @@ window.onload = function() {
     addPeriodicityListeners(globalData);
     addCycleTimeListener(globalData);
     addColorPaletteListener(globalData);
-    addRuleListener(globalData);
+    //addRuleListener(globalData);
     addChangeColoringRuleListener(globalData);
 
     retrieveGlobalData(globalData);
