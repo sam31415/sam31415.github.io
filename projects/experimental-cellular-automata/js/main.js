@@ -17,7 +17,7 @@ console.log("Loading main.js")
 var config = {
     gridHeight: 192,
     gridWidth: 192,
-    targetCycleTime: 100,
+    targetCycleTime: 50,
     addRandomness: true,
     randomnessAmount: -1.5,
     randomisePeriodicityShiftAndTopology: true,
