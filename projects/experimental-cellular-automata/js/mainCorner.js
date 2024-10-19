@@ -38,19 +38,19 @@ var globalData = new GlobalData(config);
 enrichGlobalDataWithFromEndData(globalData);
 
 window.onload = function() {
-    addRandomnessCheckboxListener(globalData);
-    addFullscreenCornerButtonListener();
-    addMouseMoveListener(globalData);
-    addMouseDownListener(globalData);
-    addSubmitListener(globalData);
-    addRandomnessSliderListener(globalData);
-    addPeriodicityListeners(globalData);
-    addCycleTimeListener(globalData);
-    addColorPaletteListener(globalData);
-    addRuleListener(globalData);
-    addChangeColoringRuleListener(globalData);
-    addChangeColorListener(globalData);
-    addLikeButtonListeners(globalData);
+    // addRandomnessCheckboxListener(globalData);
+    // addFullscreenCornerButtonListener();
+    // addMouseMoveListener(globalData);
+    // addMouseDownListener(globalData);
+    // addSubmitListener(globalData);
+    // addRandomnessSliderListener(globalData);
+    // addPeriodicityListeners(globalData);
+    // addCycleTimeListener(globalData);
+    // addColorPaletteListener(globalData);
+    // addRuleListener(globalData);
+    // addChangeColoringRuleListener(globalData);
+    // addChangeColorListener(globalData);
+    // addLikeButtonListeners(globalData);
 
     retrieveGlobalData(globalData);
     setDocumentFields(globalData);
