@@ -7,25 +7,31 @@ import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automat
 import { determineColorPalette } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/draw/coloring.js';
 import { updateCanvas } from '../../../js/cellular-automaton-frontend/updateCanvas.js';
 import { enrichGlobalDataWithFromEndData } from '../../../js/cellular-automaton-frontend/enrichGlobalDataWithFrontEndData.js';
+import { stagingConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/stagingConfig.js';
+import { sanityConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/sanityConfig.js';
+import { attachConfigInfoToGlobalData } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/initialisation/attachConfigInfoToGlobalData.js';
 
 console.log("Loading main.js")
+
 
 var config = {
     gridHeight: 192,
     gridWidth: 192,
-    targetCycleTime: 100,
+    targetCycleTime: 50,
     addRandomness: true,
     randomnessAmount: -1.5,
     randomisePeriodicityShiftAndTopology: true,
-    gridPeriodicityShiftX: 0,
-    gridPeriodicityShiftY: 0,
+    gridPeriodicityShiftX: null,
+    gridPeriodicityShiftY: null,
     gridFlipX: false,
     gridFlipY: false,
     colorPalette: 'variable',
     metaRule: "Variable",
     initialisation: "random",
     ruleSwitchPeriod: 20000,
-    ruleEvolvePeriod: 2000
+    ruleEvolvePeriod: 2000,
+    config: stagingConfigs["Mixed"],
+    sanityConfig: sanityConfigs["Default"],
 };
 
 var globalData = new GlobalData(config);
@@ -50,8 +56,8 @@ window.onload = function() {
     retrieveGlobalData(globalData);
     setDocumentFields(globalData);
     adjustCanvasSize(globalData);
-    determineColorPalette(globalData);
     setFindNeighbour(globalData);
+    attachConfigInfoToGlobalData(globalData)
     setCellUpdateRule(globalData);
     
     if (true) {

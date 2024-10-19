@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>The unofficial GR rebrand game</title>
+    <title>GR logo with cellular automata</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -62,14 +62,14 @@
     <script type="module" src="js/output.js"></script>
     <br>
     <div id="content">
-        <label for="metaRule">Automaton rule:</label>
+        <!-- <label for="metaRule">Automaton rule:</label>
         <select id="metaRule">
-            <!-- <option value="Conway">Conway's game of life</option>
+            <option value="Conway">Conway's game of life</option>
             <option value="BB">Brian's brain</option>
-            <option value="BBMod">Modified Brian's brain</option> -->
-            <option value="Variable">Variable</option>
+            <option value="BBMod">Modified Brian's brain</option> 
+            <option value="VariableDemo">Variable</option>
             <option value="VariableGR">Variable (GR)</option>
-        </select><br>
+        </select><br>-->
         <label for="addRandomness">Add random seeding? </label> <input type="checkbox" id="addRandomness"><br>
         <label for="randomnessAmount">Randomness amount (log10 of expected even number at each step):</label>
             <input type="range" id="randomnessAmount" min="-5.0" max="1.0" value="-2.0" step="0.05"> <span id="randomnessAmountValue"></span><br>
@@ -96,8 +96,8 @@
         <input type="int" id="gridHeight" value="100">
         <label for="gridWidth">Grid width:</label>
         <input type="int" id="gridWidth" value="100"><br>
-        <label for="cycleTime">Frame duration (ms):</label>
-        <input type="int" id="cycleTime" value="100"><br>
+        <label for="targetCycleTime">Frame duration (ms):</label>
+        <input type="int" id="targetCycleTime" value="100"><br>
         <button id="submitButton">Submit</button>
         <button id="changeRule" style="display: none;">Change rule</button>  
         <button id="changeBaseRule" style="display: none;">Change base rule</button>  

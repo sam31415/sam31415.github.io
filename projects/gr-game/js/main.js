@@ -7,6 +7,10 @@ import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automat
 import { determineColorPalette } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/draw/coloring.js';
 import { updateCanvas } from '../../../js/cellular-automaton-frontend/updateCanvas.js';
 import { enrichGlobalDataWithFromEndData } from '../../../js/cellular-automaton-frontend/enrichGlobalDataWithFrontEndData.js';
+import { stagingConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/stagingConfig.js';
+import { sanityConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/sanityConfig.js';
+import { attachConfigInfoToGlobalData } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/initialisation/attachConfigInfoToGlobalData.js';
+
 
 console.log("Loading main.js")
 
@@ -26,6 +30,8 @@ var config = {
     initialisation: "random",
     logo: "grLogoLarge.png",
     useLogo: true,
+    config: stagingConfigs["GR"],
+    sanityConfig: sanityConfigs["Default"],
 };
 
 var globalData = new GlobalData(config);
@@ -42,14 +48,14 @@ window.onload = function() {
     addPeriodicityListeners(globalData);
     addCycleTimeListener(globalData);
     addColorPaletteListener(globalData);
-    addRuleListener(globalData);
+    //addRuleListener(globalData);
     addChangeColoringRuleListener(globalData);
 
     retrieveGlobalData(globalData);
     setDocumentFields(globalData);
     adjustCanvasSize(globalData);
-    determineColorPalette(globalData);
     setFindNeighbour(globalData);
+    attachConfigInfoToGlobalData(globalData)
     setCellUpdateRule(globalData);
 
     initialiseGrid(globalData).then(() =>{

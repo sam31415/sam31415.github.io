@@ -133,7 +133,7 @@ export function addPeriodicityListeners(globalData) {
 }
 
 export function addCycleTimeListener(globalData) {
-    document.getElementById('cycleTime').addEventListener('input', function() {
+    document.getElementById('targetCycleTime').addEventListener('input', function() {
         let value = parseInt(this.value);
         if (isNaN(value)) {
             value = 0;
@@ -145,6 +145,8 @@ export function addCycleTimeListener(globalData) {
 export function addRuleListener(globalData) {
     document.getElementById('metaRule').addEventListener('change', async function() {
         globalData.metaRule = this.value;
+        globalData.changeMetaRuleFlag = true;
+        globalData.currentRuleAndStyle = globalData.ruleClass.getName();
         setCellUpdateRule(globalData);
     });
 }
@@ -165,7 +167,7 @@ export function addChangeColoringRuleListener(globalData) {
         globalData.changeBaseRuleFlag = true;
     });
     document.getElementById('changeColoringRule').addEventListener('click', function() {
-        globalData.changeColoringRuleFlag = true;
+        globalData.changeStyleFlag = true;
     });
     document.getElementById('evolveColoringRule').addEventListener('click', function() {
         globalData.evolveColoringRuleFlag = true;
@@ -174,6 +176,20 @@ export function addChangeColoringRuleListener(globalData) {
     if (element !== null) {
         document.getElementById('reinitialiseGrid').addEventListener('click', function() {
             globalData.reinitialiseGridFlag = true;
+        });
+    }
+    var element = document.getElementById('recordGif');
+    if (element !== null) {
+        document.getElementById('recordGif').addEventListener('click', function() {
+            if (!globalData.recordingGif) {
+                globalData.recordingGif = true;
+                globalData.startRecordingGifFlag = true;
+                this.textContent = 'Stop recording';
+            } else {
+                globalData.recordingGif = false;
+                globalData.stopRecordingGifFlag = true;
+                this.textContent = 'Record gif';
+            }
         });
     }
 }
