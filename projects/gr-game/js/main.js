@@ -15,12 +15,12 @@ import { attachConfigInfoToGlobalData } from '../../../js/cellular-automaton-bac
 console.log("Loading main.js")
 
 var config = {
-    gridHeight: 128,
-    gridWidth: 128,
-    targetCycleTime: 50,
+    gridHeight: 528,
+    gridWidth: 352,
+    targetCycleTime: 0,
     addRandomness: true,
-    randomnessAmount: -1.0,
-    randomisePeriodicityShiftAndTopology: true,
+    randomnessAmount: -1.5,
+    randomisePeriodicityShiftAndTopology: false,
     gridPeriodicityShiftX: 0,
     gridPeriodicityShiftY: 0,
     gridFlipX: false,
@@ -28,9 +28,9 @@ var config = {
     colorPalette: 'black2',
     metaRule: "VariableGR",
     initialisation: "random",
-    logo: "grLogoLarge.png",
+    logo: "grLogoOuternet.png",
     useLogo: true,
-    config: stagingConfigs["GR"],
+    config: stagingConfigs["GROuternet"],
     sanityConfig: sanityConfigs["Default"],
 };
 
@@ -39,17 +39,17 @@ enrichGlobalDataWithFromEndData(globalData);
 
 
 window.onload = function() {
-    addRandomnessCheckboxListener(globalData);
-    addFullscreenButtonListener(globalData);
-    addMouseMoveListener(globalData);
-    addMouseDownListener(globalData);
-    addSubmitListener(globalData);
-    addRandomnessSliderListener(globalData);
-    addPeriodicityListeners(globalData);
-    addCycleTimeListener(globalData);
-    addColorPaletteListener(globalData);
-    //addRuleListener(globalData);
-    addChangeColoringRuleListener(globalData);
+    // addRandomnessCheckboxListener(globalData);
+    // addFullscreenButtonListener(globalData);
+    // addMouseMoveListener(globalData);
+    // addMouseDownListener(globalData);
+    // addSubmitListener(globalData);
+    // addRandomnessSliderListener(globalData);
+    // addPeriodicityListeners(globalData);
+    // addCycleTimeListener(globalData);
+    // addColorPaletteListener(globalData);
+    // //addRuleListener(globalData);
+    // addChangeColoringRuleListener(globalData);
 
     retrieveGlobalData(globalData);
     setDocumentFields(globalData);
