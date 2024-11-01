@@ -40,7 +40,7 @@ enrichGlobalDataWithFromEndData(globalData);
 
 window.onload = function() {
     // addRandomnessCheckboxListener(globalData);
-    // addFullscreenButtonListener(globalData);
+    addFullscreenButtonListener(globalData);
     // addMouseMoveListener(globalData);
     // addMouseDownListener(globalData);
     // addSubmitListener(globalData);
