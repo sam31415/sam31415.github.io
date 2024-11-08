@@ -16,7 +16,8 @@ console.log("Loading main.js")
 
 var config = {
     gridHeight: 528,
-    gridWidth: 352,
+    gridWidth: 352, // 234,
+    widthMult: 2, // 3,
     targetCycleTime: 0,
     addRandomness: true,
     randomnessAmount: -1.5,
@@ -28,7 +29,7 @@ var config = {
     colorPalette: 'black2',
     metaRule: "VariableGR",
     initialisation: "random",
-    logo: "grLogoOuternet.png",
+    logo: "grLogoOuternet.png", // "grLogoOuternet3.png",
     useLogo: true,
     config: stagingConfigs["GROuternet"],
     sanityConfig: sanityConfigs["Default"],
