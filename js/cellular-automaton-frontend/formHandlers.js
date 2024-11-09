@@ -55,29 +55,29 @@ export function setDocumentFields(globalData) {
 
 export function adjustCanvasSize(globalData) {
     // Adjust the canvas size
-    globalData.canvas.width = Math.max(globalData.gridHeight, globalData.gridWidth);
-    globalData.canvas.height =  Math.max(globalData.gridHeight, globalData.gridWidth);
-    globalData.canvasCornerX = 0 //Math.floor((globalData.canvas.width - globalData.gridWidth) / 2);
-    globalData.canvasCornerY = 0 //Math.floor((globalData.canvas.height - globalData.gridHeight) / 2);
+    globalData.canvas.width = Math.max(globalData.imageHeight, globalData.imageWidth);
+    globalData.canvas.height =  Math.max(globalData.imageHeight, globalData.imageWidth);
+    globalData.canvasCornerX = 0 //Math.floor((globalData.canvas.width - globalData.imageWidth) / 2);
+    globalData.canvasCornerY = 0 //Math.floor((globalData.canvas.height - globalData.imageHeight) / 2);
 
     // Adjusts the html canvas size so that no border remains in full screen mode
     var htmlCanvas = document.getElementById('gameCanvas');
-    if (globalData.gridHeight > globalData.gridWidth) {
-        var newWidth = Math.floor(globalData.gridWidth / globalData.gridHeight * 800);
+    if (globalData.imageHeight > globalData.imageWidth) {
+        var newWidth = Math.floor(globalData.imageWidth / globalData.imageHeight * 800);
         htmlCanvas.style.width = newWidth + 'px';
         htmlCanvas.style.height = 800 + 'px';
-        htmlCanvas.width = newWidth * globalData.gridHeight / 800;
-        htmlCanvas.height = globalData.gridHeight;
+        htmlCanvas.width = newWidth * globalData.imageHeight / 800;
+        htmlCanvas.height = globalData.imageHeight;
     } else {
-        var newHeight = Math.floor(globalData.gridHeight / globalData.gridWidth * 800);
+        var newHeight = Math.floor(globalData.imageHeight / globalData.imageWidth * 800);
         htmlCanvas.style.width = 800 + 'px';
         htmlCanvas.style.height = newHeight + 'px';
-        htmlCanvas.width = globalData.gridWidth;
-        htmlCanvas.height = newHeight * globalData.gridWidth / 800;
+        htmlCanvas.width = globalData.imageWidth;
+        htmlCanvas.height = newHeight * globalData.imageWidth / 800;
     }
 
     // Adjust image data size
-    globalData.imageData = new Uint8ClampedArray(4 * globalData.gridWidth * globalData.gridHeight);
+    globalData.imageData = new Uint8ClampedArray(4 * globalData.imageWidth * globalData.imageHeight);
 }
 
 
