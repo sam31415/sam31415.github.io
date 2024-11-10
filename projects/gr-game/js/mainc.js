@@ -16,11 +16,11 @@ console.log("Loading main.js")
 
 var config = {
     gridHeight: 528, // 264, // 
-    gridWidth: 352, // 234, // 176, // 
+    gridWidth: 352, // 234, // 176, //  
     widthMult: 2, // 3,
     targetCycleTime: 0,
     addRandomness: true,
-    randomnessAmount: -1.5,
+    randomnessAmount: -0.1,
     randomisePeriodicityShiftAndTopology: false,
     gridPeriodicityShiftX: 0,
     gridPeriodicityShiftY: 0,
@@ -31,7 +31,7 @@ var config = {
     initialisation: "random",
     logo: "grLogoOuternet.png", // "grLogoOuternet3.png",
     useLogo: true,
-    config: stagingConfigs["GROuternet"],
+    config: stagingConfigs["GROuternetc"],
     sanityConfig: sanityConfigs["Disabled"],
 };
 
