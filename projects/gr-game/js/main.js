@@ -16,7 +16,7 @@ console.log("Loading main.js")
 
 var config = {
     gridHeight: 528, // 264, // 
-    gridWidth: 352, // 234, // 176, //  
+    gridWidth: 352, // 234, // 176, // 
     widthMult: 2, // 3,
     targetCycleTime: 0,
     addRandomness: true,
@@ -31,7 +31,7 @@ var config = {
     initialisation: "random",
     logo: "grLogoOuternet.png", // "grLogoOuternet3.png",
     useLogo: true,
-    config: stagingConfigs["GROuternetc"],
+    config: stagingConfigs["GROuternet"],
     sanityConfig: sanityConfigs["Disabled"],
 };
 
