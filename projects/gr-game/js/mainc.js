@@ -20,7 +20,7 @@ var config = {
     widthMult: 2, // 3,
     targetCycleTime: 0,
     addRandomness: true,
-    randomnessAmount: -0.1,
+    randomnessAmount: -1.0,
     randomisePeriodicityShiftAndTopology: false,
     gridPeriodicityShiftX: 0,
     gridPeriodicityShiftY: 0,
