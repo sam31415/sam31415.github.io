@@ -28,10 +28,10 @@ var config = {
     gridFlipY: false,
     colorPalette: 'black2',
     metaRule: "VariableGR",
-    initialisation: "random",
-    logo: "grLogoOuternet.png", // "grLogoOuternet3.png",
+    initialisation: "gr",
+    logo: "grLogoOuternet4.png", // "grLogoOuternet3.png",
     useLogo: true,
-    config: stagingConfigs["GROuternetb"],
+    config: stagingConfigs["GROuternet"],
     sanityConfig: sanityConfigs["Disabled"],
 };
 
