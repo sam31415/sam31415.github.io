@@ -28,7 +28,7 @@ var config = {
     gridFlipY: false,
     colorPalette: 'black2',
     metaRule: "VariableGR",
-    initialisation: "gr",
+    initialisation: "gr2",
     logo: "grLogoOuternet5.png", // "grLogoOuternet3.png",
     useLogo: true,
     config: stagingConfigs["GROuternetc"],
