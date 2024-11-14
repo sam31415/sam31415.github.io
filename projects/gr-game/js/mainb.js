@@ -42,8 +42,8 @@ enrichGlobalDataWithFromEndData(globalData);
 export function addFullscreenButtonListener(globalData) {
     const canvasContainer = document.getElementById('canvasContainer');
     const gameCanvas = document.getElementById('gameCanvas');
-    const overlayImage = document.getElementById('overlayImage');
-    const overlayImage3 = document.getElementById('overlayImage3');
+    const overlayImage = document.getElementById('overlayImage') || null;
+    const overlayImage3 = document.getElementById('overlayImage3') || null;
     const fullscreenButton = document.getElementById('fullscreenButton');
     const overlayImage2 = document.getElementById('overlayImage2') || null;
 
@@ -73,10 +73,14 @@ export function addFullscreenButtonListener(globalData) {
                 let newWidth = Math.floor(window.innerHeight * aspectRatio);
                 canvasContainer.style.width = `${newWidth}px`;
                 canvasContainer.style.height = `${window.innerHeight}px`;
-                overlayImage.style.left = `${(window.innerWidth - newWidth) / 2 + Math.floor(newWidth * 12 / 100)}px`;  
-                overlayImage.style.width = `${Math.floor(newWidth * 22 / 100)}px`;
-                overlayImage3.style.right = `${(window.innerWidth - newWidth) / 2 + Math.floor(newWidth * 12 / 100)}px`;  
-                overlayImage3.style.width = `${Math.floor(newWidth * 22 / 100)}px`;
+                if (overlayImage) {
+                    overlayImage.style.left = `${(window.innerWidth - newWidth) / 2 + Math.floor(newWidth * 12 / 100)}px`;  
+                    overlayImage.style.width = `${Math.floor(newWidth * 22 / 100)}px`;
+                }
+                if (overlayImage3) {
+                    overlayImage3.style.right = `${(window.innerWidth - newWidth) / 2 + Math.floor(newWidth * 12 / 100)}px`;  
+                    overlayImage3.style.width = `${Math.floor(newWidth * 22 / 100)}px`;
+                }
                 if (overlayImage2) {
                     overlayImage2.style.width = `${newWidth}px`;
                     overlayImage2.style.height = `${window.innerHeight}px`;
@@ -91,10 +95,14 @@ export function addFullscreenButtonListener(globalData) {
         } else {
             canvasContainer.style.width = '1408px';
             canvasContainer.style.height = '1056px';
-            overlayImage.style.left = `12%`;  
-            overlayImage.style.width = `22%`;
-            overlayImage3.style.right = `12%`;  
-            overlayImage3.style.width = `22%`;
+            if (overlayImage) {
+                overlayImage.style.left = `12%`;  
+                overlayImage.style.width = `22%`;
+            }
+            if (overlayImage3) {
+                overlayImage3.style.right = `12%`;  
+                overlayImage3.style.width = `22%`;
+            }
             if (overlayImage2) {
                 overlayImage2.style.width = '1408px';
                 overlayImage2.style.height = '1056px';
