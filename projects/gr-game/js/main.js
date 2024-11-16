@@ -45,6 +45,7 @@ export function addFullscreenButtonListener(globalData) {
     const overlayImage = document.getElementById('overlayImage') || null;
     const fullscreenButton = document.getElementById('fullscreenButton');
     const overlayImage2 = document.getElementById('overlayImage2') || null;
+    const overlayImageInfo = document.getElementById('overlayImageInfo') || null;
 
     fullscreenButton.addEventListener('click', function() {
         if (canvasContainer.requestFullscreen) {
@@ -81,11 +82,17 @@ export function addFullscreenButtonListener(globalData) {
                     overlayImage2.style.height = `${window.innerHeight}px`;
                     overlayImage2.style.left = `${(window.innerWidth - newWidth) / 2}px`;
                 }
+                if (overlayImageInfo) {
+                    overlayImageInfo.style.left = `${(window.innerWidth - newWidth) / 2 + Math.floor(newWidth * 54.3 / 100)}px`;  
+                    overlayImageInfo.style.width = `${Math.floor(newWidth * 15 / 100)}px`;
+                }
             } else {
                 canvasContainer.style.width = `${window.innerWidth}px`;
                 canvasContainer.style.height = `${Math.floor(window.innerWidth / aspectRatio)}px`;
-                overlayImage2.style.width = `${window.innerWidth}px`;
-                overlayImage2.style.height = `${Math.floor(window.innerWidth / aspectRatio)}px`;
+                if (overlayImage2) {
+                    overlayImage2.style.width = `${window.innerWidth}px`;
+                    overlayImage2.style.height = `${Math.floor(window.innerWidth / aspectRatio)}px`;
+                }
             }
         } else {
             canvasContainer.style.width = '1408px';
@@ -98,6 +105,10 @@ export function addFullscreenButtonListener(globalData) {
                 overlayImage2.style.width = '1408px';
                 overlayImage2.style.height = '1056px';
                 overlayImage2.style.left = `0px`;
+            }
+            if (overlayImageInfo) {
+                overlayImageInfo.style.left = `54.3%`;  
+                overlayImageInfo.style.width = `15%`;
             }
         }
     }
