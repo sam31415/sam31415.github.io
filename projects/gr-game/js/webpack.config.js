@@ -20,6 +20,24 @@ module.exports = [
     },
   },
   {
+    entry: './main10.js',
+    output: {
+      filename: 'output10.js',
+      path: __dirname
+    },
+    optimization: {
+      minimize: true,
+      minimizer: [new TerserPlugin({
+        // terserOptions: {
+        //   mangle: {
+        //     properties: true,
+        //   },
+        // },
+      }),
+    ],
+    },
+  },
+  {
     entry: './mainb.js',
     output: {
       filename: 'outputb.js',
