@@ -107,8 +107,8 @@ export function addFullscreenButtonListener(globalData) {
                 }
             }
         } else {
-            canvasContainer.style.width = '1408px';
-            canvasContainer.style.height = '1056px';
+            canvasContainer.style.width = '7040px';
+            canvasContainer.style.height = '5280px';
             if (overlayImage) {
                 overlayImage.style.top = `8%`; 
                 overlayImage.style.left = `12%`;  
