@@ -170,7 +170,7 @@ export function addChangeColoringRuleListener(globalData) {
         globalData.changeStyleFlag = true;
     });
     document.getElementById('evolveColoringRule').addEventListener('click', function() {
-        globalData.evolveColoringRuleFlag = true;
+        globalData.evolveStyleFlag = true;
     });
     var element = document.getElementById('reinitialiseGrid');
     if (element !== null) {
