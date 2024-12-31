@@ -15,9 +15,9 @@ console.log("Loading main.js")
 
 
 var config = {
-    gridHeight: 192,
-    gridWidth: 192,
-    targetCycleTime: 50,
+    gridHeight: 192, // 210, // 840, // 
+    gridWidth: 192, // 105, // 420, // 
+    targetCycleTime: 0, // 50, //
     addRandomness: true,
     randomnessAmount: -1.5, // -10, // 
     randomisePeriodicityShiftAndTopology: true, // false, // 
@@ -25,13 +25,12 @@ var config = {
     gridPeriodicityShiftY: null, // 0, //
     gridFlipX: false,
     gridFlipY: false,
-    colorPalette: 'variable',
     metaRule: "Variable",
     initialisation: "random",
     ruleSwitchPeriod: 20000,
     ruleEvolvePeriod: 2000,
-    config: stagingConfigs["Mixed"],
-    initialisationConfig: initialisationConfigs["Random"], // initialisationConfigs["Random g4"],
+    config: stagingConfigs["Mixed"], // stagingConfigs["CW Logo"], // 
+    initialisationConfig:initialisationConfigs["Vaccuum"], //  initialisationConfigs["CW Logo"], // initialisationConfigs["Random g4"], // 
     sanityConfig: sanityConfigs["Default"],
 };
 
@@ -63,7 +62,6 @@ window.onload = function() {
 
     let encodedHostname = 'c2FtMzE0MTUuZ2l0aHViLmlv'; 
     let decodedHostname = atob(encodedHostname);
-    
     if (window.location.hostname === decodedHostname || window.location.hostname === '') {
         initialiseGrid(globalData).then(() =>{
             gameLoop(globalData, updateCanvas);

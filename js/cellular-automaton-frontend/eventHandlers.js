@@ -147,7 +147,7 @@ export function addRuleListener(globalData) {
         globalData.metaRule = this.value;
         globalData.changeMetaRuleFlag = true;
         globalData.currentRuleAndStyle = globalData.ruleClass.getName();
-        setCellUpdateRule(globalData);
+        //setCellUpdateRule(globalData);
     });
 }
 
