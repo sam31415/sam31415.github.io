@@ -173,13 +173,13 @@ export function addChangeColoringRuleListener(globalData) {
         globalData.evolveStyleFlag = true;
     });
     var element = document.getElementById('reinitialiseGrid');
-    if (element !== null) {
+    if (element != null) {
         document.getElementById('reinitialiseGrid').addEventListener('click', function() {
             globalData.reinitialiseGridFlag = true;
         });
     }
     var element = document.getElementById('recordGif');
-    if (element !== null) {
+    if (element != null) {
         document.getElementById('recordGif').addEventListener('click', function() {
             if (!globalData.recordingGif) {
                 globalData.recordingGif = true;
