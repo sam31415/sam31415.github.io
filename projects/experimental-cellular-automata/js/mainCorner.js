@@ -29,7 +29,7 @@ var config = {
     initialisation: "random",
     ruleSwitchPeriod: 20000,
     ruleEvolvePeriod: 2000,
-    config: stagingConfigs["Mixed"],
+    config: stagingConfigs["MixedMoreColor"],
     initialisationConfig: initialisationConfigs["Random"],
     sanityConfig: sanityConfigs["Default"],
 };
