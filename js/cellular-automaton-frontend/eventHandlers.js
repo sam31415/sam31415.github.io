@@ -147,7 +147,7 @@ export function addRuleListener(globalData) {
         globalData.metaRule = this.value;
         globalData.changeMetaRuleFlag = true;
         globalData.currentRuleAndStyle = globalData.ruleClass.getName();
-        setCellUpdateRule(globalData);
+        //setCellUpdateRule(globalData);
     });
 }
 
@@ -170,16 +170,16 @@ export function addChangeColoringRuleListener(globalData) {
         globalData.changeStyleFlag = true;
     });
     document.getElementById('evolveColoringRule').addEventListener('click', function() {
-        globalData.evolveColoringRuleFlag = true;
+        globalData.evolveStyleFlag = true;
     });
     var element = document.getElementById('reinitialiseGrid');
-    if (element !== null) {
+    if (element != null) {
         document.getElementById('reinitialiseGrid').addEventListener('click', function() {
             globalData.reinitialiseGridFlag = true;
         });
     }
     var element = document.getElementById('recordGif');
-    if (element !== null) {
+    if (element != null) {
         document.getElementById('recordGif').addEventListener('click', function() {
             if (!globalData.recordingGif) {
                 globalData.recordingGif = true;
