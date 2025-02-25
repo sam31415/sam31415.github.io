@@ -1,14 +1,16 @@
 import { GlobalData } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/classes/globalData.js';
 import { gameLoop } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/gameLoop.js';
 import { initialiseGrid } from "../../../js/cellular-automaton-backend/cellular-automaton-backend/initialisation/initialiseGrid.js";
-import { retrieveGlobalData, setDocumentFields } from '../../../js/cellular-automaton-frontend/formHandlers.js';
+import { addChangeColoringRuleListener, addRuleListener, addRandomnessCheckboxListener, addMouseMoveListener, addMouseDownListener, addSubmitListener, addRandomnessSliderListener, addPeriodicityListeners, addCycleTimeListener, addColorPaletteListener } from '../../../js/cellular-automaton-frontend/eventHandlers.js';
+import { retrieveGlobalData, setDocumentFields, adjustCanvasSize } from '../../../js/cellular-automaton-frontend/formHandlers.js';
 import { setFindNeighbour, setCellUpdateRule} from '../../../js/cellular-automaton-backend/cellular-automaton-backend/interactivity/optionSetter.js';
+import { determineColorPalette } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/draw/coloring.js';
 import { updateCanvas } from '../../../js/cellular-automaton-frontend/updateCanvas.js';
 import { enrichGlobalDataWithFromEndData } from '../../../js/cellular-automaton-frontend/enrichGlobalDataWithFrontEndData.js';
 import { stagingConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/stagingConfig.js';
 import { sanityConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/sanityConfig.js';
 import { attachConfigInfoToGlobalData } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/initialisation/attachConfigInfoToGlobalData.js';
-import { initialisationConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/initialisationConfig.js';
+
 
 console.log("Loading main.js")
 
@@ -31,7 +33,6 @@ var config = {
     logo: "grLogoOuternet6.png", // "grLogoOuternet3.png",
     useLogo: true,
     config: stagingConfigs["GROuternet"],
-    initialisationConfig: initialisationConfigs["GR1"],
     sanityConfig: sanityConfigs["Disabled"],
 };
 
@@ -106,8 +107,8 @@ export function addFullscreenButtonListener(globalData) {
                 }
             }
         } else {
-            canvasContainer.style.width = '1408px';
-            canvasContainer.style.height = '1056px';
+            canvasContainer.style.width = '7040px';
+            canvasContainer.style.height = '5280px';
             if (overlayImage) {
                 overlayImage.style.top = `8%`; 
                 overlayImage.style.left = `12%`;  

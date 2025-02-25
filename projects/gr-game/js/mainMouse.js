@@ -5,6 +5,10 @@ import { determineColorPalette } from '../../../js/cellular-automaton-backend/ce
 import { Grid } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/classes/grid.js';
 import { updateCanvas } from '../../../js/cellular-automaton-frontend/updateCanvas.js';
 import { enrichGlobalDataWithFromEndData } from '../../../js/cellular-automaton-frontend/enrichGlobalDataWithFrontEndData.js';
+import { stagingConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/stagingConfig.js';
+import { sanityConfigs } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/config/sanityConfig.js';
+import { attachConfigInfoToGlobalData } from '../../../js/cellular-automaton-backend/cellular-automaton-backend/initialisation/attachConfigInfoToGlobalData.js';
+
 
 console.log("Loading main.js")
 
@@ -19,8 +23,10 @@ var config = {
     gridFlipX: false,
     gridFlipY: false,
     colorPalette: 'mouseAnimation',
-    metaRule: "Variable",
+    metaRule: "GRMouse",
     initialisation: "zero",
+    config: stagingConfigs["GRMouse"],
+    sanityConfig: sanityConfigs["Default"],
 };
 
 var globalData = new GlobalData(config);
@@ -50,9 +56,8 @@ window.onload = function() {
     addMouseMoveListenerNoShift(globalData);
     addMouseDownListener(globalData);
 
-    //retrieveGlobalData(globalData);
-    determineColorPalette(globalData);
     setFindNeighbour(globalData);
+    attachConfigInfoToGlobalData(globalData)
     setCellUpdateRule(globalData);
     
     gameLoop(globalData, updateCanvas);
