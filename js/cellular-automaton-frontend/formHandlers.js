@@ -27,7 +27,7 @@ export function submitValue(globalData) {
 export function retrieveGlobalData(globalData) {
     Object.keys(globalData).forEach(key => {
         let item = localStorage.getItem(key);
-        if (item !== null) {
+        if (item != null) {
             if (typeof globalData[key] === 'boolean') {
                 globalData[key] = item === 'true';
             } else if (typeof globalData[key] === 'number') {
