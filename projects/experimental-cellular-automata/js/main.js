@@ -34,6 +34,31 @@ var config = {
     sanityConfig: sanityConfigs["Default"],
 };
 
+
+// GR config
+// var config = {
+//     gridHeight: 256, // 264, // 
+//     gridWidth: 256, // 234, // 176, // 
+//     widthMult: 1, // 3,
+//     targetCycleTime: 25,
+//     addRandomness: true,
+//     randomnessAmount: -1.0,
+//     randomisePeriodicityShiftAndTopology: false,
+//     randomSeedingInMaskOnly: true,
+//     gridPeriodicityShiftX: 0,
+//     gridPeriodicityShiftY: 0,
+//     gridFlipX: false,
+//     gridFlipY: false,
+//     colorPalette: 'black2',
+//     metaRule: "VariableGR",
+//     initialisation: "gr",
+//     logo: "grLogo.png", // "grLogoOuternet3.png",
+//     useLogo: true,
+//     config: stagingConfigs["GRScreensaver"],
+//     initialisationConfig: initialisationConfigs["GR2"],
+//     sanityConfig: sanityConfigs["Default"],
+// };
+
 var globalData = new GlobalData(config);
 enrichGlobalDataWithFromEndData(globalData);
 
