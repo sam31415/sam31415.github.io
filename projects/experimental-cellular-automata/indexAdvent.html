@@ -22,9 +22,8 @@
             margin-right: auto;
             image-rendering: pixelated; 
             image-rendering: crisp-edges;
-            position: absolute;
-            top: 0;
-            left: 0;
+            width: 800px; 
+            height: 800px;
         }
         #randomnessAmount {
             vertical-align: middle;
@@ -42,6 +41,7 @@
         }
     </style>
 </head>
+<!-- <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.js"></script> -->
 <body>
     <div id="content">
         <br><br>
@@ -50,12 +50,12 @@
         <button id="dislikeButton">Dislike</button>
         <label for="saveEventCheckbox">Save event data?</label> <input type="checkbox" id="saveEventCheckbox"><br>
     </div><br>
-    <div id="canvasContainer">
-    <canvas id="gameCanvas" width="192" height="192"></canvas>
-    </div>
+    <canvas id="gameCanvas" width="800" height="800"></canvas>
     <script type="module" src="js/mainAdvent.js"></script>
     <br>
     <div id="content">
+        <button id="playPauseButton">Play/Pause</button>
+        <button id="stepButton">Step</button>
         <label for="metaRule">Meta rule:</label>
         <select id="metaRule">
             <!-- <option value="Conway">Conway's game of life</option>
@@ -65,9 +65,10 @@
             <option value="VariableMix">Variable mix</option>
             <option value="VariableUnsafe">Variable unsafe</option>
             <option value="VariableTest">Variable test</option>
+            <option value="VariableTestNoStyle">Variable test no style</option>
             <option value="CustomRule">Custom rule</option>
-        </select> 
-        <label for="currentRuleAndStyle">Current rule:</label> <input type="text" id="currentRuleAndStyle" style="width: 60ch;"><br>
+        </select><br> 
+        <label for="currentRuleAndStyle">Current rule:</label> <input type="text" id="currentRuleAndStyle" style="width: 40ch;"><br>
         <label for="addRandomness">Add random seeding? </label> <input type="checkbox" id="addRandomness"><br>
         <label for="randomnessAmount">Randomness amount (log10 of expected even number at each step):</label>
             <input type="range" id="randomnessAmount" min="-5.0" max="1.0" value="-2.0" step="0.05"> <span id="randomnessAmountValue"></span><br>
@@ -105,8 +106,10 @@
         <button id="changeRule">Change rule</button>  
         <button id="changeBaseRule">Change base rule</button>  
         <button id="changeColoringRule">Change coloring rule</button>  
-        <button id="evolveColoringRule">Evolve coloring rule</button>   
+        <button id="evolveColoringRule">Evolve coloring rule</button>
+        <button id="reinitialiseGrid">Reinitialise the grid</button> 
         <button id="changeColor">Change colors</button>
+        <button id="recordGif">Record Gif</button>
     </div>
 </body>
 </html>
