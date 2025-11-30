@@ -30,7 +30,7 @@ var config = {
     ruleEvolvePeriod: 2000,
     config: stagingConfigs["Advent 3"], // stagingConfigs["CW Logo"], // 
     initialisationConfig:initialisationConfigs["Advent 3"], //  initialisationConfigs["Vaccuum"], //  initialisationConfigs["CW Logo"], // initialisationConfigs["Random g4"], // 
-    sanityConfig: sanityConfigs["Default"],
+    sanityConfig: sanityConfigs["Advent 3"],
 };
 
 var globalData = new GlobalData(config);
