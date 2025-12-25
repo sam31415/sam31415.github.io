@@ -95,7 +95,7 @@ module.exports = [{
   },
 }, 
 {
-  entry: './mainAdvent.js',
+  entry: './mainCorner.js',
   output: {
     filename: 'outputCorner.js',
     path: __dirname
